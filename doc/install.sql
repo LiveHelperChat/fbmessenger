@@ -1,0 +1,1 @@
+CREATE TABLE `lhc_fbmessenger_chat` (`id` bigint(20) NOT NULL AUTO_INCREMENT, `user_id` bigint(20) NOT NULL, `chat_id` bigint(20) NOT NULL, `ctime` int(11) NOT NULL  PRIMARY KEY (`id`),  KEY `user_id` (`user_id`),  KEY `chat_id` (`chat_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;
