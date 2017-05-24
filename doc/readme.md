@@ -1,3 +1,0 @@
-FB Messenger extension. 
-
-It's still work in progress...
