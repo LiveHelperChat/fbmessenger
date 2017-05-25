@@ -1,13 +1,13 @@
 <?php 
 
-if (isset($_GET['hub_verify_token']) && $_GET['hub_verify_token'] == 'verifytoken') {	
+$ext = erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger');
+
+if (isset($_GET['hub_verify_token']) && $_GET['hub_verify_token'] == $ext->settings['verify_token']) {	
 	if (isset($_GET['hub_mode']) && $_GET['hub_mode'] == 'subscribe') {
 		echo $_GET['hub_challenge'];
 		exit;
 	}
 }
-
-$ext = erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger');
 
 use Tgallice\FBMessenger\WebhookRequestHandler;
 use Tgallice\FBMessenger\Callback\MessageEvent;

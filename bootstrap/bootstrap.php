@@ -31,7 +31,9 @@ class erLhcoreClassExtensionFbmessenger {
         	    
         	    $response = $messenger->sendMessage($chatVariables['fb_user_id'], $params['msg']->msg);
         	    
+        	    
     	    } catch (Exception $e) {
+    	        
     	        if ($this->settings['enable_debug'] == true) {
     	            erLhcoreClassLog::write(print_r($e->getMessage(),true))."\n";
     	        }
