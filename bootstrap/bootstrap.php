@@ -30,8 +30,7 @@ class erLhcoreClassExtensionFbmessenger {
         	    $messenger = Tgallice\FBMessenger\Messenger::create($this->settings['page_token']);
         	    
         	    $response = $messenger->sendMessage($chatVariables['fb_user_id'], $params['msg']->msg);
-        	    
-        	    
+        	            	    
     	    } catch (Exception $e) {
     	        
     	        if ($this->settings['enable_debug'] == true) {
@@ -98,12 +97,12 @@ class erLhcoreClassExtensionFbmessenger {
 				$nick = 'FB Visitor - ' . $userId;
 				
 				if ($this->settings['pages_messaging_enabled'] == true)
-				{
+				{				   
     				$messenger = Tgallice\FBMessenger\Messenger::create($this->settings['page_token']);				
-    				$profile = $messenger->getUserProfile($event->getSenderId());
+    				$profile = $messenger->getUserProfile($eventMessage->getSenderId());
     				$dataArray['fb_gender'] = $profile->getGender();
     				$dataArray['fb_locale'] = $profile->getLocale();
-    				$nick = trim($profile->getFirstName() . ' ' . $profile->getLastName());
+    				$nick = trim($profile->getFirstName() . ' ' . $profile->getLastName()); 				    
 				}
 				
 				$chat->nick = $nick;
