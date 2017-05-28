@@ -18,6 +18,16 @@ class erLhcoreClassExtensionFbmessenger {
 		    $this,
 		    'sendMessageToFb'
 		));
+		
+		$dispatcher->listen('chat.workflow.canned_message_before_save', array(
+		    $this,
+		    'sendMessageToFb'
+		));
+		
+		$dispatcher->listen('chat.delete', array(
+		    $this,
+		    'deleteChat'
+		));
 	}
 	
 	public function sendMessageToFb($params)
@@ -96,13 +106,19 @@ class erLhcoreClassExtensionFbmessenger {
 				
 				$nick = 'FB Visitor - ' . $userId;
 				
+				$initMessage = false;
+				
 				if ($this->settings['pages_messaging_enabled'] == true)
 				{				   
     				$messenger = Tgallice\FBMessenger\Messenger::create($this->settings['page_token']);				
     				$profile = $messenger->getUserProfile($eventMessage->getSenderId());
     				$dataArray['fb_gender'] = $profile->getGender();
     				$dataArray['fb_locale'] = $profile->getLocale();
-    				$nick = trim($profile->getFirstName() . ' ' . $profile->getLastName()); 				    
+    				$nick = trim($profile->getFirstName() . ' ' . $profile->getLastName()); 	
+    				
+    				$initMessage = true;
+    				
+    				erLhcoreClassLog::write(print_r($profile,true));
 				}
 				
 				$chat->nick = $nick;
@@ -114,6 +130,15 @@ class erLhcoreClassExtensionFbmessenger {
 				$chat->chat_variables = json_encode ( $dataArray );
 				
 				$chat->saveThis ();
+				
+				if ($initMessage == true) {
+				    $msgInitial = new erLhcoreClassModelmsg();
+				    $msgInitial->msg = "Facebook user started a chat.";
+				    $msgInitial->chat_id = $chat->id;
+				    $msgInitial->user_id = -1;
+				    $msgInitial->time = time ();
+				    $msgInitial->saveThis();
+				}
 				
 				/**
 				 * Store new message
@@ -182,7 +207,6 @@ class erLhcoreClassExtensionFbmessenger {
 				$fbChat->recipient_user_id = $recipientUserId;
 				$fbChat->chat_id = $chat->id;
 				$fbChat->ctime = time();
-				$fbChat->ctime = getRecipientId;
 				$fbChat->saveOrUpdate();
 
 				$db->commit();				
@@ -191,6 +215,19 @@ class erLhcoreClassExtensionFbmessenger {
 				throw $e;
 			}
 		}
+	}
+	
+	public function deleteChat($params)
+	{
+	    $fbChat = erLhcoreClassModelFBChat::findOne ( array (
+	        'filter' => array (
+	            'chat_id' => $params['chat']->id
+	        )
+	    ) );
+	    
+	    if ($fbChat instanceof erLhcoreClassModelFBChat) {
+	        $fbChat->removeThis();
+	    }
 	}
 	
 	public function registerAutoload() {
