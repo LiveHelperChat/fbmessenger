@@ -191,7 +191,7 @@ class erLhcoreClassExtensionFbmessenger {
 				
 				$db->commit();
 				
-				erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.addmsguser',array('chat' => & $chat, 'msg' => & $msg));
+				erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.messages_added_passive',array('chat' => & $chat, 'msg' => & $msg));
 				
 			} catch (Exception $e) {
 				$db->rollback();
