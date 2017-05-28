@@ -189,6 +189,8 @@ class erLhcoreClassExtensionFbmessenger {
 				$chat->last_user_msg_time = $msg->time;
 				$chat->saveThis ();		
 				
+				erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.addmsguser',array('chat' => & $chat, 'msg' => & $msg));
+				
 				$db->commit();
 				
 			} catch (Exception $e) {
