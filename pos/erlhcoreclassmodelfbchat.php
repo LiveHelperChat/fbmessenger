@@ -12,12 +12,17 @@ $def->idProperty->generator = new ezcPersistentGeneratorDefinition(  'ezcPersist
 $def->properties['user_id'] = new ezcPersistentObjectProperty();
 $def->properties['user_id']->columnName   = 'user_id';
 $def->properties['user_id']->propertyName = 'user_id';
-$def->properties['user_id']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
+$def->properties['user_id']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
 
 $def->properties['chat_id'] = new ezcPersistentObjectProperty();
 $def->properties['chat_id']->columnName   = 'chat_id';
 $def->properties['chat_id']->propertyName = 'chat_id';
-$def->properties['chat_id']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
+$def->properties['chat_id']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
+
+$def->properties['page_id'] = new ezcPersistentObjectProperty();
+$def->properties['page_id']->columnName   = 'page_id';
+$def->properties['page_id']->propertyName = 'page_id';
+$def->properties['page_id']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
 
 $def->properties['ctime'] = new ezcPersistentObjectProperty();
 $def->properties['ctime']->columnName   = 'ctime';

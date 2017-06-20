@@ -2,8 +2,19 @@
 
 $ext = erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger');
 
-if (isset($_GET['hub_verify_token']) && $_GET['hub_verify_token'] == $ext->settings['verify_token']) {	
+// Load for which page callback is processed
+$fbpage = erLhcoreClassModelFBPage::fetch($Params['user_parameters']['id']);
+
+// Set page with which we are working
+$ext->setPage($fbpage);
+
+if (isset($_GET['hub_verify_token']) && $_GET['hub_verify_token'] == $ext->getPage()->verify_token) {	
 	if (isset($_GET['hub_mode']) && $_GET['hub_mode'] == 'subscribe') {
+	    
+	    if ($ext->settings['enable_debug'] == true) {
+	        erLhcoreClassLog::write('VERIFIED');
+	    }
+	    
 		echo $_GET['hub_challenge'];
 		exit;
 	}
@@ -12,9 +23,9 @@ if (isset($_GET['hub_verify_token']) && $_GET['hub_verify_token'] == $ext->setti
 use Tgallice\FBMessenger\WebhookRequestHandler;
 use Tgallice\FBMessenger\Callback\MessageEvent;
 
-$webookHandler = new WebhookRequestHandler($ext->settings['app_secret'], $ext->settings['verify_token']);
+$webookHandler = new WebhookRequestHandler($ext->getPage()->app_secret, $ext->getPage()->verify_token);
 
-if (!$webookHandler->isValidCallbackRequest()) {
+if (!$webookHandler->isValidCallbackRequest()) {    
     if ($ext->settings['enable_debug'] == true) {
 	   erLhcoreClassLog::write('INVALID__TOKEN');
     }

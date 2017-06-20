@@ -34,13 +34,18 @@ class erLhcoreClassExtensionFbmessenger {
 	{
     	$chatVariables = $params['chat']->chat_variables_array;
     	
-    	if (isset($chatVariables['fb_chat']) && $chatVariables['fb_chat'] == 1 && $this->settings['pages_messaging_enabled'] == true)
+    	if (isset($chatVariables['fb_chat']) && $chatVariables['fb_chat'] == 1)
     	{
-    	    try {
-        	    $messenger = Tgallice\FBMessenger\Messenger::create($this->settings['page_token']);
+    	    try {    	        
+    	        $chat = erLhcoreClassModelFBChat::findOne(array('filter' => array('chat_id' => $params['chat']->id)));
+    	        
+    	        $this->setPage($chat->page);
+    	        
+    	        if ($this->getPage()->verified == 1) {
+            	    $messenger = Tgallice\FBMessenger\Messenger::create($this->getPage()->page_token);            	                	    
+            	    $response = $messenger->sendMessage($chat->user_id, $params['msg']->msg);
+    	        }
         	    
-        	    $response = $messenger->sendMessage($chatVariables['fb_user_id'], $params['msg']->msg);
-        	            	    
     	    } catch (Exception $e) {
     	        
     	        if ($this->settings['enable_debug'] == true) {
@@ -61,7 +66,8 @@ class erLhcoreClassExtensionFbmessenger {
 		$fbChat = erLhcoreClassModelFBChat::findOne ( array (
 				'filter' => array (
 						'user_id' => $userId,
-				        'recipient_user_id' => $recipientUserId
+				        'recipient_user_id' => $recipientUserId,
+				        'page_id' => $this->getPage()->id
 				) 
 		) );
 		
@@ -72,6 +78,13 @@ class erLhcoreClassExtensionFbmessenger {
 		}
 				
 		$chat = $fbChat->chat;
+		
+		// fix https://github.com/LiveHelperChat/fbmessenger/issues/1
+		// If chat is closed make it pending again
+		if ($chat instanceof erLhcoreClassModelChat && $chat->status == erLhcoreClassModelChat::STATUS_CLOSED_CHAT) {
+		    $chat->status = erLhcoreClassModelChat::STATUS_PENDING_CHAT;		    
+		    $chat->saveThis();
+		}
 		
 		$needSave = false;
 				
@@ -84,41 +97,35 @@ class erLhcoreClassExtensionFbmessenger {
 				$chat = new erLhcoreClassModelChat ();
 				
 				// Set default department
-				$departments = erLhcoreClassModelDepartament::getList ( array (
-						'limit' => 1,
-						'filter' => array (
-								'disabled' => 0 
-						) 
-				) );
+				$department = erLhcoreClassModelDepartament::fetch($this->getPage()->dep_id);
 				
-				if (! empty ( $departments )) {
-					$department = array_shift ( $departments );
-					$chat->dep_id = $department->id;
-					$chat->priority = $department->priority;
-				} else {
-					throw new Exception ( 'Could not detect default department' );
-				}
-				
+				// Assign department from page configuration
+				$chat->dep_id = $department->id;
+				$chat->priority = $department->priority;
+
+				// Just save and send fb message if it's facebook chat
 				$dataArray = array (
-						'fb_chat' => true,
-						'fb_user_id' => $userId
+						'fb_chat' => true
 				);
-				
+
 				$nick = 'FB Visitor - ' . $userId;
-				
+
 				$initMessage = false;
-				
+
 				if ($this->settings['pages_messaging_enabled'] == true)
-				{				   
-    				$messenger = Tgallice\FBMessenger\Messenger::create($this->settings['page_token']);				
-    				$profile = $messenger->getUserProfile($eventMessage->getSenderId());
-    				$dataArray['fb_gender'] = $profile->getGender();
-    				$dataArray['fb_locale'] = $profile->getLocale();
-    				$nick = trim($profile->getFirstName() . ' ' . $profile->getLastName()); 	
-    				
-    				$initMessage = true;
-    				
-    				erLhcoreClassLog::write(print_r($profile,true));
+				{				
+				    try {   
+        				$messenger = Tgallice\FBMessenger\Messenger::create($this->settings['page_token']);				
+        				$profile = $messenger->getUserProfile($eventMessage->getSenderId());
+        				$dataArray['fb_gender'] = $profile->getGender();
+        				$dataArray['fb_locale'] = $profile->getLocale();
+        				$nick = trim($profile->getFirstName() . ' ' . $profile->getLastName()); 	
+        				
+        				$initMessage = true;
+        				
+				    } catch (Exception $e) {
+				        erLhcoreClassLog::write($e->getMessage());
+				    }
 				}
 				
 				$chat->nick = $nick;
@@ -209,6 +216,7 @@ class erLhcoreClassExtensionFbmessenger {
 				$fbChat->recipient_user_id = $recipientUserId;
 				$fbChat->chat_id = $chat->id;
 				$fbChat->ctime = time();
+				$fbChat->page_id = $this->getPage()->id;
 				$fbChat->saveOrUpdate();
 
 				$db->commit();				
@@ -235,13 +243,15 @@ class erLhcoreClassExtensionFbmessenger {
 	public function registerAutoload() {
 		spl_autoload_register ( array (
 				$this,
-				'autoload' 
+				'autoload'
 		), true, false );
 	}
 	
 	public function autoload($className) {
 		$classesArray = array (
-				'erLhcoreClassModelFBChat' => 'extension/fbmessenger/classes/erlhcoreclassmodelfbchat.php' 
+				'erLhcoreClassModelFBChat' => 'extension/fbmessenger/classes/erlhcoreclassmodelfbchat.php',
+				'erLhcoreClassModelFBPage' => 'extension/fbmessenger/classes/erlhcoreclassmodelfbpage.php',
+				'erLhcoreClassFBValidator' => 'extension/fbmessenger/classes/erlhcoreclassfbvalidator.php' 
 		);
 		
 		if (key_exists ( $className, $classesArray )) {
@@ -256,7 +266,17 @@ class erLhcoreClassExtensionFbmessenger {
 		return self::$persistentSession;
 	}
 	
+	public function setPage($page) {
+	    $this->fbpage = $page;
+	}
+	
+	public function getPage() {
+	    return $this->fbpage;
+	}
+	
 	private static $persistentSession;
+	
+	private $fbpage = null;
 	
 	public function __get($var) {
 		switch ($var) {

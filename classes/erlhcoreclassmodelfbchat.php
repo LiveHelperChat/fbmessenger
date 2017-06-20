@@ -19,6 +19,7 @@ class erLhcoreClassModelFBChat
         	'user_id' => $this->user_id,
         	'recipient_user_id' => $this->recipient_user_id,
         	'chat_id' => $this->chat_id,
+        	'page_id' => $this->page_id,
         	'ctime' => $this->ctime            
         );
     }
@@ -37,6 +38,11 @@ class erLhcoreClassModelFBChat
                 return $this->ctime_front;
                 break;
 
+            case 'page':
+                    $this->page = erLhcoreClassModelFBPage::fetch($this->page_id);
+                    return $this->page;
+                break;
+                
             case 'chat':
             	
             	$this->chat = false;
@@ -54,10 +60,11 @@ class erLhcoreClassModelFBChat
         }
     }
 
-
     public $id = null;
 
     public $user_id = null;
+    
+    public $page_id = null;
     
     public $recipient_user_id = null;
 

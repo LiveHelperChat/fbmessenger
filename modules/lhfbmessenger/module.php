@@ -6,9 +6,38 @@ $Module = array( "name" => "FB Messenger",
 $ViewList = array();
 
 $ViewList['callback'] = array(
-    'params' => array(),
+    'params' => array('id'),
     'uparams' => array()
 );
 
-$FunctionList['use'] = array('explain' => 'Allow operator to use SugarCRM module');
-$FunctionList['configure'] = array('explain' => 'Allow operator to configure SugarCRM module');
+$ViewList['index'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('use_admin'),
+);
+
+$ViewList['list'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('use_admin'),
+);
+
+$ViewList['new'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('use_admin'),
+);
+
+$ViewList['edit'] = array(
+    'params' => array('id'),
+    'uparams' => array(),
+    'functions' => array('use_admin'),
+);
+
+$ViewList['delete'] = array(
+    'params' => array('id'),
+    'uparams' => array('csfr'),
+    'functions' => array('use_admin'),
+);
+
+$FunctionList['use_admin'] = array('explain' => 'Allow operator to configure Facebook Messenger');
