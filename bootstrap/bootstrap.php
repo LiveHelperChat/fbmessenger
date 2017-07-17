@@ -341,15 +341,7 @@ class erLhcoreClassExtensionFbmessenger {
 				break;
 			
 			case 'settings' :
-				$this->settings = include ('extension/fbmessenger/settings/settings.ini.php');
-				if ($this->settings ['ahosting'] == true) {
-					/*
-					 * $autoamtedHostingSettings = erLhcoreClassInstance::getInstance()->getCustomFieldsData(1);
-					 * $this->settings['is_enabled'] = isset($autoamtedHostingSettings['clicktocall_supported']) && $autoamtedHostingSettings['clicktocall_supported'] == 1;
-					 * $this->settings['buttonid'] = isset($autoamtedHostingSettings['clicktocall_buttonid']) ? $autoamtedHostingSettings['clicktocall_buttonid'] : '';
-					 * $this->settings['customfields'] = isset($autoamtedHostingSettings['clicktocall_customfields']) ? $autoamtedHostingSettings['clicktocall_customfields'] : '';
-					 */
-				}
+				$this->settings = include ('extension/fbmessenger/settings/settings.ini.php');				
 				return $this->settings;
 				break;
 			
