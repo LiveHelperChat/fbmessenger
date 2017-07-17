@@ -1,7 +1,10 @@
 <?php
 class erLhcoreClassExtensionFbmessenger {
+    
 	public function __construct() {
+	    
 	}
+	
 	public function run() {
 		$this->registerAutoload ();
 		
@@ -28,6 +31,62 @@ class erLhcoreClassExtensionFbmessenger {
 		    $this,
 		    'deleteChat'
 		));
+		
+		$dispatcher->listen('instance.extensions_structure', array(
+		    $this,
+		    'checkStructure'
+		));
+		
+		$dispatcher->listen('instance.registered.created', array(
+		    $this,
+		    'instanceCreated'
+		));
+		
+		$dispatcher->listen('instance.destroyed', array(
+		    $this,
+		    'instanceDestroyed'
+		));
+		
+	}
+	
+	/**
+	 * Checks automated hosting structure
+	 *
+	 * This part is executed once in manager is run this cronjob.
+	 * php cron.php -s site_admin -e instance -c cron/extensions_update
+	 *
+	 * */
+	public function checkStructure()
+	{
+	    erLhcoreClassUpdate::doTablesUpdate(json_decode(file_get_contents('extension/fbmessenger/doc/structure.json'), true));
+	}
+	
+	/**
+	 * Used only in automated hosting enviroment
+	 */
+	public function instanceDestroyed()
+	{
+	    // Set subdomain manual, so we avoid calling in cronjob
+	    $this->instanceManual = $params['instance'];
+	    
+	    // Nothing to do at the moment
+	}
+	
+	/**
+	 * Used only in automated hosting enviroment
+	 */
+	public function instanceCreated($params)
+	{
+	    try {
+	        // Instance created trigger
+	        $this->instanceManual = $params['instance'];
+	
+	        // Just do table updates
+	        erLhcoreClassUpdate::doTablesUpdate(json_decode(file_get_contents('extension/fbmessenger/doc/structure.json'), true));
+	
+	    } catch (Exception $e) {
+	        erLhcoreClassLog::write(print_r($e, true));
+	    }
 	}
 	
 	public function sendMessageToFb($params)
@@ -112,10 +171,10 @@ class erLhcoreClassExtensionFbmessenger {
 
 				$initMessage = false;
 
-				if ($this->settings['pages_messaging_enabled'] == true)
+				if ($this->getPage()->verified == true)
 				{				
 				    try {   
-        				$messenger = Tgallice\FBMessenger\Messenger::create($this->settings['page_token']);				
+        				$messenger = Tgallice\FBMessenger\Messenger::create($this->getPage()->page_token);				
         				$profile = $messenger->getUserProfile($eventMessage->getSenderId());
         				$dataArray['fb_gender'] = $profile->getGender();
         				$dataArray['fb_locale'] = $profile->getLocale();
@@ -274,10 +333,6 @@ class erLhcoreClassExtensionFbmessenger {
 	    return $this->fbpage;
 	}
 	
-	private static $persistentSession;
-	
-	private $fbpage = null;
-	
 	public function __get($var) {
 		switch ($var) {
 			case 'is_active' :
@@ -303,6 +358,14 @@ class erLhcoreClassExtensionFbmessenger {
 				break;
 		}
 	}
+	
+	private static $persistentSession;
+	
+	private $fbpage = null;
+	
+	private $configData = false;
+	
+	private $instanceManual = false;
 }
 
 
