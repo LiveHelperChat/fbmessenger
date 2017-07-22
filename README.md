@@ -12,7 +12,7 @@ https://example.com/fbmessenger/callback/<id>
 * Activate extension in settings/settings.ini.php extension section "fbmessenger" by Adding lines: 
 <code>'extensions' =>  array (  'fbmessenger',  ),	</code> 
 * Now you can create facebook page in **Modules -> Facebook chat -> Facebook pages -> Register new page** (later you will have this info from facebook developer section) _if you dont see this in Module, check your settings.ini.php_
-* Once page is created you will see what callback url you have to put in facebook webhook. URL is presented in list.
+* Once page is created you will see what callback url you have to put in facebook webhook. URL is presented in list. HTTPS is must!
 
 # Installation in Developers.Facebook.com
  
