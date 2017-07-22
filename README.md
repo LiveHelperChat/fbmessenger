@@ -28,6 +28,9 @@ https://example.com/fbmessenger/callback/<id>
 # How it works
 Once visitor writes a message in facebook page. You will receive a chat with visitor.
 
+# How to debug
+in <code>extension/fbmessenger/settings/settings.ini.php</code> change setting to <code>'enable_debug' => true</code> if you have verified site. Check cache/default.log for more detailed error.
+
 # Todo
  * Add support for images, not just plain messages.
  * Add support for automated hosting environment.
