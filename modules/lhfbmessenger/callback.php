@@ -53,6 +53,5 @@ foreach($events as $event) {
 	}
 }
 
-
 exit();
 ?>

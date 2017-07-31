@@ -106,7 +106,11 @@ class erLhcoreClassExtensionFbmessenger {
             	    // Allow extensions to parse/remove custom bb code
             	    erLhcoreClassChatEventDispatcher::getInstance()->dispatch('fbmessenger.before_send',$params);
             	    
-            	    $response = $messenger->sendMessage($chat->user_id, $params['msg']->msg);
+            	    $messages = self::parseMessageForFB($params['msg']->msg);
+            	    
+            	    foreach ($messages as $msg) {
+            	        $response = $messenger->sendMessage($chat->user_id, $msg);
+            	    }
     	        }
         	    
     	    } catch (Exception $e) {
@@ -117,7 +121,97 @@ class erLhcoreClassExtensionFbmessenger {
     	    }
     	}    	
 	}
-	
+
+	/**
+	 * @desc parses operator messages and replaces images
+	 * 
+	 * @todo keep order as it was during initial messages
+	 * 
+	 * @param string $ret
+	 * 
+	 * @return multitype:\Tgallice\FBMessenger\Model\Message Ambigous <\Tgallice\FBMessenger\Model\Attachment\Image>
+	 */
+	public static function parseMessageForFB($ret)
+	{	    
+	    $matches = array();
+	    
+	    preg_match_all('/\[img\](.*?)\[\/img\]/ms', $ret, $matches);
+	    
+	    // Parse Images
+	    $imagesAttatchements = array();
+
+	    foreach ($matches[1] as $key => $img) {
+	        $in = trim($img);
+
+	        $url = erLhcoreClassBBCode::esc_url($in);
+
+	        if ( empty($url) )
+	            continue;
+
+	        $image = new Tgallice\FBMessenger\Model\Attachment\Image($url);
+	        
+	        $imagesAttatchements[] = $image;
+	        
+	        $ret = preg_replace('/'.preg_quote($matches[0][$key], '/').'/', '[split_img]', $ret, 1);
+	    }
+
+	    // Parse files attatchements
+	    
+	    $matches = array();
+	    
+	    // File block	   	    
+	    preg_match_all('#\[file="?(.*?)"?\]#is', $ret, $matches);
+	    
+	    foreach ($matches[1] as $key => $fileKey) {
+	        
+	        list($fileID,$hash) = explode('_',$fileKey);
+	        try {
+	            $file = erLhcoreClassModelChatFile::fetch($fileID);
+	        
+	            // AWS plugin changes file name, but we always use original name
+	            $parts = explode('/', $file->name);
+	            end($parts);
+	            $name = end($parts);
+	            	
+	            // Check that user has permission to see the chat. Let say if user purposely types file bbcode
+	            if ($hash == md5($name.'_'.$file->chat_id)) {
+	                $hash = md5($file->name.'_'.$file->chat_id);
+	                
+	                $elements = [
+                        new Tgallice\FBMessenger\Model\Button\WebUrl(erTranslationClassLhTranslation::getInstance()->getTranslation('file/file','Download'), 'https://devmysql.livehelperchat.com' . erLhcoreClassDesign::baseurl('file/downloadfile')."/{$file->id}/{$hash}" )
+                    ];
+	                	                
+                    $template = new Tgallice\FBMessenger\Model\Attachment\Template\Button(erTranslationClassLhTranslation::getInstance()->getTranslation('file/file','Download').' - '.htmlspecialchars($file->upload_name).' ['.$file->extension.']', $elements);
+	                
+	                $imagesAttatchements[] = $template;
+	                
+	                $ret = preg_replace('/'.preg_quote($matches[0][$key], '/').'/', '[split_img]', $ret, 1);
+	            }
+	            	
+	        } catch (Exception $e) {
+	           erLhcoreClassLog::write(print_r($e->getMessage(),true))."\n";
+	        }	        
+	    }
+
+	    $parts = explode('[split_img]', $ret);
+
+	    $messages = array();
+
+	    // Keep messages order as it was
+	    foreach ($parts as $key => $part)
+	    {
+	        if (!empty(trim($part))) {
+	            $messages[] = new Tgallice\FBMessenger\Model\Message($part);
+	        }
+
+	        if (isset($imagesAttatchements[$key])) {
+	            $messages[] = $imagesAttatchements[$key];
+	        }       
+	    }
+	    
+	    return $messages;
+	}
+
 	public function processVisitorMessage($eventMessage) {
 		
 	    // User ID
@@ -210,11 +304,32 @@ class erLhcoreClassExtensionFbmessenger {
 				    $msgInitial->saveThis();
 				}
 				
+				$messageText = null;
+				
+				$message = $eventMessage->getMessage();
+				
+				if ($message->hasText()) {
+				    $messageText = $message->getText();
+				} elseif ($message->hasAttachments()) {	
+				    			     
+				    $attatchements = $message->getAttachments();
+				    				     
+				    foreach ($attatchements as $data) {
+				        if ($data['type'] == 'file') {
+				            $messageText .= '[url=' . $data['payload']['url'].']Download file[/url]';
+				        } else if ($data['type'] == 'image') {
+				            $messageText .= '[img]' . $data['payload']['url'].'[/img]';
+				        } else {
+				            $messageText .= 'Unknown type - '.json_encode($data);
+				        }
+				    }
+				}
+				
 				/**
 				 * Store new message
 				 */
 				$msg = new erLhcoreClassModelmsg ();
-				$msg->msg = trim ( $eventMessage->getMessageText () );
+				$msg->msg = trim ( $messageText );
 				$msg->chat_id = $chat->id;
 				$msg->user_id = 0;
 				$msg->time = time ();
@@ -244,11 +359,32 @@ class erLhcoreClassExtensionFbmessenger {
 			try {				
 				$db->beginTransaction();
 				
+				$messageText = null;
+				
+				$message = $eventMessage->getMessage();
+				
+				if ($message->hasText()) {
+				    $messageText = $message->getText();
+			    } elseif ($message->hasAttachments()) {
+			        
+			        $attatchements = $message->getAttachments();
+			        
+			        foreach ($attatchements as $data) {
+			            if ($data['type'] == 'file') {
+			                $messageText .= '[url=' . $data['payload']['url'].']Download file[/url]';
+			            } else if ($data['type'] == 'image') {
+			                $messageText .= '[img]' . $data['payload']['url'].'[/img]';
+			            } else {
+			                $messageText .= 'Unknown type - '.json_encode($data);
+			            }
+			        }
+			    }
+				    
 				/**
 				 * Store new message
 				 */
 				$msg = new erLhcoreClassModelmsg ();
-				$msg->msg = trim ( $eventMessage->getMessageText () );
+				$msg->msg = trim ( $messageText );
 				$msg->chat_id = $chat->id;
 				$msg->user_id = 0;
 				$msg->time = time ();
