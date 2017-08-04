@@ -102,10 +102,7 @@ class erLhcoreClassExtensionFbmessenger {
     	        
     	        if ($this->getPage()->verified == 1) {
             	    $messenger = Tgallice\FBMessenger\Messenger::create($this->getPage()->page_token);   
-            	    
-            	    // Allow extensions to parse/remove custom bb code
-            	    erLhcoreClassChatEventDispatcher::getInstance()->dispatch('fbmessenger.before_send',$params);
-            	    
+            	                	    
             	    $messages = self::parseMessageForFB($params['msg']->msg);
             	    
             	    foreach ($messages as $msg) {
