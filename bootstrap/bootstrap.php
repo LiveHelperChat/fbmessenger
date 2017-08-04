@@ -135,6 +135,9 @@ class erLhcoreClassExtensionFbmessenger {
 	{	    
 	    $matches = array();
 	    
+	    // Allow extensions to preparse send message
+	    erLhcoreClassChatEventDispatcher::getInstance()->dispatch('fbmessenger.before_parse_send', array('msg' => & $ret));
+	    
 	    preg_match_all('/\[img\](.*?)\[\/img\]/ms', $ret, $matches);
 	    
 	    // Parse Images
@@ -192,7 +195,10 @@ class erLhcoreClassExtensionFbmessenger {
 	           erLhcoreClassLog::write(print_r($e->getMessage(),true))."\n";
 	        }	        
 	    }
-
+	    
+	    // Allow extensions to parse text message for final return
+	    erLhcoreClassChatEventDispatcher::getInstance()->dispatch('fbmessenger.before_send', array('msg' => & $ret));
+	    
 	    $parts = explode('[split_img]', $ret);
 
 	    $messages = array();
