@@ -40,4 +40,28 @@ $ViewList['delete'] = array(
     'functions' => array('use_admin'),
 );
 
+$ViewList['deletebbcode'] = array(
+    'params' => array('id'),
+    'uparams' => array('csfr'),
+    'functions' => array('use_admin'),
+);
+
+$ViewList['bbcode'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('use_admin'),
+);
+
+$ViewList['newbbcode'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('use_admin'),
+);
+
+$ViewList['editbbcode'] = array(
+    'params' => array('id'),
+    'uparams' => array(),
+    'functions' => array('use_admin'),
+);
+
 $FunctionList['use_admin'] = array('explain' => 'Allow operator to configure Facebook Messenger');

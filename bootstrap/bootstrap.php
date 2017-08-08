@@ -106,12 +106,24 @@ class erLhcoreClassExtensionFbmessenger {
             	    $messages = self::parseMessageForFB($params['msg']->msg);
             	    
             	    foreach ($messages as $msg) {
-            	        $response = $messenger->sendMessage($chat->user_id, $msg);
+            	        if ($msg !== null) {
+            	            $response = $messenger->sendMessage($chat->user_id, $msg);
+            	        }
             	    }
     	        }
         	    
     	    } catch (Exception $e) {
-    	        
+
+                $msgInitial = new erLhcoreClassModelmsg();
+                $msgInitial->msg = "Facebook Error: " . $e->getMessage();
+                $msgInitial->chat_id = $params['chat']->id;
+                $msgInitial->user_id = -1;
+                $msgInitial->time = time ();
+                $msgInitial->saveThis();
+
+                $params['chat']->last_msg_id = $msgInitial->id;
+                $params['chat']->saveThis();
+
     	        if ($this->settings['enable_debug'] == true) {
     	            erLhcoreClassLog::write(print_r($e->getMessage(),true))."\n";
     	        }
@@ -195,7 +207,108 @@ class erLhcoreClassExtensionFbmessenger {
 	    
 	    // Allow extensions to parse text message for final return
 	    erLhcoreClassChatEventDispatcher::getInstance()->dispatch('fbmessenger.before_send', array('msg' => & $ret));
-	    
+
+        $bbcodes = erLhcoreClassModelFBBBCode::getList();
+
+        foreach ($bbcodes as $bbcode) {
+            if (strpos($ret,'[' . $bbcode->bbcode . ']') !== false) {
+
+                if (isset($bbcode->configuration_array['bbcode_button_type']) && $bbcode->configuration_array['bbcode_button_type'] == 'web_button') {
+
+                    $elements = array();
+
+                    for ($i = 1; $i <= 3; $i++) {
+                        if (isset($bbcode->configuration_array['web_button']['web_button_web_title_' . $i]) &&
+                            isset($bbcode->configuration_array['web_button']['web_button_web_url_' . $i]) &&
+                            !empty($bbcode->configuration_array['web_button']['web_button_web_title_' . $i]) &&
+                            !empty($bbcode->configuration_array['web_button']['web_button_web_url_' . $i]))
+                        {
+                            $elements[] = new Tgallice\FBMessenger\Model\Button\WebUrl($bbcode->configuration_array['web_button']['web_button_web_title_' . $i], $bbcode->configuration_array['web_button']['web_button_web_url_' . $i]);
+                        }
+                    }
+
+                    $template = null;
+
+                    if (isset($bbcode->configuration_array['web_button']['web_button_message']) && !empty($bbcode->configuration_array['web_button']['web_button_message'])) {
+                        $template = new Tgallice\FBMessenger\Model\Attachment\Template\Button($bbcode->configuration_array['web_button']['web_button_message'], $elements);
+                    }
+
+                    $ret = str_replace('[' . $bbcode->bbcode . ']','[split_img]', $ret);
+
+                    $imagesAttatchements[] = $template;
+
+                } elseif (isset($bbcode->configuration_array['bbcode_button_type']) && $bbcode->configuration_array['bbcode_button_type'] == 'web_button_generic') {
+
+                    $elements = array();
+
+                    for ($i = 1; $i <= 10; $i++) {
+                        if (isset($bbcode->configuration_array['web_button_gen']['web_gen_button_title_' . $i]) && !empty($bbcode->configuration_array['web_button_gen']['web_gen_button_title_' . $i])) {
+
+                            $buttons = array();
+
+                            for ($n = 1; $n <= 3; $n++) {
+                                if (isset($bbcode->configuration_array['web_button_gen']['web_button_web_title_' . $i . '_' . $n]) && !empty($bbcode->configuration_array['web_button_gen']['web_button_web_title_' . $i . '_' . $n])) {
+                                    $buttons[] = new Tgallice\FBMessenger\Model\Button\WebUrl($bbcode->configuration_array['web_button_gen']['web_button_web_title_' . $i . '_' . $n], $bbcode->configuration_array['web_button_gen']['web_button_web_url_' . $i . '_' . $n]);
+                                }
+                            }
+
+                            if (empty($buttons)) {
+                                $buttons = null;
+                            }
+
+                            $elements[] = new Tgallice\FBMessenger\Model\Attachment\Template\Generic\Element(
+                                $bbcode->configuration_array['web_button_gen']['web_gen_button_title_' . $i],
+                                isset($bbcode->configuration_array['web_button_gen']['web_gen_button_subtitle_' .$i]) && !empty($bbcode->configuration_array['web_button_gen']['web_gen_button_subtitle_' .$i]) ? $bbcode->configuration_array['web_button_gen']['web_gen_button_subtitle_' .$i] : null,
+                                isset($bbcode->configuration_array['web_button_gen']['web_gen_button_img_' .$i]) && !empty($bbcode->configuration_array['web_button_gen']['web_gen_button_img_' .$i]) ? $bbcode->configuration_array['web_button_gen']['web_gen_button_img_' .$i] : null,
+                                $buttons,
+                                isset($bbcode->configuration_array['web_button_gen']['web_gen_button_def_url_' .$i]) && !empty($bbcode->configuration_array['web_button_gen']['web_gen_button_def_url_' .$i]) ? new Tgallice\FBMessenger\Model\DefaultAction($bbcode->configuration_array['web_button_gen']['web_gen_button_def_url_' .$i]) : null
+                            );
+                        }
+                    }
+
+                    $template = null;
+
+                    if (!empty($elements)){
+                        $template = new Tgallice\FBMessenger\Model\Attachment\Template\Generic($elements);
+                    }
+
+                    $ret = str_replace('[' . $bbcode->bbcode . ']','[split_img]', $ret);
+
+                    $imagesAttatchements[] = $template;
+
+                } elseif (isset($bbcode->configuration_array['bbcode_button_type']) && $bbcode->configuration_array['bbcode_button_type'] == 'web_button_ellist') {
+
+                    $elements = array();
+
+                    for ($i = 1; $i <= 4; $i++) {
+                        if (isset($bbcode->configuration_array['web_button_list']['web_list_title_' . $i]) && !empty($bbcode->configuration_array['web_button_list']['web_list_title_' . $i])) {
+                            $elements[] = new Tgallice\FBMessenger\Model\Attachment\Template\ElementList\Element(
+                                $bbcode->configuration_array['web_button_list']['web_list_title_' . $i],
+                                isset($bbcode->configuration_array['web_button_list']['web_list_sub_title_' .$i]) && !empty($bbcode->configuration_array['web_button_list']['web_list_sub_title_' .$i]) ? $bbcode->configuration_array['web_button_list']['web_list_sub_title_' .$i] : null,
+                                isset($bbcode->configuration_array['web_button_list']['web_list_sub_img_' .$i]) && !empty($bbcode->configuration_array['web_button_list']['web_list_sub_img_' .$i]) ? $bbcode->configuration_array['web_button_list']['web_list_sub_img_' .$i] : null,
+                                isset($bbcode->configuration_array['web_button_list']['web_list_button_web_title_' .$i]) && !empty($bbcode->configuration_array['web_button_list']['web_list_button_web_title_' .$i]) ? new Tgallice\FBMessenger\Model\Button\WebUrl($bbcode->configuration_array['web_button_list']['web_list_button_web_title_' . $i], $bbcode->configuration_array['web_button_list']['web_list_button_web_url_' . $i]) : null,
+                                isset($bbcode->configuration_array['web_button_list']['web_list_def_url_' .$i]) && !empty($bbcode->configuration_array['web_button_list']['web_list_def_url_' .$i]) ? new Tgallice\FBMessenger\Model\DefaultAction($bbcode->configuration_array['web_button_list']['web_list_def_url_' .$i], Tgallice\FBMessenger\Model\DefaultAction::HEIGHT_RATIO_FULL) : null
+                            );
+                        }
+                    }
+
+                    $template = null;
+
+                    if (!empty($elements)) {
+                        $template = new Tgallice\FBMessenger\Model\Attachment\Template\ElementList($elements,
+                            new Tgallice\FBMessenger\Model\Button\WebUrl($bbcode->configuration_array['web_button_list']['web_list_button_default_web_title'], $bbcode->configuration_array['web_button_list']['web_list_button_default_web_url']),
+                            Tgallice\FBMessenger\Model\Attachment\Template\ElementList::TOP_STYLE_COMPACT
+                        );
+                    }
+
+                    $ret = str_replace('[' . $bbcode->bbcode . ']','[split_img]', $ret);
+
+                    $imagesAttatchements[] = $template;
+                }
+            }
+        }
+
+
 	    $parts = explode('[split_img]', $ret);
 
 	    $messages = array();
@@ -451,9 +564,10 @@ class erLhcoreClassExtensionFbmessenger {
 	
 	public function autoload($className) {
 		$classesArray = array (
-				'erLhcoreClassModelFBChat' => 'extension/fbmessenger/classes/erlhcoreclassmodelfbchat.php',
-				'erLhcoreClassModelFBPage' => 'extension/fbmessenger/classes/erlhcoreclassmodelfbpage.php',
-				'erLhcoreClassFBValidator' => 'extension/fbmessenger/classes/erlhcoreclassfbvalidator.php' 
+				'erLhcoreClassModelFBChat'  => 'extension/fbmessenger/classes/erlhcoreclassmodelfbchat.php',
+				'erLhcoreClassModelFBPage'  => 'extension/fbmessenger/classes/erlhcoreclassmodelfbpage.php',
+				'erLhcoreClassModelFBBBCode'=> 'extension/fbmessenger/classes/erlhcoreclassmodelfbbbcode.php',
+				'erLhcoreClassFBValidator'  => 'extension/fbmessenger/classes/erlhcoreclassfbvalidator.php'
 		);
 		
 		if (key_exists ( $className, $classesArray )) {

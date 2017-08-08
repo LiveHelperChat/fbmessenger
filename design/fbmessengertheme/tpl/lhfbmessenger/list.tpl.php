@@ -1,5 +1,7 @@
 <h1><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Facebook pages list');?></h1>
 
+<?php if (isset($items)) : ?>
+
 <table cellpadding="0" cellspacing="0" class="table" width="100%">
 <thead>
     <tr>   
@@ -30,6 +32,8 @@
 
 <?php if (isset($pages)) : ?>
     <?php include(erLhcoreClassDesign::designtpl('lhkernel/paginator.tpl.php')); ?>
+<?php endif;?>
+
 <?php endif;?>
 
 <a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/new')?>" class="btn btn-default"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Register new page');?></a>

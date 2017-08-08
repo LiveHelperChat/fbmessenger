@@ -1,0 +1,5 @@
+1.1v
+1. Options to have buttons as bbcodes
+
+1.0v
+Initial release
