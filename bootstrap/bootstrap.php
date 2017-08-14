@@ -160,7 +160,7 @@ class erLhcoreClassExtensionFbmessenger {
 	        if ( empty($url) )
 	            continue;
 
-	        $image = new Tgallice\FBMessenger\Model\Attachment\Image($url);
+	        $image = new Tgallice\FBMessenger\Model\Attachment\Image(ltrim($url,"/"));
 	        
 	        $imagesAttatchements[] = $image;
 	        
