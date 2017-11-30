@@ -356,6 +356,7 @@ class erLhcoreClassExtensionFbmessenger {
 		// If chat is closed make it pending again
 		if ($chat instanceof erLhcoreClassModelChat && $chat->status == erLhcoreClassModelChat::STATUS_CLOSED_CHAT) {
 		    $chat->status = erLhcoreClassModelChat::STATUS_PENDING_CHAT;		    
+		    $chat->user_id = 0; // fix https://github.com/LiveHelperChat/fbmessenger/issues/6
 		    $chat->saveThis();
 		}
 		
