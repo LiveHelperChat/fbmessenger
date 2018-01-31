@@ -21,6 +21,11 @@ class erLhcoreClassExtensionFbmessenger {
 		    $this,
 		    'sendMessageToFb'
 		));
+
+		$dispatcher->listen('telegram.msg_received', array(
+		    $this,
+		    'sendMessageToFb'
+		));
 		
 		$dispatcher->listen('chat.workflow.canned_message_before_save', array(
 		    $this,
@@ -46,7 +51,6 @@ class erLhcoreClassExtensionFbmessenger {
 		    $this,
 		    'instanceDestroyed'
 		));
-		
 	}
 	
 	/**
@@ -64,12 +68,10 @@ class erLhcoreClassExtensionFbmessenger {
 	/**
 	 * Used only in automated hosting enviroment
 	 */
-	public function instanceDestroyed()
+	public function instanceDestroyed($params)
 	{
 	    // Set subdomain manual, so we avoid calling in cronjob
 	    $this->instanceManual = $params['instance'];
-	    
-	    // Nothing to do at the moment
 	}
 	
 	/**
@@ -515,6 +517,8 @@ class erLhcoreClassExtensionFbmessenger {
 				$db->commit();
 				
 				erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.messages_added_passive',array('chat' => & $chat, 'msg' => & $msg));
+
+				erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.messages_added_fb',array('chat' => & $chat, 'msg' => & $msg));
 				
 			} catch (Exception $e) {
 				$db->rollback();
