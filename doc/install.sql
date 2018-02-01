@@ -8,7 +8,7 @@ CREATE TABLE `lhc_fbmessenger_chat` (
   PRIMARY KEY (`id`),
   KEY `user_id_recipient_user_id` (`user_id`,`recipient_user_id`),
   KEY `chat_id` (`chat_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `lhc_fbmessenger_page` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -19,6 +19,6 @@ CREATE TABLE `lhc_fbmessenger_page` (
   `name` varchar(250) NOT NULL,
   `app_secret` varchar(250) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `lhc_fbmessenger_bbcode` (`id` bigint(20) NOT NULL AUTO_INCREMENT, `bbcode` varchar(50) NOT NULL, `name` varchar(50) NOT NULL, `configuration` text NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `lhc_fbmessenger_bbcode` (`id` bigint(20) NOT NULL AUTO_INCREMENT, `bbcode` varchar(50) NOT NULL, `name` varchar(50) NOT NULL, `configuration` text NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
