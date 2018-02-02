@@ -99,20 +99,24 @@ class erLhcoreClassExtensionFbmessenger {
     	{
     	    try {    	        
     	        $chat = erLhcoreClassModelFBChat::findOne(array('filter' => array('chat_id' => $params['chat']->id)));
-    	        
-    	        $this->setPage($chat->page);
-    	        
-    	        if ($this->getPage()->verified == 1) {
-            	    $messenger = Tgallice\FBMessenger\Messenger::create($this->getPage()->page_token);   
-            	                	    
-            	    $messages = self::parseMessageForFB($params['msg']->msg);
-            	    
-            	    foreach ($messages as $msg) {
-            	        if ($msg !== null) {
-            	            $response = $messenger->sendMessage($chat->user_id, $msg);
-            	        }
-            	    }
-    	        }
+
+    	        // Check does chat still exists
+    	        if ($chat instanceof erLhcoreClassModelFBChat)
+                {
+                    $this->setPage($chat->page);
+
+                    if ($this->getPage()->verified == 1) {
+                        $messenger = Tgallice\FBMessenger\Messenger::create($this->getPage()->page_token);
+
+                        $messages = self::parseMessageForFB($params['msg']->msg);
+
+                        foreach ($messages as $msg) {
+                            if ($msg !== null) {
+                                $response = $messenger->sendMessage($chat->user_id, $msg);
+                            }
+                        }
+                    }
+                }
         	    
     	    } catch (Exception $e) {
 
@@ -358,6 +362,7 @@ class erLhcoreClassExtensionFbmessenger {
 		// If chat is closed make it pending again
 		if ($chat instanceof erLhcoreClassModelChat && $chat->status == erLhcoreClassModelChat::STATUS_CLOSED_CHAT) {
 		    $chat->status = erLhcoreClassModelChat::STATUS_PENDING_CHAT;		    
+		    $chat->status_sub_sub = 2; // Will be used to indicate that we have to show notification for this chat if it appears on list
 		    $chat->user_id = 0; // fix https://github.com/LiveHelperChat/fbmessenger/issues/6
 		    $chat->saveThis();
 		}
