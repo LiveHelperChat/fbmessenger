@@ -364,7 +364,8 @@ class erLhcoreClassExtensionFbmessenger {
 		    $chat->status = erLhcoreClassModelChat::STATUS_PENDING_CHAT;		    
 		    $chat->status_sub_sub = 2; // Will be used to indicate that we have to show notification for this chat if it appears on list
 		    $chat->user_id = 0; // fix https://github.com/LiveHelperChat/fbmessenger/issues/6
-		    $chat->saveThis();
+            $chat->pnd_time = time();
+            $chat->saveThis();
 		}
 		
 		$needSave = false;
