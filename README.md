@@ -1,5 +1,6 @@
 # Facebook messenger extension
 Integration with Facebook messenger API. You will be able to chat with Facebook page users directly in lhc back office.
+ * Support multiple pages without creating new app for each page. [New]
  * Supports multiple pages at once.
  * Each page chat can be assigned to custom department.
 
@@ -10,6 +11,7 @@ Integration with Facebook messenger API. You will be able to chat with Facebook 
 <code>'extensions' =>  array (  'fbmessenger',  ),	</code> 
 * Now you can create facebook page in **Modules -> Facebook chat -> Facebook pages -> Register new page** (later you will have this info from facebook developer section) _if you dont see this in Module, check your settings.ini.php_
 * Once page is created you will see what callback url you have to put in facebook webhook. URL is presented in list. HTTPS is must!
+
 
 # Installation in Developers.Facebook.com
 
