@@ -5,6 +5,7 @@
     	"guzzlehttp/guzzle": "^6.2",
     	"symfony/polyfill-php56": "^1.2",
     	"symfony/event-dispatcher": "^3.1",
-        "tgallice/fb-messenger-sdk": "dev-master"
+        "tgallice/fb-messenger-sdk": "dev-master",
+        "facebook/graph-sdk": "^5.6"
     }
 }

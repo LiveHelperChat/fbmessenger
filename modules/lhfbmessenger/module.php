@@ -10,9 +10,50 @@ $ViewList['callback'] = array(
     'uparams' => array()
 );
 
+$ViewList['callbackgeneral'] = array(
+    'params' => array(),
+    'uparams' => array()
+);
+
+$ViewList['leads'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('use_admin'),
+);
+
+$ViewList['options'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('use_admin')
+);
+
+$ViewList['fblogout'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('use_admin'),
+);
+
+$ViewList['myfbpages'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('use_admin'),
+);
+
+$ViewList['fbcallback'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('use_admin'),
+);
+
 $ViewList['index'] = array(
     'params' => array(),
     'uparams' => array(),
+    'functions' => array('use_admin'),
+);
+
+$ViewList['pagesubscribe'] = array(
+    'params' => array('id'),
+    'uparams' => array('action','dep'),
     'functions' => array('use_admin'),
 );
 
