@@ -549,6 +549,7 @@ class erLhcoreClassExtensionFbmessenger {
 				$chat->nick = $nick;
 				$chat->time = time ();
 				$chat->status = 0;
+				$chat->status_sub = 100; // Used to indicate it's facebook chat
 				$chat->hash = erLhcoreClassChat::generateHash ();
 				$chat->referrer = '';
 				$chat->session_referrer = '';
