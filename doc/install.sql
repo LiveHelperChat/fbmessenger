@@ -5,6 +5,7 @@ CREATE TABLE `lhc_fbmessenger_chat` (
   `chat_id` bigint(20) NOT NULL,
   `ctime` int(11) NOT NULL,
   `page_id` bigint(20) NOT NULL,
+  `type` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `user_id_recipient_user_id` (`user_id`,`recipient_user_id`),
   KEY `chat_id` (`chat_id`)
