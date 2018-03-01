@@ -4,9 +4,9 @@ Address for callback should be
 https://<domain.ltd>/fbmessenger/callbackgeneral
 In settings file put
 'app_settings' => array (
-        'app_id' => '1086869241448522',
-        'app_secret' => 'dd2c95f3cf252864fe7cf05c4e46a4c2',
-        'verify_token' => 'aSD-0d(f-4f5df_dfsf2',
+        'app_id' => '<app_id>',
+        'app_secret' => '<app_secret>',
+        'verify_token' => '<verify_token>',
 )
 
 1.1v
