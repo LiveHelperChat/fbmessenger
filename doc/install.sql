@@ -49,6 +49,7 @@ CREATE TABLE `lhc_fbmessenger_lead` (
 `first_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
 `last_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
 `profile_pic` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+`profile_pic_updated`int(11) NOT NULL,
 `locale` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
 `timezone` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
 `gender` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,

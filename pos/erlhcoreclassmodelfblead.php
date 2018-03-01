@@ -69,6 +69,11 @@ $def->properties['profile_pic']->columnName   = 'profile_pic';
 $def->properties['profile_pic']->propertyName = 'profile_pic';
 $def->properties['profile_pic']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
 
+$def->properties['profile_pic_updated'] = new ezcPersistentObjectProperty();
+$def->properties['profile_pic_updated']->columnName   = 'profile_pic_updated';
+$def->properties['profile_pic_updated']->propertyName = 'profile_pic_updated';
+$def->properties['profile_pic_updated']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
+
 $def->properties['ctime'] = new ezcPersistentObjectProperty();
 $def->properties['ctime']->columnName   = 'ctime';
 $def->properties['ctime']->propertyName = 'ctime';

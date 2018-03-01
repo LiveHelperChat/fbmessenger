@@ -12,6 +12,8 @@
         <thead>
         <tr>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Photo');?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Page');?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','User ID');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','E-mail');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Phone');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Gender');?></th>
@@ -24,7 +26,15 @@
         </thead>
         <?php foreach ($items as $item) : ?>
             <tr>
-                <td><img class="img-responsive" width="60" src="<?php echo $item->profile_pic?>" /></td>
+                <td>
+                    <?php if ($item->profile_pic != '') : ?>
+                    <img class="img-responsive" width="60" src="<?php echo $item->profile_pic_front?>" />
+                    <?php else : ?>
+                    N/A
+                    <?php endif; ?>
+                </td>
+                <td><?php echo htmlspecialchars($item->page_id)?></td>
+                <td><?php echo htmlspecialchars($item->user_id)?></td>
                 <td><?php echo htmlspecialchars($item->email)?></td>
                 <td><?php echo htmlspecialchars($item->phone)?></td>
                 <td><?php echo ucfirst($item->gender)?></td>
