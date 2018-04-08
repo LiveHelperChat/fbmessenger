@@ -1,0 +1,1 @@
+<li role="presentation"><a href="#main-extension-lang-fb-{{$index}}" aria-controls="main-extension-lang-fb-{{$index}}" role="tab" data-toggle="tab" ><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/cannedmsg','Facebook');?></a></li>

@@ -74,7 +74,96 @@ class erLhcoreClassExtensionFbmessenger {
         $dispatcher->listen('elasticsearch.getpreviouschats', array(
             $this, 'getPreviousChatsFilter')
         );
+
+        // Handle canned messages custom workflow
+        $dispatcher->listen('chat.canned_msg_before_save', array(
+            $this, 'cannedMessageValidate')
+        );
+
+        $dispatcher->listen('chat.workflow.canned_message_replace', array(
+            $this, 'cannedMessageReplace')
+        );
+
 	}
+
+	public function cannedMessageReplace($params)
+    {
+        $chatVariables = $params['chat']->chat_variables_array;
+
+        if (isset($chatVariables['fb_chat']) && $chatVariables['fb_chat'] == 1)
+        {
+            foreach ($params['items'] as & $item) {
+
+                if ($params['chat']->locale != '' && $item->languages != '') {
+                    // Override language by chat locale
+                    $languages = json_decode($item->languages, true);
+
+                    if (is_array($languages)) {
+                        foreach ($languages as & $lang) {
+
+                            if (isset($lang['message_lang_fb']) && !empty($lang['message_lang_fb'])) {
+                                $lang['message'] = $lang['message_lang_fb'];
+                            }
+
+                            if (isset($lang['fallback_message_lang_fb']) && !empty($lang['fallback_message_lang_fb'])) {
+                                $lang['fallback_msg'] = $lang['fallback_message_lang_fb'];
+                            }
+                        }
+                    }
+
+                    $item->languages = json_encode($languages);
+                }
+
+                $additionalData = $item->additional_data_array;
+
+                if (isset($additionalData['message_fb']) && !empty($additionalData['message_fb'])) {
+                    $item->msg = $additionalData['message_fb'];
+                }
+
+                if (isset($additionalData['fallback_fb']) && !empty($additionalData['fallback_fb'])) {
+                    $item->fallback_msg = $additionalData['fallback_fb'];
+                }
+            }
+        }
+    }
+
+	public function cannedMessageValidate($params)
+    {
+        $definition = array(
+            'MessageExtFB' => new ezcInputFormDefinitionElement(ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'),
+            'FallbackMessageExtFB' => new ezcInputFormDefinitionElement(ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'),
+
+            'message_lang_fb' => new ezcInputFormDefinitionElement(ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw',null,FILTER_REQUIRE_ARRAY),
+            'fallback_message_lang_fb' => new ezcInputFormDefinitionElement(ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw',null,FILTER_REQUIRE_ARRAY)
+        );
+
+        $form = new ezcInputForm( INPUT_POST, $definition );
+
+        $langArray = array();
+        foreach ($params['msg']->languages_array as $index => $langData) {
+            $langData['message_lang_fb'] = $form->message_lang_fb[$index];
+            $langData['fallback_message_lang_fb'] = $form->fallback_message_lang_fb[$index];
+            $langArray[] = $langData;
+        }
+
+        $params['msg']->languages = json_encode($langArray);
+        $params['msg']->languages_array = $langArray;
+
+        // Store additional data
+        $additionalArray =  $params['msg']->additional_data_array;
+
+        if ( $form->hasValidData( 'MessageExtFB' )) {
+            $additionalArray['message_fb'] = $form->MessageExtFB;
+        }
+
+        if ( $form->hasValidData( 'FallbackMessageExtFB' ) )
+        {
+            $additionalArray['fallback_fb'] = $form->FallbackMessageExtFB;
+        }
+
+        $params['msg']->additional_data = json_encode($additionalArray);
+        $params['msg']->additional_data_array = $additionalArray;
+    }
 
 	public function getPreviousChatsFilter($params)
     {
@@ -98,7 +187,7 @@ class erLhcoreClassExtensionFbmessenger {
     {
         $chatVariables = json_decode($params['chat']->chat_variables,true);
 
-        if (isset($chatVariables['fb_chat']) && $chatVariables['fb_chat'] == 1)
+        if (isset($chatVariables['fb_chat']) && $chatVariables['fb_chat'] == 1 && isset($chatVariables['fb_user_id']) && isset($chatVariables['fb_page_id']))
         {
             $params['chat']->fb_user_id = $chatVariables['fb_user_id'];
             $params['chat']->fb_page_id = $chatVariables['fb_page_id'];
