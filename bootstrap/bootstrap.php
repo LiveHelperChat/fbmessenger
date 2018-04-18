@@ -16,7 +16,12 @@ class erLhcoreClassExtensionFbmessenger {
 		    $this,
 		    'sendMessageToFb'
 		));
-		
+
+        $dispatcher->listen('chat.auto_preload', array(
+            $this,
+            'autoPreload'
+        ));
+
 		$dispatcher->listen('chat.desktop_client_admin_msg', array(
 		    $this,
 		    'sendMessageToFb'
@@ -89,6 +94,17 @@ class erLhcoreClassExtensionFbmessenger {
         );
 
 	}
+
+    // Always auto preload telegram chats
+    public function autoPreload($params) {
+
+        $chatVariables = $params['chat']->chat_variables_array;
+
+        if (isset($chatVariables['fb_chat']) && $chatVariables['fb_chat'] == 1)
+        {
+            $params['load_previous'] = 1;
+        }
+    }
 
 	public function cannedMessageReplace($params)
     {
