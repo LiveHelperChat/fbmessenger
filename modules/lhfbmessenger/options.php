@@ -17,6 +17,9 @@ if ( isset($_POST['StoreOptions']) ) {
         'priority' => new ezcInputFormDefinitionElement(
             ezcInputFormDefinitionElement::OPTIONAL, 'int'
         ),
+        'chat_attr' => new ezcInputFormDefinitionElement(
+            ezcInputFormDefinitionElement::OPTIONAL, 'boolean'
+        ),
     );
 
     $form = new ezcInputForm( INPUT_POST, $definition );
@@ -38,6 +41,12 @@ if ( isset($_POST['StoreOptions']) ) {
         $data['priority'] = $form->priority;
     } else {
         $data['priority'] = 0;
+    }
+
+    if ( $form->hasValidData( 'chat_attr' ) && $form->chat_attr == true ) {
+        $data['chat_attr'] = 1;
+    } else {
+        $data['chat_attr'] = 0;
     }
 
     $fbOptions->explain = '';

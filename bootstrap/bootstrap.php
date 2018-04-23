@@ -613,9 +613,10 @@ class erLhcoreClassExtensionFbmessenger {
 						'fb_chat' => true
 				);
 
-				$nick = 'FB Visitor - ' . $userId;
+				$nick = 'Visitor';
 
 				$initMessage = false;
+
 
 				if ($page->verified == true)
 				{				
@@ -624,7 +625,6 @@ class erLhcoreClassExtensionFbmessenger {
         				$profile = $messenger->getUserProfile($eventMessage->getSenderId());
         				$dataArray['fb_gender'] = $profile->getGender();
         				$dataArray['fb_locale'] = $profile->getLocale();
-        				$nick = trim($profile->getFirstName() . ' ' . $profile->getLastName());
 
                         $lead = erLhcoreClassModelFBLead::findOne(array('filter' => array('user_id' => $eventMessage->getSenderId())));
 
@@ -645,7 +645,35 @@ class erLhcoreClassExtensionFbmessenger {
                             $lead->saveThis();
                          }
 
-        				 $initMessage = true;
+                        if (!isset($data['chat_attr']) || $data['chat_attr'] == 0) {
+                            $nick = trim($profile->getFirstName() . ' ' . $profile->getLastName());
+                        } else {
+
+                            $additionalDataArray = array();
+
+                            if ($lead->first_name != '') {
+                                $additionalDataArray[] = array(
+                                    'key' => 'Name',
+                                    'identifier' => 'firstname',
+                                    'value' => $lead->first_name,
+                                );
+                            }
+
+                            if ($lead->last_name != '') {
+                                $additionalDataArray[] = array(
+                                    'key' => 'Last name',
+                                    'identifier' => 'lastname',
+                                    'value' => $lead->last_name,
+                                );
+                            }
+
+                            if (!empty($additionalDataArray)) {
+                                $chat->additional_data_array = $additionalDataArray;
+                                $chat->additional_data = json_encode($additionalDataArray);
+                            }
+                        }
+
+        				$initMessage = true;
         				
 				    } catch (Exception $e) {
 				        erLhcoreClassLog::write($e->getMessage());

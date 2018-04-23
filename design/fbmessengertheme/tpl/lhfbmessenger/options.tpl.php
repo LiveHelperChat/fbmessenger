@@ -21,7 +21,11 @@
     <div class="form-group">
         <label><input type="checkbox" value="on" name="exclude_workflow" <?php isset($fb_options['exclude_workflow']) && ($fb_options['exclude_workflow'] == true) ? print 'checked="checked"' : ''?> /> Exclude chats from auto assign timeout workflow.</label>
         <p><i><small>Chat's won't participate in "Chats waiting in pending queue more than n seconds should be auto-assigned first."</small></i></p>
-        <br/>
+    </div>
+
+    <div class="form-group">
+        <label><input type="checkbox" value="on" name="chat_attr" <?php isset($fb_options['chat_attr']) && ($fb_options['chat_attr'] == true) ? print 'checked="checked"' : ''?> />Do not store facebook user name and surname as chat nick</label>
+        <p><i><small>Facebook user name and surname will be shown as chat attributes.</small></i></p>
     </div>
 
     <input type="submit" class="btn btn-default" name="StoreOptions" value="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons','Save'); ?>" />

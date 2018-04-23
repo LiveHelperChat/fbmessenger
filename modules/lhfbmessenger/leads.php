@@ -15,7 +15,7 @@ $append = erLhcoreClassSearchHandler::getURLAppendFromInput($filterParams['input
 $pages = new lhPaginator();
 $pages->items_total = erLhcoreClassModelFBLead::getCount($filterParams['filter']);
 $pages->translationContext = 'chat/activechats';
-$pages->serverURL = erLhcoreClassDesign::baseurl('fbmessenger/list').$append;
+$pages->serverURL = erLhcoreClassDesign::baseurl('fbmessenger/leads').$append;
 $pages->paginate();
 $tpl->set('pages',$pages);
 
