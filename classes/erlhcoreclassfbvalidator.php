@@ -134,17 +134,17 @@ class erLhcoreClassFBValidator
                 $Errors[] = erTranslationClassLhTranslation::getInstance()->getTranslation('xmppservice/operatorvalidator','Please enter start date!');
             }
         } else {
-            $Errors[] = erTranslationClassLhTranslation::getInstance()->getTranslation('xmppservice/operatorvalidator','Please enter start date!');
+            $item->start_at = 0;
         }
 
         $appendHours = 0;
-        if ( $form->hasValidData( 'start_at_hours' )) {
+        if ( $form->hasValidData( 'start_at_hours' ) && $item->start_at > 0) {
              $appendHours = 3600 * $form->start_at_hours;
             $item->start_at_hour = $form->start_at_hours;
         }
 
         $appendMinutes = 0;
-        if ( $form->hasValidData( 'start_at_minutes' )) {
+        if ( $form->hasValidData( 'start_at_minutes' ) && $item->start_at > 0) {
             $appendMinutes = 60 * $form->start_at_minutes;
             $item->start_at_minute = $form->start_at_minutes;
         }
