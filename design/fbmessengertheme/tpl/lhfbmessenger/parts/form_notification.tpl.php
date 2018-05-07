@@ -54,14 +54,36 @@
 </div>
 
 <hr>
-<div class="form-group">
-    <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Gender');?></label>
-    <select name="filter_gender" class="form-control">
-        <option value="">Any</option>
-        <option value="male" <?php if (isset($item->filter_array['gender']) && $item->filter_array['gender'] == 'male') : ?>selected="selected"<?php endif;?> >Male</option>
-        <option value="female" <?php if (isset($item->filter_array['gender']) && $item->filter_array['gender'] == 'female') : ?>selected="selected"<?php endif;?> >Female</option>
-    </select>
+<div class="row">
+    <div class="col-xs-6">
+        <div class="form-group">
+            <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Gender');?></label>
+            <select name="filter_gender" class="form-control">
+                <option value="">Any</option>
+                <option value="male" <?php if (isset($item->filter_array['gender']) && $item->filter_array['gender'] == 'male') : ?>selected="selected"<?php endif;?> >Male</option>
+                <option value="female" <?php if (isset($item->filter_array['gender']) && $item->filter_array['gender'] == 'female') : ?>selected="selected"<?php endif;?> >Female</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <div class="form-group">
+            <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Department');?></label>
+            <?php echo erLhcoreClassRenderHelper::renderCombobox(array(
+                'input_name'     => 'dep_id',
+                'optional_field' => erTranslationClassLhTranslation::getInstance()->getTranslation('chat/lists/search_panel','Select department'),
+                'selected_id'    => ((isset($item->filter_array['dep_id'])) ? $item->filter_array['dep_id'] : 0),
+                'css_class'      => 'form-control',
+                'list_function'  => 'erLhcoreClassModelDepartament::getList',
+                'list_function_params'  => array(),
+            )); ?>
+        </div>
+    </div>
 </div>
+
+
+
+
+
 
 <ul class="nav nav-pills" role="tablist">
     <li role="presentation" class="active" ><a href="#message" aria-controls="message" role="tab" data-toggle="tab"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Message');?></a></li>

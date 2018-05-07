@@ -94,6 +94,9 @@ class erLhcoreClassFBValidator
             'interval' => new ezcInputFormDefinitionElement(
                 ezcInputFormDefinitionElement::OPTIONAL, 'int'
             ),
+            'dep_id' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'int', array('min_range' => 1)
+            ),
             'amount' => new ezcInputFormDefinitionElement(
                 ezcInputFormDefinitionElement::OPTIONAL, 'int'
             ),
@@ -173,11 +176,19 @@ class erLhcoreClassFBValidator
             $filterArray['gender'] = '';
         }
 
+        if ( $form->hasValidData( 'dep_id' )) {
+            $filterArray['dep_id'] = $form->dep_id;
+        } else {
+            $filterArray['dep_id'] = '';
+        }
+
         if ( $form->hasValidData( 'message' ) && $form->message != '' ) {
             $item->message = $form->message;
         } else {
             $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('xmppservice/operatorvalidator','Please enter message!');
         }
+
+        $filterArray = array_filter($filterArray);
 
         $item->filter = json_encode($filterArray);
         $item->filter_array = $filterArray;
