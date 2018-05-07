@@ -73,6 +73,118 @@ class erLhcoreClassFBValidator
             return $Errors;        
     }
 
+    public static function validateNotification(erLhcoreClassModelFBNotificationSchedule & $item)
+    {
+        $definition = array(
+            'name' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ),
+            'start_at' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ),
+            'start_at_hours' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'int'
+            ),
+            'start_at_minutes' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'int'
+            ),
+
+
+            // Buttons options
+            'interval' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'int'
+            ),
+            'amount' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'int'
+            ),
+            'filter_gender' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ),
+            'message' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ),
+            'processed' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'boolean'
+            ),
+        );
+
+        $form = new ezcInputForm( INPUT_POST, $definition );
+        $Errors = array();
+
+        if ( $form->hasValidData( 'name' ) && $form->name != '') {
+            $item->name = $form->name;
+        } else {
+            $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('xmppservice/operatorvalidator','Please enter name!');
+        }
+
+        if ( $form->hasValidData( 'processed' ) && $form->processed == true) {
+            $item->status = erLhcoreClassModelFBNotificationSchedule::STATUS_PROCESSED;
+        } else {
+            $item->status = erLhcoreClassModelFBNotificationSchedule::STATUS_PENDING;
+        }
+
+        if ( $form->hasValidData( 'start_at' ) && $form->start_at != '') {
+
+            $dateFormated = erLhcoreClassSearchHandler::formatDateToTimestamp($form->start_at);
+
+            if ($dateFormated != false) {
+                $item->start_at = $dateFormated;
+                $item->start_at_day = $form->start_at;
+            } else {
+                $Errors[] = erTranslationClassLhTranslation::getInstance()->getTranslation('xmppservice/operatorvalidator','Please enter start date!');
+            }
+        } else {
+            $Errors[] = erTranslationClassLhTranslation::getInstance()->getTranslation('xmppservice/operatorvalidator','Please enter start date!');
+        }
+
+        $appendHours = 0;
+        if ( $form->hasValidData( 'start_at_hours' )) {
+             $appendHours = 3600 * $form->start_at_hours;
+            $item->start_at_hour = $form->start_at_hours;
+        }
+
+        $appendMinutes = 0;
+        if ( $form->hasValidData( 'start_at_minutes' )) {
+            $appendMinutes = 60 * $form->start_at_minutes;
+            $item->start_at_minute = $form->start_at_minutes;
+        }
+
+        if ($item->start_at > 0) {
+            $item->start_at = $item->start_at + $appendHours + $appendMinutes;
+        }
+
+        if ( $form->hasValidData( 'interval' ) ) {
+            $item->interval = $form->interval;
+        } else {
+            $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('xmppservice/operatorvalidator','Please enter interval!');
+        }
+
+        if ( $form->hasValidData( 'amount' ) ) {
+            $item->amount = $form->amount;
+        } else {
+            $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('xmppservice/operatorvalidator','Please enter batch size!');
+        }
+
+        $filterArray = $item->filter_array;
+
+        if ( $form->hasValidData( 'filter_gender' ) && $form->filter_gender != '') {
+            $filterArray['gender'] = $form->filter_gender;
+        } else {
+            $filterArray['gender'] = '';
+        }
+
+        if ( $form->hasValidData( 'message' ) && $form->message != '' ) {
+            $item->message = $form->message;
+        } else {
+            $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('xmppservice/operatorvalidator','Please enter message!');
+        }
+
+        $item->filter = json_encode($filterArray);
+        $item->filter_array = $filterArray;
+
+        return $Errors;
+    }
+
     public static function validateBBCode(erLhcoreClassModelFBBBCode & $item)
     {
         $definition = array(
@@ -226,5 +338,29 @@ class erLhcoreClassFBValidator
         $item->configuration = json_encode($item->configuration_array);
 
         return $Errors;
+    }
+
+    public static function sendNotification($params = array())
+    {
+        $lead = erLhcoreClassModelFBLead::fetch($params['item']->lead_id);
+
+        if (is_object($lead->page)) {
+            $messenger = Tgallice\FBMessenger\Messenger::create($lead->page->page_token);
+
+            $messages = erLhcoreClassExtensionFbmessenger::parseMessageForFB($params['schedule']->message);
+
+            foreach ($messages as $msg) {
+                if ($msg !== null) {
+                    if ($lead->user_id == '1524304520946032') {
+                        $response = $messenger->sendMessage($lead->user_id, $msg);
+                        print_r($response);
+                    } else {
+                        throw new Exception('User id is not forbidden!');
+                    }
+                }
+            }
+        } else {
+            throw new Exception('Page could not be found!');
+        }
     }
 }

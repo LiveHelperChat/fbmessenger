@@ -11,6 +11,7 @@
     <table cellpadding="0" cellspacing="0" class="table" width="100%">
         <thead>
         <tr>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','ID');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Photo');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Page');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','User ID');?></th>
@@ -26,6 +27,7 @@
         </thead>
         <?php foreach ($items as $item) : ?>
             <tr>
+                <td><?php echo htmlspecialchars($item->id)?></td>
                 <td>
                     <?php if ($item->profile_pic != '') : ?>
                     <img class="img-responsive" width="60" src="<?php echo $item->profile_pic_front?>" />

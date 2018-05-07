@@ -27,6 +27,30 @@ $ViewList['options'] = array(
     'functions' => array('use_admin')
 );
 
+$ViewList['sendtestmessage'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('use_admin')
+);
+
+$ViewList['notifications'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('use_admin')
+);
+
+$ViewList['editnotification'] = array(
+    'params' => array('id'),
+    'uparams' => array(),
+    'functions' => array('use_admin')
+);
+
+$ViewList['newnotification'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('use_admin')
+);
+
 $ViewList['fblogout'] = array(
     'params' => array(),
     'uparams' => array(),
@@ -76,6 +100,12 @@ $ViewList['edit'] = array(
 );
 
 $ViewList['delete'] = array(
+    'params' => array('id'),
+    'uparams' => array('csfr'),
+    'functions' => array('use_admin'),
+);
+
+$ViewList['deletenotification'] = array(
     'params' => array('id'),
     'uparams' => array('csfr'),
     'functions' => array('use_admin'),

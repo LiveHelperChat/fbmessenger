@@ -249,13 +249,13 @@ class WebhookRequestHandler
      */
     private function isValidHubSignature()
     {
-    	if (isset($_SERVER['HTTP_X_HUB_SIGNATURE'])){
-	        $headers = array();
-	        $headers[] = $_SERVER['HTTP_X_HUB_SIGNATURE'];
-    	} else {
-        	$headers = $this->getRequest()->getHeader('X-Hub-Signature');
-    	}
-    	
+        if (isset($_SERVER['HTTP_X_HUB_SIGNATURE'])){
+            $headers = array();
+            $headers[] = $_SERVER['HTTP_X_HUB_SIGNATURE'];
+        } else {
+            $headers = $this->getRequest()->getHeader('X-Hub-Signature');
+        }
+
         if (empty($headers)) {
             return false;
         }

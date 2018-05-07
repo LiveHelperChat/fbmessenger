@@ -880,10 +880,14 @@ class erLhcoreClassExtensionFbmessenger {
 				'erLhcoreClassModelFBChat'  => 'extension/fbmessenger/classes/erlhcoreclassmodelfbchat.php',
 				'erLhcoreClassModelFBPage'  => 'extension/fbmessenger/classes/erlhcoreclassmodelfbpage.php',
 				'erLhcoreClassModelFBBBCode'=> 'extension/fbmessenger/classes/erlhcoreclassmodelfbbbcode.php',
-				'erLhcoreClassFBValidator'          => 'extension/fbmessenger/classes/erlhcoreclassfbvalidator.php',
-				'erLhcoreClassModelFBMessengerUser' => 'extension/fbmessenger/classes/erlhcoreclassmodelfbuser.php',
-				'erLhcoreClassModelMyFBPage'        => 'extension/fbmessenger/classes/erlhcoreclassmodelmyfbpage.php',
-				'erLhcoreClassModelFBLead'          => 'extension/fbmessenger/classes/erlhcoreclassmodelfblead.php'
+				'erLhcoreClassFBValidator'                          => 'extension/fbmessenger/classes/erlhcoreclassfbvalidator.php',
+				'erLhcoreClassModelFBMessengerUser'                 => 'extension/fbmessenger/classes/erlhcoreclassmodelfbuser.php',
+				'erLhcoreClassModelMyFBPage'                        => 'extension/fbmessenger/classes/erlhcoreclassmodelmyfbpage.php',
+				'erLhcoreClassModelFBLead'                          => 'extension/fbmessenger/classes/erlhcoreclassmodelfblead.php',
+				'erLhcoreClassModelFBNotificationSchedule'          => 'extension/fbmessenger/classes/erlhcoreclassmodelfbnotificationschedule.php',
+				'erLhcoreClassModelFBNotificationStatus'            => 'extension/fbmessenger/classes/erlhcoreclassmodelfbnotificationstatus.php',
+				'erLhcoreClassModelFBNotificationScheduleCampaign'  => 'extension/fbmessenger/classes/erlhcoreclassmodelfbnotificationschedulecampaign.php',
+				'erLhcoreClassModelFBNotificationScheduleItem'      => 'extension/fbmessenger/classes/erlhcoreclassmodelfbnotificationscheduleitem.php'
 		);
 
 		if (key_exists ( $className, $classesArray )) {

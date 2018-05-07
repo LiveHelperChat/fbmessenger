@@ -50,6 +50,15 @@ class erLhcoreClassModelFBLead
                     return $this->dep;
                 break;
 
+            case 'page':
+                    if ($this->type == 1) {
+                        $this->page = erLhcoreClassModelMyFBPage::findOne(array('filter' => array('page_id' => $this->page_id)));
+                    } else {
+                        $this->page = erLhcoreClassModelFBPage::fetch($this->page_id);
+                    }
+                    return $this->page;
+                break;
+
             case 'profile_pic_front':
                     $this->profile_pic_front = $this->profile_pic;
                     if ($this->profile_pic_updated < time()-5*24*3600) {
