@@ -113,7 +113,7 @@
 
     <div role="tabpanel" class="tab-pane" id="status">
 
-        <?php if ($item->id > 1) : $notificationsCampaigns = erLhcoreClassModelFBNotificationScheduleCampaign::getList(array('limit' => 5, 'filter' => array('schedule_id' => $item->id))); ?>
+        <?php if ($item->id > 0) : $notificationsCampaigns = erLhcoreClassModelFBNotificationScheduleCampaign::getList(array('limit' => 5, 'filter' => array('schedule_id' => $item->id))); ?>
 
         <?php if (count($notificationsCampaigns) > 0) : ?>
         <table class="table-bordered table-striped table-condensed" width="100%">
