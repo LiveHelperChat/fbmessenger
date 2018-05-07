@@ -21,6 +21,7 @@ class erLhcoreClassModelFBLead
             'last_name' => $this->last_name,
             'locale' => $this->locale,
             'timezone' => $this->timezone,
+            'blocked' => $this->blocked,
             'gender' => $this->gender,
             'email' => $this->email,
             'phone' => $this->phone,
@@ -129,6 +130,8 @@ class erLhcoreClassModelFBLead
     public $country = '';
 
     public $page_id = 0;
+    
+    public $blocked = 0;
 
     public $profile_pic_updated = 0;
 

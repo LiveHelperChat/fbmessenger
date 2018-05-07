@@ -362,11 +362,12 @@ class erLhcoreClassFBValidator
 
             foreach ($messages as $msg) {
                 if ($msg !== null) {
-                    if ($lead->user_id == '1524304520946032') {
+                    try {
                         $response = $messenger->sendMessage($lead->user_id, $msg);
-                        print_r($response);
-                    } else {
-                        throw new Exception('User id is not forbidden!');
+                    } catch (Exception $e) {
+                        $lead->blocked = 1;
+                        $lead->saveThis();
+                        throw $e;
                     }
                 }
             }

@@ -21,6 +21,7 @@ foreach ($scheduleCampaigns as $campaign) {
     $schedule = erLhcoreClassModelFBNotificationSchedule::fetch($campaign->schedule_id);
 
     $filter = $schedule->filter_array;
+    $filter['blocked'] = 0;
 
     $pageLimit = 50;
 

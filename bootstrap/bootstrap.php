@@ -643,7 +643,10 @@ class erLhcoreClassExtensionFbmessenger {
                             $lead->type = $page instanceof erLhcoreClassModelFBPage ? 0 : 1;
                             $lead->dep_id = $department->id;
                             $lead->saveThis();
-                         }
+                         } elseif ($lead->blocked == 1) {
+                            $lead->blocked = 0;
+                            $lead->saveThis();
+                        }
 
                         if (!isset($data['chat_attr']) || $data['chat_attr'] == 0) {
                             $nick = trim($profile->getFirstName() . ' ' . $profile->getLastName());

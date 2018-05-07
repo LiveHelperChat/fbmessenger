@@ -22,7 +22,7 @@
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Surname');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Locale');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Department');?></th>
-            <th width="1%"></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Status');?></th>
         </tr>
         </thead>
         <?php foreach ($items as $item) : ?>
@@ -44,6 +44,13 @@
                 <td><?php echo htmlspecialchars($item->last_name)?></td>
                 <td><?php echo htmlspecialchars($item->locale)?></td>
                 <td><?php echo htmlspecialchars($item->dep)?></td>
+                <td>
+                    <?php if ($item->blocked == 1) : ?>
+                        <i title="Blocked" class="material-icons chat-closed">&#xE14B;</i>
+                    <?php else : ?>
+                        <i title="Ok" class="material-icons chat-active">&#xE5CA;</i>
+                    <?php endif; ?>
+                </td>
             </tr>
         <?php endforeach; ?>
     </table>

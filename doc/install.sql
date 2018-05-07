@@ -44,6 +44,7 @@ CREATE TABLE `lhc_fbmessenger_lead` (
 `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 `type` tinyint(1) NOT NULL,
 `dep_id` int(11) NOT NULL,
+`blocked` tinyint(1) NOT NULL,
 `page_id` bigint(20) NOT NULL,
 `user_id` bigint(20) NOT NULL,
 `first_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -60,6 +61,8 @@ CREATE TABLE `lhc_fbmessenger_lead` (
 `ctime` int(11) NULL DEFAULT NULL,
 `is_payment_enabled` tinyint(1) NULL DEFAULT 0,
 PRIMARY KEY (`id`),
+KEY `dep_id` (`dep_id`),
+KEY `blocked` (`blocked`),
 UNIQUE KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 

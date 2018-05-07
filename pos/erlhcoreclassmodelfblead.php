@@ -19,6 +19,11 @@ $def->properties['is_payment_enabled']->columnName   = 'is_payment_enabled';
 $def->properties['is_payment_enabled']->propertyName = 'is_payment_enabled';
 $def->properties['is_payment_enabled']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
 
+$def->properties['blocked'] = new ezcPersistentObjectProperty();
+$def->properties['blocked']->columnName   = 'blocked';
+$def->properties['blocked']->propertyName = 'blocked';
+$def->properties['blocked']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
+
 $def->properties['first_name'] = new ezcPersistentObjectProperty();
 $def->properties['first_name']->columnName   = 'first_name';
 $def->properties['first_name']->propertyName = 'first_name';

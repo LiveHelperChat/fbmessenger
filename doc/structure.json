@@ -213,6 +213,14 @@
                 "extra": ""
             },
             {
+                "field": "blocked",
+                "type": "tinyint(1)",
+                "null": "NO",
+                "key": "",
+                "default": "0",
+                "extra": ""
+            },
+            {
                 "field": "profile_pic_updated",
                 "type": "int(11)",
                 "null": "NO",
@@ -342,14 +350,22 @@
     },  
     "tables_data": {    },
     "tables_data_identifier": {    },
-    "tables_indexes" : {    },
+    "tables_indexes" : {
+        "lhc_fbmessenger_lead" : {
+            "new" : {
+                "dep_id" : "ALTER TABLE `lhc_fbmessenger_lead` ADD INDEX `dep_id` (`dep_id`);",
+                "blocked" : "ALTER TABLE `lhc_fbmessenger_lead` ADD INDEX `blocked` (`blocked`);"
+            },
+            "old" : []
+        }
+    },
     "tables_create": {
     	"lhc_fbmessenger_chat" : "CREATE TABLE `lhc_fbmessenger_chat` (`id` bigint(20) NOT NULL AUTO_INCREMENT, `user_id` bigint(20) NOT NULL, `type` tinyint(1) NOT NULL DEFAULT '0', `recipient_user_id` bigint(20) NOT NULL, `page_id` bigint(20) NOT NULL, `chat_id` bigint(20) NOT NULL, `ctime` int(11) NOT NULL,  PRIMARY KEY (`id`),  KEY `user_id_recipient_user_id_page_id` (`user_id`,`recipient_user_id`, `page_id`),  KEY `chat_id` (`chat_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;",
     	"lhc_fbmessenger_page" : "CREATE TABLE `lhc_fbmessenger_page` (`id` bigint(20) NOT NULL AUTO_INCREMENT, `dep_id` int(11) NOT NULL, `verified` int(11) NOT NULL, `page_token` varchar(250) NOT NULL, `verify_token` varchar(250) NOT NULL, `app_secret` varchar(250) NOT NULL, `name` varchar(250) NOT NULL,  PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;",
     	"lhc_fbmessenger_bbcode" : "CREATE TABLE `lhc_fbmessenger_bbcode` (`id` bigint(20) NOT NULL AUTO_INCREMENT, `bbcode` varchar(50) NOT NULL, `name` varchar(50) NOT NULL, `configuration` text NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;",
         "lhc_fbmessenger_fbuser" : "CREATE TABLE `lhc_fbmessenger_fbuser` (`id` bigint(20) NOT NULL AUTO_INCREMENT, `user_id` int(11) NOT NULL, `fb_user_id` bigint(20) NOT NULL, `access_token` varchar(250) NOT NULL, PRIMARY KEY (`id`), KEY `user_id` (`user_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
         "lhc_fbmessenger_my_page" : "CREATE TABLE `lhc_fbmessenger_my_page` (`id` bigint(20) NOT NULL AUTO_INCREMENT, `page_id` bigint(20) NOT NULL, `access_token` varchar(250) NOT NULL, `enabled` int(11) NOT NULL, `dep_id` int(11) NOT NULL, PRIMARY KEY (`id`), KEY `page_id` (`page_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
-        "lhc_fbmessenger_lead" : "CREATE TABLE `lhc_fbmessenger_lead` ( `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,`type` tinyint(1) NOT NULL, `dep_id` int(11) NOT NULL, `page_id` bigint(20) NOT NULL, `user_id` bigint(20) NOT NULL, `first_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `last_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `profile_pic` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `profile_pic_updated` int(11) NOT NULL, `locale` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `timezone` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `gender` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `country` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `ctime` int(11) NULL DEFAULT NULL, `is_payment_enabled` tinyint(1) NULL DEFAULT 0, PRIMARY KEY (`id`), UNIQUE KEY `user_id` (`user_id`) ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
+        "lhc_fbmessenger_lead" : "CREATE TABLE `lhc_fbmessenger_lead` ( `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,`type` tinyint(1) NOT NULL, `dep_id` int(11) NOT NULL, `blocked` tinyint(1) NOT NULL, `page_id` bigint(20) NOT NULL, `user_id` bigint(20) NOT NULL, `first_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `last_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `profile_pic` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `profile_pic_updated` int(11) NOT NULL, `locale` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `timezone` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `gender` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `country` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `ctime` int(11) NULL DEFAULT NULL, `is_payment_enabled` tinyint(1) NULL DEFAULT 0, PRIMARY KEY (`id`), KEY `blocked` (`blocked`), KEY `dep_id` (`dep_id`), UNIQUE KEY `user_id` (`user_id`) ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
         "lhc_fbmessenger_notification_schedule" : "CREATE TABLE `lhc_fbmessenger_notification_schedule` ( `id` bigint(20) NOT NULL AUTO_INCREMENT, `filter` text NOT NULL, `name` varchar(50) NOT NULL, `message` text NOT NULL, `start_at` int(11) NOT NULL, `status` int(11) NOT NULL, `last_send` int(11) NOT NULL, `interval` int(11) NOT NULL, `amount` int(11) NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
         "lhc_fbmessenger_notification_schedule_campaign" : "CREATE TABLE `lhc_fbmessenger_notification_schedule_campaign` ( `id` bigint(20) NOT NULL AUTO_INCREMENT, `schedule_id` bigint(20) NOT NULL, `status` int(11) NOT NULL, `last_id` int(11) NOT NULL, `ctime` int(11) NOT NULL, `last_send` int(11) NOT NULL, PRIMARY KEY (`id`), KEY `schedule_id` (`schedule_id`)) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
         "lhc_fbmessenger_notification_schedule_item" : "CREATE TABLE `lhc_fbmessenger_notification_schedule_item` ( `id` bigint(20) NOT NULL AUTO_INCREMENT, `lead_id` bigint(20) NOT NULL, `status` int(11) NOT NULL, `log` text NOT NULL, `schedule_id` bigint(20) NOT NULL, `campaign_id` bigint(20) NOT NULL, `send_time` int(11) NOT NULL, PRIMARY KEY (`id`), KEY `campaign_id` (`campaign_id`), KEY `schedule_id` (`schedule_id`)) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;"
