@@ -79,6 +79,10 @@ class erLhcoreClassExtensionFbmessenger {
         $dispatcher->listen('elasticsearch.getpreviouschats', array(
             $this, 'getPreviousChatsFilter')
         );
+        
+        $dispatcher->listen('elasticsearch.getpreviouschats_abstract', array(
+            $this, 'getPreviousChatsFilter')
+        );
 
         // Handle canned messages custom workflow
         $dispatcher->listen('chat.canned_msg_before_save', array(
@@ -191,7 +195,9 @@ class erLhcoreClassExtensionFbmessenger {
 
         if (isset($chatVariables['fb_chat']) && $chatVariables['fb_chat'] == 1 && isset($chatVariables['fb_user_id']) && is_numeric($chatVariables['fb_user_id']))
         {
+            $params['sparams']['body']['query']['bool']['must'] = array();
             $params['sparams']['body']['query']['bool']['must'][]['term']['fb_user_id'] = (int)$chatVariables['fb_user_id'];
+            $params['sparams']['body']['query']['bool']['must'][]['range']['chat_id']['lt'] = $params['chat']->id;
         }
     }
 
