@@ -10,7 +10,7 @@ try {
     if (is_object($lead->page)) {
         $messenger = Tgallice\FBMessenger\Messenger::create($lead->page->page_token);
 
-        $messages = erLhcoreClassExtensionFbmessenger::parseMessageForFB($_POST['msg']);
+        $messages = erLhcoreClassExtensionFbmessenger::parseMessageForFB(str_replace(array('{first_name}','{last_name}'), array($lead->first_name,$lead->last_name), $_POST['msg']));
 
         foreach ($messages as $msg) {
             if ($msg !== null) {
