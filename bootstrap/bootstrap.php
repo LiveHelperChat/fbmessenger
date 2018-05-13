@@ -97,6 +97,14 @@ class erLhcoreClassExtensionFbmessenger {
             $this, 'cannedMessageReplace')
         );
 
+        $dispatcher->listen('elasticsearch.chatsearchattr', array(
+            $this, 'appendSearchAttr')
+        );
+
+        $dispatcher->listen('elasticsearch.chatsearchexecute',array(
+            $this, 'chatSearchExecute')
+        );
+
 	}
 
     // Always auto preload telegram chats
@@ -148,6 +156,31 @@ class erLhcoreClassExtensionFbmessenger {
                     $item->fallback_msg = $additionalData['fallback_fb'];
                 }
             }
+        }
+    }
+
+    public static function appendSearchAttr($params)
+    {
+        $extFb = erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger');
+
+        $params['attr']['filterAttributes'][$extFb->settings['elastic_search']['search_attr']] = array (
+            'type' => 'text',
+            'required' => false,
+            'valid_if_filled' => false,
+            'filter_type' => 'filter',
+            'filter_table_field' => $extFb->settings['elastic_search']['search_attr'],
+            'validation_definition' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'int', array( 'min_range' => 1)
+            )
+        );
+    }
+
+    public static function chatSearchExecute($params)
+    {
+        $extFb = erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger');
+
+        if ($params['filter']['input_form']->{$extFb->settings['elastic_search']['search_attr']} == 1) {
+            $params['sparams']['body']['query']['bool']['must'][]['range']['fb_user_id']['gt'] = 0;
         }
     }
 
