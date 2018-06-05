@@ -21,7 +21,7 @@ class erLhcoreClassModelFBPage
         	'verify_token' => $this->verify_token,
         	'app_secret' => $this->app_secret,
         	'name' => $this->name,
-        	'verified' => $this->verified, 
+        	'verified' => $this->verified,
             'bot_disabled' => $this->bot_disabled
         );
     }
