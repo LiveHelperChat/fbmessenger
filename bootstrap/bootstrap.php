@@ -105,7 +105,28 @@ class erLhcoreClassExtensionFbmessenger {
             $this, 'chatSearchExecute')
         );
 
+        // Bot related callbacks
+        $dispatcher->listen('chat.genericbot_set_bot',array(
+                $this, 'allowSetBot')
+        );
 	}
+
+    public static function allowSetBot($params)
+    {
+        $chat = $params['chat'];
+
+        $variablesArray = $chat->chat_variables_array;
+
+        //if (isset($variablesArray['fb_chat']) && is_numeric($variablesArray['fb_chat'])) {
+
+            $tOptions = \erLhcoreClassModelChatConfig::fetch('fbmessenger_options');
+            $data = (array)$tOptions->data;
+
+            if (isset($data['block_bot']) && $data['block_bot'] == 1) {
+                return array('status' => erLhcoreClassChatEventDispatcher::STOP_WORKFLOW);
+            }
+        //}
+    }
 
     // Always auto preload telegram chats
     public function autoPreload($params) {
@@ -780,7 +801,10 @@ class erLhcoreClassExtensionFbmessenger {
 				$chat->last_msg_id = $msg->id;
 				$chat->last_user_msg_time = $msg->time;
 				$chat->saveThis ();
-				
+
+				// Set bot
+				erLhcoreClassChatValidator::setBot($chat);
+
 				/**
 				 * Execute standard callback as chat was started
 				 */
