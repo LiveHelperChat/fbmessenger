@@ -117,7 +117,7 @@ class erLhcoreClassExtensionFbmessenger {
 
         $variablesArray = $chat->chat_variables_array;
 
-        //if (isset($variablesArray['fb_chat']) && is_numeric($variablesArray['fb_chat'])) {
+        if (isset($variablesArray['fb_chat']) && is_numeric($variablesArray['fb_chat'])) {
 
             $tOptions = \erLhcoreClassModelChatConfig::fetch('fbmessenger_options');
             $data = (array)$tOptions->data;
@@ -125,7 +125,7 @@ class erLhcoreClassExtensionFbmessenger {
             if (isset($data['block_bot']) && $data['block_bot'] == 1) {
                 return array('status' => erLhcoreClassChatEventDispatcher::STOP_WORKFLOW);
             }
-        //}
+        }
     }
 
     // Always auto preload telegram chats
