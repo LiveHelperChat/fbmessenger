@@ -63,6 +63,12 @@ $ViewList['myfbpages'] = array(
     'functions' => array('use_admin'),
 );
 
+$ViewList['disablebot'] = array(
+    'params' => array('page_id','status'),
+    'uparams' => array(),
+    'functions' => array('use_admin'),
+);
+
 $ViewList['fbcallback'] = array(
     'params' => array(),
     'uparams' => array(),

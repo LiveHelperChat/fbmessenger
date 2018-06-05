@@ -603,6 +603,7 @@ class erLhcoreClassExtensionFbmessenger {
 
 		$page = $this->getPage();
         $pageId = $page instanceof erLhcoreClassModelFBPage ? $page->id : $page->page_id;
+        $botDisabled = $page->bot_disabled;
 
 		$fbChat = erLhcoreClassModelFBChat::findOne ( array (
 				'filter' => array (
@@ -802,15 +803,18 @@ class erLhcoreClassExtensionFbmessenger {
 				$chat->last_user_msg_time = $msg->time;
 				$chat->saveThis ();
 
-				// Set bot
-				erLhcoreClassChatValidator::setBot($chat);
+				if ($botDisabled == 0) {
+                    // Set bot
+                    erLhcoreClassChatValidator::setBot($chat);
+                }
 
 				/**
 				 * Execute standard callback as chat was started
 				 */
 				erLhcoreClassChatEventDispatcher::getInstance ()->dispatch ( 'chat.chat_started', array (
 						'chat' => & $chat,
-						'msg' => $msg 
+						'msg' => $msg,
+                        'bot_disabled' => $botDisabled == 1
 				) );
 				
 				$db->commit();

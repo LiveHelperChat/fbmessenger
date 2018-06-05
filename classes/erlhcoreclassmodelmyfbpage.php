@@ -20,6 +20,7 @@ class erLhcoreClassModelMyFBPage
             'access_token' => $this->access_token,
             'enabled' => $this->enabled,
             'dep_id' => $this->dep_id,
+            'bot_disabled' => $this->bot_disabled,
         );
     }
 
@@ -76,6 +77,8 @@ class erLhcoreClassModelMyFBPage
     public $access_token = null;
 
     public $enabled = null;
+
+    public $bot_disabled = 0;
 }
 
 ?>

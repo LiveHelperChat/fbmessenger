@@ -20,6 +20,9 @@ class erLhcoreClassFBValidator
                 'verified' => new ezcInputFormDefinitionElement(
                     ezcInputFormDefinitionElement::OPTIONAL, 'boolean'
                 ),
+                'bot_disabled' => new ezcInputFormDefinitionElement(
+                    ezcInputFormDefinitionElement::OPTIONAL, 'boolean'
+                ),
                 'dep_id' => new ezcInputFormDefinitionElement(
                     ezcInputFormDefinitionElement::OPTIONAL, 'int', array('min_range' => 1)
                 )
@@ -68,6 +71,13 @@ class erLhcoreClassFBValidator
                 $item->verified = 1;
             } else {
                 $item->verified = 0;
+            }
+
+            if ( $form->hasValidData( 'bot_disabled' ) && $form->bot_disabled == true)
+            {
+                $item->bot_disabled = 1;
+            } else {
+                $item->bot_disabled = 0;
             }
 
             return $Errors;        

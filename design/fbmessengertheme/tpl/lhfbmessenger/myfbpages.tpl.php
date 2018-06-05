@@ -1,6 +1,6 @@
 <table class="table">
     <thead>
-    <th colspan="2">Page</th>
+        <th colspan="3">Page</th>
     </thead>
     <?php foreach ($pages['data'] as $page) : ?>
         <tr>
@@ -23,6 +23,11 @@
                         <?php endif; ?>
                     </div>
                 </div>
+            </td>
+            <td width="1%" style="white-space: nowrap">
+                <?php if (isset($current_pages[$page['id']])) : ?>
+                    <input type="checkbox" onchange="$.get(WWW_DIR_JAVASCRIPT  +'fbmessenger/disablebot/<?php echo $current_pages[$page['id']]->id?>/' + $(this).is(':checked'), function(data) {});" name="bot_disabled" <?php $current_pages[$page['id']]->bot_disabled == 1 ? print 'checked="checked"' : '' ?> > Bot disabled
+                <?php endif; ?>
             </td>
             <td width="99%" nowrap="nowrap">
                 <?php echo htmlspecialchars($page['name'])?>

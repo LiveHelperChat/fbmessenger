@@ -35,6 +35,7 @@ CREATE TABLE `lhc_fbmessenger_my_page` (
 `page_id` bigint(20) NOT NULL,
 `access_token` varchar(250) NOT NULL,
 `enabled` int(11) NOT NULL,
+`bot_disabled` tinyint(1) NOT NULL,
 `dep_id` int(11) NOT NULL,
 PRIMARY KEY (`id`),
 KEY `page_id` (`page_id`)

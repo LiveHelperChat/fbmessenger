@@ -29,6 +29,11 @@ $def->properties['dep_id']->columnName   = 'dep_id';
 $def->properties['dep_id']->propertyName = 'dep_id';
 $def->properties['dep_id']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
 
+$def->properties['bot_disabled'] = new ezcPersistentObjectProperty();
+$def->properties['bot_disabled']->columnName   = 'bot_disabled';
+$def->properties['bot_disabled']->propertyName = 'bot_disabled';
+$def->properties['bot_disabled']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
+
 return $def;
 
 ?>
