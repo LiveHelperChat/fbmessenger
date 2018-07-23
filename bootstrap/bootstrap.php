@@ -411,7 +411,9 @@ class erLhcoreClassExtensionFbmessenger {
 	    
 	    // Allow extensions to preparse send message
 	    erLhcoreClassChatEventDispatcher::getInstance()->dispatch('fbmessenger.before_parse_send', array('msg' => & $ret));
-	    
+
+        $ret = str_replace(array('[list]','[/list]','[*]','[b]','[/b]','[i]','[/i]','[u]','[/u]','[s]','[/s]'),array('','','','','','','','','','',''),$ret);
+
 	    preg_match_all('/\[img\](.*?)\[\/img\]/ms', $ret, $matches);
 	    
 	    // Parse Images
