@@ -75,6 +75,18 @@ $ViewList['fbcallback'] = array(
     'functions' => array('use_admin'),
 );
 
+$ViewList['fbcallbackinstance'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array(),
+);
+
+$ViewList['fblogininstance'] = array(
+    'params' => array('id','uid','time','hash'),
+    'uparams' => array(),
+    'functions' => array(),
+);
+
 $ViewList['index'] = array(
     'params' => array(),
     'uparams' => array(),
