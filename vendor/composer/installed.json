@@ -1,17 +1,17 @@
 [
     {
         "name": "facebook/graph-sdk",
-        "version": "5.6.2",
-        "version_normalized": "5.6.2.0",
+        "version": "5.7.0",
+        "version_normalized": "5.7.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/facebook/php-graph-sdk.git",
-            "reference": "030f8c5b9b1a6c09e71719fd638b66ea4daa2f10"
+            "reference": "2d8250638b33d73e7a87add65f47fabf91f8ad9b"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/facebook/php-graph-sdk/zipball/030f8c5b9b1a6c09e71719fd638b66ea4daa2f10",
-            "reference": "030f8c5b9b1a6c09e71719fd638b66ea4daa2f10",
+            "url": "https://api.github.com/repos/facebook/php-graph-sdk/zipball/2d8250638b33d73e7a87add65f47fabf91f8ad9b",
+            "reference": "2d8250638b33d73e7a87add65f47fabf91f8ad9b",
             "shasum": ""
         },
         "require": {
@@ -26,7 +26,7 @@
             "guzzlehttp/guzzle": "Allows for implementation of the Guzzle HTTP client",
             "paragonie/random_compat": "Provides a better CSPRNG option in PHP 5"
         },
-        "time": "2018-02-14T23:24:51+00:00",
+        "time": "2018-12-11T22:56:31+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -181,34 +181,35 @@
     },
     {
         "name": "guzzlehttp/psr7",
-        "version": "1.4.2",
-        "version_normalized": "1.4.2.0",
+        "version": "1.5.2",
+        "version_normalized": "1.5.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/guzzle/psr7.git",
-            "reference": "f5b8a8512e2b58b0071a7280e39f14f72e05d87c"
+            "reference": "9f83dded91781a01c63574e387eaa769be769115"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/guzzle/psr7/zipball/f5b8a8512e2b58b0071a7280e39f14f72e05d87c",
-            "reference": "f5b8a8512e2b58b0071a7280e39f14f72e05d87c",
+            "url": "https://api.github.com/repos/guzzle/psr7/zipball/9f83dded91781a01c63574e387eaa769be769115",
+            "reference": "9f83dded91781a01c63574e387eaa769be769115",
             "shasum": ""
         },
         "require": {
             "php": ">=5.4.0",
-            "psr/http-message": "~1.0"
+            "psr/http-message": "~1.0",
+            "ralouphie/getallheaders": "^2.0.5"
         },
         "provide": {
             "psr/http-message-implementation": "1.0"
         },
         "require-dev": {
-            "phpunit/phpunit": "~4.0"
+            "phpunit/phpunit": "~4.8.36 || ^5.7.27 || ^6.5.8"
         },
-        "time": "2017-03-20T17:10:46+00:00",
+        "time": "2018-12-04T20:46:45+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.4-dev"
+                "dev-master": "1.5-dev"
             }
         },
         "installation-source": "dist",
@@ -239,6 +240,7 @@
         "keywords": [
             "http",
             "message",
+            "psr-7",
             "request",
             "response",
             "stream",
@@ -299,18 +301,60 @@
         ]
     },
     {
-        "name": "symfony/event-dispatcher",
-        "version": "v3.4.8",
-        "version_normalized": "3.4.8.0",
+        "name": "ralouphie/getallheaders",
+        "version": "2.0.5",
+        "version_normalized": "2.0.5.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/symfony/event-dispatcher.git",
-            "reference": "fdd5abcebd1061ec647089c6c41a07ed60af09f8"
+            "url": "https://github.com/ralouphie/getallheaders.git",
+            "reference": "5601c8a83fbba7ef674a7369456d12f1e0d0eafa"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/fdd5abcebd1061ec647089c6c41a07ed60af09f8",
-            "reference": "fdd5abcebd1061ec647089c6c41a07ed60af09f8",
+            "url": "https://api.github.com/repos/ralouphie/getallheaders/zipball/5601c8a83fbba7ef674a7369456d12f1e0d0eafa",
+            "reference": "5601c8a83fbba7ef674a7369456d12f1e0d0eafa",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~3.7.0",
+            "satooshi/php-coveralls": ">=1.0"
+        },
+        "time": "2016-02-11T07:05:27+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "src/getallheaders.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Ralph Khattar",
+                "email": "ralph.khattar@gmail.com"
+            }
+        ],
+        "description": "A polyfill for getallheaders."
+    },
+    {
+        "name": "symfony/event-dispatcher",
+        "version": "v3.4.20",
+        "version_normalized": "3.4.20.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/event-dispatcher.git",
+            "reference": "cc35e84adbb15c26ae6868e1efbf705a917be6b5"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/cc35e84adbb15c26ae6868e1efbf705a917be6b5",
+            "reference": "cc35e84adbb15c26ae6868e1efbf705a917be6b5",
             "shasum": ""
         },
         "require": {
@@ -330,7 +374,7 @@
             "symfony/dependency-injection": "",
             "symfony/http-kernel": ""
         },
-        "time": "2018-04-06T07:35:25+00:00",
+        "time": "2018-11-30T18:07:24+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -365,28 +409,28 @@
     },
     {
         "name": "symfony/polyfill-php56",
-        "version": "v1.7.0",
-        "version_normalized": "1.7.0.0",
+        "version": "v1.10.0",
+        "version_normalized": "1.10.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/polyfill-php56.git",
-            "reference": "ebc999ce5f14204c5150b9bd15f8f04e621409d8"
+            "reference": "ff208829fe1aa48ab9af356992bb7199fed551af"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/polyfill-php56/zipball/ebc999ce5f14204c5150b9bd15f8f04e621409d8",
-            "reference": "ebc999ce5f14204c5150b9bd15f8f04e621409d8",
+            "url": "https://api.github.com/repos/symfony/polyfill-php56/zipball/ff208829fe1aa48ab9af356992bb7199fed551af",
+            "reference": "ff208829fe1aa48ab9af356992bb7199fed551af",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.3",
             "symfony/polyfill-util": "~1.0"
         },
-        "time": "2018-01-30T19:27:44+00:00",
+        "time": "2018-09-21T06:26:08+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.7-dev"
+                "dev-master": "1.9-dev"
             }
         },
         "installation-source": "dist",
@@ -423,27 +467,27 @@
     },
     {
         "name": "symfony/polyfill-util",
-        "version": "v1.7.0",
-        "version_normalized": "1.7.0.0",
+        "version": "v1.10.0",
+        "version_normalized": "1.10.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/polyfill-util.git",
-            "reference": "e17c808ec4228026d4f5a8832afa19be85979563"
+            "reference": "3b58903eae668d348a7126f999b0da0f2f93611c"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/polyfill-util/zipball/e17c808ec4228026d4f5a8832afa19be85979563",
-            "reference": "e17c808ec4228026d4f5a8832afa19be85979563",
+            "url": "https://api.github.com/repos/symfony/polyfill-util/zipball/3b58903eae668d348a7126f999b0da0f2f93611c",
+            "reference": "3b58903eae668d348a7126f999b0da0f2f93611c",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.3"
         },
-        "time": "2018-01-31T18:08:44+00:00",
+        "time": "2018-09-30T16:36:12+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.7-dev"
+                "dev-master": "1.9-dev"
             }
         },
         "installation-source": "dist",

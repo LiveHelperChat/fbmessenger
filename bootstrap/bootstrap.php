@@ -682,7 +682,7 @@ class erLhcoreClassExtensionFbmessenger {
 
 
 				if ($page->verified == true)
-				{				
+				{
 				    try {
         				$messenger = Tgallice\FBMessenger\Messenger::create($this->getPage()->page_token);				
         				$profile = $messenger->getUserProfile($eventMessage->getSenderId());
@@ -700,7 +700,7 @@ class erLhcoreClassExtensionFbmessenger {
                             $lead->locale = $profile->getLocale();
                             $lead->timezone = $profile->getTimezone();
                             $lead->gender = $profile->getGender();
-                            $lead->is_payment_enabled = $profile->isPaymentEnabled();
+                            $lead->is_payment_enabled = 0;
                             $lead->ctime = time();
                             $lead->page_id = $pageId;
                             $lead->type = $page instanceof erLhcoreClassModelFBPage ? 0 : 1;

@@ -78,7 +78,7 @@ class UserProfile
      */
     public function isPaymentEnabled()
     {
-        return (bool) $this->get(self::PAYMENT_ENABLED);
+        return (bool) false;//$this->get(self::PAYMENT_ENABLED);  
     }
 
     private function get($index)
