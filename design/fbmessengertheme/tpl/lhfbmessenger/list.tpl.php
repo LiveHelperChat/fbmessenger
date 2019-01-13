@@ -2,7 +2,7 @@
 
 <?php if (isset($items)) : ?>
 
-<table cellpadding="0" cellspacing="0" class="table" width="100%">
+<table cellpadding="0" cellspacing="0" class="table table-sm" width="100%">
 <thead>
     <tr>   
         <th width="1%">ID</th>
@@ -20,7 +20,7 @@
         <td><?php if ($item->verified == 1) : ?>Yes<?php else : ?>No<?php endif;?></td>
         <td nowrap>
           <div class="btn-group" role="group" aria-label="..." style="width:60px;">
-            <a class="btn btn-default btn-xs" href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/edit')?>/<?php echo $item->id?>" ><i class="material-icons mr-0">&#xE254;</i></a>
+            <a class="btn btn-secondary btn-xs" href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/edit')?>/<?php echo $item->id?>" ><i class="material-icons mr-0">&#xE254;</i></a>
             <a class="btn btn-danger btn-xs csfr-required" onclick="return confirm('<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('kernel/messages','Are you sure?');?>')" href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/delete')?>/<?php echo $item->id?>" ><i class="material-icons mr-0">&#xE872;</i></a>
           </div>
         </td>
@@ -36,4 +36,4 @@
 
 <?php endif;?>
 
-<a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/new')?>" class="btn btn-default"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Register new page');?></a>
+<a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/new')?>" class="btn btn-secondary"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Register new page');?></a>

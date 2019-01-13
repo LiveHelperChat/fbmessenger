@@ -1,1 +1,1 @@
-<li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/index')?>"><i class="material-icons">comment</i><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('pagelayout/pagelayout','Facebook chat');?></a></li>
+<li class="nav-item"><a class="nav-link" href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/index')?>"><i class="material-icons">comment</i><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('pagelayout/pagelayout','Facebook chat');?></a></li>

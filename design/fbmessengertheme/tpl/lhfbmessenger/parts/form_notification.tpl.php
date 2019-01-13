@@ -55,7 +55,7 @@
 
 <hr>
 <div class="row">
-    <div class="col-xs-6">
+    <div class="col-6">
         <div class="form-group">
             <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Gender');?></label>
             <select name="filter_gender" class="form-control">
@@ -65,7 +65,7 @@
             </select>
         </div>
     </div>
-    <div class="col-xs-6">
+    <div class="col-6">
         <div class="form-group">
             <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Department');?></label>
             <?php echo erLhcoreClassRenderHelper::renderCombobox(array(
@@ -86,21 +86,21 @@
 
 
 <ul class="nav nav-pills" role="tablist">
-    <li role="presentation" class="active" ><a href="#message" aria-controls="message" role="tab" data-toggle="tab"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Message');?></a></li>
-    <li role="presentation"><a href="#status" aria-controls="status" role="tab" data-toggle="tab"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Status');?></a></li>
+    <li role="presentation" class="nav-item"><a class="active nav-link" href="#message" aria-controls="message" role="tab" data-toggle="tab"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Message');?></a></li>
+    <li role="presentation" class="nav-item"><a class="nav-link" href="#status" aria-controls="status" role="tab" data-toggle="tab"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Status');?></a></li>
 </ul>
 
 <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="message">
 
         <div class="row">
-            <div class="col-xs-6">
+            <div class="col-6">
                 <div class="form-group">
                     <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Message');?></label>
                     <textarea name="message" id="message-text" class="form-control"><?php echo htmlspecialchars($item->message)?></textarea>
                 </div>
             </div>
-            <div class="col-xs-6">
+            <div class="col-6">
                 <div id="status-test-send"></div>
                 <div class="form-group">
                     <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Lead ID');?></label>

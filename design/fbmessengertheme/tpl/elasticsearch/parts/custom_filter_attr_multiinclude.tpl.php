@@ -1,4 +1,4 @@
-<div class="col-xs-2">
+<div class="col-2">
     <div class="form-group">
         <label>Facebook chat</label>
         <?php $extFb = erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger'); ?>

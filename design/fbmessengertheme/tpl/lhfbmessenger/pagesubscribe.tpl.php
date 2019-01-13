@@ -16,4 +16,4 @@
     <?php include(erLhcoreClassDesign::designtpl('lhkernel/validation_error.tpl.php'));?>
 <?php endif; ?>
 
-<a class="btn btn-default" href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/myfbpages')?>">My pages</a>
+<a class="btn btn-secondary" href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/myfbpages')?>">My pages</a>
