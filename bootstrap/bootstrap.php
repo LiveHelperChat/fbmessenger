@@ -446,15 +446,9 @@ class erLhcoreClassExtensionFbmessenger {
 	        list($fileID,$hash) = explode('_',$fileKey);
 	        try {
 	            $file = erLhcoreClassModelChatFile::fetch($fileID);
-	        
-	            // AWS plugin changes file name, but we always use original name
-	            $parts = explode('/', $file->name);
-	            end($parts);
-	            $name = end($parts);
-	            	
+
 	            // Check that user has permission to see the chat. Let say if user purposely types file bbcode
-	            if ($hash == md5($name.'_'.$file->chat_id)) {
-	                $hash = md5($file->name.'_'.$file->chat_id);
+	            if ($hash == $file->security_hash) {
 	                
 	                $elements = [
                         new Tgallice\FBMessenger\Model\Button\WebUrl(erTranslationClassLhTranslation::getInstance()->getTranslation('file/file','Download'), 'https://chat.segwaydiscovery.com' . erLhcoreClassDesign::baseurl('file/downloadfile')."/{$file->id}/{$hash}" )
