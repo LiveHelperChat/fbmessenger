@@ -792,7 +792,8 @@ class erLhcoreClassExtensionFbmessenger {
 				$msg->chat_id = $chat->id;
 				$msg->user_id = 0;
 				$msg->time = time ();
-				
+
+
 				erLhcoreClassChat::getSession ()->save ( $msg );
 				
 				$chat->last_msg_id = $msg->id;
@@ -802,6 +803,7 @@ class erLhcoreClassExtensionFbmessenger {
 				if ($botDisabled == 0) {
                     // Set bot
                     erLhcoreClassChatValidator::setBot($chat);
+                    $this->sendBotResponse($chat, $msg);
                 }
 
 				/**
@@ -888,7 +890,9 @@ class erLhcoreClassExtensionFbmessenger {
 				$chat->saveThis ();		
 				
 				$db->commit();
-				
+
+				$this->sendBotResponse($chat, $msg);
+
 				erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.messages_added_passive',array('chat' => & $chat, 'msg' => & $msg));
 
 				erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.messages_added_fb',array('chat' => & $chat, 'msg' => & $msg));
@@ -920,7 +924,25 @@ class erLhcoreClassExtensionFbmessenger {
 			}
 		}
 	}
-	
+
+    public function sendBotResponse($chat, $msg) {
+        if ($chat->gbot_id > 0 && (!isset($chat->chat_variables_array['gbot_disabled']) || $chat->chat_variables_array['gbot_disabled'] == 0)) {
+
+            $chat->refreshThis();
+
+            \erLhcoreClassGenericBotWorkflow::userMessageAdded($chat, $msg);
+
+            // Find a new messages
+            $botMessages = \erLhcoreClassModelmsg::getList(array('filter' => array('user_id' => -2, 'chat_id' => $chat->id), 'filtergt' => array('id' => $msg->id)));
+            foreach ($botMessages as $botMessage) {
+                \erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.web_add_msg_admin', array(
+                    'chat' => & $chat,
+                    'msg' => $botMessage
+                ));
+            }
+        }
+    }
+
 	public function deleteChat($params)
 	{
 	    $fbChat = erLhcoreClassModelFBChat::findOne ( array (
