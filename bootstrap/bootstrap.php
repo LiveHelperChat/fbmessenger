@@ -367,7 +367,7 @@ class erLhcoreClassExtensionFbmessenger {
                     if ($this->getPage()->verified == 1) {
                         $messenger = Tgallice\FBMessenger\Messenger::create($this->getPage()->page_token);
 
-                        $messages = self::parseMessageForFB($params['msg']->msg);
+                        $messages = self::parseMessageForFB($params['msg']->msg, $params['msg']->meta_msg_array, $params['msg']->id, array('messenger' => $messenger, 'chat' => $chat));
 
                         foreach ($messages as $msg) {
                             if ($msg !== null) {
@@ -405,7 +405,7 @@ class erLhcoreClassExtensionFbmessenger {
 	 * 
 	 * @return multitype:\Tgallice\FBMessenger\Model\Message Ambigous <\Tgallice\FBMessenger\Model\Attachment\Image>
 	 */
-	public static function parseMessageForFB($ret)
+	public static function parseMessageForFB($ret, $metaMessageData = array(), $messageId = 0, $paramsExecution = array())
 	{	    
 	    $matches = array();
 	    
@@ -569,23 +569,106 @@ class erLhcoreClassExtensionFbmessenger {
             }
         }
 
-
-	    $parts = explode('[split_img]', $ret);
+        $parts = explode('[split_img]', $ret);
 
 	    $messages = array();
 
-	    // Keep messages order as it was
-	    foreach ($parts as $key => $part)
-	    {
-	        if (!empty(trim($part))) {
-	            $messages[] = new Tgallice\FBMessenger\Model\Message($part);
-	        }
+	    if (!isset($metaMessageData['content']['quick_replies']) && !isset($metaMessageData['content']['buttons_generic']) && !isset($metaMessageData['content']['buttons_generic']))
+        {
+            // Keep messages order as it was
+            foreach ($parts as $key => $part)
+            {
+                if (!empty(trim($part))) {
+                    $messages[] = new Tgallice\FBMessenger\Model\Message($part);
+                }
 
-	        if (isset($imagesAttatchements[$key])) {
-	            $messages[] = $imagesAttatchements[$key];
-	        }       
-	    }
-	    
+                if (isset($imagesAttatchements[$key])) {
+                    $messages[] = $imagesAttatchements[$key];
+                }
+            }
+        }
+
+	    /**
+	     * Over time we should add more element to supported list.
+         */
+        if (is_array($metaMessageData) && !isset($metaMessageData['processed']) || $metaMessageData['processed'] == false) {
+            if (isset($metaMessageData['content']) && is_array($metaMessageData['content']) && !empty($metaMessageData['content'])) {
+                foreach ($metaMessageData['content'] as $type => $metaMessage) {
+                    if ($type == 'quick_replies' && (!isset($messagesStats) || $messagesStats['total_messages'] == $messagesStats['counter_messages'])) {
+
+                        $elements = [];
+                        foreach ($metaMessage as $item) {
+                            $disabledButton = isset($item['content']['disabled']) && $item['content']['disabled'] == true;
+                            if ($disabledButton == false) {
+                                if ($item['type'] == 'url') {
+                                    $elements[] = new Tgallice\FBMessenger\Model\QuickReply\Text($item['content']['name'], $item['content']['payload']);
+                                } elseif ($item['type'] == 'trigger') {
+                                    $elements[] = new Tgallice\FBMessenger\Model\QuickReply\Text($item['content']['name'], 'trigger__'.$item['content']['payload']. '__' . md5($item['content']['name']) . '__' . $messageId );
+                                } elseif ($item['type'] == 'updatechat') {
+                                    // This scenario is not supported in general
+                                } else {
+                                    $elements[] = new Tgallice\FBMessenger\Model\QuickReply\Text($item['content']['name'], 'bpayload__'.$item['content']['payload']. '__' . md5($item['content']['name']) . '__' . $messageId );
+                                }
+                            }
+                       }
+
+                       $messageReply = new Tgallice\FBMessenger\Model\Message($ret);
+                       $messageReply->setQuickReplies($elements);
+
+                       $messages[] = $messageReply;
+
+                    } elseif ($type == 'dropdown' && (!isset($messagesStats) || $messagesStats['total_messages'] == $messagesStats['counter_messages'])) {
+                        // @todo to implement
+                    } elseif ($type == 'buttons' && (!isset($messagesStats) || $messagesStats['total_messages'] == $messagesStats['counter_messages'])) {
+                        // @todo to implement
+                    } elseif ($type == 'custom' && (!isset($messagesStats) || $messagesStats['total_messages'] == $messagesStats['counter_messages'])) {
+                        // @todo to implement
+                    } elseif ($type == 'collected_summary') {
+                        // @todo to implement
+                    } elseif ($type == 'buttons_generic') {
+                        $elements = [];
+                        foreach ($metaMessage as $item) {
+                            $disabledButton = isset($item['content']['disabled']) && $item['content']['disabled'] == true;
+                            if ($disabledButton == false) {
+                                if ($item['type'] == 'url') {
+                                    $elements[] = new Tgallice\FBMessenger\Model\Button\WebUrl($item['content']['name'], $item['content']['payload']);
+                                } elseif ($item['type'] == 'trigger') {
+                                    $elements[] = new Tgallice\FBMessenger\Model\Button\Postback($item['content']['name'], 'trigger__'.$item['content']['payload']. '__' . md5($item['content']['name']) . '__' . $messageId );
+                                } elseif ($item['type'] == 'updatechat') {
+                                    // This scenario is not supported in general
+                                } else {
+                                    $elements[] = new Tgallice\FBMessenger\Model\Button\Postback($item['content']['name'], 'bpayload__'.$item['content']['payload']. '__' . md5($item['content']['name']) . '__' . $messageId );
+                                }
+                            }
+                        }
+                        $messages[] = new Tgallice\FBMessenger\Model\Attachment\Template\Button('rest', $elements);
+                    } elseif ($type == 'generic') {
+                        // @todo implement
+                    } elseif ($type == 'list') {
+                        // @todo implement
+                    } elseif ($type == 'typing') {
+                        $paramsExecution['messenger']->setTypingStatus($paramsExecution['chat']->user_id, \Tgallice\FBMessenger\TypingIndicator::TYPING_ON);
+                        sleep(isset($metaMessage['duration']) && $metaMessage['duration'] < 7 ? (int)$metaMessage['duration'] : 3);
+                        $paramsExecution['messenger']->setTypingStatus($paramsExecution['chat']->user_id, \Tgallice\FBMessenger\TypingIndicator::TYPING_OFF);
+                    } elseif ($type == 'progress') {
+                        //<?php include(erLhcoreClassDesign::designtpl('lhgenericbot/message/content/progress.tpl.php'));
+                    } elseif ($type == 'html') {
+                        //<?php include(erLhcoreClassDesign::designtpl('lhgenericbot/message/content/html.tpl.php'));
+                    } elseif ($type == 'html_snippet') {
+                        //<?php include(erLhcoreClassDesign::designtpl('lhgenericbot/message/content/html_snippet.tpl.php'));
+                    } elseif ($type == 'execute_js') {
+                        //<?php include(erLhcoreClassDesign::designtpl('lhgenericbot/message/content/execute_js.tpl.php'));
+                    } elseif ($type == 'video') {
+                        //<?php include(erLhcoreClassDesign::designtpl('lhgenericbot/message/content/video.tpl.php'));
+                    } elseif ($type == 'text_conditional') {
+                        // <?php include(erLhcoreClassDesign::designtpl('lhgenericbot/message/content/text_conditional.tpl.php'));
+                    } elseif ($type == 'attr_options' && (!isset($messagesStats) || $messagesStats['total_messages'] == $messagesStats['counter_messages'])) {
+                        //  <?php include(erLhcoreClassDesign::designtpl('lhgenericbot/message/content/attr_options.tpl.php'));
+                    }
+                }
+            }
+        }
+
 	    return $messages;
 	}
 
@@ -630,10 +713,22 @@ class erLhcoreClassExtensionFbmessenger {
                     $chat->priority = isset($data['priority']) ? (int)$data['priority'] : 0;
                 }
 
-                $chat->status = erLhcoreClassModelChat::STATUS_PENDING_CHAT;
-                $chat->status_sub_sub = 2; // Will be used to indicate that we have to show notification for this chat if it appears on list
-                $chat->user_id = 0; // fix https://github.com/LiveHelperChat/fbmessenger/issues/6
-                $chat->pnd_time = time();
+                if ($chat->gbot_id > 0 && isset($chat->chat_variables_array['gbot_disabled']) && $chat->chat_variables_array['gbot_disabled'] == 1 && $botDisabled == 0) {
+                    $chatVariables = $chat->chat_variables_array;
+                    unset($chatVariables['gbot_disabled']);
+                    $chat->chat_variables_array = $chatVariables;
+                    $chat->chat_variables = json_encode($chatVariables);
+                }
+
+                if ($chat->gbot_id > 0) {
+                    $chat->status = erLhcoreClassModelChat::STATUS_BOT_CHAT;
+                } else {
+                    $chat->status = erLhcoreClassModelChat::STATUS_PENDING_CHAT;
+                    $chat->status_sub_sub = 2; // Will be used to indicate that we have to show notification for this chat if it appears on list
+                    $chat->user_id = 0; // fix https://github.com/LiveHelperChat/fbmessenger/issues/6
+                    $chat->pnd_time = time();
+                }
+
                 $chat->saveThis();
             } else {
                 $chat = null;
@@ -673,7 +768,6 @@ class erLhcoreClassExtensionFbmessenger {
 				$nick = 'Visitor';
 
 				$initMessage = false;
-
 
 				if ($page->verified == true)
 				{
@@ -792,16 +886,25 @@ class erLhcoreClassExtensionFbmessenger {
 				$msg->chat_id = $chat->id;
 				$msg->user_id = 0;
 				$msg->time = time ();
-				
+
 				erLhcoreClassChat::getSession ()->save ( $msg );
 				
 				$chat->last_msg_id = $msg->id;
 				$chat->last_user_msg_time = $msg->time;
 				$chat->saveThis ();
 
+                $fbChat->user_id = $userId;
+                $fbChat->recipient_user_id = $recipientUserId;
+                $fbChat->chat_id = $chat->id;
+                $fbChat->ctime = time();
+                $fbChat->page_id = $pageId;
+                $fbChat->type = $page instanceof erLhcoreClassModelFBPage ? 0 : 1;
+                $fbChat->saveOrUpdate();
+
 				if ($botDisabled == 0) {
                     // Set bot
-                    erLhcoreClassChatValidator::setBot($chat);
+                    erLhcoreClassChatValidator::setBot($chat, array('msg' => $msg));
+                    $this->sendBotResponse($chat, $msg, array('init' => true));
                 }
 
 				/**
@@ -812,9 +915,9 @@ class erLhcoreClassExtensionFbmessenger {
 						'msg' => $msg,
                         'bot_disabled' => $botDisabled == 1
 				) );
-				
+
 				$db->commit();
-				
+
 			} catch (Exception $e) {
 				$db->rollback();
 				throw $e;
@@ -845,50 +948,36 @@ class erLhcoreClassExtensionFbmessenger {
 			        }
 			    }
 
-                /*$lead = erLhcoreClassModelFBLead::findOne(array('filter' => array('user_id' => $userId)));
-                if (!($lead instanceof erLhcoreClassModelFBLead)) {
-                    if ($page->verified == true)
-                    {
-                        try {
-                            $messenger = Tgallice\FBMessenger\Messenger::create($this->getPage()->page_token);
-                            $profile = $messenger->getUserProfile($eventMessage->getSenderId());
-                            $lead = new erLhcoreClassModelFBLead();
-                            $lead->user_id = $eventMessage->getSenderId();
-                            $lead->first_name = $profile->getFirstName();
-                            $lead->last_name = $profile->getLastName();
-                            $lead->profile_pic = $profile->getProfilePic();
-                            $lead->locale = $profile->getLocale();
-                            $lead->timezone = $profile->getTimezone();
-                            $lead->gender = $profile->getGender();
-                            $lead->is_payment_enabled = $profile->isPaymentEnabled();
-                            $lead->ctime = time();
-                            $lead->page_id = $pageId;
-                            $lead->type = $page instanceof erLhcoreClassModelFBPage ? 0 : 1;
-                            $lead->dep_id = $department->id;
-                            $lead->saveThis();
-                        } catch (Exception $e) {
-                            erLhcoreClassLog::write($e->getMessage());
-                        }
-                }*/
-
-
 				/**
-				 * Store new message
+				 * It was standard message
 				 */
-				$msg = new erLhcoreClassModelmsg ();
-				$msg->msg = trim ( $messageText );
-				$msg->chat_id = $chat->id;
-				$msg->user_id = 0;
-				$msg->time = time ();
-				
-				erLhcoreClassChat::getSession ()->save ( $msg );
-				
-				$chat->last_msg_id = $msg->id;
-				$chat->last_user_msg_time = $msg->time;
-				$chat->saveThis ();		
-				
-				$db->commit();
-				
+				if ($eventMessage->getQuickReplyPayload() == '') {
+                    $msg = new erLhcoreClassModelmsg ();
+                    $msg->msg = trim ( $messageText );
+                    $msg->chat_id = $chat->id;
+                    $msg->user_id = 0;
+                    $msg->time = time ();
+
+                    erLhcoreClassChat::getSession ()->save ( $msg );
+
+                    $chat->last_msg_id = $msg->id;
+                    $chat->last_user_msg_time = $msg->time;
+                    $chat->saveThis ();
+
+                    $this->sendBotResponse($chat, $msg);
+
+                } else if (strpos($eventMessage->getQuickReplyPayload(), 'trigger__') === 0) {
+                    $payloadParts = explode('__',$eventMessage->getQuickReplyPayload());
+                    $message = erLhcoreClassModelmsg::fetch($payloadParts[3]);
+                    $this->sendBotResponse($chat, $message, array('type' => 'trigger', 'payload' => $payloadParts[1] . '__' . $payloadParts[2]));
+                } else if (strpos($eventMessage->getQuickReplyPayload(), 'bpayload__') === 0) {
+                    $payloadParts = explode('__',$eventMessage->getQuickReplyPayload());
+                    $message = erLhcoreClassModelmsg::fetch($payloadParts[3]);
+                    $this->sendBotResponse($chat, $message, array('type' => 'payload', 'payload' => $payloadParts[1] . '__' . $payloadParts[2]));
+                }
+
+                $db->commit();
+
 				erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.messages_added_passive',array('chat' => & $chat, 'msg' => & $msg));
 
 				erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.messages_added_fb',array('chat' => & $chat, 'msg' => & $msg));
@@ -920,7 +1009,371 @@ class erLhcoreClassExtensionFbmessenger {
 			}
 		}
 	}
-	
+
+    public function processEchoMessage($eventMessage)
+    {
+        $messageEcho = $eventMessage->getMessageEcho();
+        if ($messageEcho->getAppId() !== null) {
+            return;
+        }
+
+        // User ID
+        $userId = $eventMessage->getRecipientId();
+
+        // Check is user id blocked
+        if (erLhcoreClassModelChatBlockedUser::getCount(array('filter' => array('ip' => $userId))) > 0) {
+            exit;
+        }
+
+        // Recipient User ID
+        $recipientUserId = $eventMessage->getSenderId ();
+
+        $page = $this->getPage();
+        $pageId = $page instanceof erLhcoreClassModelFBPage ? $page->id : $page->page_id;
+
+        $fbChat = erLhcoreClassModelFBChat::findOne ( array (
+            'filter' => array (
+                'user_id' => $userId,
+                'recipient_user_id' => $recipientUserId,
+                'page_id' => $pageId,
+                'type' => $page instanceof erLhcoreClassModelFBPage ? 0 : 1
+            )
+        ) );
+
+        $db = ezcDbInstance::get();
+
+        if (!($fbChat instanceof erLhcoreClassModelFBChat)) {
+            return;
+        }
+
+        $chat = $fbChat->chat;
+
+        if (!($chat instanceof erLhcoreClassModelChat)) {
+            return;
+        }
+
+        try {
+            $db->beginTransaction();
+
+            $messageText = null;
+
+            $message = $eventMessage->getMessageEcho();
+
+            if ($message->hasText()) {
+                $messageText = $message->getText();
+            } elseif ($message->hasAttachments()) {
+
+                $attatchements = $message->getAttachments();
+
+                foreach ($attatchements as $data) {
+                    if ($data['type'] == 'file') {
+                        $messageText .= '[url=' . $data['payload']['url'].']Download file[/url]';
+                    } else if ($data['type'] == 'image') {
+                        $messageText .= '[img]' . $data['payload']['url'].'[/img]';
+                    } else if ($data['type'] == 'location') {
+                        $messageText .= '[url=' . $data['url'].']' . $data['title'] . '[/url] (' . $data['payload']['coordinates']['lat'] . ',' . $data['payload']['coordinates']['long'].')[loc]' . $data['payload']['coordinates']['lat'] . ',' . $data['payload']['coordinates']['long'].'[/loc]';
+                    } else {
+                        $messageText .= 'Unknown type - '.json_encode($data);
+                    }
+                }
+            }
+
+            /**
+             * Store new message
+             */
+            $msg = new erLhcoreClassModelmsg ();
+            $msg->msg = trim ( $messageText );
+            $msg->chat_id = $chat->id;
+            $msg->user_id = -2;
+            $msg->name_support = 'Page admin';
+            $msg->time = time ();
+
+            erLhcoreClassChat::getSession ()->save ( $msg );
+
+            $chat->last_msg_id = $msg->id;
+            $chat->last_user_msg_time = $msg->time;
+            $chat->saveThis ();
+
+            $db->commit();
+
+            erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.messages_added_passive',array('chat' => & $chat, 'msg' => & $msg));
+
+        } catch (Exception $e) {
+            $db->rollback();
+            erLhcoreClassLog::write(print_r($e->getMessage(), true));
+        }
+    }
+
+    public function processCallbackDefault($eventMessage)
+    {
+        $page = $this->getPage();
+        $botDisabled = $page->bot_disabled;
+        $pageId = $page instanceof erLhcoreClassModelFBPage ? $page->id : $page->page_id;
+
+        // User ID
+        $userId = $eventMessage->getSenderId ();
+
+        // Check is user id blocked
+        if (erLhcoreClassModelChatBlockedUser::getCount(array('filter' => array('ip' => $userId))) > 0) {
+            exit;
+        }
+
+        // Recipient User ID
+        $recipientUserId = $eventMessage->getRecipientId();
+
+        $fbChat = erLhcoreClassModelFBChat::findOne ( array (
+            'filter' => array (
+                'user_id' => $userId,
+                'recipient_user_id' => $recipientUserId,
+                'page_id' => $pageId,
+                'type' => $page instanceof erLhcoreClassModelFBPage ? 0 : 1
+            )
+        ) );
+
+        $db = ezcDbInstance::get();
+
+        if (!($fbChat instanceof erLhcoreClassModelFBChat)) {
+            $fbChat = new erLhcoreClassModelFBChat();
+        }
+
+        $chat = $fbChat->chat;
+
+        // fix https://github.com/LiveHelperChat/fbmessenger/issues/1
+        // If chat is closed make it pending again
+        if ($chat instanceof erLhcoreClassModelChat && $chat->status == erLhcoreClassModelChat::STATUS_CLOSED_CHAT) {
+
+            $fbOptions = erLhcoreClassModelChatConfig::fetch('fbmessenger_options');
+            $data = (array)$fbOptions->data;
+            if (!isset($data['new_chat']) || $data['new_chat'] == false)
+            {
+                if (isset($data['priority']) && $data['priority'] != '' && $data['priority'] != 0) {
+                    $chat->priority = isset($data['priority']) ? (int)$data['priority'] : 0;
+                }
+
+                if ($chat->gbot_id > 0 && isset($chat->chat_variables_array['gbot_disabled']) && $chat->chat_variables_array['gbot_disabled'] == 1 && $botDisabled == 0) {
+                    $chatVariables = $chat->chat_variables_array;
+                    unset($chatVariables['gbot_disabled']);
+                    $chat->chat_variables_array = $chatVariables;
+                    $chat->chat_variables = json_encode($chatVariables);
+                }
+
+                if ($chat->gbot_id > 0) {
+                    $chat->status = erLhcoreClassModelChat::STATUS_BOT_CHAT;
+                } else {
+                    $chat->status = erLhcoreClassModelChat::STATUS_PENDING_CHAT;
+                    $chat->status_sub_sub = 2; // Will be used to indicate that we have to show notification for this chat if it appears on list
+                    $chat->user_id = 0; // fix https://github.com/LiveHelperChat/fbmessenger/issues/6
+                    $chat->pnd_time = time();
+                }
+
+                $chat->saveThis();
+            } else {
+                $chat = null;
+            }
+        }
+
+        if (! ($chat instanceof erLhcoreClassModelChat)) {
+            try {
+
+                $db->beginTransaction();
+
+                $chat = new erLhcoreClassModelChat ();
+
+                // Set default department
+                $department = erLhcoreClassModelDepartament::fetch($this->getPage()->dep_id);
+
+                // Assign department from page configuration
+                $chat->dep_id = $department->id;
+                $chat->priority = $department->priority;
+
+                // Just save and send fb message if it's facebook chat
+                $dataArray = array (
+                    'fb_chat' => true
+                );
+
+                $nick = 'FB Visitor - ' . $userId;
+
+                if ($page->verified == true)
+                {
+                    try {
+                        $messenger = Tgallice\FBMessenger\Messenger::create($this->getPage()->page_token);
+                        $profile = $messenger->getUserProfile($eventMessage->getSenderId());
+                        $dataArray['fb_gender'] = $profile->getGender();
+                        $dataArray['fb_locale'] = $profile->getLocale();
+
+                        $lead = erLhcoreClassModelFBLead::findOne(array('filter' => array('user_id' => $eventMessage->getSenderId())));
+
+                        if (!($lead instanceof erLhcoreClassModelFBLead)) {
+                            $lead = new erLhcoreClassModelFBLead();
+                            $lead->user_id = $eventMessage->getSenderId();
+                            $lead->first_name = $profile->getFirstName();
+                            $lead->last_name = $profile->getLastName();
+                            $lead->profile_pic = $profile->getProfilePic();
+                            $lead->locale = $profile->getLocale();
+                            $lead->timezone = $profile->getTimezone();
+                            $lead->gender = $profile->getGender();
+                            $lead->is_payment_enabled = 0;
+                            $lead->ctime = time();
+                            $lead->page_id = $pageId;
+                            $lead->type = $page instanceof erLhcoreClassModelFBPage ? 0 : 1;
+                            $lead->dep_id = $department->id;
+                            $lead->saveThis();
+                        } elseif ($lead->blocked == 1) {
+                            $lead->blocked = 0;
+                            $lead->saveThis();
+                        }
+
+                        if (!isset($data['chat_attr']) || $data['chat_attr'] == 0) {
+                            $nick = trim($profile->getFirstName() . ' ' . $profile->getLastName());
+                        } else {
+
+                            $additionalDataArray = array();
+
+                            if ($lead->first_name != '') {
+                                $additionalDataArray[] = array(
+                                    'key' => 'Name',
+                                    'identifier' => 'firstname',
+                                    'value' => $lead->first_name,
+                                );
+                            }
+
+                            if ($lead->last_name != '') {
+                                $additionalDataArray[] = array(
+                                    'key' => 'Last name',
+                                    'identifier' => 'lastname',
+                                    'value' => $lead->last_name,
+                                );
+                            }
+
+                            if (!empty($additionalDataArray)) {
+                                $chat->additional_data_array = $additionalDataArray;
+                                $chat->additional_data = json_encode($additionalDataArray);
+                            }
+                        }
+                    } catch (Exception $e) {
+                        erLhcoreClassLog::write($e->getMessage());
+                    }
+                }
+
+                $chat->nick = $nick;
+                $chat->time = time ();
+                $chat->status = 0;
+                $chat->hash = erLhcoreClassChat::generateHash ();
+                $chat->referrer = '';
+                $chat->session_referrer = '';
+                $chat->chat_variables = json_encode ( $dataArray );
+
+                $chat->saveThis ();
+
+                $msgInitial = new erLhcoreClassModelmsg();
+                $msgInitial->msg = "Facebook user started a chat.";
+                $msgInitial->chat_id = $chat->id;
+                $msgInitial->user_id = -1;
+                $msgInitial->time = time ();
+                $msgInitial->saveThis();
+
+                $chat->last_msg_id = $msgInitial->id;
+                $chat->last_user_msg_time = $msgInitial->time;
+                $chat->saveThis ();
+
+                $fbChat->user_id = $userId;
+                $fbChat->recipient_user_id = $recipientUserId;
+                $fbChat->chat_id = $chat->id;
+                $fbChat->ctime = time();
+                $fbChat->page_id = $pageId;
+                $fbChat->type = $page instanceof erLhcoreClassModelFBPage ? 0 : 1;
+                $fbChat->saveOrUpdate();
+
+                $db->commit();
+
+                if ($botDisabled == 0) {
+
+                    $msgBot = clone $msgInitial;
+                    $msgBot->msg = $eventMessage->getPostbackPayload();
+
+                    $paramsExecution['msg'] = $msgBot;
+
+                    // Set bot
+                    erLhcoreClassChatValidator::setBot($chat, $paramsExecution);
+
+                    $this->sendBotResponse($chat, $msgInitial, array('init' => true));
+                }
+
+                /**
+                 * Execute standard callback as chat was started
+                 */
+                erLhcoreClassChatEventDispatcher::getInstance ()->dispatch ( 'chat.chat_started', array (
+                    'chat' => & $chat,
+                    'msg' => $msgInitial,
+                    'fb_user_id' => $userId
+                ));
+
+            } catch (Exception $e) {
+                $db->rollback();
+                throw $e;
+            }
+        } else {
+
+            if ($botDisabled == 0) {
+                if ($eventMessage->getPostbackPayload() == 'GET_STARTED') {
+
+                    $msgInitial = new erLhcoreClassModelmsg();
+                    $msgInitial->msg = "Facebook user started a chat.";
+                    $msgInitial->chat_id = $chat->id;
+                    $msgInitial->user_id = -1;
+                    $msgInitial->time = time ();
+                    $msgInitial->saveThis();
+
+                    $msgInitial->msg = 'GET_STARTED';
+
+                    $this->sendBotResponse($chat, $msgInitial);
+                } else { // @todo add regular buttons support
+                    if (strpos($eventMessage->getPostbackPayload(), 'trigger__') === 0) {
+                        $payloadParts = explode('__',$eventMessage->getPostbackPayload());
+                        $message = erLhcoreClassModelmsg::fetch($payloadParts[3]);
+                        $this->sendBotResponse($chat, $message, array('type' => 'trigger', 'payload' => $payloadParts[1] . '__' . $payloadParts[2]));
+                    } else if (strpos($eventMessage->getPostbackPayload(), 'bpayload__') === 0) {
+                        $payloadParts = explode('__',$eventMessage->getPostbackPayload());
+                        $message = erLhcoreClassModelmsg::fetch($payloadParts[3]);
+                        $this->sendBotResponse($chat, $message, array('type' => 'payload', 'payload' => $payloadParts[1] . '__' . $payloadParts[2]));
+                    }
+                }
+
+                erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.messages_added_passive', array('chat' => & $chat, 'msg' => & $msg));
+
+                erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.messages_added_fb', array('chat' => & $chat, 'msg' => & $msg));
+            }
+
+        }
+    }
+
+    public function sendBotResponse($chat, $msg, $params = array()) {
+        if ($chat->gbot_id > 0 && (!isset($chat->chat_variables_array['gbot_disabled']) || $chat->chat_variables_array['gbot_disabled'] == 0)) {
+
+            $chat->refreshThis();
+
+            if (!isset($params['init']) || $params['init'] == false) {
+                if (isset($params['type']) && $params['type'] == 'payload' && $msg instanceof erLhcoreClassModelmsg) {
+                    erLhcoreClassGenericBotWorkflow::processButtonClick($chat, $msg, $params['payload'], array('processed' => false));
+                } else if (isset($params['type']) && $params['type'] == 'trigger' && $msg instanceof erLhcoreClassModelmsg) {
+                    erLhcoreClassGenericBotWorkflow::processTriggerClick($chat, $msg, $params['payload'], array('processed' => false));
+                } else {
+                    erLhcoreClassGenericBotWorkflow::userMessageAdded($chat, $msg);
+                }
+            }
+
+            // Find a new messages
+            $botMessages = erLhcoreClassModelmsg::getList(array('filter' => array('user_id' => -2, 'chat_id' => $chat->id), 'filtergt' => array('id' => $msg->id)));
+            foreach ($botMessages as $botMessage) {
+
+                erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.web_add_msg_admin', array(
+                    'chat' => & $chat,
+                    'msg' => $botMessage
+                ));
+            }
+        }
+    }
+
 	public function deleteChat($params)
 	{
 	    $fbChat = erLhcoreClassModelFBChat::findOne ( array (
