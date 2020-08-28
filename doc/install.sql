@@ -18,6 +18,7 @@ CREATE TABLE `lhc_fbmessenger_page` (
   `page_token` varchar(250) NOT NULL,
   `verify_token` varchar(250) NOT NULL,
   `name` varchar(250) NOT NULL,
+  `bot_disabled` tinyint(1) NOT NULL,
   `app_secret` varchar(250) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
