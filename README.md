@@ -1,6 +1,11 @@
 # Facebook messenger extension
 Integration with Facebook messenger API. You will be able to chat with Facebook page users directly in lhc back office.
- * Bot support. [New] https://www.youtube.com/watch?v=_rLPJAdn4Us
+ * Bot support. [New] https://www.youtube.com/watch?v=_rLPJAdn4Us Supported bot elements
+    * Text messages including Quick Replies - `Send Text`
+    * Typing - `Send typing`
+    * Carrousel - `Send Carrousel`
+    * Buttons - `Button list`
+    * All other triggers including internal operations also will work.
  * Support multiple pages without creating new app for each page.
  * Supports multiple pages at once.
  * Each page chat can be assigned to custom department.
