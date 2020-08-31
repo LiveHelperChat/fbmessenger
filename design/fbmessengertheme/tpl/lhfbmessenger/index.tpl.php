@@ -15,7 +15,7 @@
 
         $helper = $fb->getRedirectLoginHelper();
 
-        $permissions = ['email', 'manage_pages', 'pages_show_list', 'pages_messaging', 'pages_messaging_subscriptions']; // Optional permissions
+        $permissions = ['email', 'pages_show_list', 'pages_messaging', 'pages_messaging_subscriptions']; // Optional permissions
 
         if (!class_exists('erLhcoreClassInstance')){
             $loginUrl = $helper->getReRequestUrl('https://'.$_SERVER['HTTP_HOST']. erLhcoreClassDesign::baseurl('fbmessenger/fbcallback'), $permissions);
