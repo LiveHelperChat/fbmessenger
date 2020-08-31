@@ -8,6 +8,8 @@ Integration with Facebook messenger API. You will be able to chat with Facebook 
 # Installation in your LHC server
 * Upload the files to your /extension folder
 * Install database either by executing doc/install.sql file or executing this command php _"cron.php -s site_admin -e fbmessenger -c cron/update_structure"_
+* Install dependencies using composer
+    * `cd extension/fbmessenger && composer update`
 * Activate extension in settings/settings.ini.php extension section "fbmessenger" by Adding lines: 
 <code>'extensions' =>  array (  'fbmessenger',  ),	</code> 
 * Now you can create facebook page in **Modules -> Facebook chat -> Facebook pages -> Register new page** (later you will have this info from facebook developer section) _if you dont see this in Module, check your settings.ini.php_
@@ -16,6 +18,8 @@ Integration with Facebook messenger API. You will be able to chat with Facebook 
 # Installation in Developers.Facebook.com
 
  * You have to configure facebook app according to this tutorial https://developers.facebook.com/docs/messenger-platform/guides/quick-start/
+ * Facebook APP has to use 8.0v
+ 
 ## Enable pages_messaging
 * Your facebook application has to have "pages_messaging" permission for lhc to be able to extract visitor information and be able to send messages back to lhc. For that you will have to submit application and wait for FB to review it.
 
