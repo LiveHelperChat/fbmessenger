@@ -57,7 +57,7 @@ foreach($events as $event) {
         } else {
             $pageId = $event->getRecipientId();
         }
-        
+
 	    try {
             if ($event instanceof MessageEvent) {
                 $ext->processVisitorMessage($event);

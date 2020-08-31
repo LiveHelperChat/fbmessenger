@@ -4,7 +4,7 @@ $tpl = erLhcoreClassTemplate::getInstance('lhfbmessenger/pagesubscribe.tpl.php')
 
 $fb = erLhcoreClassModelFBMessengerUser::getFBApp();
 
-$response = $fb->get('me/accounts?type=page');
+$response = $fb->get('me/accounts?type=page&limit=1000');
 
 $bodyResponse = $response->getDecodedBody();
 

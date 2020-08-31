@@ -31,6 +31,11 @@
             </td>
             <td width="99%" nowrap="nowrap">
                 <?php echo htmlspecialchars($page['name'])?>
+
+                <?php if (isset($current_pages[$page['id']]) && $current_pages[$page['id']]->enabled == 1) : ?>
+                    <a class="btn btn-secondary btn-xs" href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/threadmy')?>/<?php echo $current_pages[$page['id']]->id?>/(action)/addbutton" ><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Add start button')?></a>
+                    <a class="btn btn-secondary btn-xs" href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/threadmy')?>/<?php echo $current_pages[$page['id']]->id?>/(action)/rembutton" ><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Remove start button')?></a>
+                <?php endif; ?>
             </td>
         </tr>
     <?php endforeach; ?>

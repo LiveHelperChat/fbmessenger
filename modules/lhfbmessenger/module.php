@@ -21,6 +21,18 @@ $ViewList['leads'] = array(
     'functions' => array('use_admin'),
 );
 
+$ViewList['thread'] = array(
+    'params' => array('id'),
+    'uparams' => array('action'),
+    'functions' => array('use_admin'),
+);
+
+$ViewList['threadmy'] = array(
+    'params' => array('id'),
+    'uparams' => array('action'),
+    'functions' => array('use_admin'),
+);
+
 $ViewList['options'] = array(
     'params' => array(),
     'uparams' => array(),
