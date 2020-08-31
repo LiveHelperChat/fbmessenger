@@ -57,12 +57,7 @@ foreach($events as $event) {
         } else {
             $pageId = $event->getRecipientId();
         }
-
-        if ($ext->settings['enable_debug'] == true) {
-    		erLhcoreClassLog::write('Message - ' . $event->getMessageText());
-    		erLhcoreClassLog::write('Sender User Id - ' . $event->getSenderId());
-        }
-
+        
 	    try {
             if ($event instanceof MessageEvent) {
                 $ext->processVisitorMessage($event);
