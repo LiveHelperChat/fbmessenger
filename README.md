@@ -6,6 +6,7 @@ Integration with Facebook messenger API. You will be able to chat with Facebook 
     * Carrousel - `Send Carrousel`
     * Buttons - `Button list`
     * All other triggers including internal operations also will work.
+    * To listed for "Get Started" button action just listen for text message with content "GET_STARTED" also see demo bot in official demo.
  * Support multiple pages without creating new app for each page.
  * Supports multiple pages at once.
  * Each page chat can be assigned to custom department.
