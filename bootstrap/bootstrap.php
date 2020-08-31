@@ -641,7 +641,7 @@ class erLhcoreClassExtensionFbmessenger {
                                 }
                             }
                         }
-                        $messages[] = new Tgallice\FBMessenger\Model\Attachment\Template\Button('rest', $elements);
+                        $messages[] = new Tgallice\FBMessenger\Model\Attachment\Template\Button($ret, $elements);
                     } elseif ($type == 'generic') {
 
                         $elements = [];
