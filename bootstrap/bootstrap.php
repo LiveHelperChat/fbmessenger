@@ -451,7 +451,7 @@ class erLhcoreClassExtensionFbmessenger {
 	            if ($hash == $file->security_hash) {
 	                
 	                $elements = [
-                        new Tgallice\FBMessenger\Model\Button\WebUrl(erTranslationClassLhTranslation::getInstance()->getTranslation('file/file','Download'), 'https://devmysql.livehelperchat.com' . erLhcoreClassDesign::baseurl('file/downloadfile')."/{$file->id}/{$hash}" )
+                        new Tgallice\FBMessenger\Model\Button\WebUrl(erTranslationClassLhTranslation::getInstance()->getTranslation('file/file','Download'), 'https://' . $_SERVER['HTTP_HOST'] . erLhcoreClassDesign::baseurl('file/downloadfile')."/{$file->id}/{$hash}" )
                     ];
 	                	                
                     $template = new Tgallice\FBMessenger\Model\Attachment\Template\Button(erTranslationClassLhTranslation::getInstance()->getTranslation('file/file','Download').' - '.htmlspecialchars($file->upload_name).' ['.$file->extension.']', $elements);
@@ -573,7 +573,7 @@ class erLhcoreClassExtensionFbmessenger {
 
 	    $messages = array();
 
-	    if (!isset($metaMessageData['content']['quick_replies']) && !isset($metaMessageData['content']['buttons_generic']) && !isset($metaMessageData['content']['buttons_generic']))
+	    if (!isset($metaMessageData['content']['quick_replies']) && !isset($metaMessageData['content']['buttons_generic']) && !isset($metaMessageData['content']['generic']))
         {
             // Keep messages order as it was
             foreach ($parts as $key => $part)
@@ -643,7 +643,51 @@ class erLhcoreClassExtensionFbmessenger {
                         }
                         $messages[] = new Tgallice\FBMessenger\Model\Attachment\Template\Button('rest', $elements);
                     } elseif ($type == 'generic') {
-                        // @todo implement
+
+                        $elements = [];
+                        foreach ($metaMessage['items'] as $item) {
+                            $buttons = [];
+                            foreach ($item['buttons'] as $button) {
+                                if ($button['type'] == 'url') {
+                                    $buttons[] = new Tgallice\FBMessenger\Model\Button\WebUrl($button['content']['name'], $button['content']['payload']);
+                                } elseif ($button['type'] == 'trigger') {
+                                    $buttons[] = new Tgallice\FBMessenger\Model\Button\Postback($button['content']['name'],  'trigger__'.$item['content']['payload']. '__' . md5($item['content']['name']) . '__' . $messageId);
+                                } elseif ($item['type'] == 'updatechat') {
+                                    // This scenario is not supported in general
+                                } else {
+                                    $elements[] = new Tgallice\FBMessenger\Model\Button\Postback($item['content']['name'], 'bpayload__'.$item['content']['payload']. '__' . md5($item['content']['name']) . '__' . $messageId );
+                                }
+                            }
+
+                            if ($item['type'] == 'url') {
+                                $elements[] = new Tgallice\FBMessenger\Model\Attachment\Template\Generic\Element(
+                                    $item['content']['title'],
+                                    $item['content']['subtitle'],
+                                    $item['content']['img'],
+                                    $buttons,
+                                    new Tgallice\FBMessenger\Model\DefaultAction($item['content']['payload'])
+                                );
+                            } elseif ($item['type'] == 'trigger') {
+                                $elements[] = new Tgallice\FBMessenger\Model\Attachment\Template\Generic\Element(
+                                    $item['content']['title'],
+                                    $item['content']['subtitle'],
+                                    $item['content']['img'],
+                                    $buttons
+                                );
+                            } elseif ($item['type'] == 'updatechat') {
+                                // This scenario is not supported in general
+                            } else {
+                                $elements[] = new Tgallice\FBMessenger\Model\Attachment\Template\Generic\Element(
+                                    $item['content']['title'],
+                                    $item['content']['subtitle'],
+                                    $item['content']['img'],
+                                    $buttons
+                                );
+                            }
+                        }
+
+                        $messages[] = new Tgallice\FBMessenger\Model\Attachment\Template\Generic($elements);
+
                     } elseif ($type == 'list') {
                         // @todo implement
                     } elseif ($type == 'typing') {
