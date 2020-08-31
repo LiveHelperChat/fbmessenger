@@ -34,7 +34,8 @@ foreach ($bodyResponse['data'] as $page) {
                 if (!is_numeric($Params['user_parameters_unordered']['dep'])) {
                     $tpl->set('errors', array('Department not chosen!'));
                 } else {
-                    $response = $fb->post('/' . $page['id'] . '/subscribed_apps', array(), $page['access_token']);
+
+                    $response = $fb->post('/' . $page['id'] . '/subscribed_apps', array('subscribed_fields' => array('messages', 'messaging_postbacks', 'message_deliveries', 'message_reads', 'messaging_pre_checkouts', 'messaging_checkout_updates', 'messaging_referrals', 'message_echoes', 'standby', 'messaging_handovers', 'message_reactions')), $page['access_token']);
 
                     $bodyResponse = $response->getDecodedBody();
 

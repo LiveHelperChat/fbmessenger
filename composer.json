@@ -1,4 +1,23 @@
 {
+  "repositories": [
+      {
+        "type":"package",
+        "package": {
+          "name": "tgallice/fb-messenger-sdk",
+          "version":"master",
+          "source": {
+            "url": "https://github.com/LiveHelperChat/fb-messenger-sdk.git",
+            "type": "git",
+            "reference":"master"
+          },
+          "autoload": {
+            "psr-4": {
+              "Tgallice\\FBMessenger\\": "src"
+            }
+          }
+        }
+      }
+    ],
     "require": {
         "php": ">=5.5.9",
     	"ext-mbstring": "*",
