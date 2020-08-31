@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
     "content-hash": "f5e6c1000dfaff9032e39b52753c4fcb",
@@ -841,7 +841,7 @@
                     "Tgallice\\FBMessenger\\": "src"
                 }
             },
-            "time": "2020-08-31T07:24:35+00:00"
+            "time": "2020-08-31T10:41:32+00:00"
         }
     ],
     "packages-dev": [],
