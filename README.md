@@ -12,13 +12,16 @@ Integration with Facebook messenger API. You will be able to chat with Facebook 
  * Each page chat can be assigned to custom department.
 
 # Installation in your LHC server
-* Upload the files to your /extension folder
+* Upload the files to your /extension/fbmessenger folder
 * Install database either by executing doc/install.sql file or executing this command php _"cron.php -s site_admin -e fbmessenger -c cron/update_structure"_
 * Install dependencies using composer
     * `cd extension/fbmessenger && composer update`
+    * Just for newbies if your webhosting does not have composer see https://www.vultr.com/docs/install-composer-on-centos-7
+    * dont run composer as root, login in your ssh as your hosting normal user.
 * Activate extension in settings/settings.ini.php extension section "fbmessenger" by Adding lines: 
 <code>'extensions' =>  array (  'fbmessenger',  ),	</code> 
-* Now you can create facebook page in **Modules -> Facebook chat -> Facebook pages -> Register new page** (later you will have this info from facebook developer section) _if you dont see this in Module, check your settings.ini.php_
+* Now you can create facebook page in **Modules -> Facebook chat -> Facebook pages -> Register new page** (later you will have this info from facebook developer section) 
+** _if you dont see this in Module, check your settings.ini.php_ and also test _Clean Cache_
 * Once page is created you will see what callback url you have to put in facebook webhook. URL is presented in list. HTTPS is must!
 
 # Installation in Developers.Facebook.com
