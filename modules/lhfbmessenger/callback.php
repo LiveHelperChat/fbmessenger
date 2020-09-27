@@ -43,8 +43,11 @@ header('Content-Length: '.ob_get_length());
 ob_end_flush();
 ob_flush();
 flush();
-if(session_id()) session_write_close();
-fastcgi_finish_request();
+if (session_id()) session_write_close();
+
+if (function_exists('fastcgi_finish_request')){
+    fastcgi_finish_request();
+}
 
 $events = $webookHandler->getAllCallbackEvents();
 
