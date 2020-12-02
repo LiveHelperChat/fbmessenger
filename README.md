@@ -23,6 +23,7 @@ Integration with Facebook messenger API. You will be able to chat with Facebook 
 'extensions' =>  array (  'fbmessenger',  ),
 ```
 * If you don't see this in Module, check your `lhc_web/settings/settings.ini.php` and also click `Clean Cache` from back office
+* copy `extension/fbmessenger/settings/settings.ini.default.php` to `extension/fbmessenger/settings/settings.ini.php`
 
 # One page one app installation workflow
 
@@ -54,10 +55,11 @@ So at the end everything should look like
 
 This workflow is usefull if you are planning to use more than one page per facebook account.
 
-**This manual is not completed...**
-
 * Your facebook application has to have "pages_messaging" permission for lhc to be able to extract visitor information and be able to send messages back to lhc. For that you will have to submit application and wait for FB to review it.
-* If you use login workflow and subcribe to page you should set callback to url similar to this. `https://example.com/fbmessenger/callbackgeneral`
+* Set webhook callback to url similar to this. `https://example.com/fbmessenger/callbackgeneral` verify token you have to put in `extension/fbmessenger/settings/settings.ini.php` file.
+* `Valid OAuth Redirect URLs` should look like `https://example.com/site_admin/fbmessenger/fbcallback`
+* We request these scopes `email, pages_show_lis, pages_messaging, pages_messaging_subscriptions`
+* If you did everything correctly you should be able to login from facebook and grant access Live Helper Chat to see your pages and subscribe to messages events.
 
 ## Then Submit to facebook to validate your app
 * Before facebook validates your application keep settings `verified` false (in your LHC facebook page configuration)*
