@@ -12,47 +12,65 @@ Integration with Facebook messenger API. You will be able to chat with Facebook 
  * Each page chat can be assigned to custom department.
 
 # Installation in your LHC server
-* Upload the files to your `/extension/fbmessenger` folder
+* Upload the files to your `lhc_web/extension/fbmessenger` folder
 * Install database either by executing `doc/install.sql` file or executing this command `php cron.php -s site_admin -e fbmessenger -c cron/update_structure`
 * Install dependencies using composer
-    * `cd extension/fbmessenger && composer update`
+    * `cd extension/fbmessenger && composer install`
     * Just for newbies if your webhosting does not have composer see https://www.vultr.com/docs/install-composer-on-centos-7
-    * dont run composer as root, login in your ssh as your hosting normal user.
-* Activate extension in settings/settings.ini.php extension section "fbmessenger" by Adding lines: 
-<code>'extensions' =>  array (  'fbmessenger',  ),	</code> 
-* Now you can create facebook page in **Modules -> Facebook chat -> Facebook pages -> Register new page** (later you will have this info from facebook developer section) 
-** _if you dont see this in Module, check your settings.ini.php_ and also test _Clean Cache_
+    * don't run composer as root, login in your ssh as your hosting normal user.
+* Activate extension in main settings file `lhc_web/settings/settings.ini.php` extension section `fbmessenger` by Adding lines: 
+```
+'extensions' =>  array (  'fbmessenger',  ),
+```
+* If you don't see this in Module, check your `lhc_web/settings/settings.ini.php` and also click `Clean Cache` from back office
+
+# One page one app installation workflow
+
+This method is usefull if you are planning to use this extension by creating separate apps for each page you manage.
+
+* Now you can create facebook page in `Modules -> Facebook chat -> Facebook pages -> Register new page` (later you will have this info from facebook developer section) 
+* While creating facebook page check `Application was verified by facebook` otherwise we will not send request to facebook. Save page.
 * Once page is created you will see what callback url you have to put in facebook webhook. URL is presented in list. HTTPS is must!
+* Facebook APP has to use 8.0v or newer
 
-# Installation in Developers.Facebook.com
+## Actions to do in developers.facebook.com and Live Helper Chat back office
 
- * You have to configure facebook app according to this tutorial https://developers.facebook.com/docs/messenger-platform/guides/quick-start/
- * Facebook APP has to use 8.0v
- 
-## Enable pages_messaging
+* `APP secret` - Copy App Secret from `Settings -> Basic`
+* `Verify token` - put any random string without spaces.
+* `Page token` - follow steps bellow 
+ * Click `Products +` in facebook back office and choose `Messenger` as product you want to add to your APP
+ * Click `Messenger -> Settings` your app page
+ * In `Access Tokens` section click `Add or Removes pages` there you will get `Token` which you have to put in `Page token` field.
+* Now in `Webhooks` section of `Messenger -> Settings` page `Edit Callback URL`. Facebook to verify callback URL will ask you to enter `Verify token` and callback url. Callback URL you will see in pages list. 
+* In same `Webhooks` add Page from which you want to receive messages. As subscription fields choose `messages, messaging_postbacks, message_deliveries, message_reads, messaging_pre_checkouts, messaging_checkout_updates, messaging_referrals, message_echoes, standby, messaging_handovers, message_reactions`
+
+So at the end everything should look like
+
+![See image](https://raw.githubusercontent.com/LiveHelperChat/fbmessenger/master/doc/access_token.png)
+
+![See image](https://raw.githubusercontent.com/LiveHelperChat/fbmessenger/master/doc/webhooks.png)
+
+# Once account multiple page installation workflow
+
+This workflow is usefull if you are planning to use more than one page per facebook account.
+
+**This manual is not completed...**
+
 * Your facebook application has to have "pages_messaging" permission for lhc to be able to extract visitor information and be able to send messages back to lhc. For that you will have to submit application and wait for FB to review it.
+* If you use login workflow and subcribe to page you should set callback to url similar to this. `https://example.com/fbmessenger/callbackgeneral`
 
-**There you have to enter the url that your LHC gives you for callback**
-
-If you use login workflow and subcribe to page you should set callback to url similar to this.
-`https://example.com/fbmessenger/callbackgeneral`
- 
-If it's just one time callback you configuring by creating facebook page manually. Callback URL you will see in pages list.
-`https://example.com/index.php/fbmessenger/callback/1`
- 
- 
 ## Then Submit to facebook to validate your app
-*Before facebook validates your application keep settings "verified" false (in your LHC facebook page configuration)*
+* Before facebook validates your application keep settings `verified` false (in your LHC facebook page configuration)*
 * After facebook has reviewed your application set "verified" to *YES*. So you will be able to send a messages. During testing, if you add some developer, you can set it to true to see how it works.
  
- ## Finally Make your app public. 
+## Finally Make your app public. 
  * After facebook has reviewed your application you need to make your app live and available
  
 # How it works
 Once visitor writes a message in facebook page. You will receive a chat with visitor.
 
 # How to debug
-in <code>extension/fbmessenger/settings/settings.ini.php</code> change setting to <code>'enable_debug' => true</code> if you have verified site. Check cache/default.log for more detailed error.
+in `extension/fbmessenger/settings/settings.ini.php` change setting to `'enable_debug' => true` if you have verified site. Check `cache/default.log` for more detailed error.
 
 # Todo
  * Add support for images, not just plain messages.
