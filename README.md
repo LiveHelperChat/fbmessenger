@@ -12,8 +12,8 @@ Integration with Facebook messenger API. You will be able to chat with Facebook 
  * Each page chat can be assigned to custom department.
 
 # Installation in your LHC server
-* Upload the files to your /extension/fbmessenger folder
-* Install database either by executing doc/install.sql file or executing this command php _"cron.php -s site_admin -e fbmessenger -c cron/update_structure"_
+* Upload the files to your `/extension/fbmessenger` folder
+* Install database either by executing `doc/install.sql` file or executing this command `php cron.php -s site_admin -e fbmessenger -c cron/update_structure`
 * Install dependencies using composer
     * `cd extension/fbmessenger && composer update`
     * Just for newbies if your webhosting does not have composer see https://www.vultr.com/docs/install-composer-on-centos-7
