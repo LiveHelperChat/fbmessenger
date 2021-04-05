@@ -53,7 +53,7 @@ class erLhcoreClassModelFBMessengerUser
                 self::$fb->setDefaultAccessToken($fbUser->access_token);
             } else {
                 if ($redirect == true) {
-                    $permissions = ['email', 'manage_pages', 'pages_messaging', 'pages_messaging_subscriptions']; // Optional permissions
+                    $permissions = ['email', 'manage_pages', 'pages_show_list', 'pages_messaging', 'pages_messaging_subscriptions']; // Optional permissions
                     $helper = self::$fb->getRedirectLoginHelper();
 
                     header('Location: ' . $helper->getLoginUrl('https://'.$_SERVER['HTTP_HOST']. erLhcoreClassDesign::baseurl('fbmessenger/fbcallback'), $permissions));
