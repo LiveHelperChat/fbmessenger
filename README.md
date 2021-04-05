@@ -51,7 +51,7 @@ So at the end everything should look like
 
 ![See image](https://raw.githubusercontent.com/LiveHelperChat/fbmessenger/master/doc/webhooks.png)
 
-# Once account multiple page installation workflow
+# One account multiple page installation workflow
 
 This workflow is usefull if you are planning to use more than one page per facebook account.
 
