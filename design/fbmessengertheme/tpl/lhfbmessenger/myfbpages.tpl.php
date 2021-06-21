@@ -1,4 +1,4 @@
-<table class="table">
+<table class="table" ng-non-bindable>
     <thead>
         <th colspan="3">Page</th>
     </thead>

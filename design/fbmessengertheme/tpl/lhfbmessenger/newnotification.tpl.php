@@ -4,7 +4,7 @@
     <?php include(erLhcoreClassDesign::designtpl('lhkernel/validation_error.tpl.php'));?>
 <?php endif; ?>
 
-<form action="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/newnotification')?>" method="post">
+<form action="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/newnotification')?>" method="post" ng-non-bindable>
 
     <?php include(erLhcoreClassDesign::designtpl('lhfbmessenger/parts/form_notification.tpl.php'));?>
 

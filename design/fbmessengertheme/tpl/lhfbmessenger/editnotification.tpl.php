@@ -8,7 +8,7 @@
     <?php include(erLhcoreClassDesign::designtpl('lhkernel/alert_success.tpl.php'));?>
 <?php endif; ?>
 
-<form action="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/editnotification')?>/<?php echo $item->id?>" method="post">
+<form action="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/editnotification')?>/<?php echo $item->id?>" method="post" ng-non-bindable>
 
     <?php include(erLhcoreClassDesign::designtpl('lhfbmessenger/parts/form_notification.tpl.php'));?>
 
