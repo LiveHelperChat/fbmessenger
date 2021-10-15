@@ -20,7 +20,9 @@ foreach ($bodyResponse['data'] as $page) {
                     $pageMy->removeThis();
                 }
 
-                $response = $fb->delete('/' . $page['id'] . '/subscribed_apps', array(), $page['access_token']);
+                $extFb = erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger');
+                $response = $fb->delete('/' . $page['id'] . '/subscribed_apps', array(), $extFb->settings['app_settings']['app_id'].'|'.$extFb->settings['app_settings']['app_secret']);
+
                 $bodyResponse = $response->getDecodedBody();
 
                 if ($bodyResponse['success'] == 1) {
