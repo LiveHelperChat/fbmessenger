@@ -10,7 +10,7 @@
                         $params = array (
                             'input_name'     => 'DepartmentID' . $page['id'],
                             'display_name'   => 'name',
-                            'css_class'      => 'form-control',
+                            'css_class'      => 'form-control form-control',
                             'selected_id'    => isset($current_pages[$page['id']]) ? $current_pages[$page['id']]->dep_id : 0,
                             'list_function'  => 'erLhcoreClassModelDepartament::getList',
                             'list_function_params'  => array('limit' => '1000000')
