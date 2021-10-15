@@ -28,8 +28,8 @@ if (!($user instanceof erLhcoreClassModelFBMessengerUser)) {
 ?>
 <ul>
     <?php if (isset($logoutFB)) : ?>
-        <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/myfbpages');?>">My pages</a></li>
-        <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/fblogout');?>">Logout</a></li>';
+        <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/myfbpages');?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','My pages');?></a></li>
+        <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/fblogout');?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Logout');?></a></li>
     <?php endif; ?>
 </ul>
 
