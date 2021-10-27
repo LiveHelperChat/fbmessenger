@@ -4,7 +4,7 @@ $fb = erLhcoreClassModelFBMessengerUser::getFBAppInstance();
 
 $helper = $fb->getRedirectLoginHelper();
 
-$permissions = ['email', 'manage_pages', 'pages_show_list', 'pages_messaging', 'pages_messaging_subscriptions']; // Optional permissions
+$permissions = ['email', 'pages_show_list', 'pages_messaging', 'pages_messaging_subscriptions']; // Optional permissions
 
 @session_start();
 

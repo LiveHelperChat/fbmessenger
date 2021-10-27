@@ -61,6 +61,32 @@ This workflow is usefull if you are planning to use more than one page per faceb
 * We request these scopes `email, pages_show_lis, pages_messaging, pages_messaging_subscriptions`
 * If you did everything correctly you should be able to login from facebook and grant access Live Helper Chat to see your pages and subscribe to messages events.
 
+# One app multiple servers installation
+
+This scenario is usefull in case you have multiple clients and each client has it's own server or address. You can have one master instance which will act as Master and will forward all incoming request from facebook to correct URL of child server.
+
+To activate that option you have to edit `extension/fbmessenger/settings/settings.ini.php` and set options similar to below
+
+```
+'standalone' => array (
+        'enabled' => true,
+        'secret_hash' => 'random_string_to_out',
+        'address' => 'https://mater.example.com' // Master instance address
+    ),
+```
+
+In facebook `Valid OAuth Redirect URIs` has to be changed to E.g
+
+```
+https://mater.example.com/site_admin/fbmessenger/fbcallbackstandalone
+```
+
+`Messenger -> Settings` Webhooks `Callback URL` has to be set to
+
+```
+https://mater.example.com/fbmessenger/callbackstandalone
+```
+
 ## Then Submit to facebook to validate your app
 * Before facebook validates your application keep settings `verified` false (in your LHC facebook page configuration)*
 * After facebook has reviewed your application set "verified" to *YES*. So you will be able to send a messages. During testing, if you add some developer, you can set it to true to see how it works.

@@ -1,8 +1,8 @@
 <?php
 
-try {
-    $user = erLhcoreClassModelFBMessengerUser::findOne(array('filter' => array('user_id' => erLhcoreClassUser::instance()->getUserID())));
+$user = erLhcoreClassModelFBMessengerUser::findOne(array('filter' => array('user_id' => erLhcoreClassUser::instance()->getUserID())));
 
+try {
     if ($user instanceof erLhcoreClassModelFBMessengerUser) {
 
         $fb = erLhcoreClassModelFBMessengerUser::getFBApp(false);
@@ -36,6 +36,10 @@ try {
     exit;
 
 } catch (Exception $e) {
+
+    if ($user instanceof erLhcoreClassModelFBMessengerUser) {
+        $user->removeThis();
+    }
 
     header('Location: ' .erLhcoreClassDesign::baseurldirect('site_admin/fbmessenger/index') );
     exit;
