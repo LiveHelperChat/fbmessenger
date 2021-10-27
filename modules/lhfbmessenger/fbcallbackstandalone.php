@@ -8,6 +8,7 @@ $permissions = ['email', 'pages_show_list', 'pages_messaging', 'pages_messaging_
 
 $loginUrl = $helper->getLoginUrl(erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['standalone']['address'] . erLhcoreClassDesign::baseurl('fbmessenger/fbcallbackinstance'), $permissions);
 
+
 try {
     $accessToken = $helper->getAccessToken();
 } catch(Facebook\Exceptions\FacebookResponseException $e) { ?>
@@ -23,17 +24,21 @@ try {
 <?php }
 if (! isset($accessToken)) {
     if ($helper->getError()) {
-        header('HTTP/1.0 401 Unauthorized');
+        /*header('HTTP/1.0 401 Unauthorized');
         echo "Error: " . $helper->getError() . "\n";
         echo "Error Code: " . $helper->getErrorCode() . "\n";
         echo "Error Reason: " . $helper->getErrorReason() . "\n";
-        echo "Error Description: " . $helper->getErrorDescription() . "\n";
+        echo "Error Description: " . $helper->getErrorDescription() . "\n";*/
+        header('Location: https://' . $_SESSION['lhc_instance'] . erLhcoreClassDesign::baseurl('fbmessenger/index'));
+        exit;
     } else {
         header('HTTP/1.0 400 Bad Request');
         echo 'Bad request';
     }
     exit;
 }
+
+
 
 // The OAuth 2.0 client handler helps us manage access tokens
 $oAuth2Client = $fb->getOAuth2Client();
@@ -46,9 +51,12 @@ $tokenMetadata = $oAuth2Client->debugToken($accessToken);
 // Validation (these will throw FacebookSDKException's when they fail)
 $tokenMetadata->validateAppId(erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['app_settings']['app_id']); // app_id app_idReplace {app-id} with your app id
 
+
 // If you know the user ID this access token belongs to, you can validate it here
 //$tokenMetadata->validateUserId('123');
 $tokenMetadata->validateExpiration();
+
+
 
 if (! $accessToken->isLongLived()) {
     // Exchanges a short-lived access token for a long-lived one
