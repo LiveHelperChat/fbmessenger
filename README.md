@@ -100,6 +100,56 @@ Once visitor writes a message in facebook page. You will receive a chat with vis
 # How to debug
 in `extension/fbmessenger/settings/settings.ini.php` change setting to `'enable_debug' => true` if you have verified site. Check `cache/default.log` for more detailed error.
 
+# How to install extensions using DigitalOcean?
+
+Execute these commands
+
+```
+/opt/livehelperchat/lhc_upgrade.sh
+cd /var/www/git
+git clone https://github.com/LiveHelperChat/fbmessenger.git
+cd /var/www/git/fbmessenger
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+php composer-setup.php
+php -r "unlink('composer-setup.php');"
+./composer.phar install
+cd /var/www/html/extension
+ln -s /var/www/git/fbmessenger
+cp /var/www/html/extension/fbmessenger/settings/settings.ini.default.php /var/www/html/extension/fbmessenger/settings/settings.ini.php 
+php cron.php -s site_admin -e fbmessenger -c cron/update_structure
+```
+
+If you are using instance as standalone copy all content from master instance `/var/www/html/extension/fbmessenger/settings/settings.ini.php`
+
+Activate extension by editing
+
+```
+vi /var/www/html/settings/settings.ini.php
+```
+
+And make `extensions` section look like
+
+```
+'extensions' => 
+  array (
+	0 => 'nodejshelper',
+	1 => 'lhcphpresque',
+	2 => 'fbmessenger',
+  ),
+```
+
+Setup cronjob to renew SSL automatically
+
+```
+crontab -e
+```
+
+And add this line
+
+```
+0 */12 * * * /usr/bin/certbot renew --post-hook "systemctl reload nginx" >> /var/log/le-renew.log
+```
+
 # Todo
  * Add support for images, not just plain messages.
  * Add support for automated hosting environment.
