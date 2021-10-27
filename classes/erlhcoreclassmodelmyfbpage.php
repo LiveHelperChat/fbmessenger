@@ -26,6 +26,15 @@ class erLhcoreClassModelMyFBPage
 
     public function afterSave()
     {
+        
+        if (erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['standalone']['enabled'] == true) {
+            erLhcoreClassFBValidator::processSubscribeOnMaster([
+                'page_id' => $this->page_id,
+                'address' => $_SERVER['HTTP_HOST'],
+                'action' => 'add'
+            ]);
+        }
+        
         /*$cfg = erConfigClassLhConfig::getInstance();
 
         $db = ezcDbInstance::get();
@@ -40,6 +49,14 @@ class erLhcoreClassModelMyFBPage
 
     public function afterRemove()
     {
+        if (erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['standalone']['enabled'] == true) {
+            erLhcoreClassFBValidator::processSubscribeOnMaster([
+                'page_id' => $this->page_id,
+                'address' => $_SERVER['HTTP_HOST'],
+                'action' => 'remove'
+            ]);
+        }
+
         /*$cfg = erConfigClassLhConfig::getInstance();
 
         $db = ezcDbInstance::get();

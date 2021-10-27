@@ -92,3 +92,11 @@ CREATE TABLE `lhc_fbmessenger_notification_schedule` (
 
 CREATE TABLE `lhc_fbmessenger_notification_schedule_campaign` ( `id` bigint(20) NOT NULL AUTO_INCREMENT, `schedule_id` bigint(20) NOT NULL, `status` int(11) NOT NULL, `last_id` int(11) NOT NULL, `ctime` int(11) NOT NULL, `last_send` int(11) NOT NULL, PRIMARY KEY (`id`), KEY `schedule_id` (`schedule_id`)) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 CREATE TABLE `lhc_fbmessenger_notification_schedule_item` ( `id` bigint(20) NOT NULL AUTO_INCREMENT, `lead_id` bigint(20) NOT NULL, `status` int(11) NOT NULL, `log` text NOT NULL, `schedule_id` bigint(20) NOT NULL, `campaign_id` bigint(20) NOT NULL, `send_time` int(11) NOT NULL, PRIMARY KEY (`id`), KEY `campaign_id` (`campaign_id`), KEY `schedule_id` (`schedule_id`)) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE `lhc_fbmessenger_standalone_fb_page` (
+                      `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+                      `page_id` bigint(20) NOT NULL,
+                      `address` varchar(100) NOT NULL,
+                      PRIMARY KEY (`id`),
+                      UNIQUE KEY `page_id` (`page_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+

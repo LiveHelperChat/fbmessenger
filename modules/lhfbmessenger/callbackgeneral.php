@@ -19,6 +19,8 @@ use Tgallice\FBMessenger\Callback\MessageEvent;
 use Tgallice\FBMessenger\Callback\PostbackEvent;
 use Tgallice\FBMessenger\Callback\MessageEchoEvent;
 
+
+
 $webookHandler = new WebhookRequestHandler($ext->settings['app_settings']['app_secret'], $ext->settings['app_settings']['verify_token']);
 
 if (!$webookHandler->isValidCallbackRequest()) {
