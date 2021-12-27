@@ -12,8 +12,8 @@
     </thead>
     <?php foreach ($items as $item) : ?>
         <tr>
-            <td><?php echo $item->name?></td>
-            <td>[<?php echo $item->bbcode?>]</td>
+            <td><?php echo htmlspecialchars($item->name)?></td>
+            <td>[<?php echo htmlspecialchars($item->bbcode)?>]</td>
             <td nowrap>
                 <div class="btn-group" role="group" aria-label="..." style="width:60px;">
                     <a class="btn btn-secondary btn-xs" href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/editbbcode')?>/<?php echo $item->id?>" ><i class="material-icons mr-0">&#xE254;</i></a>
