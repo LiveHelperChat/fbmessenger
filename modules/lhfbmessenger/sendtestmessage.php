@@ -1,6 +1,11 @@
 <?php
 
 try {
+
+    if (!isset($_SERVER['HTTP_X_CSRFTOKEN']) || !$currentUser->validateCSFRToken($_SERVER['HTTP_X_CSRFTOKEN'])) {
+        throw new Exception('Invalid CSRF Token');
+    }
+
     $lead = erLhcoreClassModelFBLead::fetch($_POST['user_id']);
 
     if (!($lead instanceof erLhcoreClassModelFBLead)) {

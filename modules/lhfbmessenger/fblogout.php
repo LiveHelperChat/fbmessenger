@@ -1,5 +1,10 @@
 <?php
 
+if (!$currentUser->validateCSFRToken($Params['user_parameters_unordered']['csfr'])) {
+    die('Invalid CSFR Token');
+    exit;
+}
+
 $user = erLhcoreClassModelFBMessengerUser::findOne(array('filter' => array('user_id' => erLhcoreClassUser::instance()->getUserID())));
 
 try {

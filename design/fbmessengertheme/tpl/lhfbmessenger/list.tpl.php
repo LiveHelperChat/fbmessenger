@@ -19,8 +19,8 @@
         <td><?php echo $item->callback_url?></td>
         <td><?php if ($item->verified == 1) : ?>Yes<?php else : ?>No<?php endif;?></td>
         <td nowrap="">
-            <a class="btn btn-secondary btn-xs" href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/thread')?>/<?php echo $item->id?>/(action)/addbutton" ><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Add start button')?></a>
-            <a class="btn btn-secondary btn-xs" href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/thread')?>/<?php echo $item->id?>/(action)/rembutton" ><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Remove start button')?></a>
+            <a class="btn btn-secondary btn-xs csfr-required" href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/thread')?>/<?php echo $item->id?>/(action)/addbutton" ><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Add start button')?></a>
+            <a class="btn btn-secondary btn-xs csfr-required" href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/thread')?>/<?php echo $item->id?>/(action)/rembutton" ><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Remove start button')?></a>
         </td>
         <td nowrap>
           <div class="btn-group" role="group" aria-label="..." style="width:60px;">

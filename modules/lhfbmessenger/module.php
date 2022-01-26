@@ -33,13 +33,13 @@ $ViewList['leads'] = array(
 
 $ViewList['thread'] = array(
     'params' => array('id'),
-    'uparams' => array('action'),
+    'uparams' => array('action','csfr'),
     'functions' => array('use_admin'),
 );
 
 $ViewList['threadmy'] = array(
     'params' => array('id'),
-    'uparams' => array('action'),
+    'uparams' => array('action','csfr'),
     'functions' => array('use_admin'),
 );
 
@@ -75,7 +75,7 @@ $ViewList['newnotification'] = array(
 
 $ViewList['fblogout'] = array(
     'params' => array(),
-    'uparams' => array(),
+    'uparams' => array('csfr'),
     'functions' => array('use_admin'),
 );
 
@@ -135,7 +135,7 @@ $ViewList['index'] = array(
 
 $ViewList['pagesubscribe'] = array(
     'params' => array('id'),
-    'uparams' => array('action','dep'),
+    'uparams' => array('action','dep','csfr'),
     'functions' => array('use_admin'),
 );
 

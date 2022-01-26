@@ -8,6 +8,11 @@ $response = $fb->get('me/accounts?type=page&limit=1000');
 
 $bodyResponse = $response->getDecodedBody();
 
+if (!$currentUser->validateCSFRToken($Params['user_parameters_unordered']['csfr'])) {
+    die('Invalid CSFR Token');
+    exit;
+}
+
 foreach ($bodyResponse['data'] as $page) {
     if ($Params['user_parameters']['id'] == $page['id']) {
 

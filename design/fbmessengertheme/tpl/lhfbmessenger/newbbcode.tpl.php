@@ -6,6 +6,8 @@
 
 <form action="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/newbbcode')?>" method="post" ng-non-bindable>
 
+    <?php include(erLhcoreClassDesign::designtpl('lhkernel/csfr_token.tpl.php'));?>
+
     <?php include(erLhcoreClassDesign::designtpl('lhfbmessenger/parts/form_bbcode.tpl.php'));?>
 
     <div class="btn-group" role="group" aria-label="...">

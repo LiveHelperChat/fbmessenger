@@ -7,6 +7,11 @@ $data = (array)$fbOptions->data;
 
 if ( isset($_POST['StoreOptions']) ) {
 
+    if (!isset($_POST['csfr_token']) || !$currentUser->validateCSFRToken($_POST['csfr_token'])) {
+        erLhcoreClassModule::redirect('fbmessenger/options');
+        exit;
+    }
+
     $definition = array(
         'new_chat' => new ezcInputFormDefinitionElement(
             ezcInputFormDefinitionElement::OPTIONAL, 'boolean'

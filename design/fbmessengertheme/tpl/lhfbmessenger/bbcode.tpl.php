@@ -32,4 +32,4 @@
 
 <?php endif;?>
 
-<a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/newbbcode')?>" class="btn btn-default"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Register new BBCode');?></a>
+<a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/newbbcode')?>" class="btn btn-sm btn-secondary"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Register new BBCode');?></a>
