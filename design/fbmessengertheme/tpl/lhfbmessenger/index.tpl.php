@@ -32,9 +32,11 @@ if (!($user instanceof erLhcoreClassModelFBMessengerUser)) {
 <ul>
     <?php if (isset($logoutFB)) : ?>
         <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/myfbpages');?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','My pages');?></a></li>
-        <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/fblogout');?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Logout');?></a></li>
+        <li><a class="csfr-required" href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/fblogout');?>" class=""><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Logout');?></a></li>
     <?php endif; ?>
 </ul>
+
+<?php include(erLhcoreClassDesign::designtpl('lhkernel/secure_links.tpl.php')); ?>
 
 <hr>
 
