@@ -34,7 +34,7 @@ CREATE TABLE `lhc_fbmessenger_bbcode` (
 CREATE TABLE `lhc_fbmessenger_my_page` (
 `id` bigint(20) NOT NULL AUTO_INCREMENT,
 `page_id` bigint(20) NOT NULL,
-`access_token` varchar(250) NOT NULL,
+`access_token` varchar(500) NOT NULL,
 `enabled` int(11) NOT NULL,
 `bot_disabled` tinyint(1) NOT NULL,
 `dep_id` int(11) NOT NULL,
@@ -72,7 +72,7 @@ CREATE TABLE `lhc_fbmessenger_fbuser` (
 `id` bigint(20) NOT NULL AUTO_INCREMENT,
 `user_id` int(11) NOT NULL,
 `fb_user_id` bigint(20) NOT NULL,
-`access_token` varchar(250) NOT NULL,
+`access_token` varchar(500) NOT NULL,
 PRIMARY KEY (`id`),
 KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
