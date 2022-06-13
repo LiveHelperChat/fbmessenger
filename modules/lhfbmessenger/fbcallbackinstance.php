@@ -1,6 +1,10 @@
 <?php
 
-session_name('LHC_SESSID');
+$sessionCookieName = erConfigClassLhConfig::getInstance()->getSetting( 'site', 'php_session_cookie_name', false );
+
+if (!empty($sessionCookieName) && $sessionCookieName !== false) {
+    session_name($sessionCookieName);
+}
 
 $fb = erLhcoreClassModelFBMessengerUser::getFBAppInstance();
 

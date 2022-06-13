@@ -6,7 +6,12 @@ $helper = $fb->getRedirectLoginHelper();
 
 $permissions = ['email', 'pages_show_list', 'pages_messaging', 'pages_messaging_subscriptions']; // Optional permissions
 
-session_name('LHC_SESSID');
+$sessionCookieName = erConfigClassLhConfig::getInstance()->getSetting( 'site', 'php_session_cookie_name', false );
+
+if (!empty($sessionCookieName) && $sessionCookieName !== false) {
+    session_name($sessionCookieName);
+}
+
 @session_start();
 
 $_SESSION['lhc_instance'] = $Params['user_parameters']['id'];
