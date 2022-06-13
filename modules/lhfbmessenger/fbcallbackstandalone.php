@@ -1,5 +1,7 @@
 <?php
 
+session_name('LHC_SESSID');
+
 $fb = erLhcoreClassModelFBMessengerUser::getFBAppInstance();
 
 $helper = $fb->getRedirectLoginHelper();
