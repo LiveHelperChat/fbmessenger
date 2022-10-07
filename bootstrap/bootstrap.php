@@ -109,7 +109,130 @@ class erLhcoreClassExtensionFbmessenger {
         $dispatcher->listen('chat.genericbot_set_bot',array(
                 $this, 'allowSetBot')
         );
+
+        // WhatsApp Integration
+        $dispatcher->listen('chat.webhook_incoming', array(
+            $this,
+            'verifyWhatsAppToken'
+        ));
+
+        $dispatcher->listen('chat.webhook_incoming', array(
+            $this,
+            'incommingWebhook'
+        ));
+
+        $dispatcher->listen('chat.webhook_incoming_chat_started', array(
+            $this,
+            'incommingChatStarted'
+        ));
+
 	}
+
+    // WhatsApp Verify Token override call
+    public function verifyWhatsAppToken($params)
+    {
+        $tOptions = \erLhcoreClassModelChatConfig::fetch('fbmessenger_options');
+        $data = (array)$tOptions->data;
+        if (
+            isset($_GET['hub_verify_token']) && $_GET['hub_verify_token'] == $data['whatsapp_verify_token']
+        ) {
+            if (isset($_GET['hub_mode']) && $_GET['hub_mode'] == 'subscribe') {
+                echo $_GET['hub_challenge'];
+                exit;
+            }
+        }
+    }
+
+    /*
+     * Store Initial Message within chat
+     * */
+    public function incommingChatStarted($params)
+    {
+        if (
+            isset($params['data']['object']) &&
+            isset($params['data']['entry']) &&
+            $params['data']['object'] == 'whatsapp_business_account'
+        ) {
+            foreach ($params['data']['entry'] as $entryItem) {
+                foreach ($entryItem['changes'] as $changeItem) {
+                    if (isset($changeItem['value']['messages'])) {
+                        foreach ($changeItem['value']['messages'] as $messageItem) {
+                            $fbWhatsAppMessage = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::findOne(['sort' => '`id` DESC','filter' => ['phone' => $messageItem['from']]]);
+                            if (is_object($fbWhatsAppMessage) && $fbWhatsAppMessage->dep_id > 0) {
+                                // Chat
+                                $params['chat']->dep_id = $fbWhatsAppMessage->dep_id;
+                                $params['chat']->updateThis(['update' => ['dep_id']]);
+
+                                // Save template message first before saving initial response in the lhc core
+                                $msg = new erLhcoreClassModelmsg();
+                                $msg->msg = $fbWhatsAppMessage->message;
+                                $msg->chat_id = $params['chat']->id;
+                                $msg->user_id = $fbWhatsAppMessage->user_id;
+                                $msg->time = $fbWhatsAppMessage->created_at;
+                                erLhcoreClassChat::getSession()->save($msg);
+
+                                // Update message bird
+                                $fbWhatsAppMessage->chat_id = $params['chat']->id;
+                                $fbWhatsAppMessage->updateThis(['update' => ['chat_id']]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public function incommingWebhook($params)
+    {
+        if (
+            isset($params['data']['object']) &&
+            isset($params['data']['entry']) &&
+            $params['data']['object'] == 'whatsapp_business_account'
+        ) {
+            $skippedMessage = false;
+            foreach ($params['data']['entry'] as $entryItem) {
+                foreach ($entryItem['changes'] as $changeItem) {
+                    if (isset($changeItem['value']['statuses'])) {
+                        foreach ($changeItem['value']['statuses'] as $statusItem) {
+                            $fbWhatsAppMessage = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::findOne(['filter' => ['fb_msg_id' => $statusItem['id']]]);
+                            if ($fbWhatsAppMessage instanceof \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage) {
+
+                                $statusMap = [
+                                    'pending' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_PENDING,
+                                    'sent' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SENT,
+                                    'delivered' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_DELIVERED,
+                                    'read' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_READ,
+                                    'rejected' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_REJECTED,
+                                ];
+
+                                if (isset($statusItem['conversation']['id'])){
+                                    $fbWhatsAppMessage->conversation_id = $statusItem['conversation']['id'];
+                                }
+
+                                if ($fbWhatsAppMessage->status != \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_READ) {
+                                    $fbWhatsAppMessage->status = $statusMap[$statusItem['status']];
+                                }
+
+                                if ($fbWhatsAppMessage->status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_REJECTED) {
+                                    $fbWhatsAppMessage->send_status_raw = $fbWhatsAppMessage->send_status_raw . json_encode($params['data']);
+                                }
+
+                                $fbWhatsAppMessage->saveThis();
+                            }
+                        }
+                    } else {
+                        $skippedMessage = true;
+                    }
+                }
+            }
+
+            // There was only our processed messages in the callback
+            // No need to process anything else
+            if ($skippedMessage === false) {
+                exit;
+            }
+        }
+    }
 
     public static function allowSetBot($params)
     {

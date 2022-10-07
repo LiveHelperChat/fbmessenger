@@ -25,6 +25,27 @@ Integration with Facebook messenger API. You will be able to chat with Facebook 
 * If you don't see this in Module, check your `lhc_web/settings/settings.ini.php` and also click `Clean Cache` from back office
 * copy `extension/fbmessenger/settings/settings.ini.default.php` to `extension/fbmessenger/settings/settings.ini.php`
 
+# WhatsApp configuration
+
+This configuration option is available with [Permanent Access Token](https://developers.facebook.com/docs/whatsapp/business-management-api/get-started#1--acquire-an-). In the future we might add a Login option.
+In facebook Extension settings you have to enter
+* Permanent WhatsApp access token -  [Permanent Access Token](https://developers.facebook.com/docs/whatsapp/business-management-api/get-started#1--acquire-an-).
+* WhatsApp Business Account ID - You will find it in `WhatsApp-> Getting` Started section of the facebook app
+* WhatsApp `Verify Token` - just put any random string.
+* Click `Save and Activate WhatsApp configuration` it will install and configure all the required webhooks etc.
+* Go to Facebook App `WhatsApp-> Configuration` section and set Callback URL while entering `Verify Token` you have put in settings page.
+* Subscribe to messages field.
+
+![See image](https://raw.githubusercontent.com/LiveHelperChat/fbmessenger/master/doc/access_token.png)
+
+From WhatsApp perspective we support `images`, `text`, `video`, `audio`, `contact`, `location`, `sticker`, `document` messages types
+
+To send campaing of template messages this cronjob has to be setup.
+
+```shell
+php cron.php -s site_admin -e fbmessenger -c cron/masssending
+```
+
 # One page one app installation workflow
 
 This method is usefull if you are planning to use this extension by creating separate apps for each page you manage.

@@ -5,7 +5,7 @@ $tpl = erLhcoreClassTemplate::getInstance('lhfbmessenger/options.tpl.php');
 $fbOptions = erLhcoreClassModelChatConfig::fetch('fbmessenger_options');
 $data = (array)$fbOptions->data;
 
-if ( isset($_POST['StoreOptions']) ) {
+if ( isset($_POST['StoreOptions']) || isset($_POST['StoreOptionsWhatsApp']) || isset($_POST['StoreOptionsWhatsAppRemove'])  ) {
 
     if (!isset($_POST['csfr_token']) || !$currentUser->validateCSFRToken($_POST['csfr_token'])) {
         erLhcoreClassModule::redirect('fbmessenger/options');
@@ -24,6 +24,15 @@ if ( isset($_POST['StoreOptions']) ) {
         ),
         'priority' => new ezcInputFormDefinitionElement(
             ezcInputFormDefinitionElement::OPTIONAL, 'int'
+        ),
+        'whatsapp_access_token' => new ezcInputFormDefinitionElement(
+            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+        ),
+        'whatsapp_verify_token' => new ezcInputFormDefinitionElement(
+            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+        ),
+        'whatsapp_business_account_id' => new ezcInputFormDefinitionElement(
+            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
         ),
         'chat_attr' => new ezcInputFormDefinitionElement(
             ezcInputFormDefinitionElement::OPTIONAL, 'boolean'
@@ -56,6 +65,24 @@ if ( isset($_POST['StoreOptions']) ) {
     } else {
         $data['priority'] = 0;
     }
+    
+    if ( $form->hasValidData( 'whatsapp_access_token' )) {
+        $data['whatsapp_access_token'] = $form->whatsapp_access_token;
+    } else {
+        $data['whatsapp_access_token'] = '';
+    }
+
+    if ( $form->hasValidData( 'whatsapp_business_account_id' )) {
+        $data['whatsapp_business_account_id'] = $form->whatsapp_business_account_id;
+    } else {
+        $data['whatsapp_business_account_id'] = '';
+    }
+
+    if ( $form->hasValidData( 'whatsapp_verify_token' )) {
+        $data['whatsapp_verify_token'] = $form->whatsapp_verify_token;
+    } else {
+        $data['whatsapp_verify_token'] = '';
+    }
 
     if ( $form->hasValidData( 'chat_attr' ) && $form->chat_attr == true ) {
         $data['chat_attr'] = 1;
@@ -69,7 +96,15 @@ if ( isset($_POST['StoreOptions']) ) {
     $fbOptions->identifier = 'fbmessenger_options';
     $fbOptions->value = serialize($data);
     $fbOptions->saveThis();
-    
+
+    if (isset($_POST['StoreOptionsWhatsApp']) ) {
+        LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChatActivator::installOrUpdate();
+    }
+
+    if (isset($_POST['StoreOptionsWhatsAppRemove']) ) {
+        LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChatActivator::remove();
+    }
+
     $tpl->set('updated','done');
 }
 

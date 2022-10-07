@@ -1,3 +1,29 @@
+CREATE TABLE `lhc_fbmessengerwhatsapp_message` (
+    `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+    `user_id` bigint(20) unsigned NOT NULL,
+    `created_at` bigint(20) unsigned NOT NULL,
+    `updated_at` bigint(20) unsigned NOT NULL,
+    `phone` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `phone_sender` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `phone_sender_id` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `status` tinyint(1) unsigned NOT NULL DEFAULT 0,
+    `template` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `template_id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `message` text COLLATE utf8mb4_unicode_ci NOT NULL,
+    `language` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `fb_msg_id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `send_status_raw` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+    `conversation_id` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `dep_id` bigint(20) unsigned NOT NULL,
+    `chat_id` bigint(20) unsigned NOT NULL,
+    `initiation` bigint(20) unsigned NOT NULL,
+    `message_variables` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+    PRIMARY KEY (`id`),
+    KEY `fb_msg_id` (`fb_msg_id`),
+    KEY `conversation_id` (`conversation_id`),
+    KEY `status` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 CREATE TABLE `lhc_fbmessenger_chat` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL,
