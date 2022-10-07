@@ -51,7 +51,6 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
         public function getTemplates() {
             // https://developers.facebook.com/docs/graph-api/reference/whats-app-business-account/message_templates/
             // curl -i -X GET "https://graph.facebook.com/LATEST-VERSION/WHATSAPP-BUSINESS-ACCOUNT-ID/message_templates?access_token=USER-ACCESS-TOKEN"
-            // curl -i -X GET "https://graph.facebook.com/v15.0/105209658989864/message_templates?access_token=EAARB6lT6poQBAPgBHm06sO7QfAZAPjflwCRuLRCKHnT9I9g9ZCeDqQ5bLktX647qH2JwWmMWD1kijbReD5ZASZAdJZCFgIyN5NJ1lkzhjwsibYDSwN5a6YhZCUgMgZCbl52am5Q8pXLatXmTp4yxL1kdhDC3DTai1MU7Ujmo1suscwjwoSPgR71"
 
             $templates = $this->getRestAPI([
                 'baseurl'   => $this->endpoint,
