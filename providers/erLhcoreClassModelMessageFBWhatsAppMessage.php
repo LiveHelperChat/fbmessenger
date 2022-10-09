@@ -62,6 +62,10 @@ class erLhcoreClassModelMessageFBWhatsAppMessage
                 $this->updated_at_ago = \erLhcoreClassChat::formatSeconds(time() - $this->updated_at);
                 return $this->updated_at_ago;
 
+            case 'created_at_front':
+                $this->created_at_front = date('Ymd') == date('Ymd',$this->created_at) ? date(\erLhcoreClassModule::$dateHourFormat,$this->created_at) : date(\erLhcoreClassModule::$dateDateHourFormat,$this->created_at);
+                return $this->created_at_front;
+
             case 'user':
                 $this->user = null;
                 if ($this->user_id > 0) {

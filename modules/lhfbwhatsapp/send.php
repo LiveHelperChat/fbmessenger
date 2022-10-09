@@ -44,6 +44,36 @@ if (ezcInputForm::hasPostData()) {
         'field_6' => new ezcInputFormDefinitionElement(
             ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
         ),
+        'field_header_1' => new ezcInputFormDefinitionElement(
+            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+        ),
+        'field_header_2' => new ezcInputFormDefinitionElement(
+            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+        ),
+        'field_header_3' => new ezcInputFormDefinitionElement(
+            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+        ),
+        'field_header_4' => new ezcInputFormDefinitionElement(
+            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+        ),
+        'field_header_5' => new ezcInputFormDefinitionElement(
+            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+        ),
+        'field_header_6' => new ezcInputFormDefinitionElement(
+            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+        ),
+        'field_header_doc_1' => new ezcInputFormDefinitionElement(
+            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+        ),
+        'field_header_doc_filename_1' => new ezcInputFormDefinitionElement(
+            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+        ),
+        'field_header_img_1' => new ezcInputFormDefinitionElement(
+            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+        ),
+        'field_header_video_1' => new ezcInputFormDefinitionElement(
+            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+        ),
     );
 
     $form = new ezcInputForm( INPUT_POST, $definition );
@@ -68,10 +98,35 @@ if (ezcInputForm::hasPostData()) {
     }
 
     $messageVariables = $item->message_variables_array;
-    
+
     for ($i = 0; $i < 6; $i++) {
         if ($form->hasValidData('field_' . $i) && $form->{'field_' . $i}) {
             $messageVariables['field_' . $i] = $form->{'field_' . $i};
+        }
+    }
+
+    for ($i = 0; $i < 6; $i++) {
+        if ($form->hasValidData('field_header_' . $i) && $form->{'field_header_' . $i}) {
+            $messageVariables['field_header_' . $i] = $form->{'field_header_' . $i};
+        }
+    }
+
+    for ($i = 0; $i < 6; $i++) {
+        if ($form->hasValidData('field_header_img_' . $i) && $form->{'field_header_img_' . $i}) {
+            $messageVariables['field_header_img_' . $i] = $form->{'field_header_img_' . $i};
+        }
+    }
+
+    for ($i = 0; $i < 6; $i++) {
+        if ($form->hasValidData('field_header_video_' . $i) && $form->{'field_header_video_' . $i}) {
+            $messageVariables['field_header_video_' . $i] = $form->{'field_header_video_' . $i};
+        }
+    }
+
+    for ($i = 0; $i < 6; $i++) {
+        if ($form->hasValidData('field_header_doc_' . $i) && $form->{'field_header_doc_' . $i}) {
+            $messageVariables['field_header_doc_' . $i] = $form->{'field_header_doc_' . $i};
+            $messageVariables['field_header_doc_filename_' . $i] = $form->hasValidData('field_header_doc_filename_' . $i) && $form->{'field_header_doc_filename_' . $i} ? $form->{'field_header_doc_filename_' . $i} : '';
         }
     }
 
@@ -90,7 +145,7 @@ if (ezcInputForm::hasPostData()) {
         try {
 
             LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance()->sendTemplate($item, $templates, $phones);
-            
+
             $item->user_id = $currentUser->getUserID();
             $item->saveThis();
 
@@ -106,9 +161,9 @@ if (ezcInputForm::hasPostData()) {
 
 
 $tpl->setArray([
-        'send' => $item,
-        'templates' => $templates,
-        'phones' => $phones
+    'send' => $item,
+    'templates' => $templates,
+    'phones' => $phones
 ]);
 
 $Result['content'] = $tpl->fetch();

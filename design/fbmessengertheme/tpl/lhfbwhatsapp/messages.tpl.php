@@ -8,12 +8,13 @@
         <tr>
             <th width="1%"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','ID');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Department');?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Date');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Template');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','User');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Phone');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Send status');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Chat ID');?></th>
-            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Initiator');?></th>
+            <?php /*<th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Initiator');?></th>*/ ?>
             <th width="1%"></th>
         </tr>
         </thead>
@@ -24,6 +25,9 @@
                 </td>
                 <td>
                     <?php echo htmlspecialchars((string)$item->department)?>
+                </td>
+                <td title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Updated');?> <?php echo $item->updated_at_ago?> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','ago');?>">
+                    <?php echo $item->created_at_front?>
                 </td>
                 <td>
                     <?php echo htmlspecialchars((string)$item->template)?>
@@ -69,13 +73,14 @@
                     <?php endif; ?>
                     <?php echo htmlspecialchars($item->chat_id)?>
                 </td>
+                <?php /*
                 <td>
                     <?php if ($item->initiation == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::INIT_US) : ?>
                         <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','We');?>
                     <?php else : ?>
                         <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Third party');?>
                     <?php endif; ?>
-                </td>
+                </td>*/ ?>
                 <td>
                     <a class="csfr-required csfr-post material-icons text-danger" data-trans="delete_confirm" title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Delete message');?>" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/deletemessage')?>/<?php echo htmlspecialchars($item->id) ?>">delete</a>
                 </td>

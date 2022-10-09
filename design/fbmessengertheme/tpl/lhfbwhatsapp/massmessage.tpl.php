@@ -69,6 +69,16 @@
                 <span class="badge badge-secondary mr-2">field_4</span>
                 <span class="badge badge-secondary mr-2">field_5</span>
                 <span class="badge badge-secondary">field_6</span>
+                <span class="badge badge-secondary">field_header_1</span>
+                <span class="badge badge-secondary">field_header_2</span>
+                <span class="badge badge-secondary">field_header_3</span>
+                <span class="badge badge-secondary">field_header_4</span>
+                <span class="badge badge-secondary">field_header_5</span>
+                <span class="badge badge-secondary">field_header_6</span>
+                <span class="badge badge-secondary">field_header_doc_1</span>
+                <span class="badge badge-secondary">field_header_doc_filename_1</span>
+                <span class="badge badge-secondary">field_header_img_1</span>
+                <span class="badge badge-secondary">field_header_video_1</span>
             </p>
 
             <input type="submit" class="btn btn-sm btn-secondary" name="UploadFileAction" value="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Import and start sending');?>" />

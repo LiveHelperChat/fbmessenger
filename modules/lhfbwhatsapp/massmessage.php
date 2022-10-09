@@ -87,7 +87,12 @@ if (isset($_POST['UploadFileAction'])) {
 
         unlink($dir . $filename);
 
-        $canned = ['phone', 'field_1', 'field_2', 'field_3', 'field_4', 'field_5', 'field_6'];
+        $canned = ['phone',
+            'field_1', 'field_2', 'field_3', 'field_4', 'field_5', 'field_6',
+            'field_header_1', 'field_header_2', 'field_header_3', 'field_header_4', 'field_header_5', 'field_header_6',
+            'field_header_doc_1', 'field_header_doc_filename_1',
+            'field_header_img_1', 'field_header_video_1',
+        ];
 
         $stats = array(
             'imported' => 0,

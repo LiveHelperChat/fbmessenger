@@ -51,6 +51,7 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
         public function getTemplates() {
             // https://developers.facebook.com/docs/graph-api/reference/whats-app-business-account/message_templates/
             // curl -i -X GET "https://graph.facebook.com/LATEST-VERSION/WHATSAPP-BUSINESS-ACCOUNT-ID/message_templates?access_token=USER-ACCESS-TOKEN"
+            // curl -i -X GET "https://graph.facebook.com/v15.0/105209658989864/message_templates?access_token=EAARB6lT6poQBAPgBHm06sO7QfAZAPjflwCRuLRCKHnT9I9g9ZCeDqQ5bLktX647qH2JwWmMWD1kijbReD5ZASZAdJZCFgIyN5NJ1lkzhjwsibYDSwN5a6YhZCUgMgZCbl52am5Q8pXLatXmTp4yxL1kdhDC3DTai1MU7Ujmo1suscwjwoSPgR71"
 
             $templates = $this->getRestAPI([
                 'baseurl'   => $this->endpoint,
@@ -96,6 +97,8 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
 
             // Extract phone sender number and store as phone_sender attribute
             $bodyArguments = [];
+            $parametersHeader = [];
+            $messageVariables = $item->message_variables_array;
 
             // https://developers.facebook.com/docs/whatsapp/on-premises/reference/messages#template-object
             $bodyText = '';
@@ -119,39 +122,28 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                         }
                     }
                 } elseif ($component['type'] == 'HEADER' && $component['format'] == 'VIDEO') {
-                    $bodyArguments[] = [
-                        "type" => "header",
-                        "parameters" => [
-                            [
-                                "type"=> "video",
-                                "video"=> [
-                                    "link"=> (isset($component['example']['header_url'][0]) ? $component['example']['header_url'][0] : 'https://omni.enviosok.com/design/defaulttheme/images/general/logo.png'),
-                                ]
-                            ]
+                    $parametersHeader[] = [
+                        "type"=> "video",
+                        "video"=> [
+                            "link"=>  (isset($messageVariables['field_header_video_1']) && $messageVariables['field_header_video_1'] != '' ? $messageVariables['field_header_video_1'] : (isset($component['example']['header_url'][0]) ? $component['example']['header_url'][0] : 'https://omni.enviosok.com/design/defaulttheme/images/general/logo.png')),
                         ]
                     ];
                 } elseif ($component['type'] == 'HEADER' && $component['format'] == 'DOCUMENT') {
-                    $bodyArguments[] = [
-                        "type" => "header",
-                        "parameters" => [
-                            [
-                                "type"=> "document",
-                                "document"=> [
-                                    "link"=> (isset($component['example']['header_url'][0]) ? $component['example']['header_url'][0] : 'https://omni.enviosok.com/design/defaulttheme/images/general/logo.png'),
-                                ]
-                            ]
+                    $itemSend = [
+                        "type"=> "document",
+                        "document"=> [
+                            "link"=> (isset($messageVariables['field_header_doc_1']) && $messageVariables['field_header_doc_1'] != '' ? $messageVariables['field_header_doc_1'] : (isset($component['example']['header_handle'][0]) ? $component['example']['header_handle'][0] : 'https://omni.enviosok.com/design/defaulttheme/images/general/logo.png')),
                         ]
                     ];
+                    if (isset($messageVariables['field_header_doc_filename_1']) && $messageVariables['field_header_doc_filename_1'] != '') {
+                        $itemSend['document']['filename'] = $messageVariables['field_header_doc_filename_1'];
+                    }
+                    $parametersHeader[] = $itemSend;
                 } elseif ($component['type'] == 'HEADER' && $component['format'] == 'IMAGE') {
-                    $bodyArguments[] = [
-                        "type" => "header",
-                        "parameters" => [
-                            [
-                                "type"=> "image",
-                                "image"=> [
-                                    "link"=> (isset($component['example']['header_url'][0]) ? $component['example']['header_url'][0] : 'https://omni.enviosok.com/design/defaulttheme/images/general/logo.png'),
-                                ]
-                            ]
+                    $parametersHeader[] = [
+                        "type"=> "image",
+                        "image"=> [
+                            "link"=> (isset($messageVariables['field_header_img_1']) && $messageVariables['field_header_img_1'] != '' ? $messageVariables['field_header_img_1'] : (isset($component['example']['header_url'][0]) ? $component['example']['header_url'][0] : 'https://omni.enviosok.com/design/defaulttheme/images/general/logo.png')),
                         ]
                     ];
                 }
@@ -159,13 +151,25 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
 
             $item->message = $bodyText;
 
-            $messageVariables = $item->message_variables_array;
 
             for ($i = 0; $i < 6; $i++) {
                 if (isset($messageVariables['field_' . $i]) && $messageVariables['field_' . $i] != '') {
                     $item->message = str_replace('{{'.$i.'}}', $messageVariables['field_' . $i], $item->message);
                     $argumentsTemplate[] = ['type' => 'text','text' => $messageVariables['field_' . $i]];
                 }
+            }
+
+            for ($i = 0; $i < 6; $i++) {
+                if (isset($messageVariables['field_header_' . $i]) && $messageVariables['field_header_' . $i] != '') {
+                    $parametersHeader[] = ['type' => 'text','text' => $messageVariables['field_header_' . $i]];
+                }
+            }
+
+            if (!empty($parametersHeader)) {
+                $bodyArguments[] = [
+                    "type" => "header",
+                    "parameters" => $parametersHeader
+                ];
             }
 
             if (!empty($argumentsTemplate)) {

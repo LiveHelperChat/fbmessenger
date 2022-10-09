@@ -4,19 +4,6 @@ $Module = array( "name" => "FB WhatsApp module" );
 
 $ViewList = array();
 
-/*$ViewList['index'] = array(
-    'params' => array(),
-    'uparams' => array(),
-    'functions' => array('use_admin'),
-);
-
-$ViewList['settings'] = array(
-    'params' => array(),
-    'uparams' => array(),
-    'functions' => array('configure'),
-);
-*/
-
 $ViewList['massmessage'] = array(
     'params' => array(),
     'uparams' => array(),

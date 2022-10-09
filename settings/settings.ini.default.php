@@ -2,6 +2,7 @@
 
 return array(
     'enable_debug' => false, // Log errors etc in cache/default.log file
+    'fb_disabled' => false, // If you only WhatsApp integration you can disable facebook messenger related part completely
     'standalone' => array (
         'enabled' => false,                            # Is standalone mode enabled
         'secret_hash' => '',                           # Put any random string we use for communication and verifying request

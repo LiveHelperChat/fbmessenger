@@ -1,5 +1,6 @@
-<h3><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Facebook chat');?></h3>
+<?php if (erLhcoreClassUser::instance()->hasAccessTo('lhfbmessenger','use_fb_messenger') && !(isset(erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['fb_disabled']) && erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['fb_disabled'] === true)) : ?>
 
+<h4><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Facebook chat');?></h4>
 <?php
 $user = erLhcoreClassModelFBMessengerUser::findOne(array('filter' => array('user_id' => erLhcoreClassUser::instance()->getUserID())));
 
@@ -26,7 +27,6 @@ if (!($user instanceof erLhcoreClassModelFBMessengerUser)) {
     echo '<a title="Log in with Facebook!" href="' . htmlspecialchars($loginUrl) . '"><img height="40" src="' . erLhcoreClassDesign::design('images/login-fb.png') .'" title="Log in with Facebook!" alt="Log in with Facebook!" /></a>';
 } else {
     $logoutFB = true;
-
 }
 ?>
 <ul>
@@ -39,7 +39,6 @@ if (!($user instanceof erLhcoreClassModelFBMessengerUser)) {
 <?php include(erLhcoreClassDesign::designtpl('lhkernel/secure_links.tpl.php')); ?>
 
 <hr>
-
 <ul>
     <?php if (erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['standalone']['enabled'] == false) : ?>
     <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/list')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Facebook pages');?></a></li>
@@ -47,13 +46,24 @@ if (!($user instanceof erLhcoreClassModelFBMessengerUser)) {
     <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/bbcode')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('pagelayout/pagelayout','BBCode');?></a></li>
     <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/leads')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('pagelayout/pagelayout','Leads');?></a></li>
     <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/notifications')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('pagelayout/pagelayout','Notifications');?></a></li>
-    <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/options')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('pagelayout/pagelayout','Options');?></a></li>
 </ul>
 
-<h3><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','WhatsApp');?></h3>
+<?php endif; ?>
+
+<?php if (erLhcoreClassUser::instance()->hasAccessTo('lhfbmessenger','use_options')) : ?>
+    <hr>
+    <h4><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Options');?></h4>
+    <ul>
+        <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/options')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('pagelayout/pagelayout','Options');?></a></li>
+    </ul>
+<?php endif; ?>
+
+<?php if (erLhcoreClassUser::instance()->hasAccessTo('lhfbwhatsapp','use_admin')) : ?>
+<h4><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','WhatsApp');?></h4>
 <ul>
     <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/templates')?>"><span class="material-icons">description</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Templates');?></a></li>
     <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/send')?>"><span class="material-icons">send</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Send a single message');?></a></li>
     <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/massmessage')?>"><span class="material-icons">forum</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Send a mass message');?></a></li>
     <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/messages')?>"><span class="material-icons">chat</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Messages');?></a></li>
 </ul>
+<?php endif; ?>

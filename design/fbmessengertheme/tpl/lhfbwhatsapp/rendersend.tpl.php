@@ -3,7 +3,7 @@
 */ ?>
 
 <h6><?php echo htmlspecialchars($template['name'])?> <span class="badge badge-secondary"><?php echo htmlspecialchars($template['category'])?></span></h6>
-<?php $fieldsCount = 0;?>
+<?php $fieldsCount = 0;$fieldsCountHeader = 0;$fieldCountHeaderDocument = 0;$fieldCountHeaderImage = 0;$fieldCountHeaderVideo = 0;?>
 <div class="rounded bg-light p-2" title="<?php echo htmlspecialchars(json_encode($template, JSON_PRETTY_PRINT))?>">
     <?php foreach ($template['components'] as $component) : ?>
         <?php if ($component['type'] == 'HEADER' && $component['format'] == 'IMAGE' && isset($component['example']['header_url'][0])) : ?>
@@ -28,6 +28,33 @@
                 $fieldsCount = count($matchesReplace[0]);
             }
             ?><p><?php echo htmlspecialchars($component['text'])?></p><?php endif; ?>
+        <?php if ($component['type'] == 'HEADER') : ?>
+            <?php if ($component['format'] == 'DOCUMENT') : $fieldCountHeaderDocument = 1;?>
+                <h5 class="text-secondary">DOCUMENT</h5>
+            <?php elseif ($component['format'] == 'VIDEO') : $fieldCountHeaderVideo = 1;?>
+                <h5 class="text-secondary">VIDEO</h5>
+                <?php if (isset($component['example']['header_handle'][0])) : ?>
+                    <video width="100">
+                        <source src="<?php echo htmlspecialchars($component['example']['header_handle'][0])?>" type="video/mp4">
+                    </video>
+                <?php endif; ?>
+            <?php elseif ($component['format'] == 'IMAGE') : $fieldCountHeaderImage = 1;?>
+                <h5 class="text-secondary">IMAGE</h5>
+                <?php if (isset($component['example']['header_handle'][0])) : ?>
+                    <img src="<?php echo htmlspecialchars($component['example']['header_handle'][0])?>" />
+                <?php endif; ?>
+            <?php else : ?>
+                <?php
+                $matchesReplace = [];
+                preg_match_all('/\{\{[0-9]\}\}/is',$component['text'],$matchesReplace);
+                if (isset($matchesReplace[0])) {
+                    $fieldsCountHeader = count($matchesReplace[0]);
+                }
+                ?>
+                <h5 class="text-secondary"><?php echo htmlspecialchars($component['text'])?></h5>
+            <?php endif; ?>
+
+        <?php endif; ?>
         <?php if ($component['type'] == 'FOOTER') : ?><p class="text-secondary"><?php echo htmlspecialchars($component['text'])?></p><?php endif; ?>
         <?php if ($component['type'] == 'BUTTONS') : ?>
             <?php foreach ($component['buttons'] as $button) : ?>
@@ -41,11 +68,50 @@
     <?php for ($i = 0; $i < $fieldsCount; $i++) : ?>
         <div class="col-6" ng-non-bindable>
             <div class="form-group">
-                <label class="font-weight-bold">{{<?php echo $i+1?>}}</label>
+                <label class="font-weight-bold">Body Text - {{<?php echo $i+1?>}}</label>
                 <input type="text" class="form-control form-control-sm" name="field_<?php echo $i+1?>" value="<?php if (isset($data['field_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_' .  $i + 1])?><?php endif; ?>">
             </div>
         </div>
     <?php endfor; ?>
+    <?php for ($i = 0; $i < $fieldsCountHeader; $i++) : ?>
+        <div class="col-6" ng-non-bindable>
+            <div class="form-group">
+                <label class="font-weight-bold">Header Text - {{<?php echo $i+1?>}}</label>
+                <input type="text" class="form-control form-control-sm" name="field_header_<?php echo $i+1?>" value="<?php if (isset($data['field_header_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_' .  $i + 1])?><?php endif; ?>">
+            </div>
+        </div>
+    <?php endfor; ?>
+
+    <?php for ($i = 0; $i < $fieldCountHeaderDocument; $i++) : ?>
+        <div class="col-6" ng-non-bindable>
+            <div class="form-group">
+                <label class="font-weight-bold">Document URL - {{<?php echo $i+1?>}}</label>
+                <input type="text" class="form-control form-control-sm" placeholder="https://example.com/filename.pdf" name="field_header_doc_<?php echo $i+1?>" value="<?php if (isset($data['field_header_doc_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_doc_' .  $i + 1])?><?php endif; ?>">
+                <label class="font-weight-bold">Filename - {{<?php echo $i+1?>}}</label>
+                <input type="text" class="form-control form-control-sm" placeholder="filename.pdf" name="field_header_doc_filename_<?php echo $i+1?>" value="<?php if (isset($data['field_header_doc_filename_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_doc_filename_' .  $i + 1])?><?php endif; ?>">
+            </div>
+        </div>
+    <?php endfor; ?>
+
+    <?php for ($i = 0; $i < $fieldCountHeaderImage; $i++) : ?>
+        <div class="col-6" ng-non-bindable>
+            <div class="form-group">
+                <label class="font-weight-bold">Header image URL - {{<?php echo $i+1?>}}</label>
+                <input type="text" class="form-control form-control-sm" placeholder="https://example.com/image.png" name="field_header_img_<?php echo $i+1?>" value="<?php if (isset($data['field_header_img_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_img_' .  $i + 1])?><?php endif; ?>">
+            </div>
+        </div>
+    <?php endfor; ?>
+
+    <?php for ($i = 0; $i < $fieldCountHeaderVideo; $i++) : ?>
+        <div class="col-6" ng-non-bindable>
+            <div class="form-group">
+                <label class="font-weight-bold">Header video URL - {{<?php echo $i+1?>}}</label>
+                <input type="text" class="form-control form-control-sm" placeholder="https://example.com/video.mp4" name="field_header_video_<?php echo $i+1?>" value="<?php if (isset($data['field_header_video_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_video_' .  $i + 1])?><?php endif; ?>">
+            </div>
+        </div>
+    <?php endfor; ?>
+
+
 </div>
 
 <?php /*
