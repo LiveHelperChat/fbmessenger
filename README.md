@@ -35,12 +35,24 @@ In facebook Extension settings you have to enter
 * Click `Save and Activate WhatsApp configuration` it will install and configure all the required webhooks etc.
 * Go to Facebook App `WhatsApp-> Configuration` section and set Callback URL while entering `Verify Token` you have put in settings page.
 * Subscribe to messages field.
+* Bot sample what is supported can be found [here](https://raw.githubusercontent.com/LiveHelperChat/fbmessenger/master/doc/whatsapp/bot-sample.json)
+* If you change WahtsApp Access Token or updating click `Save And Remove WhatsApp configuration` and `Save and Activate WhatsApp configuration`
 
 ![See image](https://raw.githubusercontent.com/LiveHelperChat/fbmessenger/master/doc/whatsapp/whats-app-configuration.png)
 
 From WhatsApp perspective we support `images`, `text`, `video`, `audio`, `contact`, `location`, `sticker`, `document` messages types
 
-To send campaing of template messages this cronjob has to be setup.
+To send camapign of template messages this cronjob has to be setup.
+
+## Gotchas
+
+* While app is in testing mode received callback phone number and received callback numbers can be different. E.g
+  * 3706111111 received from callback
+  * To send this number back you have to set 370**8**6111111. Notice 8
+* After you activate extension to handle this problem you might need to edit incoming webhook rule
+  * This rule depends on phone number you have
+  * `Chat ID field replace rule` set to `/^370/is`
+  * `Chat ID field replace value` set to `3708`
 
 ```shell
 php cron.php -s site_admin -e fbmessenger -c cron/masssending

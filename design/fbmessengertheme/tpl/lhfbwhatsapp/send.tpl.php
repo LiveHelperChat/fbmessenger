@@ -14,15 +14,41 @@
 
     <div class="row">
         <div class="col-8">
-            <div class="form-group">
-                <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Recipient Phone');?>*</label>
-                <div class="input-group input-group-sm mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1">+</span>
+
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Recipient Phone');?>*</label>
+                        <div class="input-group input-group-sm mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">+</span>
+                            </div>
+                            <input type="text" name="phone" placeholder="37065111111" class="form-control" value="<?php echo htmlspecialchars((string)$send->phone)?>" aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
                     </div>
-                    <input type="text" name="phone" class="form-control" value="<?php echo htmlspecialchars((string)$send->phone)?>" aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Recipient Phone (WhatsApp internal number)');?>*</label>
+                        <div class="input-group input-group-sm mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">+</span>
+                            </div>
+                            <input type="text" placeholder="370865111111" name="phone_whatsapp" class="form-control" value="<?php echo htmlspecialchars((string)$send->phone)?>" aria-label="Username" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <p>During testing it happens that test number you have to send has different number than received callback. E.g
+            <ul>
+                <li>If real number is 37065111111 (Recipient Phone*)</li>
+                <li>In what's app send number has to be 370865111111 (Recipient Phone (WhatsApp internal number)*)</li>
+            </ul>
+            </p>
+
+
+
 
             <div class="form-group">
                 <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Department');?>*</label>

@@ -185,7 +185,7 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                 'bearer' => $this->access_key,
                 'body_json' => json_encode([
                     'messaging_product' => 'whatsapp',
-                    'to' => $item->phone,
+                    'to' => ($item->phone_whatsapp != '' ? $item->phone_whatsapp : $item->phone),
                     'type' => 'template',
                     'template' => [
                         'name' => $item->template,

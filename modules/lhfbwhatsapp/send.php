@@ -17,6 +17,9 @@ if (ezcInputForm::hasPostData()) {
         'phone' => new ezcInputFormDefinitionElement(
             ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
         ),
+        'phone_whatsapp' => new ezcInputFormDefinitionElement(
+            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+        ),
         'template' => new ezcInputFormDefinitionElement(
             ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
         ),
@@ -83,6 +86,10 @@ if (ezcInputForm::hasPostData()) {
         $item->phone = $form->phone;
     } else {
         $Errors[] = erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter a phone');
+    }
+    
+    if ($form->hasValidData( 'phone_whatsapp' ) && $form->phone_whatsapp != '') {
+        $item->phone_whatsapp = $form->phone_whatsapp;
     }
 
     if ($form->hasValidData( 'dep_id' )) {

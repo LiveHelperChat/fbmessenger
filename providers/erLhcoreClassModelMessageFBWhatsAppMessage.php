@@ -117,6 +117,7 @@ class erLhcoreClassModelMessageFBWhatsAppMessage
 
     public $id = null;
     public $phone = '';
+    public $phone_whatsapp = '';
     public $phone_sender_id = '';
     public $phone_sender = '';
     public $message = '';
