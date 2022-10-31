@@ -6,5 +6,5 @@
     "bot_id_alt": 0,
     "disabled": 0,
     "type": 0,
-    "configuration": "[{\"_id\":\"our3swSF4N\",\"type\":\"3\",\"logic\":\"and\",\"attr\":\"{args.chat.incoming_chat.incoming.scope}\",\"condition\":\"eq\",\"value\":\"facebookwhatsappscope\"}]"
+    "configuration": "[{\"_id\":\"our3swSF4N\",\"type\":\"3\",\"logic\":\"and\",\"attr\":\"{args.chat.incoming_chat.incoming.scope}\",\"condition\":\"eq\",\"value\":\"facebookwhatsappscope\"},{\"_id\":\"JWGRJ0ss5M\",\"type\":\"3\",\"logic\":\"and\",\"attr\":\"{args.chat.last_message.user_id}\",\"condition\":\"neq\",\"value\":\"-1\"}]"
 }

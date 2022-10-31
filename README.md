@@ -36,7 +36,13 @@ In facebook Extension settings you have to enter
 * Go to Facebook App `WhatsApp-> Configuration` section and set Callback URL while entering `Verify Token` you have put in settings page.
 * Subscribe to messages field.
 * Bot sample what is supported can be found [here](https://raw.githubusercontent.com/LiveHelperChat/fbmessenger/master/doc/whatsapp/bot-sample.json)
-* If you change WahtsApp Access Token or updating click `Save And Remove WhatsApp configuration` and `Save and Activate WhatsApp configuration`. You might need to setup webhook again.
+* If you change WhatsApp Access Token or updating click `Save And Remove WhatsApp configuration` and `Save and Activate WhatsApp configuration`. You might need to setup webhook again.
+* Sample commands you can use in the bot while sending text message. To get exact command for specific template just send a test message and at the top you will see command.
+
+```
+!fbtemplate {"template_name":"hello_world","template_lang":"en_us","args":{}}
+!fbtemplate {"template_name":"quick_reply","template_lang":"en","args":{"field_1":"name","field_header_1":"header"}}
+```
 
 ![See image](https://raw.githubusercontent.com/LiveHelperChat/fbmessenger/master/doc/whatsapp/whats-app-configuration.png)
 

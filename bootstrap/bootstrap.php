@@ -17,6 +17,11 @@ class erLhcoreClassExtensionFbmessenger {
 		    'sendMessageToFb'
 		));
 
+		$dispatcher->listen('chat.customcommand', array(
+		    $this,
+		    'sendTemplate'
+		));
+
         $dispatcher->listen('chat.auto_preload', array(
             $this,
             'autoPreload'
@@ -127,6 +132,35 @@ class erLhcoreClassExtensionFbmessenger {
         ));
 
 	}
+
+    public function sendTemplate($paramsCommand) {
+        if ($paramsCommand['command'] == '!fbtemplate') {
+
+            // !fbtemplate {"template_name":"hello_world","template_lang":"en_us","args":{}}
+            // !fbtemplate {"template_name":"quick_reply","template_lang":"en","args":{"field_1":"name","field_header_1":"header"}}
+
+            $paramsTemplate = json_decode($paramsCommand['argument'],true);
+
+            $params = $paramsCommand['params'];
+
+            $item = new \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage();
+
+            $item->template = $paramsTemplate['template_name'];
+            $item->language = $paramsTemplate['template_lang'];
+            $item->phone_sender_id = $params['chat']->chat_variables_array['iwh_field_2'];
+            $item->message_variables_array = $paramsTemplate['args'];
+            $item->phone_whatsapp = $params['chat']->incoming_chat->chat_external_id;
+
+            LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance()->sendTemplate($item, [], [], ['do_not_save' => true]);
+
+            return array(
+                'status' => erLhcoreClassChatEventDispatcher::STOP_WORKFLOW,
+                'processed' => true,
+                'raw_message' => '!fbtemplate',
+                'process_status' => erTranslationClassLhTranslation::getInstance()->getTranslation('chat/chatcommand', 'Template was send!'). ($this->settings['enable_debug'] == true ? ' '.$item->send_status_raw : '')
+            );
+        }
+    }
 
     // WhatsApp Verify Token override call
     public function verifyWhatsAppToken($params)

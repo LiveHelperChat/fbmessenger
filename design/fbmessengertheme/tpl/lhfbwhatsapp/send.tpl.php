@@ -8,6 +8,12 @@
     <?php include(erLhcoreClassDesign::designtpl('lhkernel/alert_success.tpl.php'));?>
 <?php endif; ?>
 
+<?php if (isset($fbcommand)) : ?>
+<div class="alert alert-info">
+    <?php echo htmlspecialchars($fbcommand)?>
+</div>
+<?php endif;?>
+
 <form action="" method="post" ng-non-bindable>
 
     <?php include(erLhcoreClassDesign::designtpl('lhkernel/csfr_token.tpl.php'));?>

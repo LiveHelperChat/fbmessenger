@@ -77,7 +77,7 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
         }
 
 
-        public function sendTemplate($item, $templates = [], $phones = []) {
+        public function sendTemplate($item, $templates = [], $phones = [], $paramsExecution = []) {
 
             $argumentsTemplate = [];
 
@@ -212,12 +212,20 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                 }
 
                 $item->send_status_raw = json_encode($response);
-                $item->saveThis();
+
+                if (!isset($paramsExecution['do_not_save']) || $paramsExecution['do_not_save'] == false) {
+                    $item->saveThis();
+                }
+
+                return $item;
 
             } catch (\Exception $e) {
                 $item->send_status_raw = json_encode($response) . $e->getTraceAsString() . $e->getMessage();
                 $item->status = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_FAILED;
-                $item->saveThis();
+                if (!isset($paramsExecution['do_not_save']) || $paramsExecution['do_not_save'] == false) {
+                    $item->saveThis();
+                }
+                return $item;
             }
         }
 

@@ -157,6 +157,11 @@ if (ezcInputForm::hasPostData()) {
             $item->saveThis();
 
             $tpl->set('updated',true);
+            $tpl->set('fbcommand','!fbtemplate '.json_encode([
+                'template_name' => $item->template,
+                'template_lang' => $item->language,
+                 'args' => $item->message_variables_array
+             ]));
         } catch (Exception $e) {
             $tpl->set('errors',array($e->getMessage()));
         }
