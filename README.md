@@ -37,6 +37,9 @@ In facebook Extension settings you have to enter
 * Subscribe to messages field.
 * Bot sample what is supported can be found [here](https://raw.githubusercontent.com/LiveHelperChat/fbmessenger/master/doc/whatsapp/bot-sample.json)
 * If you change WhatsApp Access Token or updating click `Save And Remove WhatsApp configuration` and `Save and Activate WhatsApp configuration`. You might need to setup webhook again.
+* If you are using PHPResque extension make sure you set correct domain
+  * https://github.com/LiveHelperChat/livehelperchat/blob/master/lhc_web/settings/settings.ini.default.php#L30
+  * https://github.com/LiveHelperChat/lhc-php-resque/blob/master/lhcphpresque/settings/settings.ini.default.php
 * Sample commands you can use in the bot while sending text message. To get exact command for specific template just send a test message and at the top you will see command.
 
 ```
