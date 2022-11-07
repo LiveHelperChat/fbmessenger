@@ -145,13 +145,16 @@ class erLhcoreClassExtensionFbmessenger {
 
             $item = new \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage();
 
+            // Templates are required for images to be sent
+            $templates = LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance()->getTemplates();
+
             $item->template = $paramsTemplate['template_name'];
             $item->language = $paramsTemplate['template_lang'];
             $item->phone_sender_id = $params['chat']->chat_variables_array['iwh_field_2'];
             $item->message_variables_array = $paramsTemplate['args'];
             $item->phone_whatsapp = $params['chat']->incoming_chat->chat_external_id;
 
-            LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance()->sendTemplate($item, [], [], ['do_not_save' => true]);
+            LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance()->sendTemplate($item, $templates, [], ['do_not_save' => true]);
 
             return array(
                 'status' => erLhcoreClassChatEventDispatcher::STOP_WORKFLOW,

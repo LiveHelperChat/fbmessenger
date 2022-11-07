@@ -151,7 +151,6 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
 
             $item->message = $bodyText;
 
-
             for ($i = 0; $i < 6; $i++) {
                 if (isset($messageVariables['field_' . $i]) && $messageVariables['field_' . $i] != '') {
                     $item->message = str_replace('{{'.$i.'}}', $messageVariables['field_' . $i], $item->message);
