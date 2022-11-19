@@ -242,7 +242,7 @@ class erLhcoreClassExtensionFbmessenger {
                                     'rejected' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_REJECTED,
                                 ];
 
-                                if (isset($statusItem['conversation']['id'])){
+                                if (isset($statusItem['conversation']['id'])) {
                                     $fbWhatsAppMessage->conversation_id = $statusItem['conversation']['id'];
                                 }
 
@@ -252,6 +252,40 @@ class erLhcoreClassExtensionFbmessenger {
 
                                 if ($fbWhatsAppMessage->status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_REJECTED) {
                                     $fbWhatsAppMessage->send_status_raw = $fbWhatsAppMessage->send_status_raw . json_encode($params['data']);
+                                }
+
+                                // Insert message as a normal message to the last chat customer had
+                                // In case there is chosen reopen old chat
+                                // Which by the case is the default option of the extension
+                                if (in_array($fbWhatsAppMessage->status,[
+                                    \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_READ
+                                ]) && $fbWhatsAppMessage->chat_id == 0) {
+                                    $presentConversation = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::findOne([
+                                        'filter' => [
+                                            'phone_sender_id' => $fbWhatsAppMessage->phone_sender_id,
+                                            'phone' => $fbWhatsAppMessage->phone
+                                        ],
+                                        'filternot' => [
+                                            'chat_id' => 0
+                                        ],
+                                        'sort' => '`id` DESC'
+                                    ]);
+
+                                    if (is_object($presentConversation)) {
+                                        $chat = erLhcoreClassModelChat::fetch($presentConversation->chat_id);
+                                        if (is_object($chat)) {
+                                             // Save template message first before saving initial response in the lhc core
+                                            $msg = new erLhcoreClassModelmsg();
+                                            $msg->msg = $fbWhatsAppMessage->message;
+                                            $msg->chat_id = $chat->id;
+                                            $msg->user_id = $fbWhatsAppMessage->user_id;
+                                            $msg->time = $fbWhatsAppMessage->created_at;
+                                            erLhcoreClassChat::getSession()->save($msg);
+
+                                            $chat->last_msg_id = $msg->id;
+                                            $chat->updateThis(['update' => ['last_msg_id']]);
+                                        }
+                                    }
                                 }
 
                                 $fbWhatsAppMessage->saveThis();
