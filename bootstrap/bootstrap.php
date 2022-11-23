@@ -845,11 +845,11 @@ class erLhcoreClassExtensionFbmessenger {
                                 if ($button['type'] == 'url') {
                                     $buttons[] = new Tgallice\FBMessenger\Model\Button\WebUrl($button['content']['name'], $button['content']['payload']);
                                 } elseif ($button['type'] == 'trigger') {
-                                    $buttons[] = new Tgallice\FBMessenger\Model\Button\Postback($button['content']['name'],  'trigger__'.$item['content']['payload']. '__' . md5($item['content']['name']) . '__' . $messageId);
+                                    $buttons[] = new Tgallice\FBMessenger\Model\Button\Postback($button['content']['name'], 'trigger__'.$button['content']['payload']. '__' . md5($button['content']['name']) . '__' . $messageId);
                                 } elseif ($item['type'] == 'updatechat') {
                                     // This scenario is not supported in general
                                 } else {
-                                    $elements[] = new Tgallice\FBMessenger\Model\Button\Postback($item['content']['name'], 'bpayload__'.$item['content']['payload']. '__' . md5($item['content']['name']) . '__' . $messageId );
+                                    $elements[] = new Tgallice\FBMessenger\Model\Button\Postback($item['content']['name'], 'bpayload__'.$button['content']['payload']. '__' . md5($button['content']['name']) . '__' . $messageId );
                                 }
                             }
 
