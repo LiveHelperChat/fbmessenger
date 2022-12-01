@@ -3,8 +3,17 @@
 $tpl = erLhcoreClassTemplate::getInstance('lhfbwhatsapp/send.tpl.php');
 
 $item = new LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage();
-$templates = LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance()->getTemplates();
-$phones = LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance()->getPhones();
+$instance = LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance();
+
+if (is_numeric($Params['user_parameters']['business_account_id'])) {
+    $account = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::fetch($Params['user_parameters']['business_account_id']);
+    $instance->setAccessToken($account->access_token);
+    $instance->setBusinessAccountID($account->business_account_id);
+    $tpl->set('business_account_id', $account->id);
+}
+
+$templates = $instance->getTemplates();
+$phones = $instance->getPhones();
 
 if (ezcInputForm::hasPostData()) {
 
@@ -139,6 +148,7 @@ if (ezcInputForm::hasPostData()) {
 
     $item->message_variables_array = $messageVariables;
     $item->message_variables = json_encode($messageVariables);
+    $item->business_account_id = is_object($account) ? $account->id : 0;
 
     if ($form->hasValidData( 'template' ) && $form->template != '') {
         $template = explode('||',$form->template);
@@ -168,9 +178,7 @@ if (ezcInputForm::hasPostData()) {
     } else {
         $tpl->set('errors',$Errors);
     }
-
 }
-
 
 $tpl->setArray([
     'send' => $item,

@@ -3,6 +3,7 @@ CREATE TABLE `lhc_fbmessengerwhatsapp_message` (
     `user_id` bigint(20) unsigned NOT NULL,
     `created_at` bigint(20) unsigned NOT NULL,
     `updated_at` bigint(20) unsigned NOT NULL,
+    `business_account_id` int(11) unsigned NOT NULL DEFAULT '0',
     `phone` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
     `phone_sender` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
     `phone_sender_id` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -87,7 +88,7 @@ CREATE TABLE `lhc_fbmessenger_lead` (
   `country` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `ctime` int(11) DEFAULT NULL,
-  `is_payment_enabled` tinyint(1) DEFAULT 0,
+  `is_payment_enabled` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_id` (`user_id`),
   KEY `blocked` (`blocked`),
@@ -126,3 +127,13 @@ CREATE TABLE `lhc_fbmessenger_standalone_fb_page` (
                       UNIQUE KEY `page_id` (`page_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `lhc_fbmessengerwhatsapp_account` (
+                                                   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+                                                   `dep_id` int(11) unsigned NOT NULL,
+                                                   `business_account_id` bigint(20) unsigned NOT NULL,
+                                                   `active` tinyint(1) NOT NULL,
+                                                   `access_token` text COLLATE utf8mb4_unicode_ci NOT NULL,
+                                                   `name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                                   `phone_number_ids` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                                   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

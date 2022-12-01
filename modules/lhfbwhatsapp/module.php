@@ -5,11 +5,10 @@ $Module = array( "name" => "FB WhatsApp module" );
 $ViewList = array();
 
 $ViewList['massmessage'] = array(
-    'params' => array(),
+    'params' => array('business_account_id'),
     'uparams' => array(),
     'functions' => array('use_admin'),
 );
-
 
 $ViewList['deletemessage'] = array(
     'params' => array('id'),
@@ -23,7 +22,7 @@ $ViewList['rawjson'] = array(
 );
 
 $ViewList['send'] = array(
-    'params' => array(),
+    'params' => array('business_account_id'),
     'uparams' => array(),
     'functions' => array('use_admin'),
 );
@@ -35,7 +34,7 @@ $ViewList['templates'] = array(
 );
 
 $ViewList['rendersend'] = array(
-    'params' => array('template'),
+    'params' => array('template', 'business_account_id'),
     'uparams' => array(),
     'functions' => array('use_admin'),
 );
@@ -46,4 +45,29 @@ $ViewList['messages'] = array(
     'functions' => array('use_admin'),
 );
 
+$ViewList['account'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('manage_accounts'),
+);
+
+$ViewList['newaccount'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('manage_accounts'),
+);
+
+$ViewList['editaccount'] = array(
+    'params' => array('id'),
+    'uparams' => array(),
+    'functions' => array('manage_accounts'),
+);
+
+$ViewList['deleteaccount'] = array(
+    'params' => array('id'),
+    'uparams' => array(),
+    'functions' => array('manage_accounts'),
+);
+
 $FunctionList['use_admin'] = array('explain' => 'Allow operator to use WhatsApp');
+$FunctionList['manage_accounts'] = array('explain' => 'Manage business accounts');

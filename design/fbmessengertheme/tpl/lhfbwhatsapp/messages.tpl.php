@@ -7,6 +7,7 @@
         <thead>
         <tr>
             <th width="1%"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','ID');?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Business Account');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Department');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Date');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Template');?></th>
@@ -14,7 +15,6 @@
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Phone');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Send status');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Chat ID');?></th>
-            <?php /*<th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Initiator');?></th>*/ ?>
             <th width="1%"></th>
         </tr>
         </thead>
@@ -22,6 +22,9 @@
             <tr>
                 <td nowrap="" title="<?php echo date(erLhcoreClassModule::$dateDateHourFormat,$item->created_at);?> | <?php echo htmlspecialchars($item->fb_msg_id) ?> | <?php echo htmlspecialchars($item->conversation_id) ?>">
                     <?php echo htmlspecialchars($item->id) ?> <a class="material-icons" onclick="lhc.revealModal({'url':WWW_DIR_JAVASCRIPT+'fbwhatsapp/rawjson/<?php echo $item->id?>'})">info_outline</a>
+                </td>
+                <td>
+                    <?php echo htmlspecialchars((string)$item->business_account)?>
                 </td>
                 <td>
                     <?php echo htmlspecialchars((string)$item->department)?>

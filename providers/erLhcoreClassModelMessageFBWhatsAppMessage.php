@@ -35,7 +35,8 @@ class erLhcoreClassModelMessageFBWhatsAppMessage
             'dep_id' => $this->dep_id,
             'initiation' => $this->initiation,
             'conversation_id' => $this->conversation_id,
-            'message_variables' => $this->message_variables
+            'message_variables' => $this->message_variables,
+            'business_account_id' => $this->business_account_id
         );
     }
 
@@ -83,6 +84,17 @@ class erLhcoreClassModelMessageFBWhatsAppMessage
                     }
                 }
                 return $this->department;
+
+            case 'business_account':
+                $this->business_account = null;
+                if ($this->business_account_id > 0) {
+                    try {
+                        $this->business_account = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::fetch($this->business_account_id);
+                    } catch (\Exception $e) {
+
+                    }
+                }
+                return $this->business_account;
 
             case 'message_variables_array':
                 if (!empty($this->message_variables)) {
@@ -134,6 +146,7 @@ class erLhcoreClassModelMessageFBWhatsAppMessage
     public $message_variables = '';
     public $chat_id = 0;
     public $dep_id = 0;
+    public $business_account_id = 0;
     public $initiation = self::INIT_US;
 }
 

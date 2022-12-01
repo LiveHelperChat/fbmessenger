@@ -32,6 +32,14 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
             $this->endpoint = 'https://graph.facebook.com/';
         }
 
+        public function setAccessToken($accessToken) {
+            $this->access_key = $accessToken;
+        }
+
+        public function setBusinessAccountID($businessAccountID) {
+            $this->whatsapp_business_account_id = $businessAccountID;
+        }
+
         public function getPhones() {
             // https://developers.facebook.com/docs/graph-api/reference/whats-app-business-account/phone_numbers/
             // curl -i -X GET "https://graph.facebook.com/LATEST-VERSION/WHATSAPP-BUSINESS-ACCOUNT-ID/phone_numbers?access_token=USER-ACCESS-TOKEN"

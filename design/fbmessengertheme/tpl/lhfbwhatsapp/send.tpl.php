@@ -14,10 +14,8 @@
 </div>
 <?php endif;?>
 
-<form action="" method="post" ng-non-bindable>
-
+<form action="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/send')?><?php if (isset($business_account_id) && is_numeric($business_account_id)) : ?>/<?php echo (int)$business_account_id?><?php endif;?>" method="post" ng-non-bindable>
     <?php include(erLhcoreClassDesign::designtpl('lhkernel/csfr_token.tpl.php'));?>
-
     <div class="row">
         <div class="col-8">
 
@@ -52,9 +50,6 @@
                 <li>In what's app send number has to be 370865111111 (Recipient Phone (WhatsApp internal number)*)</li>
             </ul>
             </p>
-
-
-
 
             <div class="form-group">
                 <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Department');?>*</label>
@@ -91,6 +86,9 @@
 
             <script>
                 var messageFieldsValues = <?php echo json_encode($send->message_variables_array);?>;
+                <?php if (isset($business_account_id) && is_numeric($business_account_id)) : ?>
+                    var businessAccountId = <?php echo (int)$business_account_id?>;
+                <?php endif;?>
             </script>
 
             <div id="arguments-template-form"></div>

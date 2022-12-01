@@ -3,8 +3,17 @@
 $tpl = erLhcoreClassTemplate::getInstance('lhfbwhatsapp/massmessage.tpl.php');
 
 $itemDefault = new LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage();
-$templates = LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance()->getTemplates();
-$phones = LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance()->getPhones();
+$instance = LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance();
+
+if (is_numeric($Params['user_parameters']['business_account_id'])) {
+    $account = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::fetch($Params['user_parameters']['business_account_id']);
+    $instance->setAccessToken($account->access_token);
+    $instance->setBusinessAccountID($account->business_account_id);
+    $tpl->set('business_account_id', $account->id);
+}
+
+$templates = $instance->getTemplates();
+$phones = $instance->getPhones();
 
 if (isset($_POST['UploadFileAction'])) {
 
@@ -106,6 +115,7 @@ if (isset($_POST['UploadFileAction'])) {
                 $messagePrepared->phone = str_replace('+','',$item['phone']);
                 $messagePrepared->phone_sender = $itemDefault->phone_sender;
                 $messagePrepared->phone_sender_id = $itemDefault->phone_sender_id;
+                $messagePrepared->business_account_id = is_object($account) ? $account->id : 0;
                 unset($item['phone']);
                 $messagePrepared->message_variables = json_encode($item);
                 $messagePrepared->template = $itemDefault->template;

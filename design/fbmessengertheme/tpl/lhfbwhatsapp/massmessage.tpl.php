@@ -59,6 +59,9 @@
 
             <script>
                 var messageFieldsValues = <?php echo json_encode($send->message_variables_array);?>;
+                <?php if (isset($business_account_id) && is_numeric($business_account_id)) : ?>
+                var businessAccountId = <?php echo (int)$business_account_id?>;
+                <?php endif;?>
             </script>
 
             <p><small><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','First row in CSV is skipped. Columns order');?> - </small>

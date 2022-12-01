@@ -65,5 +65,6 @@ if (!($user instanceof erLhcoreClassModelFBMessengerUser)) {
     <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/send')?>"><span class="material-icons">send</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Send a single message');?></a></li>
     <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/massmessage')?>"><span class="material-icons">forum</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Send a mass message');?></a></li>
     <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/messages')?>"><span class="material-icons">chat</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Messages');?></a></li>
+    <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/account')?>"><span class="material-icons">manage_accounts</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Business Accounts');?></a></li>
 </ul>
 <?php endif; ?>

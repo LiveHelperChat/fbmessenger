@@ -4,9 +4,17 @@ $tpl = erLhcoreClassTemplate::getInstance('lhfbwhatsapp/rendersend.tpl.php');
 
 $params = explode('||',$Params['user_parameters']['template']);
 
+$instance = LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance();
+
+if (is_numeric($Params['user_parameters']['business_account_id'])) {
+    $account = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::fetch($Params['user_parameters']['business_account_id']);
+    $instance->setAccessToken($account->access_token);
+    $instance->setBusinessAccountID($account->business_account_id);
+}
+
 $tpl->setArray([
     'data' => (isset($_POST['data']) ? json_decode($_POST['data'],true) : []),
-    'template' => LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance()->getTemplate($params[2], $params[1]),
+    'template' => $instance->getTemplate($params[2], $params[1]),
 ]);
 
 $response = explode('<!--=========||=========-->', $tpl->fetch());

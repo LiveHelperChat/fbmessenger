@@ -131,7 +131,27 @@ class erLhcoreClassExtensionFbmessenger {
             'incommingChatStarted'
         ));
 
+        $dispatcher->listen('chat.rest_api_before_request', array(
+            $this,
+            'addWhatsAppToken'
+        ));
+
 	}
+
+    public function addWhatsAppToken($params) {
+        if (is_object($params['chat']->incoming_chat) && $params['chat']->incoming_chat->incoming->scope == 'facebookwhatsappscope') {
+            if (isset($params['chat']->chat_variables_array['iwh_field_2'])) {
+                $businessAccount = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::findOne(array('customfilter' => array("JSON_CONTAINS(`phone_number_ids`,'\"" . (int)$params['chat']->chat_variables_array['iwh_field_2'] . "\"','$')" )));
+
+                // Override only if we found separate business account for that phone number
+                if (is_object($businessAccount)) {
+                    $attributes = $params['chat']->incoming_chat->incoming->attributes;
+                    $attributes['access_token']= $businessAccount->access_token;
+                    $params['chat']->incoming_chat->incoming->attributes = $attributes;
+                }
+            }
+        }
+    }
 
     public function sendTemplate($paramsCommand) {
         if ($paramsCommand['command'] == '!fbtemplate') {
@@ -145,8 +165,18 @@ class erLhcoreClassExtensionFbmessenger {
 
             $item = new \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage();
 
+            $instance = LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance();
+
+            $businessAccount = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::findOne(array('customfilter' => array("JSON_CONTAINS(`phone_number_ids`,'\"" . (int)$params['chat']->chat_variables_array['iwh_field_2'] . "\"','$')" )));
+
+            // Override only if we found separate business account for that phone number
+            if (is_object($businessAccount)) {
+                $instance->setBusinessAccountID($businessAccount->business_account_id);
+                $instance->setAccessToken($businessAccount->access_token);
+            }
+
             // Templates are required for images to be sent
-            $templates = LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance()->getTemplates();
+            $templates = $instance->getTemplates();
 
             $item->template = $paramsTemplate['template_name'];
             $item->language = $paramsTemplate['template_lang'];
@@ -154,7 +184,7 @@ class erLhcoreClassExtensionFbmessenger {
             $item->message_variables_array = $paramsTemplate['args'];
             $item->phone_whatsapp = $params['chat']->incoming_chat->chat_external_id;
 
-            LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance()->sendTemplate($item, $templates, [], ['do_not_save' => true]);
+            $instance->sendTemplate($item, $templates, [], ['do_not_save' => true]);
 
             return array(
                 'status' => erLhcoreClassChatEventDispatcher::STOP_WORKFLOW,
@@ -190,12 +220,21 @@ class erLhcoreClassExtensionFbmessenger {
             isset($params['data']['entry']) &&
             $params['data']['object'] == 'whatsapp_business_account'
         ) {
+            $initMessageFound = false;
             foreach ($params['data']['entry'] as $entryItem) {
                 foreach ($entryItem['changes'] as $changeItem) {
                     if (isset($changeItem['value']['messages'])) {
                         foreach ($changeItem['value']['messages'] as $messageItem) {
-                            $fbWhatsAppMessage = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::findOne(['sort' => '`id` DESC','filter' => ['phone' => $messageItem['from']]]);
-                            if (is_object($fbWhatsAppMessage) && $fbWhatsAppMessage->dep_id > 0) {
+                            $fbWhatsAppMessage = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::findOne([
+                                'sort' => '`id` DESC',
+                                'filter' => [
+                                    'phone' => $messageItem['from'],
+                                    'phone_sender_id' => $changeItem['value']['metadata']["phone_number_id"]
+                                ]
+                            ]);
+                            // We insert last message only if it does not have chat assigned already
+                            // This is change since multiple WhatsApp accounts support was added.
+                            if (is_object($fbWhatsAppMessage) && $fbWhatsAppMessage->dep_id > 0 && $fbWhatsAppMessage->chat_id == 0) {
                                 // Chat
                                 $params['chat']->dep_id = $fbWhatsAppMessage->dep_id;
                                 $params['chat']->updateThis(['update' => ['dep_id']]);
@@ -211,6 +250,15 @@ class erLhcoreClassExtensionFbmessenger {
                                 // Update message bird
                                 $fbWhatsAppMessage->chat_id = $params['chat']->id;
                                 $fbWhatsAppMessage->updateThis(['update' => ['chat_id']]);
+                                $initMessageFound = true;
+                            }
+                        }
+
+                        if ($initMessageFound == false) {
+                            $businessAccount = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::findOne(array('customfilter' => array("JSON_CONTAINS(`phone_number_ids`,'\"" . (int)$changeItem['value']['metadata']["phone_number_id"] . "\"','$')" )));
+                            // Override only if we found separate business account for that phone number
+                            if (is_object($businessAccount)) {
+                                $params['chat']->dep_id = $businessAccount->dep_id;
                             }
                         }
                     }
