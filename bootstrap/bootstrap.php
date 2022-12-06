@@ -182,7 +182,7 @@ class erLhcoreClassExtensionFbmessenger {
             $item->language = $paramsTemplate['template_lang'];
             $item->phone_sender_id = $params['chat']->chat_variables_array['iwh_field_2'];
             $item->message_variables_array = $paramsTemplate['args'];
-            $item->phone_whatsapp = $params['chat']->incoming_chat->chat_external_id;
+            $item->phone_whatsapp = $params['chat']->incoming_chat->chat_external_first;
 
             $instance->sendTemplate($item, $templates, [], ['do_not_save' => true]);
 
@@ -333,6 +333,29 @@ class erLhcoreClassExtensionFbmessenger {
                                             $chat->last_msg_id = $msg->id;
                                             $chat->updateThis(['update' => ['last_msg_id']]);
                                         }
+                                    } else { // Try to find any on-going chat
+                                        $chatIdExternal = $fbWhatsAppMessage->phone;
+
+                                        $conditions = $params['webhook']->conditions_array;
+
+                                        if (isset($conditions['chat_id_preg_rule']) && $conditions['chat_id_preg_rule'] != '') {
+                                            $chatIdExternal = preg_replace($conditions['chat_id_preg_rule'], $conditions['chat_id_preg_value'], $chatIdExternal);
+                                        }
+
+                                        $incomingChat = erLhcoreClassModelChatIncoming::findOne(array('filter' => array('chat_external_id' => $chatIdExternal . '__' . $fbWhatsAppMessage->phone_sender_id)));
+
+                                        if ($incomingChat instanceof erLhcoreClassModelChatIncoming && is_object($incomingChat->chat)) {
+                                            $msg = new erLhcoreClassModelmsg();
+                                            $msg->msg = $fbWhatsAppMessage->message;
+                                            $msg->chat_id = $incomingChat->chat->id;
+                                            $msg->user_id = $fbWhatsAppMessage->user_id;
+                                            $msg->time = $fbWhatsAppMessage->created_at;
+                                            erLhcoreClassChat::getSession()->save($msg);
+
+                                            $incomingChat->chat->last_msg_id = $msg->id;
+                                            $incomingChat->chat->updateThis(['update' => ['last_msg_id']]);
+                                        }
+
                                     }
                                 }
 
