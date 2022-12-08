@@ -24,8 +24,28 @@ class erLhcoreClassModelMessageFBWhatsAppAccountValidator
             )
         );
 
+        foreach ($item->phone_number_ids_array as $phoneNumberId) {
+            $definition['dep_'.$phoneNumberId] = new \ezcInputFormDefinitionElement(
+                \ezcInputFormDefinitionElement::OPTIONAL, 'int', array('min_range' => 1)
+            );
+        }
+
         $form = new \ezcInputForm( INPUT_POST, $definition );
         $Errors = array();
+
+        $phone_number_deps_array = $item->phone_number_deps_array;
+
+        foreach ($item->phone_number_ids_array as $phoneNumberId) {
+            if ( $form->hasValidData( 'dep_'.$phoneNumberId ))
+            {
+                $phone_number_deps_array[$phoneNumberId] = $form->{'dep_'.$phoneNumberId};
+            } else if (isset($phone_number_deps_array[$phoneNumberId])) {
+                unset($phone_number_deps_array[$phoneNumberId]);
+            }
+        }
+
+        $item->phone_number_deps_array = $phone_number_deps_array;
+        $item->phone_number_deps = json_encode($phone_number_deps_array);
 
         if ( $form->hasValidData( 'name' ) && $form->name != '')
         {

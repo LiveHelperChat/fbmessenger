@@ -23,7 +23,8 @@ class erLhcoreClassModelMessageFBWhatsAppAccount
             'access_token' => $this->access_token,
             'business_account_id' => $this->business_account_id,
             'active' => $this->active,
-            'phone_number_ids' => $this->phone_number_ids
+            'phone_number_ids' => $this->phone_number_ids,
+            'phone_number_deps' => $this->phone_number_deps
         );
     }
 
@@ -47,6 +48,21 @@ class erLhcoreClassModelMessageFBWhatsAppAccount
                 }
                 return $this->department;
 
+            case 'phone_number_ids_array':
+            case 'phone_number_deps_array':
+                $attr = str_replace('_array','',$var);
+                if (!empty($this->{$attr})) {
+                    $jsonData = json_decode($this->{$attr},true);
+                    if ($jsonData !== null) {
+                        $this->{$var} = $jsonData;
+                    } else {
+                        $this->{$var} = array();
+                    }
+                } else {
+                    $this->{$var} = array();
+                }
+                return $this->{$var};
+
             default:
                 ;
                 break;
@@ -60,6 +76,7 @@ class erLhcoreClassModelMessageFBWhatsAppAccount
     public $access_token = '';
     public $business_account_id = '';
     public $phone_number_ids = '';
+    public $phone_number_deps = '';
 }
 
 ?>

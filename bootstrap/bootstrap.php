@@ -258,7 +258,7 @@ class erLhcoreClassExtensionFbmessenger {
                             $businessAccount = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::findOne(array('customfilter' => array("JSON_CONTAINS(`phone_number_ids`,'\"" . (int)$changeItem['value']['metadata']["phone_number_id"] . "\"','$')" )));
                             // Override only if we found separate business account for that phone number
                             if (is_object($businessAccount)) {
-                                $params['chat']->dep_id = $businessAccount->dep_id;
+                                $params['chat']->dep_id = isset($businessAccount->phone_number_deps_array[(string)$changeItem['value']['metadata']["phone_number_id"]]) ? $businessAccount->phone_number_deps_array[(string)$changeItem['value']['metadata']["phone_number_id"]] : $businessAccount->dep_id;
                             }
                         }
                     }

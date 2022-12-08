@@ -135,5 +135,6 @@ CREATE TABLE `lhc_fbmessengerwhatsapp_account` (
                                                    `access_token` text COLLATE utf8mb4_unicode_ci NOT NULL,
                                                    `name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
                                                    `phone_number_ids` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
+                                                   `phone_number_deps` text NOT NULL,
                                                    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
