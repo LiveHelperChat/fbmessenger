@@ -11,6 +11,12 @@ Integration with Facebook messenger API. You will be able to chat with Facebook 
  * Supports multiple pages at once.
  * Each page chat can be assigned to custom department.
 
+# Update instructions
+
+* Make sure you have most recent Live Helper Chat version.
+* Update database via `php cron.php -s site_admin -e fbmessenger -c cron/update_structure` command
+* `Modules -> Facebook chat -> Save and Activate WhatsApp` configuration. Click it if you are using WhatsApp integration.
+
 # Installation in your LHC server
 * Upload the files to your `lhc_web/extension/fbmessenger` folder
 * Install database either by executing `doc/install.sql` file or executing this command `php cron.php -s site_admin -e fbmessenger -c cron/update_structure`
