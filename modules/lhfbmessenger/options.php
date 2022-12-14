@@ -97,6 +97,25 @@ if ( isset($_POST['StoreOptions']) || isset($_POST['StoreOptionsWhatsApp']) || i
     $fbOptions->value = serialize($data);
     $fbOptions->saveThis();
 
+    // Update access key instantly
+    $incomingWebhook = \erLhcoreClassModelChatIncomingWebhook::findOne(['filter' => ['name' => 'FacebookWhatsApp']]);
+
+    if (is_object($incomingWebhook)) {
+        $conditionsArray = $incomingWebhook->conditions_array;
+        if (isset($conditionsArray['attr']) && is_array($conditionsArray['attr'])) {
+            foreach ($conditionsArray['attr'] as $attrIndex => $attrValue) {
+                if ($attrValue['key'] == 'access_token') {
+                    $attrValue['value'] = $data['whatsapp_access_token'];
+                    $conditionsArray['attr'][$attrIndex] = $attrValue;
+                }
+            }
+        }
+        $incomingWebhook->conditions_array = $conditionsArray;
+        $incomingWebhook->configuration = json_encode($conditionsArray);
+        $incomingWebhook->updateThis(['update' => ['configuration']]);
+    }
+
+
     if (isset($_POST['StoreOptionsWhatsApp']) ) {
         LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChatActivator::installOrUpdate();
     }
