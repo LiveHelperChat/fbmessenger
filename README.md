@@ -57,7 +57,17 @@ In facebook Extension settings you have to enter
 
 From WhatsApp perspective we support `images`, `text`, `video`, `audio`, `contact`, `location`, `sticker`, `document` messages types
 
-To send camapign of template messages this cronjob has to be setup.
+To send campaign of template messages this cronjob has to be setup.
+
+## How to listen for quick reply actions from templates you send?
+
+Each quick reply button send from lhc get's payload constructed as.
+
+> `$item->template.'-quick_reply_'.$indexButton,` => `quick_reply-quick_reply_0`
+
+This is needed because we don't have chat upfront and can't set payload upfront.
+
+So just listen for `Custom text matching` with that keyword. This sample is provided [in bot sample](https://raw.githubusercontent.com/LiveHelperChat/fbmessenger/master/doc/whatsapp/bot-sample.json)
 
 ## Gotchas
 
