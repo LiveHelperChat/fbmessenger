@@ -81,7 +81,7 @@
                     <?php endif; ?>
                 </td>
                 <td>
-                    <span title="<?php if ($item->opened_at == 0) : ?><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Mail was not opened yet!') ?><?php else : ?><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Mail was opened first time at') ?> <?php echo$item->opened_at_front?><?php endif;?>" class="material-icons<?php $item->opened_at == 0 ? print ' text-muted' : print ' text-success'?>">visibility</span>
+                    <span title="<?php if ($item->opened_at == 0) : ?><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Message was not read yet!') ?><?php else : ?><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Message was opened first time at') ?> <?php echo$item->opened_at_front?><?php endif;?>" class="material-icons<?php $item->opened_at == 0 ? print ' text-muted' : print ' text-success'?>">visibility</span>
                 </td>
                 <td>
                     <?php if ($item->conversation_id > 0) : ?>
