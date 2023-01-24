@@ -8,6 +8,24 @@ $db = ezcDbInstance::get();
 $db->beginTransaction();
 
 try {
+    $stmt = $db->prepare('UPDATE lhc_fbmessengerwhatsapp_message SET status = :status WHERE status = :status_scheduled AND scheduled_at < :ts');
+    $stmt->bindValue(':status',\LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_PENDING_PROCESS,PDO::PARAM_INT);
+    $stmt->bindValue(':status_scheduled',\LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SCHEDULED,PDO::PARAM_INT);
+    $stmt->bindValue(':ts', time(),PDO::PARAM_INT);
+    $stmt->execute();
+
+    $db->commit();
+} catch (Exception $e) {
+    // Someone is already processing. So we just ignore and retry later
+    return;
+}
+
+
+
+$db->beginTransaction();
+
+// Regular sending flow
+try {
 
     $stmt = $db->prepare('SELECT id FROM lhc_fbmessengerwhatsapp_message WHERE status = :status LIMIT :limit FOR UPDATE ');
     $stmt->bindValue(':limit',60,PDO::PARAM_INT);
@@ -64,6 +82,18 @@ if (!empty($chatsId)) {
             }
 
             $instance->sendTemplate($message, $templates, $phones);
+
+            if ($message->campaign_recipient !== null) {
+                $message->campaign_recipient->send_at = time();
+
+                if ($message->status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_FAILED) {
+                    $message->campaign_recipient->status = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::STATUS_FAILED;
+                } else {
+                    $message->campaign_recipient->status = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::STATUS_SENT;
+                }
+
+                $message->campaign_recipient->updateThis(['update' => ['send_at','status']]);
+            }
         }
     }
 

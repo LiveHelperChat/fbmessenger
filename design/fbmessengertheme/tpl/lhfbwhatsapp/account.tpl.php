@@ -19,8 +19,8 @@
                     <?php echo $item->id?>
                 </td>
                 <td>
-                    <a title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Send a single message');?>" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/send')?>/<?php echo htmlspecialchars($item->id) ?>"><span class="material-icons">send</span></a>
-                    <a title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Send a mass message');?>" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/massmessage')?>/<?php echo htmlspecialchars($item->id) ?>"><span class="material-icons">forum</span></a>
+                    <a title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Send a single message');?>" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/send')?>/(business_account_id)/<?php echo htmlspecialchars($item->id) ?>"><span class="material-icons">send</span></a>
+                    <a title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Send a mass message');?>" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/massmessage')?>/(business_account_id)/<?php echo htmlspecialchars($item->id) ?>"><span class="material-icons">forum</span></a>
                     <a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/editaccount')?>/<?php echo htmlspecialchars($item->id) ?>"><span class="material-icons">edit</span><?php echo htmlspecialchars((string)$item->name)?></a>
                 </td>
                 <td>

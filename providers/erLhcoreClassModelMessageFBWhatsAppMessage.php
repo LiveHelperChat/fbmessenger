@@ -19,6 +19,7 @@ class erLhcoreClassModelMessageFBWhatsAppMessage
         return array(
             'id' => $this->id,
             'phone' => $this->phone,
+            'phone_whatsapp' => $this->phone_whatsapp,
             'phone_sender' => $this->phone_sender,
             'phone_sender_id' => $this->phone_sender_id,
             'message' => $this->message,
@@ -36,7 +37,12 @@ class erLhcoreClassModelMessageFBWhatsAppMessage
             'initiation' => $this->initiation,
             'conversation_id' => $this->conversation_id,
             'message_variables' => $this->message_variables,
-            'business_account_id' => $this->business_account_id
+            'business_account_id' => $this->business_account_id,
+            'scheduled_at' => $this->scheduled_at,
+            'campaign_id' => $this->campaign_id,
+            'campaign_recipient_id' => $this->campaign_recipient_id,
+            'recipient_id' => $this->recipient_id,
+            'private' => $this->private
         );
     }
 
@@ -59,6 +65,9 @@ class erLhcoreClassModelMessageFBWhatsAppMessage
     {
         switch ($var) {
 
+            case 'can_delete':
+                return \erLhcoreClassUser::instance()->hasAccessTo('lhfbwhatsapp','delete_all_messages') || (\erLhcoreClassUser::instance()->hasAccessTo('lhfbwhatsapp','delete_messages') && $this->user_id == \erLhcoreClassUser::instance()->getUserID());
+
             case 'updated_at_ago':
                 $this->updated_at_ago = \erLhcoreClassChat::formatSeconds(time() - $this->updated_at);
                 return $this->updated_at_ago;
@@ -74,6 +83,13 @@ class erLhcoreClassModelMessageFBWhatsAppMessage
                 }
                 return $this->user;
 
+            case 'campaign_recipient':
+                $this->campaign_recipient = null;
+                if ($this->campaign_recipient_id > 0) {
+                    $this->campaign_recipient = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::fetch($this->campaign_recipient_id);
+                }
+                return $this->campaign_recipient;
+
             case 'department':
                 $this->department = null;
                 if ($this->dep_id > 0) {
@@ -84,6 +100,17 @@ class erLhcoreClassModelMessageFBWhatsAppMessage
                     }
                 }
                 return $this->department;
+
+            case 'campaign':
+                $this->campaign = null;
+                if ($this->campaign_id > 0) {
+                    try {
+                        $this->campaign = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign::fetch($this->campaign_id, true);
+                    } catch (\Exception $e) {
+
+                    }
+                }
+                return $this->campaign;
 
             case 'business_account':
                 $this->business_account = null;
@@ -123,9 +150,13 @@ class erLhcoreClassModelMessageFBWhatsAppMessage
     const STATUS_IN_PROCESS = 5;
     const STATUS_FAILED = 6;
     const STATUS_REJECTED = 7;
+    const STATUS_SCHEDULED = 8;
 
     const INIT_US = 0;
     const INIT_THIRD_PARTY = 1;
+
+    const LIST_PUBLIC = 0;
+    const LIST_PRIVATE = 1;
 
     public $id = null;
     public $phone = '';
@@ -147,6 +178,11 @@ class erLhcoreClassModelMessageFBWhatsAppMessage
     public $chat_id = 0;
     public $dep_id = 0;
     public $business_account_id = 0;
+    public $scheduled_at = 0;
+    public $campaign_id = 0;
+    public $recipient_id = 0;
+    public $private = self::LIST_PUBLIC;
+    public $campaign_recipient_id = 0;
     public $initiation = self::INIT_US;
 }
 

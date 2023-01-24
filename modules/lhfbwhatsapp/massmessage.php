@@ -5,8 +5,12 @@ $tpl = erLhcoreClassTemplate::getInstance('lhfbwhatsapp/massmessage.tpl.php');
 $itemDefault = new LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage();
 $instance = LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance();
 
-if (is_numeric($Params['user_parameters']['business_account_id'])) {
-    $account = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::fetch($Params['user_parameters']['business_account_id']);
+if (isset($_POST['business_account_id']) && $_POST['business_account_id'] > 0) {
+    $Params['user_parameters_unordered']['business_account_id'] = (int)$_POST['business_account_id'];
+}
+
+if (is_numeric($Params['user_parameters_unordered']['business_account_id'])) {
+    $account = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::fetch($Params['user_parameters_unordered']['business_account_id']);
     $instance->setAccessToken($account->access_token);
     $instance->setBusinessAccountID($account->business_account_id);
     $tpl->set('business_account_id', $account->id);
@@ -96,7 +100,7 @@ if (isset($_POST['UploadFileAction'])) {
 
         unlink($dir . $filename);
 
-        $canned = ['phone',
+        $canned = ['phone','phone_whatsapp',
             'field_1', 'field_2', 'field_3', 'field_4', 'field_5', 'field_6',
             'field_header_1', 'field_header_2', 'field_header_3', 'field_header_4', 'field_header_5', 'field_header_6',
             'field_header_doc_1', 'field_header_doc_filename_1',
@@ -113,6 +117,7 @@ if (isset($_POST['UploadFileAction'])) {
                 $messagePrepared = new \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage();
                 $messagePrepared->user_id = $currentUser->getUserID();
                 $messagePrepared->phone = str_replace('+','',$item['phone']);
+                $messagePrepared->phone_whatsapp = str_replace('+','',$item['phone_whatsapp']);
                 $messagePrepared->phone_sender = $itemDefault->phone_sender;
                 $messagePrepared->phone_sender_id = $itemDefault->phone_sender_id;
                 $messagePrepared->business_account_id = is_object($account) ? $account->id : 0;

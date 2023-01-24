@@ -251,6 +251,24 @@ class erLhcoreClassExtensionFbmessenger {
                                 $fbWhatsAppMessage->chat_id = $params['chat']->id;
                                 $fbWhatsAppMessage->updateThis(['update' => ['chat_id']]);
                                 $initMessageFound = true;
+
+                                // Update campaign related records
+                                if ($fbWhatsAppMessage->campaign_recipient_id > 0) {
+                                    $campaignRecipient = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::fetch($fbWhatsAppMessage->campaign_recipient_id);
+                                    if (is_object($campaignRecipient)) {
+                                        $campaignRecipient->conversation_id = $fbWhatsAppMessage->chat_id;
+                                        $campaignRecipient->updateThis(['update' => ['conversation_id']]);
+                                    }
+                                }
+
+                                // Update contact main attributes
+                                if ($fbWhatsAppMessage->recipient_id > 0) {
+                                    $contact = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact::fetch($fbWhatsAppMessage->recipient_id);
+                                    if (is_object($contact)) {
+                                        $contact->chat_id = $fbWhatsAppMessage->chat_id;
+                                        $contact->updateThis(['update' => ['chat_id']]);
+                                    }
+                                }
                             }
                         }
 
@@ -302,6 +320,23 @@ class erLhcoreClassExtensionFbmessenger {
                                     $fbWhatsAppMessage->send_status_raw = $fbWhatsAppMessage->send_status_raw . json_encode($params['data']);
                                 }
 
+                                if ($fbWhatsAppMessage->campaign_recipient_id > 0) {
+                                    $campaignRecipient = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::fetch($fbWhatsAppMessage->campaign_recipient_id);
+                                    if (is_object($campaignRecipient)) {
+                                        if ($campaignRecipient->status != \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_READ) {
+                                            $campaignRecipient->status = $statusMap[$statusItem['status']];
+
+                                            if ($campaignRecipient->status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_READ) {
+                                                $campaignRecipient->opened_at = time();
+                                            }
+
+                                            $campaignRecipient->updateThis(['update' => ['status', 'opened_at']]);
+                                        }
+                                    }
+                                }
+
+                                $chatId = 0;
+
                                 // Insert message as a normal message to the last chat customer had
                                 // In case there is chosen reopen old chat
                                 // Which by the case is the default option of the extension
@@ -325,7 +360,7 @@ class erLhcoreClassExtensionFbmessenger {
                                              // Save template message first before saving initial response in the lhc core
                                             $msg = new erLhcoreClassModelmsg();
                                             $msg->msg = $fbWhatsAppMessage->message;
-                                            $msg->chat_id = $chat->id;
+                                            $chatId = $msg->chat_id = $chat->id;
                                             $msg->user_id = $fbWhatsAppMessage->user_id;
                                             $msg->time = $fbWhatsAppMessage->created_at;
                                             erLhcoreClassChat::getSession()->save($msg);
@@ -347,7 +382,7 @@ class erLhcoreClassExtensionFbmessenger {
                                         if ($incomingChat instanceof erLhcoreClassModelChatIncoming && is_object($incomingChat->chat)) {
                                             $msg = new erLhcoreClassModelmsg();
                                             $msg->msg = $fbWhatsAppMessage->message;
-                                            $msg->chat_id = $incomingChat->chat->id;
+                                            $chatId = $msg->chat_id = $incomingChat->chat->id;
                                             $msg->user_id = $fbWhatsAppMessage->user_id;
                                             $msg->time = $fbWhatsAppMessage->created_at;
                                             erLhcoreClassChat::getSession()->save($msg);
@@ -355,11 +390,43 @@ class erLhcoreClassExtensionFbmessenger {
                                             $incomingChat->chat->last_msg_id = $msg->id;
                                             $incomingChat->chat->updateThis(['update' => ['last_msg_id']]);
                                         }
-
                                     }
                                 }
 
                                 $fbWhatsAppMessage->saveThis();
+
+                                // Update contact main attributes
+                                if ($fbWhatsAppMessage->recipient_id > 0) {
+                                    $contact = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact::fetch($fbWhatsAppMessage->recipient_id);
+
+                                    if (is_object($contact)) {
+
+                                        $contact->chat_id = $fbWhatsAppMessage->chat_id > 0 ? $fbWhatsAppMessage->chat_id : $chatId;
+
+                                        if ($fbWhatsAppMessage->status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_REJECTED) {
+                                            $contact->delivery_status = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact::DELIVERY_STATUS_FAILED;
+                                        }
+
+                                       if (in_array((int)$fbWhatsAppMessage->status,[
+                                                \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_READ,
+                                                \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_DELIVERED
+                                            ]) &&
+                                            in_array((int)$contact->delivery_status,[
+                                                \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact::DELIVERY_STATUS_FAILED,
+                                                \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact::DELIVERY_STATUS_UNKNOWN
+                                            ])
+                                        ) {
+                                            $contact->delivery_status = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact::DELIVERY_STATUS_ACTIVE;
+                                        }
+
+                                        $contact->updateThis(['update' => ['delivery_status', 'chat_id']]);
+                                    }
+                                }
+
+                                if (isset($campaignRecipient) && is_object($campaignRecipient) && ($fbWhatsAppMessage->chat_id > 0 ||  $chatId > 0)) {
+                                    $campaignRecipient->conversation_id = $fbWhatsAppMessage->chat_id > 0 ? $fbWhatsAppMessage->chat_id : $chatId;
+                                    $campaignRecipient->updateThis(['update' => ['conversation_id']]);
+                                }
                             }
                         }
                     } else {

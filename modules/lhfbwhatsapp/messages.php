@@ -17,6 +17,10 @@ if (isset($filterParams['filter']['filterin']['lh_chat.dep_id'])) {
     unset($filterParams['filter']['filterin']['lh_chat.dep_id']);
 }
 
+if (!$currentUser->hasAccessTo('lhfbwhatsappmessaging','all_send_messages')) {
+    $filterParams['filter']['customfilter'][] = ' (private = 0 OR user_id = ' . (int)$currentUser->getUserID() . ')';
+}
+
 $append = erLhcoreClassSearchHandler::getURLAppendFromInput($filterParams['input_form']);
 
 $rowsNumber = null;

@@ -14,6 +14,42 @@ $fieldsSearch['phone'] = array (
     )
 );
 
+$fieldsSearch['phone_sender'] = array (
+    'type' => 'text',
+    'trans' => 'Name',
+    'required' => false,
+    'valid_if_filled' => false,
+    'filter_type' => 'filter',
+    'filter_table_field' => 'phone_sender',
+    'validation_definition' => new ezcInputFormDefinitionElement (
+        ezcInputFormDefinitionElement::OPTIONAL, 'string'
+    )
+);
+
+$fieldsSearch['template'] = array (
+    'type' => 'text',
+    'trans' => 'Name',
+    'required' => false,
+    'valid_if_filled' => false,
+    'filter_type' => 'filter',
+    'filter_table_field' => 'template',
+    'validation_definition' => new ezcInputFormDefinitionElement (
+        ezcInputFormDefinitionElement::OPTIONAL, 'string'
+    )
+);
+
+$fieldsSearch['business_account_id'] = array (
+    'type' => 'text',
+    'trans' => 'Name',
+    'required' => false,
+    'valid_if_filled' => false,
+    'filter_type' => 'filter',
+    'filter_table_field' => 'business_account_id',
+    'validation_definition' => new ezcInputFormDefinitionElement (
+        ezcInputFormDefinitionElement::OPTIONAL, 'string'
+    )
+);
+
 $fieldsSearch['call_id'] = array (
     'type' => 'text',
     'trans' => 'Name',
@@ -97,54 +133,6 @@ $fieldsSearch['user_ids'] = array (
     'filter_table_field' => 'user_id',
     'validation_definition' => new ezcInputFormDefinitionElement(
         ezcInputFormDefinitionElement::OPTIONAL, 'int', array( 'min_range' => 0), FILTER_REQUIRE_ARRAY
-    )
-);
-
-$fieldsSearch['direction'] = array (
-    'type' => 'text',
-    'trans' => 'Department',
-    'required' => false,
-    'valid_if_filled' => false,
-    'filter_type' => 'filter',
-    'filter_table_field' => 'direction',
-    'validation_definition' => new ezcInputFormDefinitionElement(
-        ezcInputFormDefinitionElement::OPTIONAL, 'int', array( 'min_range' => 0, 'max_range' => 1)
-    )
-);
-
-$fieldsSearch['chat_call'] = array (
-    'type' => 'boolean',
-    'trans' => 'groupby',
-    'required' => false,
-    'valid_if_filled' => false,
-    'filter_type' => 'manual',
-    'filter_table_field' => ['filternot' => ['chat_id' => 0]],
-    'validation_definition' => new ezcInputFormDefinitionElement(
-        ezcInputFormDefinitionElement::OPTIONAL, 'boolean'
-    )
-);
-
-$fieldsSearch['status_outcome'] = array (
-    'type' => 'text',
-    'trans' => 'Department',
-    'required' => false,
-    'valid_if_filled' => false,
-    'filter_type' => 'filter',
-    'filter_table_field' => 'status_outcome',
-    'validation_definition' => new ezcInputFormDefinitionElement(
-        ezcInputFormDefinitionElement::OPTIONAL, 'int', array( 'min_range' => 0, 'max_range' => 1)
-    )
-);
-
-$fieldsSearch['group_ids'] = array (
-    'type' => 'text',
-    'trans' => 'Group',
-    'required' => false,
-    'valid_if_filled' => false,
-    'filter_type' => false,
-    'filter_table_field' => 'user_id',
-    'validation_definition' => new ezcInputFormDefinitionElement(
-        ezcInputFormDefinitionElement::OPTIONAL, 'int', array( 'min_range' => 1), FILTER_REQUIRE_ARRAY
     )
 );
 
