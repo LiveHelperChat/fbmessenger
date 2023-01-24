@@ -1179,8 +1179,12 @@ class erLhcoreClassExtensionFbmessenger {
 				    foreach ($attatchements as $data) {
 				        if ($data['type'] == 'file') {
 				            $messageText .= '[url=' . $data['payload']['url'].']Download file[/url]';
+				        } else if ($data['type'] == 'audio') {
+                            $messageText .= '[url=' . $data['payload']['url'].']Download audio[/url]';
 				        } else if ($data['type'] == 'image') {
 				            $messageText .= '[img]' . $data['payload']['url'].'[/img]';
+                        } else if ($data['type'] == 'location') {
+                            $messageText .= '[url=' . $data['url'].']' . $data['title'] . '[/url] (' . $data['payload']['coordinates']['lat'] . ',' . $data['payload']['coordinates']['long'].')[loc]' . $data['payload']['coordinates']['lat'] . ',' . $data['payload']['coordinates']['long'].'[/loc]';
 				        } else {
 				            $messageText .= 'Unknown type - '.json_encode($data);
 				        }
@@ -1249,8 +1253,12 @@ class erLhcoreClassExtensionFbmessenger {
 			        foreach ($attatchements as $data) {
 			            if ($data['type'] == 'file') {
 			                $messageText .= '[url=' . $data['payload']['url'].']Download file[/url]';
+			            } else if ($data['type'] == 'audio') {
+                            $messageText .= '[url=' . $data['payload']['url'].']Download audio[/url]';
 			            } else if ($data['type'] == 'image') {
-			                $messageText .= '[img]' . $data['payload']['url'].'[/img]';
+                            $messageText .= '[img]' . $data['payload']['url'] . '[/img]';
+                        } else if ($data['type'] == 'location') {
+                            $messageText .= '[url=' . $data['url'].']' . $data['title'] . '[/url] (' . $data['payload']['coordinates']['lat'] . ',' . $data['payload']['coordinates']['long'].')[loc]' . $data['payload']['coordinates']['lat'] . ',' . $data['payload']['coordinates']['long'].'[/loc]';
 			            } else {
 			                $messageText .= 'Unknown type - '.json_encode($data);
 			            }
@@ -1377,6 +1385,8 @@ class erLhcoreClassExtensionFbmessenger {
                 foreach ($attatchements as $data) {
                     if ($data['type'] == 'file') {
                         $messageText .= '[url=' . $data['payload']['url'].']Download file[/url]';
+                    } else if ($data['type'] == 'audio') {
+                        $messageText .= '[url=' . $data['payload']['url'].']Download audio[/url]';
                     } else if ($data['type'] == 'image') {
                         $messageText .= '[img]' . $data['payload']['url'].'[/img]';
                     } else if ($data['type'] == 'location') {
