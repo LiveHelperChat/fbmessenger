@@ -66,29 +66,29 @@
 
     <div class="col-6">
         <div class="form-group">
-            <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','File 1');?>. {args.recipient.file_1_url_front}</label>
-            <input type="text" maxlength="50" class="form-control form-control-sm" name="file_1" value="<?php echo htmlspecialchars($item->file_1)?>" />
+            <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','File 1');?>. {args.recipient.file_1_url_front}<button type="button" data-selector="#id_file_1" class="fb-choose-file btn btn-sm btn-link"><span class="material-icons">attach_file</span></button></label>
+            <input type="text" maxlength="200" class="form-control form-control-sm" id="id_file_1" name="file_1" value="<?php echo htmlspecialchars($item->file_1)?>" />
         </div>
     </div>
 
     <div class="col-6">
         <div class="form-group">
-            <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','File 2');?>. {args.recipient.file_2_url_front}</label>
-            <input type="text" maxlength="50" class="form-control form-control-sm" name="file_2" value="<?php echo htmlspecialchars($item->file_2)?>" />
+            <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','File 2');?>. {args.recipient.file_2_url_front}}<button type="button" data-selector="#id_file_2" class="fb-choose-file btn btn-sm btn-link"><span class="material-icons">attach_file</span></button></label>
+            <input type="text" maxlength="200" class="form-control form-control-sm" id="id_file_2" name="file_2" value="<?php echo htmlspecialchars($item->file_2)?>" />
         </div>
     </div>
 
     <div class="col-6">
         <div class="form-group">
-            <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','File 3');?>. {args.recipient.file_3_url_front}</label>
-            <input type="text" maxlength="50" class="form-control form-control-sm" name="file_3" value="<?php echo htmlspecialchars($item->file_3)?>" />
+            <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','File 3');?>. {args.recipient.file_3_url_front}}<button type="button" data-selector="#id_file_3" class="fb-choose-file btn btn-sm btn-link"><span class="material-icons">attach_file</span></button></label>
+            <input type="text" maxlength="200" class="form-control form-control-sm" id="id_file_3" name="file_3" value="<?php echo htmlspecialchars($item->file_3)?>" />
         </div>
     </div>
 
     <div class="col-6">
         <div class="form-group">
-            <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','File 4');?>. {args.recipient.file_4_url_front}</label>
-            <input type="text" maxlength="50" class="form-control form-control-sm" name="file_4" value="<?php echo htmlspecialchars($item->file_4)?>" />
+            <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','File 4');?>. {args.recipient.file_4_url_front}}<button type="button" data-selector="#id_file_4" class="fb-choose-file btn btn-sm btn-link"><span class="material-icons">attach_file</span></button></label>
+            <input type="text" maxlength="200" class="form-control form-control-sm" id="id_file_4" name="file_4" value="<?php echo htmlspecialchars($item->file_4)?>" />
         </div>
     </div>
 
@@ -161,3 +161,17 @@
 <div class="form-group">
     <label><input type="checkbox" name="disabled" value="on" <?php $item->disabled == 1 ? print ' checked="checked" ' : ''?> > <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Disabled');?></label>
 </div>
+
+<script>
+    (function() {
+        $('.fb-choose-file').click(function(){
+            $('.embed-into').removeClass('embed-into');
+            window.lhcSelector = $(this).attr('data-selector');
+            $(window.lhcSelector).addClass('embed-into');
+            var popupWindow = window.open(WWW_DIR_JAVASCRIPT + 'file/attatchfileimg/(replace)/1','mailrecipientfile',"menubar=1,resizable=1,width=800,height=650");
+            if (popupWindow !== null) {
+                popupWindow.focus();
+            }
+        });
+    })();
+</script>

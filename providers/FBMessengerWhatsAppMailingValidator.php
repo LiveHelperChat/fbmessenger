@@ -422,7 +422,7 @@ class FBMessengerWhatsAppMailingValidator {
             $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please choose a template!');
         }
 
-        $messageVariables = $item->message_variables_array;
+        $messageVariables = [];
 
         for ($i = 0; $i < 6; $i++) {
             if ($form->hasValidData('field_' . $i) && $form->{'field_' . $i}) {

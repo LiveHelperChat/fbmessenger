@@ -24,3 +24,11 @@
     });
 })();
 
+var fbwhatsapp = {
+    attachFiles : function() {
+        $('.choose-file').click( function() {
+            console.log('attach file clicked');
+        });
+    }
+};
+

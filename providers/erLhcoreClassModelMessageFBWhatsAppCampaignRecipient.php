@@ -102,6 +102,11 @@ class erLhcoreClassModelMessageFBWhatsAppCampaignRecipient
                         $this->{$var} = $recipient->{$varInternal};
                     }
                 }
+
+                if (strpos($this->{$var},'[file=') !== false) {
+                    $this->{$var} = \erLhcoreClassBBCodePlain::make_clickable($this->{$var});
+                }
+
                 return $this->{$var};
 
             case 'name_front':
