@@ -40,6 +40,116 @@ class FBMessengerWhatsAppMailingValidator {
         $stmt->execute();
     }
 
+
+    public static function exportMessagesCSV($filter) {
+        $now = gmdate("D, d M Y H:i:s");
+        header("Expires: Tue, 03 Jul 2001 06:00:00 GMT");
+        header("Cache-Control: max-age=0, no-cache, must-revalidate, proxy-revalidate");
+        header("Last-Modified: {$now} GMT");
+
+        // force download
+        header("Content-Type: application/force-download");
+        header("Content-Type: application/octet-stream");
+        header("Content-Type: application/download");
+
+        // disposition / encoding on response body
+        header("Content-Disposition: attachment;filename=fb-messages-report.csv");
+        header("Content-Transfer-Encoding: binary");
+
+        $df = fopen("php://output", 'w');
+
+        $firstRow = [
+            'id',
+            'user_id',
+            'user',
+            'created_at',
+            'updated_at',
+            'phone',
+            'phone_whatsapp',
+            'phone_sender',
+            'phone_sender_id',
+            'status',
+            'template',
+            'template_id',
+            'message',
+            'language',
+            'fb_msg_id',
+            'send_status_raw',
+            'conversation_id',
+            'dep_id',
+            'dep',
+            'chat_id',
+            'initiation',
+            'message_variables',
+            'business_account_id',
+            'business_account',
+            'campaign_id',
+            'campaign',
+            'campaign_recipient_id',
+            'recipient_id',
+            'private',
+        ];
+
+        fputcsv($df, $firstRow);
+
+        $chunks = ceil(\LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount($filter)/300);
+
+        $status = [
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_PENDING => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Pending'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SENT => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Send'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_IN_PROCESS => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','In progress'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_FAILED => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Failed'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_REJECTED => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Rejected'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_READ => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Read'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SCHEDULED => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Scheduled'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_DELIVERED => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Delivered'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_PENDING_PROCESS => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Pending process'),
+        ];
+
+        for($i = 0; $i < $chunks; $i ++) {
+            $filterChunk = $filter;
+            $filterChunk['offset'] = $i * 300;
+            $filterChunk['limit'] = 300;
+
+            foreach (\LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getList($filterChunk) as $item) {
+                $itemCSV = [];
+
+                $itemCSV[] = (string)$item->id;
+                $itemCSV[] = (string)$item->user_id;
+                $itemCSV[] = (string)$item->user;
+                $itemCSV[] = $item->created_at > 0 ? date(\erLhcoreClassModule::$dateFormat, $item->created_at) : 'n/a';
+                $itemCSV[] = $item->updated_at > 0 ? date(\erLhcoreClassModule::$dateFormat, $item->updated_at) : 'n/a';
+                $itemCSV[] = (string)$item->phone;
+                $itemCSV[] = (string)$item->phone_whatsapp;
+                $itemCSV[] = (string)$item->phone_sender;
+                $itemCSV[] = (string)$item->phone_sender_id;
+                $itemCSV[] = $status[$item->status];
+                $itemCSV[] = (string)$item->template;
+                $itemCSV[] = (string)$item->template_id;
+                $itemCSV[] = (string)$item->message;
+                $itemCSV[] = (string)$item->language;
+                $itemCSV[] = (string)$item->fb_msg_id;
+                $itemCSV[] = (string)$item->send_status_raw;
+                $itemCSV[] = (string)$item->conversation_id;
+                $itemCSV[] = (string)$item->dep_id;
+                $itemCSV[] = (string)$item->department;
+                $itemCSV[] = (string)$item->chat_id;
+                $itemCSV[] = (string)$item->initiation;
+                $itemCSV[] = (string)$item->message_variables;
+                $itemCSV[] = (string)$item->business_account_id;
+                $itemCSV[] = (string)$item->business_account;
+                $itemCSV[] = (string)$item->campaign_id;
+                $itemCSV[] = (string)$item->campaign;
+                $itemCSV[] = (string)$item->campaign_recipient_id;
+                $itemCSV[] = (string)$item->recipient_id;
+                $itemCSV[] = (string)$item->private;
+                fputcsv($df, $itemCSV);
+            }
+        }
+
+        fclose($df);
+    }
+
     public static function exportCampaignRecipientCSV($filter, $params) {
         $now = gmdate("D, d M Y H:i:s");
         header("Expires: Tue, 03 Jul 2001 06:00:00 GMT");
@@ -699,6 +809,43 @@ class FBMessengerWhatsAppMailingValidator {
         }
 
         return $Errors;
+    }
+
+    public static function getTemplates()
+    {
+
+        $db = \ezcDbInstance::get();
+
+        // Reverse all campaign recipients on pause
+        $stmt = $db->prepare( "SELECT `template` FROM `lhc_fbmessengerwhatsapp_message` GROUP BY `template`");
+        $stmt->execute();
+        $templates = $stmt->fetchAll(\PDO::FETCH_COLUMN);
+
+        $items = [];
+        foreach ($templates as $template) {
+            $item = new \stdClass();
+            $item->name = $item->id = $template;
+            $items[] = $item;
+        }
+
+        return $items;
+    }
+
+    public static function getStatus()
+    {
+        $items = [
+            ['id' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_PENDING, 'name' => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Pending')],
+            ['id' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SENT, 'name' => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Sent')],
+            ['id' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_IN_PROCESS, 'name' => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','In progress')],
+            ['id' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_FAILED, 'name' => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Failed')],
+            ['id' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_REJECTED, 'name' => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Rejected')],
+            ['id' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_READ, 'name' => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Has been read')],
+            ['id' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SCHEDULED, 'name' => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Scheduled')],
+            ['id' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_DELIVERED, 'name' => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Delivered')],
+            ['id' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_PENDING_PROCESS, 'name' => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Pending process')],
+        ];
+
+        return json_decode(json_encode($items));
     }
 }
 

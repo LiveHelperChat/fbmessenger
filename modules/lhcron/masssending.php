@@ -20,8 +20,6 @@ try {
     return;
 }
 
-
-
 $db->beginTransaction();
 
 // Regular sending flow

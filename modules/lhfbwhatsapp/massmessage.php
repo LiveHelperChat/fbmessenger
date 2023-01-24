@@ -13,6 +13,7 @@ if (is_numeric($Params['user_parameters_unordered']['business_account_id'])) {
     $account = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::fetch($Params['user_parameters_unordered']['business_account_id']);
     $instance->setAccessToken($account->access_token);
     $instance->setBusinessAccountID($account->business_account_id);
+    $itemDefault->business_account_id = $account->id;
     $tpl->set('business_account_id', $account->id);
 }
 
@@ -120,7 +121,7 @@ if (isset($_POST['UploadFileAction'])) {
                 $messagePrepared->phone_whatsapp = str_replace('+','',$item['phone_whatsapp']);
                 $messagePrepared->phone_sender = $itemDefault->phone_sender;
                 $messagePrepared->phone_sender_id = $itemDefault->phone_sender_id;
-                $messagePrepared->business_account_id = is_object($account) ? $account->id : 0;
+                $messagePrepared->business_account_id = isset($account) && is_object($account) ? $account->id : 0;
                 unset($item['phone']);
                 $messagePrepared->message_variables = json_encode($item);
                 $messagePrepared->template = $itemDefault->template;

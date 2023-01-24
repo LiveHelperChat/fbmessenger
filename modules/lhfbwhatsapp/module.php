@@ -47,12 +47,21 @@ $ViewList['rendertemplates'] = array(
 
 $ViewList['messages'] = array(
     'params' => array(),
-    'uparams' => array('phone','phone_sender','status','user_ids','template',
+    'uparams' => array(
+        'phone','phone_sender','status_ids','user_ids',
         'timefrom','timefrom_seconds','timefrom_minutes','timefrom_hours',
         'timeto', 'timeto_minutes', 'timeto_seconds', 'timeto_hours',
+        'campaign_ids','template_ids','business_account_ids','department_ids','export'
         ),
     'functions' => array('use_admin'),
-    'multiple_arguments' => array('user_ids')
+    'multiple_arguments' => array(
+        'user_ids',
+        'campaign_ids',
+        'template_ids',
+        'status_ids',
+        'business_account_ids',
+        'department_ids'
+    )
 );
 
 $ViewList['account'] = array(

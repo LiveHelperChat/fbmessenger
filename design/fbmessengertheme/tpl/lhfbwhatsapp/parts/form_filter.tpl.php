@@ -3,60 +3,63 @@
     <input type="hidden" name="doSearch" value="1">
 
     <div class="row">
-        <div class="col-6">
+        <div class="col-3">
             <div class="form-group">
-                <label>Phone</label>
+                <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Phone');?></label>
                 <input type="text" class="form-control form-control-sm" name="phone" value="<?php echo htmlspecialchars($input->phone)?>" />
             </div>
         </div>
-        <div class="col-6">
+
+        <div class="col-3">
             <div class="form-group">
-                <label>Phone sender</label>
+                <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Template');?></label>
+                <?php echo erLhcoreClassRenderHelper::renderMultiDropdown( array (
+                    'input_name'     => 'template_ids[]',
+                    'optional_field' => erTranslationClassLhTranslation::getInstance()->getTranslation('chat/translation','Any'),
+                    'display_name'   => 'name',
+                    'selected_id'    => $input->template_ids,
+                    'css_class'      => 'form-control form-control-sm',
+                    'list_function'  => '\LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppMailingValidator::getTemplates'
+                )); ?>
+            </div>
+        </div>
+
+        <div class="col-3">
+            <div class="form-group">
+                <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Phone sender');?></label>
                 <input type="text" class="form-control form-control-sm" name="phone_sender" value="<?php echo htmlspecialchars($input->phone_sender)?>" />
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-3">
             <div class="form-group">
                 <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons','Send status');?></label>
-                <select name="status" class="form-control form-control-sm">
-                    <option value=""><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons','Choose');?></option>
-                    <option <?php if ($input->status === \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_PENDING) : ?>selected="selected"<?php endif; ?> value="<?php echo \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_PENDING?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Pending');?></option>
-                    <option <?php if ($input->status === \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SENT) : ?>selected="selected"<?php endif; ?> value="<?php echo \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SENT?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Send');?></option>
-                    <option <?php if ($input->status === \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_IN_PROCESS) : ?>selected="selected"<?php endif; ?> value="<?php echo \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_IN_PROCESS?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','In progress');?></option>
-                    <option <?php if ($input->status === \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_FAILED) : ?>selected="selected"<?php endif; ?> value="<?php echo \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_FAILED?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Failed');?></option>
-                    <option <?php if ($input->status === \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_REJECTED) : ?>selected="selected"<?php endif; ?> value="<?php echo \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_REJECTED?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Rejected');?></option>
-                    <option <?php if ($input->status === \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_READ) : ?>selected="selected"<?php endif; ?> value="<?php echo \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_READ?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Read');?></option>
-                    <option <?php if ($input->status === \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SCHEDULED) : ?>selected="selected"<?php endif; ?> value="<?php echo \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SCHEDULED?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Scheduled');?></option>
-                    <option <?php if ($input->status === \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_DELIVERED) : ?>selected="selected"<?php endif; ?> value="<?php echo \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_DELIVERED?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Delivered');?></option>
-                    <option <?php if ($input->status === \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_PENDING_PROCESS) : ?>selected="selected"<?php endif; ?> value="<?php echo \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_PENDING_PROCESS?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Pending process');?></option>
-                </select>
+                <?php echo erLhcoreClassRenderHelper::renderMultiDropdown( array (
+                    'input_name'     => 'status_ids[]',
+                    'optional_field' => erTranslationClassLhTranslation::getInstance()->getTranslation('chat/translation','Any'),
+                    'display_name'   => 'name',
+                    'selected_id'    => $input->status_ids,
+                    'css_class'      => 'form-control form-control-sm',
+                    'list_function'  => '\LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppMailingValidator::getStatus'
+                )); ?>
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-3">
             <div class="form-group">
-                <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Business account');?>, <small><i><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','you can set a custom business account');?></i></small></label>
-                <?php echo erLhcoreClassRenderHelper::renderCombobox( array (
-                    'input_name'     => 'business_account_id',
+                <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Business account');?></label>
+                <?php echo erLhcoreClassRenderHelper::renderMultiDropdown( array (
+                    'input_name'     => 'business_account_ids[]',
                     'optional_field' => erTranslationClassLhTranslation::getInstance()->getTranslation('chat/translation','Any'),
-                    'selected_id'    => $input->business_account_id,
+                    'display_name'   => 'name',
+                    'selected_id'    => $input->business_account_ids,
                     'css_class'      => 'form-control form-control-sm',
                     'list_function'  => '\LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::getList'
                 )); ?>
             </div>
         </div>
 
-        <div class="col-6">
+        <div class="col-3">
             <div class="form-group">
-                <label>Template</label>
-                <input type="text" class="form-control form-control-sm" name="template" value="<?php echo htmlspecialchars($input->template)?>" />
-            </div>
-        </div>
-
-
-
-        <div class="col-6">
-            <div class="form-group">
-                <label>User</label>
+                <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','User');?></label>
                 <?php echo erLhcoreClassRenderHelper::renderMultiDropdown( array (
                     'input_name'     => 'user_ids[]',
                     'optional_field' => 'Choose a user',
@@ -70,23 +73,22 @@
             </div>
         </div>
 
-        <div class="col-6">
+        <div class="col-3">
             <div class="form-group">
-                <label>Campaign</label>
+                <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Campaign');?></label>
                 <?php echo erLhcoreClassRenderHelper::renderMultiDropdown( array (
                     'input_name'     => 'campaign_ids[]',
                     'optional_field' => 'Choose a campaign',
-                    'selected_id'    => $input->user_ids,
+                    'selected_id'    => $input->campaign_ids,
                     'css_class'      => 'form-control',
                     'display_name'   => 'name',
-                    'ajax'           => 'fbwhatsapp_campaign',
                     'list_function_params' => array('sort' => '`name` ASC', 'limit' => 50),
                     'list_function'  => 'LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign::getList',
                 )); ?>
             </div>
         </div>
 
-        <div class="col-md-2">
+        <div class="col-3">
             <div class="form-group">
                 <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/lists/search_panel','Department');?></label>
                 <?php echo erLhcoreClassRenderHelper::renderMultiDropdown( array (
@@ -102,7 +104,7 @@
             </div>
         </div>
 
-        <div class="col-md-2">
+        <div class="col-3">
             <div class="form-group">
                 <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/lists/search_panel','Date range from');?></label>
                 <div class="row">
@@ -113,7 +115,7 @@
             </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-3">
             <div class="form-group">
                 <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/lists/search_panel','Hour and minute from');?> <small>[<?php echo date('H:i:s')?>]</small></label>
                 <div class="row">
@@ -145,7 +147,7 @@
             </div>
         </div>
 
-        <div class="col-md-2">
+        <div class="col-md-3">
             <div class="form-group">
                 <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/lists/search_panel','Date range to');?></label>
                 <div class="row">
@@ -192,16 +194,24 @@
 
     <div class="btn-group mr-2" role="group" aria-label="...">
         <button type="submit" class="btn btn-primary btn-sm" name="doSearch"><span class="material-icons">search</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons','Search');?></button>
-    </div>
-
-    <div class="btn-group" role="group" aria-label="...">
+        <?php if ($pages->items_total > 0) : ?>
         <a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/messages')?>/(export)/csv<?php echo $inputAppend?>" class="btn btn-outline-secondary btn-sm">
-            <i class="material-icons">file_download</i><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons','Export');?>
+            <i class="material-icons">file_download</i><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons','Export');?> (<?php echo $pages->items_total?> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/lists/search_panel','messages');?>)
         </a>
+
+        <button type="button" onclick="return lhc.revealModal({'title' : 'Export', 'height':350, backdrop:true, 'url':'<?php echo $pages->serverURL?>/(export)/stats?<?php echo $inputAppend?>'})" class="btn btn-outline-secondary btn-sm"><span class="material-icons">query_stats</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/lists/search_panel','Quick stats')?></button>
+
+        <?php endif; ?>
+        <a class="btn btn-outline-secondary btn-sm" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/messages')?>"><span class="material-icons">refresh</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/lists/search_panel','Reset');?></a>
     </div>
 
 </form>
 
-
-
-
+<script>
+    $(function() {
+        $('#id_timefrom,#id_timeto').fdatepicker({
+            format: 'yyyy-mm-dd'
+        });
+        $('.btn-block-department').makeDropdown();
+    });
+</script>

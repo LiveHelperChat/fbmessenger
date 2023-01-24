@@ -26,29 +26,54 @@ $fieldsSearch['phone_sender'] = array (
     )
 );
 
-$fieldsSearch['template'] = array (
+$fieldsSearch['template_ids'] = array (
     'type' => 'text',
     'trans' => 'Name',
     'required' => false,
     'valid_if_filled' => false,
-    'filter_type' => 'filter',
+    'filter_type' => 'filterin',
     'filter_table_field' => 'template',
     'validation_definition' => new ezcInputFormDefinitionElement (
-        ezcInputFormDefinitionElement::OPTIONAL, 'string'
+        ezcInputFormDefinitionElement::OPTIONAL, 'string', array( ), FILTER_REQUIRE_ARRAY
     )
 );
 
-$fieldsSearch['business_account_id'] = array (
+$fieldsSearch['campaign_ids'] = array (
     'type' => 'text',
     'trans' => 'Name',
     'required' => false,
     'valid_if_filled' => false,
-    'filter_type' => 'filter',
-    'filter_table_field' => 'business_account_id',
+    'filter_type' => 'filterin',
+    'filter_table_field' => 'campaign_id',
     'validation_definition' => new ezcInputFormDefinitionElement (
-        ezcInputFormDefinitionElement::OPTIONAL, 'string'
+        ezcInputFormDefinitionElement::OPTIONAL, 'int', array( 'min_range' => 1), FILTER_REQUIRE_ARRAY
     )
 );
+
+$fieldsSearch['business_account_ids'] = array (
+    'type' => 'text',
+    'trans' => 'Department',
+    'required' => false,
+    'valid_if_filled' => false,
+    'filter_type' => 'filterin',
+    'filter_table_field' => 'business_account_id',
+    'validation_definition' => new ezcInputFormDefinitionElement(
+        ezcInputFormDefinitionElement::OPTIONAL, 'int', array( 'min_range' => 1), FILTER_REQUIRE_ARRAY
+    )
+);
+
+$fieldsSearch['status_ids'] = array (
+    'type' => 'text',
+    'trans' => 'Department',
+    'required' => false,
+    'valid_if_filled' => false,
+    'filter_type' => 'filterin',
+    'filter_table_field' => 'status',
+    'validation_definition' => new ezcInputFormDefinitionElement(
+        ezcInputFormDefinitionElement::OPTIONAL, 'int', array( 'min_range' => 0), FILTER_REQUIRE_ARRAY
+    )
+);
+
 
 $fieldsSearch['call_id'] = array (
     'type' => 'text',
@@ -136,6 +161,18 @@ $fieldsSearch['user_ids'] = array (
     )
 );
 
+$fieldsSearch['status'] = array (
+    'type' => 'text',
+    'trans' => 'Status',
+    'required' => false,
+    'valid_if_filled' => false,
+    'filter_type' => 'filterin',
+    'filter_table_field' => 'status',
+    'validation_definition' => new ezcInputFormDefinitionElement(
+        ezcInputFormDefinitionElement::OPTIONAL, 'int', array( 'min_range' => 0), FILTER_REQUIRE_ARRAY
+    )
+);
+
 $fieldsSearch['sortby'] = array (
     'type' => 'text',
     'trans' => 'Sort by',
@@ -146,6 +183,8 @@ $fieldsSearch['sortby'] = array (
     'validation_definition' => new ezcInputFormDefinitionElement(
         ezcInputFormDefinitionElement::OPTIONAL, 'string')
 );
+
+
 
 $fieldSortAttr = array (
     'field'      => 'sortby',
