@@ -95,15 +95,15 @@ class FBMessengerWhatsAppMailingValidator {
         $chunks = ceil(\LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount($filter)/300);
 
         $status = [
-            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_PENDING => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Pending'),
-            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SENT => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Send'),
-            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_IN_PROCESS => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','In progress'),
-            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_FAILED => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Failed'),
-            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_REJECTED => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Rejected'),
-            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_READ => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Read'),
-            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SCHEDULED => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Scheduled'),
-            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_DELIVERED => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Delivered'),
-            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_PENDING_PROCESS => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Pending process'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_PENDING => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Pending'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SENT => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Send'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_IN_PROCESS => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','In progress'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_FAILED => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Failed'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_REJECTED => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Rejected'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_READ => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Read'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SCHEDULED => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Scheduled'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_DELIVERED => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Delivered'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_PENDING_PROCESS => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Pending process'),
         ];
 
         for($i = 0; $i < $chunks; $i ++) {
@@ -203,15 +203,15 @@ class FBMessengerWhatsAppMailingValidator {
         $chunks = ceil(\LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::getCount($filter)/300);
 
         $status = [
-            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::STATUS_PENDING => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Pending'),
-            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::STATUS_SENT => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Send'),
-            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::STATUS_IN_PROCESS => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','In progress'),
-            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::STATUS_FAILED => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Failed'),
-            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::STATUS_REJECTED => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Rejected'),
-            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::STATUS_READ => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Read'),
-            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::STATUS_SCHEDULED => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Scheduled'),
-            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::STATUS_DELIVERED => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Delivered'),
-            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::STATUS_PENDING_PROCESS => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Pending process'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::STATUS_PENDING => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Pending'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::STATUS_SENT => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Send'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::STATUS_IN_PROCESS => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','In progress'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::STATUS_FAILED => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Failed'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::STATUS_REJECTED => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Rejected'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::STATUS_READ => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Read'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::STATUS_SCHEDULED => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Scheduled'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::STATUS_DELIVERED => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Delivered'),
+            \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::STATUS_PENDING_PROCESS => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Pending process'),
         ];
 
         for($i = 0; $i < $chunks; $i ++) {
@@ -834,15 +834,15 @@ class FBMessengerWhatsAppMailingValidator {
     public static function getStatus()
     {
         $items = [
-            ['id' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_PENDING, 'name' => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Pending')],
-            ['id' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SENT, 'name' => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Sent')],
-            ['id' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_IN_PROCESS, 'name' => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','In progress')],
-            ['id' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_FAILED, 'name' => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Failed')],
-            ['id' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_REJECTED, 'name' => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Rejected')],
-            ['id' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_READ, 'name' => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Has been read')],
-            ['id' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SCHEDULED, 'name' => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Scheduled')],
-            ['id' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_DELIVERED, 'name' => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Delivered')],
-            ['id' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_PENDING_PROCESS, 'name' => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Pending process')],
+            ['id' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_PENDING, 'name' => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Pending')],
+            ['id' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SENT, 'name' => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Sent')],
+            ['id' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_IN_PROCESS, 'name' => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','In progress')],
+            ['id' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_FAILED, 'name' => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Failed')],
+            ['id' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_REJECTED, 'name' => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Rejected')],
+            ['id' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_READ, 'name' => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Has been read')],
+            ['id' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SCHEDULED, 'name' => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Scheduled')],
+            ['id' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_DELIVERED, 'name' => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Delivered')],
+            ['id' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_PENDING_PROCESS, 'name' => \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Pending process')],
         ];
 
         return json_decode(json_encode($items));

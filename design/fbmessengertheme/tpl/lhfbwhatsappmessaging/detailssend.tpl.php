@@ -10,7 +10,7 @@ $appendPrintExportURL = '';
 <?php include(erLhcoreClassDesign::designtpl('lhkernel/modal_header.tpl.php'));?>
 
     <div class="modal-body" ng-non-bindable>
-        <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Send log');?></label>
+        <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Send log');?></label>
         <textarea class="form-control form-control-sm"><?php echo htmlspecialchars($item->log)?></textarea>
     </div>
 

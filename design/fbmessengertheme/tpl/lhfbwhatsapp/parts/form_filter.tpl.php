@@ -5,14 +5,14 @@
     <div class="row">
         <div class="col-3">
             <div class="form-group">
-                <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Phone');?></label>
+                <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Phone');?></label>
                 <input type="text" class="form-control form-control-sm" name="phone" value="<?php echo htmlspecialchars($input->phone)?>" />
             </div>
         </div>
 
         <div class="col-3">
             <div class="form-group">
-                <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Template');?></label>
+                <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Template');?></label>
                 <?php echo erLhcoreClassRenderHelper::renderMultiDropdown( array (
                     'input_name'     => 'template_ids[]',
                     'optional_field' => erTranslationClassLhTranslation::getInstance()->getTranslation('chat/translation','Any'),
@@ -26,7 +26,7 @@
 
         <div class="col-3">
             <div class="form-group">
-                <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Phone sender');?></label>
+                <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Phone sender');?></label>
                 <input type="text" class="form-control form-control-sm" name="phone_sender" value="<?php echo htmlspecialchars($input->phone_sender)?>" />
             </div>
         </div>
@@ -45,7 +45,7 @@
         </div>
         <div class="col-3">
             <div class="form-group">
-                <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Business account');?></label>
+                <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Business account');?></label>
                 <?php echo erLhcoreClassRenderHelper::renderMultiDropdown( array (
                     'input_name'     => 'business_account_ids[]',
                     'optional_field' => erTranslationClassLhTranslation::getInstance()->getTranslation('chat/translation','Any'),
@@ -59,7 +59,7 @@
 
         <div class="col-3">
             <div class="form-group">
-                <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','User');?></label>
+                <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','User');?></label>
                 <?php echo erLhcoreClassRenderHelper::renderMultiDropdown( array (
                     'input_name'     => 'user_ids[]',
                     'optional_field' => 'Choose a user',
@@ -75,7 +75,7 @@
 
         <div class="col-3">
             <div class="form-group">
-                <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Campaign');?></label>
+                <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Campaign');?></label>
                 <?php echo erLhcoreClassRenderHelper::renderMultiDropdown( array (
                     'input_name'     => 'campaign_ids[]',
                     'optional_field' => 'Choose a campaign',

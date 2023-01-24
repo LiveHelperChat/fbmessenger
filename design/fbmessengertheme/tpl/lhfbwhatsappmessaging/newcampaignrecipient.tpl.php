@@ -21,7 +21,7 @@ $appendPrintExportURL = '';
 
     <?php if (isset($updated) && $updated == true) : ?>
         <div role="alert" class="alert alert-info alert-dismissible fade show m-3">
-            <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Recipient was created');?>.
+            <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Recipient was created');?>.
         </div>
         <script>
             $('#list-update-import').removeClass('hide');

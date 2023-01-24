@@ -59,7 +59,7 @@
     <hr>
 
     <div class="form-group">
-        <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','This recipient is a member of these mailing lists');?></label>
+        <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','This recipient is a member of these mailing lists');?></label>
         <div class="row" style="max-height: 500px; overflow: auto">
             <?php
             $params = array (

@@ -1,4 +1,4 @@
-<h1><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Campaign recipient');?></h1>
+<h1><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Campaign recipient');?></h1>
 
 <?php include(erLhcoreClassDesign::designtpl('lhfbwhatsappmessaging/parts/search_panel_campaign_recipient.tpl.php')); ?>
 
@@ -6,13 +6,13 @@
     <table cellpadding="0" cellspacing="0" class="table table-sm table-hover" width="100%" ng-non-bindable>
         <thead>
         <tr>
-            <th width="1%"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','ID');?></th>
-            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Recipient');?></th>
-            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Send at');?></th>
-            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Status');?></th>
-            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Type');?></th>
-            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Read');?></th>
-            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Chat');?></th>
+            <th width="1%"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','ID');?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Recipient');?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Send at');?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Status');?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Type');?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Read');?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Chat');?></th>
             <th width="1%"></th>
         </tr>
         </thead>
@@ -20,7 +20,7 @@
             <tr>
                 <td><?php echo $item->id?></td>
                 <td>
-                    <button data-success="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Copied');?>" title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Click to copy phone');?>" class="mx-0 btn btn-xs btn-link text-muted py-1" data-copy="<?php echo htmlspecialchars($item->recipient_phone)?>" onclick="lhinst.copyContent($(this))" type="button"><i class="material-icons mr-0">content_copy</i></button>
+                    <button data-success="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Copied');?>" title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Click to copy phone');?>" class="mx-0 btn btn-xs btn-link text-muted py-1" data-copy="<?php echo htmlspecialchars($item->recipient_phone)?>" onclick="lhinst.copyContent($(this))" type="button"><i class="material-icons mr-0">content_copy</i></button>
 
                     <?php if ($item->message_id > 0) : ?>
                         <a class="material-icons" onclick="lhc.revealModal({'url':WWW_DIR_JAVASCRIPT+'fbwhatsapp/rawjson/<?php echo $item->message_id?>'})">info_outline</a>
@@ -43,7 +43,7 @@
                             <span class="material-icons">edit_off</span><?php echo htmlspecialchars($item->recipient_phone)?><?php $item->recipient_phone_recipient != '' ? print ' (' . $item->recipient_phone_recipient . ') ' : print ' '?><?php echo htmlspecialchars($item->recipient)?>
                         <?php endif; ?>&nbsp;
                     <?php endif; ?>&nbsp;
-                    <a class="csfr-required text-muted border rounded px-1" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/sendtestmessage')?>/<?php echo $item->id?>" onclick="return confirm('Are you sure?')"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Send test message');?></a>
+                    <a class="csfr-required text-muted border rounded px-1" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/sendtestmessage')?>/<?php echo $item->id?>" onclick="return confirm('Are you sure?')"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Send test message');?></a>
                 </td>
                 <td>
                     <?php if ($item->send_at > 0) : ?><?php echo $item->send_at_front?><?php endif;?>
@@ -75,19 +75,19 @@
                 </td>
                 <td>
                     <?php if ($item->type == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::TYPE_MANUAL) : ?>
-                        <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Manual');?>
+                        <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Manual');?>
                     <?php else : ?>
-                        <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Based on recipient list');?>
+                        <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Based on recipient list');?>
                     <?php endif; ?>
                 </td>
                 <td>
-                    <span title="<?php if ($item->opened_at == 0) : ?><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Mail was not opened yet!') ?><?php else : ?><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Mail was opened first time at') ?> <?php echo$item->opened_at_front?><?php endif;?>" class="material-icons<?php $item->opened_at == 0 ? print ' text-muted' : print ' text-success'?>">visibility</span>
+                    <span title="<?php if ($item->opened_at == 0) : ?><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Mail was not opened yet!') ?><?php else : ?><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Mail was opened first time at') ?> <?php echo$item->opened_at_front?><?php endif;?>" class="material-icons<?php $item->opened_at == 0 ? print ' text-muted' : print ' text-success'?>">visibility</span>
                 </td>
                 <td>
                     <?php if ($item->conversation_id > 0) : ?>
                         <a target="_blank" href="<?php echo erLhcoreClassDesign::baseurl('front/default')?>/(cid)/<?php echo $item->conversation_id?>/#!#chat-id-<?php echo $item->conversation_id?>"><span class="material-icons">open_in_new</span><?php echo $item->conversation_id?></a>
                     <?php else : ?>
-                        <span class="text-muted"><span class="material-icons">autorenew</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Pending');?></span>
+                        <span class="text-muted"><span class="material-icons">autorenew</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Pending');?></span>
                     <?php endif; ?>
                 </td>
                 <td>

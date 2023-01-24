@@ -16,10 +16,10 @@ $appendPrintExportURL = '';
         <?php if (isset($updated) && $updated == true) : ?>
             <div role="alert" class="alert alert-info alert-dismissible fade show m-3">
                 <ul>
-                    <li><?php echo $statistic['imported']?> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','were assigned');?></li>
-                    <li><?php echo $statistic['already_exists']?> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','already existed');?></li>
-                    <li><?php echo $statistic['skipped']?> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','were skipped');?></li>
-                    <li><?php echo $statistic['unassigned']?> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','were removed from recipient list');?></li>
+                    <li><?php echo $statistic['imported']?> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','were assigned');?></li>
+                    <li><?php echo $statistic['already_exists']?> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','already existed');?></li>
+                    <li><?php echo $statistic['skipped']?> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','were skipped');?></li>
+                    <li><?php echo $statistic['unassigned']?> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','were removed from recipient list');?></li>
                 </ul>
             </div>
             <script>

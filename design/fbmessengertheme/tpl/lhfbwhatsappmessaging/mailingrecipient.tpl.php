@@ -1,18 +1,18 @@
-<h1><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Recipient list');?></h1>
+<h1><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Recipient list');?></h1>
 
 <?php include(erLhcoreClassDesign::designtpl('lhfbwhatsappmessaging/parts/search_panel_mailing_recipient.tpl.php')); ?>
 
 <table cellpadding="0" cellspacing="0" class="table table-sm table-hover" width="100%" ng-non-bindable>
     <thead>
     <tr>
-        <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','E-mail');?></th>
-        <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Name');?></th>
-        <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Date creation');?></th>
-        <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Owner');?></th>
-        <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Delivery status');?></th>
-        <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Type');?></th>
-        <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Chat ID');?></th>
-        <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Send');?></th>
+        <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','E-mail');?></th>
+        <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Name');?></th>
+        <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Date creation');?></th>
+        <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Owner');?></th>
+        <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Delivery status');?></th>
+        <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Type');?></th>
+        <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Chat ID');?></th>
+        <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Send');?></th>
         <th width="1%"></th>
     </tr>
     </thead>
@@ -20,7 +20,7 @@
         <tr class="<?php if ($item->disabled == 1) : ?>text-muted<?php endif; ?>">
             <td>
                 <i class="material-icons"><?php if ($item->disabled == 0) : ?>done<?php else : ?>block<?php endif; ?></i>
-                <button data-success="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Copied');?>" title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Click to copy phone');?>" class="mx-0 btn btn-xs btn-link text-muted py-1" data-copy="<?php echo htmlspecialchars($item->phone)?>" onclick="lhinst.copyContent($(this))" type="button"><i class="material-icons mr-0">content_copy</i></button>
+                <button data-success="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Copied');?>" title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Click to copy phone');?>" class="mx-0 btn btn-xs btn-link text-muted py-1" data-copy="<?php echo htmlspecialchars($item->phone)?>" onclick="lhinst.copyContent($(this))" type="button"><i class="material-icons mr-0">content_copy</i></button>
 
                 <?php if ($item->can_edit) : ?>
                     <button class="m-0 p-0 btn btn-sm btn-link<?php if ($item->disabled == 1) : ?> text-muted<?php endif; ?>" href="#" onclick="return lhc.revealModal({'title' : 'Import', 'height':350, backdrop:true, 'url':'<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/editmailingrecipient')?>/<?php echo $item->id?>'})">
@@ -42,27 +42,27 @@
             </td>
             <td>
                 <?php if ($item->delivery_status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact::DELIVERY_STATUS_UNKNOWN) : ?>
-                    <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Unknown');?>
+                    <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Unknown');?>
                 <?php elseif ($item->delivery_status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact::DELIVERY_STATUS_UNSUBSCRIBED) : ?>
-                    <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Unsubscribed');?>
+                    <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Unsubscribed');?>
                 <?php elseif ($item->delivery_status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact::DELIVERY_STATUS_FAILED) : ?>
-                    <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Failed');?>
+                    <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Failed');?>
                 <?php elseif ($item->delivery_status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact::DELIVERY_STATUS_ACTIVE) : ?>
-                    <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Active');?>
+                    <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Active');?>
                 <?php endif; ?>
             </td>
             <td>
                 <?php if ($item->private == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact::LIST_PUBLIC) : ?>
-                    <span class="material-icons">public</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Public');?>
+                    <span class="material-icons">public</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Public');?>
                 <?php else : ?>
-                    <span class="material-icons">vpn_lock</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Private');?>
+                    <span class="material-icons">vpn_lock</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Private');?>
                 <?php endif; ?>
             </td>
             <td>
                 <?php echo $item->chat_id; ?>
             </td>
             <td>
-                <a title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Send a single message');?>" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/send')?>/(recipient)/<?php echo $item->id?>"><span class="material-icons">send</span> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Send a message');?></a>
+                <a title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Send a single message');?>" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/send')?>/(recipient)/<?php echo $item->id?>"><span class="material-icons">send</span> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Send a message');?></a>
             </td>
             <td>
                 <?php if ($item->can_delete) : ?>

@@ -36,9 +36,9 @@
                 </td>
                 <td>
                     <?php if ($item->private == LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::LIST_PUBLIC) : ?>
-                        <span class="material-icons">public</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Public');?>
+                        <span class="material-icons">public</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Public');?>
                     <?php else : ?>
-                        <span class="material-icons">vpn_lock</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Private');?>
+                        <span class="material-icons">vpn_lock</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Private');?>
                     <?php endif; ?>
                 </td>
                 <td>

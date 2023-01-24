@@ -4,13 +4,13 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
-                    <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Name');?>*</label>
+                    <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Name');?>*</label>
                     <input type="text" maxlength="250" class="form-control form-control-sm" name="name" value="<?php echo htmlspecialchars($item->name)?>" />
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Business account');?>, <small><i><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','you can set a custom business account');?></i></small></label>
+                    <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Business account');?>, <small><i><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','you can set a custom business account');?></i></small></label>
                     <?php echo erLhcoreClassRenderHelper::renderCombobox( array (
                         'input_name'     => 'business_account_id',
                         'optional_field' => erTranslationClassLhTranslation::getInstance()->getTranslation('chat/translation','Default configuration'),
@@ -22,7 +22,7 @@
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Department');?></label>
+                    <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Department');?></label>
                     <?php echo erLhcoreClassRenderHelper::renderCombobox(array(
                         'input_name'     => 'dep_id',
                         'optional_field' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Select department'),
@@ -35,9 +35,9 @@
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <label><input type="checkbox" <?php if ($item->id == null || \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::getCount(['filter' => ['status' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::STATUS_PENDING, 'campaign_id' => $item->id]]) == 0) : $disabledCampaign = true;?>disabled<?php endif;?> name="enabled" value="on" <?php $item->enabled == 1 ? print ' checked="checked" ' : ''?> > <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Activate campaign');?></label>
+                    <label><input type="checkbox" <?php if ($item->id == null || \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::getCount(['filter' => ['status' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::STATUS_PENDING, 'campaign_id' => $item->id]]) == 0) : $disabledCampaign = true;?>disabled<?php endif;?> name="enabled" value="on" <?php $item->enabled == 1 ? print ' checked="checked" ' : ''?> > <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Activate campaign');?></label>
                     <?php if (isset($disabledCampaign) && $disabledCampaign == true) : ?><div class="text-danger"><small><i>You will be able to activate campaign once you have at-least one recipient</i></small></div><?php endif; ?>
-                    <div><small><i><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Only once the campaign is activated we will start sending messages. Progress you can see in statistic tab.');?></i></small></div>
+                    <div><small><i><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Only once the campaign is activated we will start sending messages. Progress you can see in statistic tab.');?></i></small></div>
                 </div>
             </div>
         </div>
@@ -45,22 +45,22 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
-                    <label class="<?php ($item->starts_at > 0 && $item->starts_at < time()) ? print 'text-danger' : ''?> "><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Start sending at');?> <b><?php print date_default_timezone_get()?></b>, Current time - <b>[<?php echo (new DateTime('now', new DateTimeZone(date_default_timezone_get())))->format('Y-m-d H:i:s') ?>]</b></label>
+                    <label class="<?php ($item->starts_at > 0 && $item->starts_at < time()) ? print 'text-danger' : ''?> "><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Start sending at');?> <b><?php print date_default_timezone_get()?></b>, Current time - <b>[<?php echo (new DateTime('now', new DateTimeZone(date_default_timezone_get())))->format('Y-m-d H:i:s') ?>]</b></label>
                     <input class="form-control form-control-sm" name="starts_at" type="datetime-local" value="<?php echo date('Y-m-d\TH:i', $item->starts_at > 0 ? $item->starts_at : time())?>">
                 </div>
                 <?php if ($item->status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign::STATUS_PENDING) : ?>
-                    <div class="badge bg-info"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Pending, campaign has not started yet.');?></div>
+                    <div class="badge bg-info"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Pending, campaign has not started yet.');?></div>
                 <?php elseif ($item->status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign::STATUS_IN_PROGRESS) : ?>
-                    <div class="badge bg-info"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','In progress');?></div>
+                    <div class="badge bg-info"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','In progress');?></div>
 
-                    <input type="submit" value="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Pause a running campaign');?>" class="btn btn-xs btn-warning" name="PauseCampaign" />
+                    <input type="submit" value="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Pause a running campaign');?>" class="btn btn-xs btn-warning" name="PauseCampaign" />
 
                 <?php elseif ($item->status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign::STATUS_FINISHED) : ?>
-                    <label><input type="checkbox" name="activate_again" value="on" > <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Set campaign status to pending. E.g You can activate it again if you have added more recipients.');?></label>
+                    <label><input type="checkbox" name="activate_again" value="on" > <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Set campaign status to pending. E.g You can activate it again if you have added more recipients.');?></label>
                 <?php endif; ?>
             </div>
             <div class="col-6">
-                <label><input type="checkbox" name="private" value="on" <?php $item->private == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign::LIST_PRIVATE ? print ' checked="checked" ' : ''?> > <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Private');?></label>
+                <label><input type="checkbox" name="private" value="on" <?php $item->private == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign::LIST_PRIVATE ? print ' checked="checked" ' : ''?> > <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Private');?></label>
             </div>
         </div>
 

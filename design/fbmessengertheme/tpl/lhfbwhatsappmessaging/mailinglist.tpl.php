@@ -4,11 +4,11 @@
     <table cellpadding="0" cellspacing="0" class="table table-sm table-hover" width="100%" ng-non-bindable>
         <thead>
         <tr>
-            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Name');?></th>
-            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Members');?></th>
-            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','User');?></th>
-            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Created at');?></th>
-            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Type');?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Name');?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Members');?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','User');?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Created at');?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Type');?></th>
             <th width="1%"></th>
         </tr>
         </thead>
@@ -22,7 +22,7 @@
                     <?php endif; ?>
                 </td>
                 <td>
-                    <a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/mailingrecipient')?>/(ml)/<?php echo $item->id?>" ><span class="material-icons">list</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','List of members');?> (<?php echo $item->total_contacts?>)</a>
+                    <a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/mailingrecipient')?>/(ml)/<?php echo $item->id?>" ><span class="material-icons">list</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','List of members');?> (<?php echo $item->total_contacts?>)</a>
                 </td>
                 <td>
                     <?php echo htmlspecialchars((string)$item->user); ?>
@@ -32,9 +32,9 @@
                 </td>
                 <td>
                     <?php if ($item->private == LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContactList::LIST_PUBLIC) : ?>
-                        <span class="material-icons">public</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Public');?>
+                        <span class="material-icons">public</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Public');?>
                     <?php else : ?>
-                        <span class="material-icons">vpn_lock</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmb','Private');?>
+                        <span class="material-icons">vpn_lock</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Private');?>
                     <?php endif; ?>
                 </td>
                 <td>
