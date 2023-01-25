@@ -75,7 +75,7 @@ if (!($user instanceof erLhcoreClassModelFBMessengerUser)) {
         <?php if (erLhcoreClassUser::instance()->hasAccessTo('lhfbwhatsappmessaging','use_admin')) : ?>
             <h4><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','WhatsApp Messaging');?></h4>
             <ul>
-                <li><a title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('mailconv/module','Mailing list')?>" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/mailinglist')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('mailconv/module','Mailing list');?></a></li>
+                <li><a title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('mailconv/module','Recipients lists')?>" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/mailinglist')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('mailconv/module','Recipients lists');?></a></li>
                 <li><a title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('mailconv/module','Recipients')?>" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/mailingrecipient')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('mailconv/module','Recipients');?></a></li>
                 <li><a title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('mailconv/module','Campaigns')?>" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/campaign')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('mailconv/module','Campaigns');?></a></li>
             </ul>
