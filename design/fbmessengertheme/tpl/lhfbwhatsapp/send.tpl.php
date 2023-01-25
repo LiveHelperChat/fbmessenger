@@ -14,7 +14,17 @@
 </div>
 <?php endif;?>
 
-<form action="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/send')?><?php if (isset($business_account_id) && is_numeric($business_account_id)) : ?>/<?php echo (int)$business_account_id?><?php endif;?>" method="post" ng-non-bindable>
+<?php  if (isset($whatsapp_contact)) : ?>
+<ul class="fs14">
+    <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Name');?> - <?php echo htmlspecialchars($whatsapp_contact->name)?></li>
+    <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Lastname');?> - <?php echo htmlspecialchars($whatsapp_contact->lastname)?></li>
+    <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','E-mail');?> - <?php echo htmlspecialchars($whatsapp_contact->email)?></li>
+    <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Title');?> - <?php echo htmlspecialchars($whatsapp_contact->title)?></li>
+    <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Company');?> - <?php echo htmlspecialchars($whatsapp_contact->company)?></li>
+</ul>
+<?php endif; ?>
+
+<form action="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/send')?><?php if (isset($whatsapp_contact)) : ?>/(recipient)/<?php echo $whatsapp_contact->id;endif; ?>" method="post" ng-non-bindable>
     <?php include(erLhcoreClassDesign::designtpl('lhkernel/csfr_token.tpl.php'));?>
     <div class="row">
         <div class="col-8">
@@ -24,10 +34,8 @@
                     <div class="form-group">
                         <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Recipient Phone');?>*</label>
                         <div class="input-group input-group-sm mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">+</span>
-                            </div>
-                            <input type="text" name="phone" placeholder="37065111111" class="form-control" value="<?php echo htmlspecialchars((string)$send->phone)?>" aria-label="Username" aria-describedby="basic-addon1">
+                            <span class="input-group-text" id="basic-addon1">+</span>
+                            <input <?php if (isset($whatsapp_contact)) : ?>disabled="disabled"<?php endif;?> type="text" name="phone" placeholder="37065111111" class="form-control" value="<?php echo htmlspecialchars((string)$send->phone)?>" aria-label="Username" aria-describedby="basic-addon1">
                         </div>
                     </div>
                 </div>
@@ -35,10 +43,8 @@
                     <div class="form-group">
                         <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Recipient Phone (WhatsApp internal number)');?>*</label>
                         <div class="input-group input-group-sm mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon1">+</span>
-                            </div>
-                            <input type="text" placeholder="370865111111" name="phone_whatsapp" class="form-control" value="<?php echo htmlspecialchars((string)$send->phone)?>" aria-label="Username" aria-describedby="basic-addon1">
+                            <span class="input-group-text" id="basic-addon1">+</span>
+                            <input type="text" <?php if (isset($whatsapp_contact)) : ?>disabled="disabled"<?php endif;?> placeholder="370865111111" name="phone_whatsapp" class="form-control" value="<?php echo htmlspecialchars((string)$send->phone_whatsapp)?>" aria-label="Username" aria-describedby="basic-addon1">
                         </div>
                     </div>
                 </div>
@@ -64,8 +70,19 @@
             </div>
 
             <div class="form-group">
+                <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Business account');?>, <small><i><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','you can set a custom business account');?></i></small></label>
+                <?php echo erLhcoreClassRenderHelper::renderCombobox( array (
+                    'input_name'     => 'business_account_id',
+                    'optional_field' => erTranslationClassLhTranslation::getInstance()->getTranslation('chat/translation','Default configuration'),
+                    'selected_id'    => $send->business_account_id,
+                    'css_class'      => 'form-control form-control-sm',
+                    'list_function'  => '\LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::getList'
+                )); ?>
+            </div>
+
+            <div class="form-group">
                 <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Sender Phone');?></label>
-                <select name="phone_sender_id" class="form-control form-control-sm" title="display_phone_number | verified_name | code_verification_status | quality_rating">
+                <select name="phone_sender_id" id="id_phone_sender_id" class="form-control form-control-sm" title="display_phone_number | verified_name | code_verification_status | quality_rating">
                     <?php foreach ($phones as $phone) : ?>
                     <option value="<?php echo $phone['id']?>" >
                         <?php echo $phone['display_phone_number'],' | ', $phone['verified_name'],' | ', $phone['code_verification_status'],' | ', $phone['quality_rating']?>
@@ -92,6 +109,15 @@
             </script>
 
             <div id="arguments-template-form"></div>
+
+            <div class="form-group">
+                <label><input onchange="$('#schedule_ts').toggle()" <?php if ($send->status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SCHEDULED) : ?>checked="checked"<?php endif;?> type="checkbox" name="schedule_message" /> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Schedule a message');?>, <small class="text-muted"><?php echo date('Y-m-d H:i', time())?></small></label>
+            </div>
+
+            <div id="schedule_ts" class="pb-2" style="display:<?php if ($send->status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SCHEDULED) : ?>block<?php else : ?>none<?php endif;?>" >
+                <input type="datetime-local" class="form-control form-control-sm" name="scheduled_at" value="<?php echo date('Y-m-d\TH:i', $send->scheduled_at > 0 ? $send->scheduled_at : time())?>" />
+            </div>
+
         </div>
         <div class="col-4">
             <div id="arguments-template"></div>

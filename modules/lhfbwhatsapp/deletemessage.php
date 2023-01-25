@@ -8,7 +8,10 @@ if (!isset($_SERVER['HTTP_X_CSRFTOKEN']) || !$currentUser->validateCSFRToken($_S
 }
 
 $item = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::fetch($Params['user_parameters']['id']);
-$item->removeThis();
+
+if ($item->can_delete) {
+    $item->removeThis();
+}
 
 echo "ok";
 exit;

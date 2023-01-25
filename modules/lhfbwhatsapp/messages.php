@@ -17,7 +17,26 @@ if (isset($filterParams['filter']['filterin']['lh_chat.dep_id'])) {
     unset($filterParams['filter']['filterin']['lh_chat.dep_id']);
 }
 
+if (!$currentUser->hasAccessTo('lhfbwhatsappmessaging','all_send_messages')) {
+    $filterParams['filter']['customfilter'][] = ' (private = 0 OR user_id = ' . (int)$currentUser->getUserID() . ')';
+}
+
 $append = erLhcoreClassSearchHandler::getURLAppendFromInput($filterParams['input_form']);
+
+if ($Params['user_parameters_unordered']['export'] == 'csv') {
+    \LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppMailingValidator::exportMessagesCSV(array_merge($filterParams['filter'], array('limit' => 100000, 'offset' => 0)));
+    exit;
+}
+
+if ($Params['user_parameters_unordered']['export'] == 'stats') {
+    $tpl = erLhcoreClassTemplate::getInstance('lhfbwhatsapp/quickstats.tpl.php');
+    if (isset($filterParams['filter']['filterin']['status'])) {
+        unset($filterParams['filter']['filterin']['status']);
+    }
+    $tpl->set('filter', $filterParams['filter']);
+    echo $tpl->fetch();
+    exit;
+}
 
 $rowsNumber = null;
 

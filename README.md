@@ -79,8 +79,18 @@ So just listen for `Custom text matching` with that keyword. This sample is prov
   * `Chat ID field replace rule` set to `/^370/is`
   * `Chat ID field replace value` set to `3708`
 
+## Cronjobs
+
+This cronjob sends scheduled campaign messages and regular mass messages
+Should be run every minute or more frequent.
 ```shell
 php cron.php -s site_admin -e fbmessenger -c cron/masssending
+```
+
+Collects campaign recipients and puts them in the main mass messages queue. 
+Should be run every minute or more frequent.
+```shell
+php cron.php -s site_admin -e fbmessenger -c cron/whatsapp_campaign
 ```
 
 # One page one app installation workflow

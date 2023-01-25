@@ -8,12 +8,15 @@
         <tr>
             <th width="1%"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','ID');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Business Account');?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Campaign');?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Type');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Department');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Date');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Template');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','User');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Phone');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Send status');?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Scheduled at');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Chat ID');?></th>
             <th width="1%"></th>
         </tr>
@@ -25,6 +28,18 @@
                 </td>
                 <td>
                     <?php echo htmlspecialchars((string)$item->business_account)?>
+                </td>
+                <td>
+                    <?php if ($item->campaign_id > 0) : ?>
+                        <a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/campaignrecipient')?>/(campaign)/<?php echo htmlspecialchars($item->campaign_id) ?>"><?php echo htmlspecialchars((string)$item->campaign)?></a>
+                    <?php endif; ?>
+                </td>
+                <td>
+                    <?php if ($item->private == LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::LIST_PUBLIC) : ?>
+                        <span class="material-icons">public</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Public');?>
+                    <?php else : ?>
+                        <span class="material-icons">vpn_lock</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Private');?>
+                    <?php endif; ?>
                 </td>
                 <td>
                     <?php echo htmlspecialchars((string)$item->department)?>
@@ -48,18 +63,18 @@
                 <td>
                     <?php if ($item->status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_PENDING) : ?>
                         <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Pending');?>
+                    <?php elseif ($item->status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SCHEDULED) : ?>
+                        <span class="material-icons">schedule_send</span> Scheduled
                     <?php elseif ($item->status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_READ) : ?>
                         <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Read');?>
                     <?php elseif ($item->status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_DELIVERED) : ?>
                         <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Delivered');?>
                     <?php elseif ($item->status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_IN_PROCESS) : ?>
-
                         <?php if ($item->mb_id_message == '') : ?>
                             <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','In process');?>
                         <?php else : ?>
                             <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Processed. Pending callback.');?>
                         <?php endif; ?>
-
                     <?php elseif ($item->status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_FAILED) : ?>
                         <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Failed');?>
                     <?php elseif ($item->status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_PENDING_PROCESS) : ?>
@@ -68,6 +83,13 @@
                         <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Rejected');?>
                     <?php elseif ($item->status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SENT) : ?>
                         <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Sent');?>
+                    <?php endif; ?>
+                </td>
+                <td>
+                    <?php if ($item->scheduled_at > 0) : ?>
+                        <span class="text-<?php $item->scheduled_at > time() ? print 'success' : print 'warning'?>"><?php echo date('Y-m-d H:i',$item->scheduled_at)?></span>
+                    <?php else : ?>
+                    -
                     <?php endif; ?>
                 </td>
                 <td>
@@ -85,7 +107,9 @@
                     <?php endif; ?>
                 </td>*/ ?>
                 <td>
-                    <a class="csfr-required csfr-post material-icons text-danger" data-trans="delete_confirm" title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Delete message');?>" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/deletemessage')?>/<?php echo htmlspecialchars($item->id) ?>">delete</a>
+                    <?php if ($item->can_delete) : ?>
+                        <a class="csfr-required csfr-post material-icons text-danger" data-trans="delete_confirm" title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Delete message');?>" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/deletemessage')?>/<?php echo htmlspecialchars($item->id) ?>">delete</a>
+                    <?php endif; ?>
                 </td>
             </tr>
         <?php endforeach; ?>

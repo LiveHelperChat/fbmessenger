@@ -69,7 +69,7 @@
         <div class="col-6" ng-non-bindable>
             <div class="form-group">
                 <label class="font-weight-bold">Body Text - {{<?php echo $i+1?>}}</label>
-                <input type="text" class="form-control form-control-sm" name="field_<?php echo $i+1?>" value="<?php if (isset($data['field_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_' .  $i + 1])?><?php endif; ?>">
+                <input type="text" list="fields_placeholders" class="form-control form-control-sm" name="field_<?php echo $i+1?>" value="<?php if (isset($data['field_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_' .  $i + 1])?><?php endif; ?>">
             </div>
         </div>
     <?php endfor; ?>
@@ -77,7 +77,7 @@
         <div class="col-6" ng-non-bindable>
             <div class="form-group">
                 <label class="font-weight-bold">Header Text - {{<?php echo $i+1?>}}</label>
-                <input type="text" class="form-control form-control-sm" name="field_header_<?php echo $i+1?>" value="<?php if (isset($data['field_header_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_' .  $i + 1])?><?php endif; ?>">
+                <input type="text" list="fields_placeholders" class="form-control form-control-sm" name="field_header_<?php echo $i+1?>" value="<?php if (isset($data['field_header_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_' .  $i + 1])?><?php endif; ?>">
             </div>
         </div>
     <?php endfor; ?>
@@ -86,9 +86,9 @@
         <div class="col-6" ng-non-bindable>
             <div class="form-group">
                 <label class="font-weight-bold">Document URL - {{<?php echo $i+1?>}}</label>
-                <input type="text" class="form-control form-control-sm" placeholder="https://example.com/filename.pdf" name="field_header_doc_<?php echo $i+1?>" value="<?php if (isset($data['field_header_doc_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_doc_' .  $i + 1])?><?php endif; ?>">
+                <input type="text" list="fields_placeholders" class="form-control form-control-sm" placeholder="https://example.com/filename.pdf" name="field_header_doc_<?php echo $i+1?>" value="<?php if (isset($data['field_header_doc_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_doc_' .  $i + 1])?><?php endif; ?>">
                 <label class="font-weight-bold">Filename - {{<?php echo $i+1?>}}</label>
-                <input type="text" class="form-control form-control-sm" placeholder="filename.pdf" name="field_header_doc_filename_<?php echo $i+1?>" value="<?php if (isset($data['field_header_doc_filename_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_doc_filename_' .  $i + 1])?><?php endif; ?>">
+                <input list="fields_placeholders" type="text" class="form-control form-control-sm" placeholder="filename.pdf" name="field_header_doc_filename_<?php echo $i+1?>" value="<?php if (isset($data['field_header_doc_filename_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_doc_filename_' .  $i + 1])?><?php endif; ?>">
             </div>
         </div>
     <?php endfor; ?>
@@ -97,7 +97,7 @@
         <div class="col-6" ng-non-bindable>
             <div class="form-group">
                 <label class="font-weight-bold">Header image URL - {{<?php echo $i+1?>}}</label>
-                <input type="text" class="form-control form-control-sm" placeholder="https://example.com/image.png" name="field_header_img_<?php echo $i+1?>" value="<?php if (isset($data['field_header_img_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_img_' .  $i + 1])?><?php endif; ?>">
+                <input list="fields_placeholders" type="text" class="form-control form-control-sm" placeholder="https://example.com/image.png" name="field_header_img_<?php echo $i+1?>" value="<?php if (isset($data['field_header_img_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_img_' .  $i + 1])?><?php endif; ?>">
             </div>
         </div>
     <?php endfor; ?>
@@ -106,15 +106,29 @@
         <div class="col-6" ng-non-bindable>
             <div class="form-group">
                 <label class="font-weight-bold">Header video URL - {{<?php echo $i+1?>}}</label>
-                <input type="text" class="form-control form-control-sm" placeholder="https://example.com/video.mp4" name="field_header_video_<?php echo $i+1?>" value="<?php if (isset($data['field_header_video_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_video_' .  $i + 1])?><?php endif; ?>">
+                <input list="fields_placeholders" type="text" class="form-control form-control-sm" placeholder="https://example.com/video.mp4" name="field_header_video_<?php echo $i+1?>" value="<?php if (isset($data['field_header_video_' .  $i + 1])) : ?><?php echo htmlspecialchars($data['field_header_video_' .  $i + 1])?><?php endif; ?>">
             </div>
         </div>
     <?php endfor; ?>
 
+    <datalist id="fields_placeholders">
+        <option value="{args.recipient.name_front}">Name</option>
+        <option value="{args.recipient.lastname_front}">Lastname</option>
+        <option value="{args.recipient.company_front}">Company</option>
+        <option value="{args.recipient.title_front}">Title</option>
+        <option value="{args.recipient.email_front}">E-Mail</option>
+        <option value="{args.recipient.file_1_url_front}">File 1</option>
+        <option value="{args.recipient.file_2_url_front}">File 2</option>
+        <option value="{args.recipient.file_3_url_front}">File 3</option>
+        <option value="{args.recipient.file_4_url_front}">File 4</option>
+        <option value="{args.recipient.attr_str_1_front}">String attribute 1</option>
+        <option value="{args.recipient.attr_str_2_front}">String attribute 2</option>
+        <option value="{args.recipient.attr_str_3_front}">String attribute 3</option>
+        <option value="{args.recipient.attr_str_4_front}">String attribute 4</option>
+        <option value="{args.recipient.attr_str_5_front}">String attribute 5</option>
+        <option value="{args.recipient.attr_str_6_front}">String attribute 6</option>
+    </datalist>
 
 </div>
 
-<?php /*
-<pre>
-<?php echo json_encode($template, JSON_PRETTY_PRINT)?>
-</pre>*/ ?>
+<?php /*<pre><?php echo json_encode($template, JSON_PRETTY_PRINT)?></pre>*/ ?>

@@ -2,18 +2,32 @@
 
 $tpl = erLhcoreClassTemplate::getInstance('lhfbwhatsapp/send.tpl.php');
 
-$item = new LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage();
-$instance = LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance();
+$item = new \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage();
 
-if (is_numeric($Params['user_parameters']['business_account_id'])) {
-    $account = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::fetch($Params['user_parameters']['business_account_id']);
+$instance = \LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance();
+
+if (isset($_POST['business_account_id']) && $_POST['business_account_id'] > 0) {
+    $Params['user_parameters_unordered']['business_account_id'] = (int)$_POST['business_account_id'];
+}
+
+if (is_numeric($Params['user_parameters_unordered']['business_account_id']) && $Params['user_parameters_unordered']['business_account_id'] > 0) {
+    $account = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::fetch($Params['user_parameters_unordered']['business_account_id']);
     $instance->setAccessToken($account->access_token);
     $instance->setBusinessAccountID($account->business_account_id);
+    $item->business_account_id = $account->id;
     $tpl->set('business_account_id', $account->id);
 }
 
 $templates = $instance->getTemplates();
 $phones = $instance->getPhones();
+
+if (is_numeric($Params['user_parameters_unordered']['recipient'])) {
+    $contact = LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact::fetch($Params['user_parameters_unordered']['recipient']);
+    $item->phone = $contact->phone;
+    $item->phone_whatsapp = $contact->phone_recipient;
+    $item->recipient_id = $contact->id;
+    $tpl->set('whatsapp_contact', $contact);
+}
 
 if (ezcInputForm::hasPostData()) {
 
@@ -25,6 +39,12 @@ if (ezcInputForm::hasPostData()) {
     $definition = array(
         'phone' => new ezcInputFormDefinitionElement(
             ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+        ),
+        'scheduled_at' => new ezcInputFormDefinitionElement(
+            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+        ),
+        'schedule_message' => new ezcInputFormDefinitionElement(
+            ezcInputFormDefinitionElement::OPTIONAL, 'boolean'
         ),
         'phone_whatsapp' => new ezcInputFormDefinitionElement(
             ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
@@ -91,14 +111,25 @@ if (ezcInputForm::hasPostData()) {
     $form = new ezcInputForm( INPUT_POST, $definition );
     $Errors = array();
 
-    if ($form->hasValidData( 'phone' ) && $form->phone != '') {
-        $item->phone = $form->phone;
-    } else {
-        $Errors[] = erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter a phone');
+    if (!isset($contact)) {
+
+        if ($form->hasValidData( 'phone' ) && $form->phone != '') {
+            $item->phone = $form->phone;
+        } else {
+            $Errors[] = erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter a phone');
+        }
+
+        if ($form->hasValidData( 'phone_whatsapp' ) && $form->phone_whatsapp != '') {
+            $item->phone_whatsapp = $form->phone_whatsapp;
+        }
     }
-    
-    if ($form->hasValidData( 'phone_whatsapp' ) && $form->phone_whatsapp != '') {
-        $item->phone_whatsapp = $form->phone_whatsapp;
+
+    if ($form->hasValidData( 'schedule_message' ) && $form->schedule_message == true) {
+        $item->status = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SCHEDULED;
+    }
+
+    if ($form->hasValidData( 'scheduled_at' ) ) {
+        $item->scheduled_at = strtotime($form->scheduled_at);
     }
 
     if ($form->hasValidData( 'dep_id' )) {
@@ -148,7 +179,7 @@ if (ezcInputForm::hasPostData()) {
 
     $item->message_variables_array = $messageVariables;
     $item->message_variables = json_encode($messageVariables);
-    $item->business_account_id = is_object($account) ? $account->id : 0;
+    $item->business_account_id = isset($account) && is_object($account) ? $account->id : 0;
 
     if ($form->hasValidData( 'template' ) && $form->template != '') {
         $template = explode('||',$form->template);
@@ -161,10 +192,45 @@ if (ezcInputForm::hasPostData()) {
     if (count($Errors) == 0) {
         try {
 
-            LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance()->sendTemplate($item, $templates, $phones);
-
             $item->user_id = $currentUser->getUserID();
-            $item->saveThis();
+
+            if ($item->status != \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SCHEDULED) {
+                LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance()->sendTemplate($item, $templates, $phones);
+                $item->saveThis();
+            }
+
+            if ($item->status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SCHEDULED) {
+                $campaign = new \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign();
+                $campaign->name = 'Single campaign';
+                $campaign->user_id = $item->user_id;
+                $campaign->starts_at = $item->scheduled_at;
+                $campaign->business_account_id = $item->business_account_id;
+                $campaign->phone_sender_id = $item->phone_sender_id;
+                $campaign->template = $item->template;
+                $campaign->language = $item->language;
+                $campaign->enabled = 1;
+                $campaign->status = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign::STATUS_PENDING;
+                $campaign->dep_id = $item->dep_id;
+                $campaign->message_variables_array = $messageVariables;
+                $campaign->message_variables = json_encode($messageVariables);
+                $campaign->saveThis();
+
+                $campaignRecipient = new \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient();
+
+                if (isset($contact)) {
+                    $campaignRecipient->type = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::TYPE_MAILING_LIST;
+                    $campaignRecipient->recipient_id = $contact->id;
+                } else {
+                    $campaignRecipient->type = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::TYPE_MANUAL;
+                    $campaignRecipient->phone = $item->phone;
+                    $campaignRecipient->phone_recipient = $item->phone_whatsapp;
+                }
+
+                $campaignRecipient->user_id = $item->user_id;
+                $campaignRecipient->campaign_id = $campaign->id;
+                $campaignRecipient->status = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::STATUS_PENDING;
+                $campaignRecipient->saveThis();
+            }
 
             $tpl->set('updated',true);
             $tpl->set('fbcommand','!fbtemplate '.json_encode([

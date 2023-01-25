@@ -6,7 +6,7 @@ $params = explode('||',$Params['user_parameters']['template']);
 
 $instance = LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance();
 
-if (is_numeric($Params['user_parameters']['business_account_id'])) {
+if (is_numeric($Params['user_parameters']['business_account_id']) && $Params['user_parameters']['business_account_id'] > 0) {
     $account = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::fetch($Params['user_parameters']['business_account_id']);
     $instance->setAccessToken($account->access_token);
     $instance->setBusinessAccountID($account->business_account_id);
