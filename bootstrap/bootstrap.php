@@ -1221,6 +1221,7 @@ class erLhcoreClassExtensionFbmessenger {
 				$chat->referrer = '';
 				$chat->session_referrer = '';
 				$chat->chat_variables = json_encode ( $dataArray );
+                $chat->pnd_time = time();
 				
 				$chat->saveThis ();
 				
