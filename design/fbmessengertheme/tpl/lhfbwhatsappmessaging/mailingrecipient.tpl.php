@@ -59,7 +59,9 @@
                 <?php endif; ?>
             </td>
             <td>
-                <?php echo $item->chat_id; ?>
+                <?php if ($item->chat_id > 0) : ?>
+                    <a target="_blank" href="<?php echo erLhcoreClassDesign::baseurl('front/default')?>/(cid)/<?php echo $item->chat_id?>/#!#chat-id-<?php echo $item->chat_id?>"><span class="material-icons">open_in_new</span><?php echo $item->chat_id?></a>
+                <?php endif; ?>
             </td>
             <td>
                 <a title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Send a single message');?>" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/send')?>/(recipient)/<?php echo $item->id?>"><span class="material-icons">send</span> <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Send a message');?></a>

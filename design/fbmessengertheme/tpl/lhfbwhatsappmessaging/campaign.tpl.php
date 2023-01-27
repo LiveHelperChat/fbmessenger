@@ -39,6 +39,11 @@
                     <?php endif; ?>
                 </td>
                 <td>
+                    <?php if ($item->enabled == 0) : ?>
+                        <span class="material-icons" title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Not active');?>">hourglass_disabled</span>
+                    <?php else : ?>
+                        <span class="material-icons" title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Active');?>">hourglass_empty</span>
+                    <?php endif; ?>
                     <?php if ($item->status == LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign::STATUS_PENDING) : ?>
                         <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Pending');?>
                     <?php elseif ($item->status == LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign::STATUS_IN_PROGRESS) : ?>

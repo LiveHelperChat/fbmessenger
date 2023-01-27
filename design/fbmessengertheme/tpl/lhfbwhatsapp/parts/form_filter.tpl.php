@@ -147,7 +147,7 @@
             </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-3">
             <div class="form-group">
                 <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/lists/search_panel','Date range to');?></label>
                 <div class="row">
@@ -158,7 +158,7 @@
             </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-3">
             <div class="form-group">
                 <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/lists/search_panel','Hour and minute to');?> <small>[<?php echo date('H:i:s')?>]</small></label>
                 <div class="row">

@@ -8,6 +8,14 @@ $appendPrintExportURL = '';
 <?php include(erLhcoreClassDesign::designtpl('lhkernel/modal_header.tpl.php'));?>
 <div class="modal-body">
     <div class="row">
+
+        <div class="col-6">
+            <div class="form-group">
+                <h6><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Sent')?></h6>
+                <?php echo \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::getCount($filter); ?>
+            </div>
+        </div>
+
         <?php foreach (\LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppMailingValidator::getStatus()  as $statVariation) : ?>
         <div class="col-6">
             <div class="form-group">

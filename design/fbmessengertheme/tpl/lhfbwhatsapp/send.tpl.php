@@ -15,13 +15,33 @@
 <?php endif;?>
 
 <?php  if (isset($whatsapp_contact)) : ?>
-<ul class="fs14">
-    <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Name');?> - <?php echo htmlspecialchars($whatsapp_contact->name)?></li>
-    <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Lastname');?> - <?php echo htmlspecialchars($whatsapp_contact->lastname)?></li>
-    <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','E-mail');?> - <?php echo htmlspecialchars($whatsapp_contact->email)?></li>
-    <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Title');?> - <?php echo htmlspecialchars($whatsapp_contact->title)?></li>
-    <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Company');?> - <?php echo htmlspecialchars($whatsapp_contact->company)?></li>
-</ul>
+
+<div class="row">
+    <div class="col-6">
+        <ul class="fs14">
+            <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Name');?> - <?php echo htmlspecialchars($whatsapp_contact->name)?></li>
+            <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Lastname');?> - <?php echo htmlspecialchars($whatsapp_contact->lastname)?></li>
+            <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','E-mail');?> - <?php echo htmlspecialchars($whatsapp_contact->email)?></li>
+            <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Title');?> - <?php echo htmlspecialchars($whatsapp_contact->title)?></li>
+            <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Company');?> - <?php echo htmlspecialchars($whatsapp_contact->company)?></li>
+            <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Date');?> - <?php echo htmlspecialchars($whatsapp_contact->date_front)?></li>
+            <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Attribute string 6');?> - <?php echo htmlspecialchars($whatsapp_contact->attr_str_6)?></li>
+            <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','File 1');?> - <?php echo htmlspecialchars($whatsapp_contact->file_1)?></li>
+            <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','File 2');?> - <?php echo htmlspecialchars($whatsapp_contact->file_2)?></li>
+        </ul>
+    </div>
+    <div class="col-6">
+        <ul class="fs14">
+            <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Attribute string 1');?> - <?php echo htmlspecialchars($whatsapp_contact->attr_str_1)?></li>
+            <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Attribute string 2');?> - <?php echo htmlspecialchars($whatsapp_contact->attr_str_2)?></li>
+            <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Attribute string 3');?> - <?php echo htmlspecialchars($whatsapp_contact->attr_str_3)?></li>
+            <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Attribute string 4');?> - <?php echo htmlspecialchars($whatsapp_contact->attr_str_4)?></li>
+            <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Attribute string 5');?> - <?php echo htmlspecialchars($whatsapp_contact->attr_str_5)?></li>
+            <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','File 3');?> - <?php echo htmlspecialchars($whatsapp_contact->file_3)?></li>
+            <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','File 4');?> - <?php echo htmlspecialchars($whatsapp_contact->file_4)?></li>
+        </ul>
+    </div>
+</div>
 <?php endif; ?>
 
 <form action="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/send')?><?php if (isset($whatsapp_contact)) : ?>/(recipient)/<?php echo $whatsapp_contact->id;endif; ?>" method="post" ng-non-bindable>
@@ -115,7 +135,12 @@
             </div>
 
             <div id="schedule_ts" class="pb-2" style="display:<?php if ($send->status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SCHEDULED) : ?>block<?php else : ?>none<?php endif;?>" >
-                <input type="datetime-local" class="form-control form-control-sm" name="scheduled_at" value="<?php echo date('Y-m-d\TH:i', $send->scheduled_at > 0 ? $send->scheduled_at : time())?>" />
+                <div class="pb-2">
+                    <input type="datetime-local" class="form-control form-control-sm" name="scheduled_at" value="<?php echo date('Y-m-d\TH:i', $send->scheduled_at > 0 ? $send->scheduled_at : time())?>" />
+                </div>
+                
+                <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Campaign name');?></label>
+                <input type="text" class="form-control form-control-sm" maxlength="50" name="campaign_name" placeholder="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Single campaign');?>" value="<?php echo htmlspecialchars((string)$send->campaign_name)?>" />
             </div>
 
         </div>

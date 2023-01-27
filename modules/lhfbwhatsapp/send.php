@@ -3,6 +3,7 @@
 $tpl = erLhcoreClassTemplate::getInstance('lhfbwhatsapp/send.tpl.php');
 
 $item = new \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage();
+$item->campaign_name = '';
 
 $instance = \LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance();
 
@@ -57,6 +58,9 @@ if (ezcInputForm::hasPostData()) {
         ),
         'dep_id' => new ezcInputFormDefinitionElement(
             ezcInputFormDefinitionElement::OPTIONAL, 'int', array('min_range' => 1)
+        ),
+        'campaign_name' => new ezcInputFormDefinitionElement(
+            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
         ),
         'field_1' => new ezcInputFormDefinitionElement(
             ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
@@ -132,6 +136,10 @@ if (ezcInputForm::hasPostData()) {
         $item->scheduled_at = strtotime($form->scheduled_at);
     }
 
+    if ($form->hasValidData( 'campaign_name' ) ) {
+        $item->campaign_name = $form->campaign_name;
+    }
+
     if ($form->hasValidData( 'dep_id' )) {
         $item->dep_id = $form->dep_id;
     } else {
@@ -177,6 +185,15 @@ if (ezcInputForm::hasPostData()) {
         }
     }
 
+    if (isset($contact)) {
+        $recipient = new \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient();
+        $recipient->recipient_id = $contact->id;
+
+        foreach ($messageVariables as $key => $value) {
+            $messageVariables[$key] = \erLhcoreClassGenericBotWorkflow::translateMessage($value, array('args' => ['recipient' => $recipient]));
+        }
+    }
+
     $item->message_variables_array = $messageVariables;
     $item->message_variables = json_encode($messageVariables);
     $item->business_account_id = isset($account) && is_object($account) ? $account->id : 0;
@@ -201,7 +218,7 @@ if (ezcInputForm::hasPostData()) {
 
             if ($item->status == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::STATUS_SCHEDULED) {
                 $campaign = new \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign();
-                $campaign->name = 'Single campaign';
+                $campaign->name = $item->campaign_name != '' ? $item->campaign_name : 'Single campaign';
                 $campaign->user_id = $item->user_id;
                 $campaign->starts_at = $item->scheduled_at;
                 $campaign->business_account_id = $item->business_account_id;

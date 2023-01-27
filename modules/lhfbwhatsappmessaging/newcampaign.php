@@ -4,6 +4,22 @@ $tpl = erLhcoreClassTemplate::getInstance('lhfbwhatsappmessaging/newcampaign.tpl
 
 $item = new LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign();
 
+$instance = LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance();
+
+if (isset($_POST['business_account_id']) && $_POST['business_account_id'] > 0) {
+    $item->business_account_id = $Params['user_parameters_unordered']['business_account_id'] = (int)$_POST['business_account_id'];
+}
+
+if ($item->business_account_id > 0) {
+    $account = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::fetch($item->business_account_id);
+    $instance->setAccessToken($account->access_token);
+    $instance->setBusinessAccountID($account->business_account_id);
+    $tpl->set('business_account_id', $account->id);
+}
+
+$templates = $instance->getTemplates();
+$phones = $instance->getPhones();
+
 if (ezcInputForm::hasPostData()) {
 
     if (!isset($_POST['csfr_token']) || !$currentUser->validateCSFRToken($_POST['csfr_token'])) {
@@ -35,10 +51,14 @@ if (ezcInputForm::hasPostData()) {
     }
 }
 
-$tpl->set('item', $item);
+$tpl->setArray(array(
+    'item' => $item,
+    'templates' => $templates,
+    'phones' => $phones
+));
 
 $Result['content'] = $tpl->fetch();
-$Result['additional_footer_js'] = '<script src="'.erLhcoreClassDesign::design('js/tinymce/js/tinymce/tinymce.min.js').'"></script>';
+$Result['additional_footer_js'] = '<script type="text/javascript" src="'.erLhcoreClassDesign::designJS('js/extension.fbwhatsapp.js').'"></script>';
 
 $Result['path'] = array(
     array(

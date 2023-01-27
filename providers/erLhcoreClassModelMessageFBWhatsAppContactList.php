@@ -33,6 +33,28 @@ class erLhcoreClassModelMessageFBWhatsAppContactList
         $stmt->execute();
     }
 
+    public function afterSave($params = array())
+    {
+
+        $sql = "SELECT count(id) FROM lhc_fbmessengerwhatsapp_contact_list WHERE id IN 
+                                                                 (SELECT contact_list_id FROM lhc_fbmessengerwhatsapp_contact_list_contact WHERE contact_id IN (SELECT contact_id FROM lhc_fbmessengerwhatsapp_contact_list_contact WHERE contact_list_id = :contact_list_id)) 
+                                                             AND private = 0";
+        $db = \ezcDbInstance::get();
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':contact_list_id', $this->id, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        $totalFound = $stmt->fetchColumn();
+
+        $sql = "UPDATE lhc_fbmessengerwhatsapp_contact SET private = :private WHERE id IN (SELECT contact_id FROM lhc_fbmessengerwhatsapp_contact_list_contact WHERE contact_list_id = :contact_list_id)";
+        $stmt = $db->prepare($sql);
+        $stmt->bindValue(':contact_list_id', $this->id, \PDO::PARAM_INT);
+        $stmt->bindValue(':private', $totalFound == 0 ? 1 : 0, \PDO::PARAM_INT);
+
+        $stmt->execute();
+
+    }
+
     public function __toString()
     {
         return $this->mail;

@@ -125,6 +125,9 @@ class erLhcoreClassModelMessageFBWhatsAppContact
             case 'created_at_front':
                 return date('Ymd') == date('Ymd', $this->created_at) ? date(\erLhcoreClassModule::$dateHourFormat, $this->created_at) : date(\erLhcoreClassModule::$dateDateHourFormat, $this->created_at);
 
+            case 'date_front':
+                return date(\erLhcoreClassModule::$dateDateHourFormat, $this->date);
+
             case 'can_edit':
                 return \erLhcoreClassUser::instance()->hasAccessTo('lhfbwhatsappmessaging','edit_all_contacts') || $this->user_id == \erLhcoreClassUser::instance()->getUserID();
 

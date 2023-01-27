@@ -3,7 +3,7 @@
     <input type="hidden" name="doSearch" value="1">
 
     <div class="row">
-        <div class="col-3">
+        <div class="col-2">
             <div class="form-group">
                 <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/lists/search_panel','Recipient list');?></label>
                 <?php echo erLhcoreClassRenderHelper::renderMultiDropdown( array (
@@ -17,13 +17,19 @@
                 )); ?>
             </div>
         </div>
-        <div class="col-3">
+        <div class="col-2">
             <div class="form-group">
                 <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/lists/search_panel','Name');?></label>
                 <input type="text" class="form-control form-control-sm" name="name" value="<?php echo htmlspecialchars($input->name)?>" />
             </div>
         </div>
-        <div class="col-3">
+        <div class="col-2">
+            <div class="form-group">
+                <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/lists/search_panel','Phone');?></label>
+                <input type="text" class="form-control form-control-sm" name="phone" value="<?php echo htmlspecialchars($input->phone)?>" />
+            </div>
+        </div>
+        <div class="col-2">
             <div class="form-group">
                 <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/lists/search_panel','Owner');?></label>
                 <?php echo erLhcoreClassRenderHelper::renderMultiDropdown( array (
@@ -39,7 +45,7 @@
             </div>
         </div>
 
-        <div class="col-3">
+        <div class="col-2">
             <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons','Delivery status');?></label>
             <select name="delivery_status" class="form-control form-control-sm">
                 <option value=""><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons','Choose');?></option>

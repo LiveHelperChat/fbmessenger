@@ -5,8 +5,12 @@ $Module = array( "name" => "Mailing module");
 $ViewList = array();
 
 $ViewList['mailinglist'] = array(
-    'params' => array(),
-    'functions' => array( 'use_admin' )
+    'params' => array('name','user_ids',
+        'timefrom','timefrom_seconds','timefrom_minutes','timefrom_hours',
+        'timeto', 'timeto_minutes', 'timeto_seconds', 'timeto_hours',
+    ),
+    'functions' => array( 'use_admin' ),
+    'multiple_arguments' => array('user_ids')
 );
 
 $ViewList['mailingrecipient'] = array(
@@ -18,8 +22,11 @@ $ViewList['mailingrecipient'] = array(
 
 $ViewList['campaign'] = array(
     'params' => array(),
-    'uparams' => array('id','action'),
-    'functions' => array( 'use_admin' )
+    'uparams' => array('id','action','user_ids',
+        'timefrom','timefrom_seconds','timefrom_minutes','timefrom_hours',
+        'timeto', 'timeto_minutes', 'timeto_seconds', 'timeto_hours'),
+    'functions' => array( 'use_admin' ),
+    'multiple_arguments' => array('user_ids')
 );
 
 $ViewList['newcampaign'] = array(

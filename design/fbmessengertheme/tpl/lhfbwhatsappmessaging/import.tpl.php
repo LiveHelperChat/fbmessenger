@@ -28,11 +28,13 @@
     <div class="form-group">
         <label>CSV</label>
         <input type="file" name="files" />
+        <a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/import')?>?sample=1"><span class="material-icons">file_download</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('canned/import','Download sample');?></a>
     </div>
 
     <p><small><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('canned/import','First row in CSV is skipped. Columns order');?> - </small>
         <span class="badge bg-secondary mr-2">phone</span>
         <span class="badge bg-secondary mr-2">phone_recipient</span>
+        <span class="badge bg-secondary mr-2">status</span>
         <span class="badge bg-secondary mr-2">email</span>
         <span class="badge bg-secondary mr-2">name</span>
         <span class="badge bg-secondary mr-2">title</span>
@@ -49,7 +51,17 @@
         <span class="badge bg-secondary mr-2">file_2</span>
         <span class="badge bg-secondary mr-2">file_3</span>
         <span class="badge bg-secondary">file_4</span>
+
     </p>
+
+    <p>Status field possible values
+        <span class="badge bg-secondary mr-2">unknown</span>
+        <span class="badge bg-secondary mr-2">unsubscribed</span>
+        <span class="badge bg-secondary mr-2">failed</span>
+        <span class="badge bg-secondary mr-2">active</span>
+    </p>
+
+
 
     <div class="form-group">
         <label><input type="checkbox" name="remove_old" value="on" <?php if (isset($remove_old) && $remove_old == true) : ?>checked="checked"<?php endif;?> > <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('canned/import','Remove old records');?></label>

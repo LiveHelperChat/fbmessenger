@@ -136,6 +136,17 @@ class erLhcoreClassModelMessageFBWhatsAppMessage
                 }
                 return $this->message_variables_array;
 
+            case 'chat':
+                $this->chat = null;
+                if ($this->chat_id > 0) {
+                    try {
+                        $this->chat = \erLhcoreClassModelChat::fetch($this->chat_id);
+                    } catch (\Exception $e) {
+
+                    }
+                }
+                return $this->chat;
+
             default:
                 ;
                 break;

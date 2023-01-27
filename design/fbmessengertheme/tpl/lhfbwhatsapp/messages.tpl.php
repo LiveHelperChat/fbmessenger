@@ -27,8 +27,12 @@
                     <?php echo htmlspecialchars($item->id) ?> <a class="material-icons" onclick="lhc.revealModal({'url':WWW_DIR_JAVASCRIPT+'fbwhatsapp/rawjson/<?php echo $item->id?>'})">info_outline</a>
                 </td>
                 <td>
-                    <?php echo htmlspecialchars((string)$item->business_account)?>
-                </td>
+                    <?php if (is_object($item->business_account)) : ?>
+                        <?php echo htmlspecialchars((string)$item->business_account)?>
+                    <?php else : ?>
+                        <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Default');?>
+                    <?php endif; ?>
+            </td>
                 <td>
                     <?php if ($item->campaign_id > 0) : ?>
                         <a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/campaignrecipient')?>/(campaign)/<?php echo htmlspecialchars($item->campaign_id) ?>"><?php echo htmlspecialchars((string)$item->campaign)?></a>
@@ -96,7 +100,12 @@
                     <?php if ($item->conversation_id != '') : ?>
                         <span class="material-icons" title=" <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Covnersation');?> - <?php echo $item->conversation_id?>">question_answer</span>
                     <?php endif; ?>
-                    <?php echo htmlspecialchars($item->chat_id)?>
+
+                    <?php if ($item->chat_id > 0) : ?>
+                        <?php /* <a ng-non-bindable href="#!#Fchat-id-<?php echo $item->chat_id?>" class="action-image material-icons" data-title="<?php echo htmlspecialchars(is_object($item->chat) ? $item->chat->nick : $item->phone,ENT_QUOTES);?>" onclick="lhinst.startChatNewWindow('<?php echo $item->chat_id;?>',$(this).attr('data-title'))" title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('chat/pendingchats','Open in a new window');?>"><span class="material-icons">open_in_new</span><?php echo htmlspecialchars($item->chat_id)?></a> */ ?>
+                        <a target="_blank" href="<?php echo erLhcoreClassDesign::baseurl('front/default')?>/(cid)/<?php echo $item->chat_id?>/#!#chat-id-<?php echo $item->chat_id?>"><span class="material-icons">open_in_new</span><?php echo $item->chat_id?></a>
+                    <?php endif; ?>
+
                 </td>
                 <?php /*
                 <td>

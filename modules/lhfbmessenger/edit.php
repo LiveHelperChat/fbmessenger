@@ -42,7 +42,7 @@ $Result['content'] = $tpl->fetch();
 
 $Result['path'] = array(
     array (
-        'url' =>erLhcoreClassDesign::baseurl('fbmessenger/list'), 
+        'url' => erLhcoreClassDesign::baseurl('fbmessenger/list'),
         'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Facebook pages')        
     ),
     array (       

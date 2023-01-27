@@ -3,6 +3,24 @@
 $currentUser = erLhcoreClassUser::instance();
 $currentUser->getUserID();
 
+if (isset($_GET['sample'])){
+    $now = gmdate("D, d M Y H:i:s");
+    header("Expires: Tue, 03 Jul 2001 06:00:00 GMT");
+    header("Cache-Control: max-age=0, no-cache, must-revalidate, proxy-revalidate");
+    header("Last-Modified: {$now} GMT");
+
+    // force download
+    header("Content-Type: application/force-download");
+    header("Content-Type: application/octet-stream");
+    header("Content-Type: application/download");
+
+    // disposition / encoding on response body
+    header("Content-Disposition: attachment;filename=contact-sample.csv");
+    header("Content-Transfer-Encoding: binary");
+    echo file_get_contents('extension/fbmessenger/doc/contact.csv');
+    exit;
+}
+
 $tpl = erLhcoreClassTemplate::getInstance('lhfbwhatsappmessaging/import.tpl.php');
 
 $itemDefault = new LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact();
@@ -44,6 +62,7 @@ if (isset($_POST['UploadFileAction'])) {
         $canned = [
             'phone',
             'phone_recipient',
+            'status',
             'email',
             'name',
             'title',
@@ -91,6 +110,14 @@ if (isset($_POST['UploadFileAction'])) {
             'removed' => 0,
         );
 
+        $statusMap = [
+            'unknown' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact::DELIVERY_STATUS_UNKNOWN,
+            'unsubscribed' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact::DELIVERY_STATUS_UNSUBSCRIBED,
+            'failed' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact::DELIVERY_STATUS_FAILED,
+            'active' => \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact::DELIVERY_STATUS_ACTIVE
+        ];
+
+
         if ($canned === $header) {
             if (isset($_POST['remove_old']) && $_POST['remove_old'] == true && !empty($itemDefault->ml_ids_front)) {
                 foreach (LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContactList::getList(array('filterin' => ['mailing_list_id' => $itemDefault->ml_ids_front], 'limit' => false)) as $oldAssignment) {
@@ -116,6 +143,13 @@ if (isset($_POST['UploadFileAction'])) {
                 $cannedMessage->ml_ids = array_unique(array_merge($itemDefault->ml_ids_front, $cannedMessage->ml_ids_front));
 
                 $cannedMessage->setState($item);
+
+                if (isset($statusMap[$item['status']])){
+                    $cannedMessage->delivery_status = $statusMap[$item['status']];
+                } else {
+                    $cannedMessage->delivery_status = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact::DELIVERY_STATUS_UNKNOWN;
+                }
+
                 $cannedMessage->saveThis();
 
                 if ($cannedMessage->isAllPrivateListMember() === true) {
