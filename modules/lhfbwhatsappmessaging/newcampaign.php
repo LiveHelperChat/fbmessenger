@@ -63,14 +63,14 @@ $Result['additional_footer_js'] = '<script type="text/javascript" src="'.erLhcor
 $Result['path'] = array(
     array(
         'url' => erLhcoreClassDesign::baseurl('fbmessenger/index') ,
-        'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconv','Facebook chat'),
+        'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Facebook chat'),
     ),
     array(
         'url' => erLhcoreClassDesign::baseurl('fbwhatsappmessaging/campaign'),
-        'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconv', 'Campaigns')
+        'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Campaigns')
     ),
     array(
-        'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconv', 'New')
+        'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'New')
     )
 );
 

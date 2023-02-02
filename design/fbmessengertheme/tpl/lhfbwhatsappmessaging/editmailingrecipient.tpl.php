@@ -11,7 +11,7 @@ $appendPrintExportURL = '';
 <form action="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/editmailingrecipient')?>/<?php echo $item->id?>" method="post" ng-non-bindable onsubmit="return lhinst.submitModalForm($(this))">
 
     <div class="modal-body">
-        <?php if (isset($updated)) : $msg = erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmr','Updated'); ?>
+        <?php if (isset($updated)) : $msg = erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Updated'); ?>
             <?php include(erLhcoreClassDesign::designtpl('lhkernel/alert_success.tpl.php'));?>
             <script>
                 $('#list-update-import').removeClass('hide');

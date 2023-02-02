@@ -1,6 +1,6 @@
-<h1><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmr','Edit');?>, <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmr','Created at');?> - <?php echo $item->created_at_front?></h1>
+<h1><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Edit');?>, <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Created at');?> - <?php echo $item->created_at_front?></h1>
 
-<?php if (isset($updated)) : $msg = erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvmr','Updated'); ?>
+<?php if (isset($updated)) : $msg = erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Updated'); ?>
     <?php include(erLhcoreClassDesign::designtpl('lhkernel/alert_success.tpl.php'));?>
 <?php endif; ?>
 

@@ -43,13 +43,13 @@ $Result['content'] = $tpl->fetch();
 $Result['path'] = array (
     array(
         'url' => erLhcoreClassDesign::baseurl('fbmessenger/index') ,
-        'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconv','Facebook chat'),
+        'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Facebook chat'),
     ),
     array(
         'url' => erLhcoreClassDesign::baseurl('fbwhatsappmessaging/mailinglist'),
-        'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconv', 'Recipients lists')
+        'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Recipients lists')
     ),
-    array('title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconv','Recipient list'))
+    array('title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Recipient list'))
 );
 
 ?>

@@ -15,7 +15,7 @@
                 <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Template');?></label>
                 <?php echo erLhcoreClassRenderHelper::renderMultiDropdown( array (
                     'input_name'     => 'template_ids[]',
-                    'optional_field' => erTranslationClassLhTranslation::getInstance()->getTranslation('chat/translation','Any'),
+                    'optional_field' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Any'),
                     'display_name'   => 'name',
                     'selected_id'    => $input->template_ids,
                     'css_class'      => 'form-control form-control-sm',
@@ -35,7 +35,7 @@
                 <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('system/buttons','Send status');?></label>
                 <?php echo erLhcoreClassRenderHelper::renderMultiDropdown( array (
                     'input_name'     => 'status_ids[]',
-                    'optional_field' => erTranslationClassLhTranslation::getInstance()->getTranslation('chat/translation','Any'),
+                    'optional_field' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Any'),
                     'display_name'   => 'name',
                     'selected_id'    => $input->status_ids,
                     'css_class'      => 'form-control form-control-sm',
@@ -48,7 +48,7 @@
                 <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Business account');?></label>
                 <?php echo erLhcoreClassRenderHelper::renderMultiDropdown( array (
                     'input_name'     => 'business_account_ids[]',
-                    'optional_field' => erTranslationClassLhTranslation::getInstance()->getTranslation('chat/translation','Any'),
+                    'optional_field' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Any'),
                     'display_name'   => 'name',
                     'selected_id'    => $input->business_account_ids,
                     'css_class'      => 'form-control form-control-sm',

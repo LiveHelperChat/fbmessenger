@@ -10,7 +10,7 @@ if ($Params['user_parameters_unordered']['action'] == 'copy' && is_numeric($Para
     }
 
     $campaign->id = null;
-    $campaign->name = erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconv','Copy of').' '.$campaign->name;
+    $campaign->name = erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Copy of').' '.$campaign->name;
     $campaign->enabled = 0;
     $campaign->status = LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign::STATUS_PENDING;
     $campaign->starts_at = 0;
@@ -72,9 +72,9 @@ $Result['content'] = $tpl->fetch();
 $Result['path'] = array (
     array(
         'url' => erLhcoreClassDesign::baseurl('fbmessenger/index') ,
-        'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconv','Facebook chat'),
+        'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Facebook chat'),
     ),
-    array('title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconv','Campaign'))
+    array('title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Campaign'))
 );
 
 ?>

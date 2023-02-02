@@ -273,7 +273,7 @@ class FBMessengerWhatsAppMailingValidator {
         if ($form->hasValidData( 'name' )) {
             $item->name = $form->name;
         } else {
-            $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconv','Please enter a name!');
+            $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter a name!');
         }
 
         if ($form->hasValidData( 'private' ) && $form->private == true) {
@@ -377,7 +377,7 @@ class FBMessengerWhatsAppMailingValidator {
         if ($form->hasValidData( 'name' )) {
             $item->name = $form->name;
         } else {
-            $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconv','Please enter a name!');
+            $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter a name!');
         }
 
         if ($form->hasValidData( 'starts_at' )) {
@@ -537,7 +537,7 @@ class FBMessengerWhatsAppMailingValidator {
         if ($form->hasValidData( 'phone' )) {
             $item->phone = trim(str_replace('+','',$form->phone));
         } else {
-            $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconv','Please enter a phone!');
+            $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter a phone!');
         }
 
         if ($form->hasValidData( 'phone_recipient' )) {
@@ -617,7 +617,7 @@ class FBMessengerWhatsAppMailingValidator {
         }
 
         if ($item->id == null && \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::getCount(['filter' => ['campaign_id' => $item->campaign_id, 'phone' => $item->phone]]) == 1) {
-            $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconv','This recipient already exists in this campaign!');
+            $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','This recipient already exists in this campaign!');
         }
 
         return $Errors;
@@ -761,7 +761,7 @@ class FBMessengerWhatsAppMailingValidator {
         if ($form->hasValidData( 'phone' ) && $form->phone != '') {
             $item->phone = trim(str_replace('+','',$form->phone));
         } else {
-            $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconv','Please enter a phone');
+            $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter a phone');
         }
 
         if ($form->hasValidData( 'phone_recipient' ) && $form->phone_recipient != '') {
@@ -805,7 +805,7 @@ class FBMessengerWhatsAppMailingValidator {
         }
 
         if ($item->id == null && \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact::getCount(['filter' => ['phone' => $item->phone]]) == 1) {
-            $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconv','This contact already exists, edit contact and assign it to this list!');
+            $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','This contact already exists, edit contact and assign it to this list!');
         }
 
         return $Errors;

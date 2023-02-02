@@ -43,9 +43,9 @@ if (!($user instanceof erLhcoreClassModelFBMessengerUser)) {
     <?php if (erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['standalone']['enabled'] == false) : ?>
     <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/list')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Facebook pages');?></a></li>
     <?php endif; ?>
-    <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/bbcode')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('pagelayout/pagelayout','BBCode');?></a></li>
-    <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/leads')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('pagelayout/pagelayout','Leads');?></a></li>
-    <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/notifications')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('pagelayout/pagelayout','Notifications');?></a></li>
+    <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/bbcode')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','BBCode');?></a></li>
+    <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/leads')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Leads');?></a></li>
+    <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/notifications')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Notifications');?></a></li>
 </ul>
 
 <?php endif; ?>
@@ -54,7 +54,7 @@ if (!($user instanceof erLhcoreClassModelFBMessengerUser)) {
     <hr>
     <h4><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Options');?></h4>
     <ul>
-        <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/options')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('pagelayout/pagelayout','Options');?></a></li>
+        <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/options')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Options');?></a></li>
     </ul>
 <?php endif; ?>
 
@@ -75,9 +75,9 @@ if (!($user instanceof erLhcoreClassModelFBMessengerUser)) {
         <?php if (erLhcoreClassUser::instance()->hasAccessTo('lhfbwhatsappmessaging','use_admin')) : ?>
             <h4><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','WhatsApp Messaging');?></h4>
             <ul>
-                <li><a title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('mailconv/module','Recipients lists')?>" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/mailinglist')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('mailconv/module','Recipients lists');?></a></li>
-                <li><a title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('mailconv/module','Recipients')?>" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/mailingrecipient')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('mailconv/module','Recipients');?></a></li>
-                <li><a title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('mailconv/module','Campaigns')?>" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/campaign')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('mailconv/module','Campaigns');?></a></li>
+                <li><a title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Recipients lists')?>" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/mailinglist')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Recipients lists');?></a></li>
+                <li><a title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Recipients')?>" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/mailingrecipient')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Recipients');?></a></li>
+                <li><a title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Campaigns')?>" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/campaign')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Campaigns');?></a></li>
             </ul>
         <?php endif; ?>
     </div>

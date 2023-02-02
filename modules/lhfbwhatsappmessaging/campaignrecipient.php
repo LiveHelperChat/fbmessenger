@@ -45,17 +45,17 @@ $Result['content'] = $tpl->fetch();
 $Result['path'] = array (
     array(
         'url' => erLhcoreClassDesign::baseurl('fbmessenger/index') ,
-        'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconv','Facebook chat'),
+        'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Facebook chat'),
     ),
     array(
         'url' => erLhcoreClassDesign::baseurl('fbwhatsappmessaging/campaign'),
-        'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconv', 'Campaigns')
+        'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Campaigns')
     ),
     array(
         'url' => erLhcoreClassDesign::baseurl('fbwhatsappmessaging/editcampaign') . '/' . $campaign->id,
-        'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconv', 'Edit campaign')
+        'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger', 'Edit campaign')
     ),
-    array('title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconv','Recipients'))
+    array('title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Recipients'))
 );
 
 ?>

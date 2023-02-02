@@ -13,7 +13,7 @@
                     <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Business account');?>, <small><i><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','you can set a custom business account');?></i></small></label>
                     <?php echo erLhcoreClassRenderHelper::renderCombobox( array (
                         'input_name'     => 'business_account_id',
-                        'optional_field' => erTranslationClassLhTranslation::getInstance()->getTranslation('chat/translation','Default configuration'),
+                        'optional_field' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Default configuration'),
                         'selected_id'    => $item->business_account_id,
                         'css_class'      => 'form-control form-control-sm',
                         'list_function'  => '\LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::getList'
@@ -97,6 +97,4 @@
         <div id="arguments-template"></div>
     </div>
 </div>
-
-<p><small><a href="#" onclick="lhc.revealModal({'url':WWW_DIR_JAVASCRIPT+'genericbot/help/mailingcampaign'});" ><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/mailconvrt','Replaceable variables?');?></a></small></p>
 

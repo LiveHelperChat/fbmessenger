@@ -11,9 +11,9 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
             </button>
             <ul>
-                <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('canned/import','Updated');?> - <?php echo $update['updated']?></li>
-                <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('canned/import','Imported');?> - <?php echo $update['imported']?></li>
-                <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('canned/import','Removed');?> - <?php echo $update['removed']?></li>
+                <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Updated');?> - <?php echo $update['updated']?></li>
+                <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Imported');?> - <?php echo $update['imported']?></li>
+                <li><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Removed');?> - <?php echo $update['removed']?></li>
             </ul>
         </div>
     <?php endif; ?>
@@ -31,7 +31,7 @@
         <input type="file" name="files" />
     </div>
 
-    <p><small><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('canned/import','First row in CSV is skipped. Columns order');?> - </small>
+    <p><small><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','First row in CSV is skipped. Columns order');?> - </small>
         <span class="badge bg-secondary mr-2">phone</span>
         <span class="badge bg-secondary mr-2">phone_recipient</span>
         <span class="badge bg-secondary mr-2">email</span>
@@ -54,9 +54,9 @@
 
 
     <div class="form-group">
-        <label><input type="checkbox" name="remove_old" value="on" <?php if (isset($remove_old) && $remove_old == true) : ?>checked="checked"<?php endif;?> > <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('canned/import','Remove old records');?></label>
-        <br/><small><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('canned/import','If you do not check we will try to update existing records without removing all records.');?></small>
+        <label><input type="checkbox" name="remove_old" value="on" <?php if (isset($remove_old) && $remove_old == true) : ?>checked="checked"<?php endif;?> > <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Remove old records');?></label>
+        <br/><small><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','If you do not check we will try to update existing records without removing all records.');?></small>
     </div>
 
-    <input type="submit" class="btn btn-sm btn-secondary" name="UploadFileAction" value="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('canned/import','Import');?>" />
+    <input type="submit" class="btn btn-sm btn-secondary" name="UploadFileAction" value="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Import');?>" />
 </form>

@@ -35,35 +35,35 @@ class erLhcoreClassFBValidator
             {
                 $item->name = $form->name;
             } else {
-                $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('xmppservice/operatorvalidator','Please enter page name!');
+                $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter page name!');
             }
             
             if ( $form->hasValidData( 'app_secret' ) && $form->app_secret != '')
             {
                 $item->app_secret = $form->app_secret;
             } else {
-                $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('xmppservice/operatorvalidator','Please enter secret key!');
+                $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter secret key!');
             }
 
             if ( $form->hasValidData( 'page_token' ) && $form->page_token != '')
             {
                 $item->page_token = $form->page_token;
             } else {
-                $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('xmppservice/operatorvalidator','Please enter page token!');
+                $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter page token!');
             }
 
             if ( $form->hasValidData( 'verify_token' ) && $form->verify_token != '')
             {
                 $item->verify_token = $form->verify_token;
             } else {
-                $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('xmppservice/operatorvalidator','Please enter verify token!');
+                $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter verify token!');
             }
 
             if ( $form->hasValidData( 'dep_id' ))
             {
                 $item->dep_id = $form->dep_id;
             } else {
-                $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('xmppservice/operatorvalidator','Please choose a department!');
+                $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please choose a department!');
             }
 
             if ( $form->hasValidData( 'verified' ) && $form->verified == true)
@@ -127,7 +127,7 @@ class erLhcoreClassFBValidator
         if ( $form->hasValidData( 'name' ) && $form->name != '') {
             $item->name = $form->name;
         } else {
-            $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('xmppservice/operatorvalidator','Please enter name!');
+            $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter name!');
         }
 
         if ( $form->hasValidData( 'processed' ) && $form->processed == true) {
@@ -144,7 +144,7 @@ class erLhcoreClassFBValidator
                 $item->start_at = $dateFormated;
                 $item->start_at_day = $form->start_at;
             } else {
-                $Errors[] = erTranslationClassLhTranslation::getInstance()->getTranslation('xmppservice/operatorvalidator','Please enter start date!');
+                $Errors[] = erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter start date!');
             }
         } else {
             $item->start_at = 0;
@@ -169,13 +169,13 @@ class erLhcoreClassFBValidator
         if ( $form->hasValidData( 'interval' ) ) {
             $item->interval = $form->interval;
         } else {
-            $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('xmppservice/operatorvalidator','Please enter interval!');
+            $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter interval!');
         }
 
         if ( $form->hasValidData( 'amount' ) ) {
             $item->amount = $form->amount;
         } else {
-            $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('xmppservice/operatorvalidator','Please enter batch size!');
+            $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter batch size!');
         }
 
         $filterArray = $item->filter_array;
@@ -195,7 +195,7 @@ class erLhcoreClassFBValidator
         if ( $form->hasValidData( 'message' ) && $form->message != '' ) {
             $item->message = $form->message;
         } else {
-            $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('xmppservice/operatorvalidator','Please enter message!');
+            $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter message!');
         }
 
         $filterArray = array_filter($filterArray);
@@ -263,13 +263,13 @@ class erLhcoreClassFBValidator
         if ( $form->hasValidData( 'name' ) && $form->name != '') {
             $item->name = $form->name;
         } else {
-            $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('xmppservice/operatorvalidator','Please enter BBCode name!');
+            $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter BBCode name!');
         }
 
         if ( $form->hasValidData( 'bbcode' ) && $form->bbcode != '') {
             $item->bbcode = $form->bbcode;
         } else {
-            $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('xmppservice/operatorvalidator','Please enter BBCode!');
+            $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter BBCode!');
         }
 
         $item->configuration_array = array();

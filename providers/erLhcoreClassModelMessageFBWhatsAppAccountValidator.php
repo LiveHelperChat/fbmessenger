@@ -51,28 +51,28 @@ class erLhcoreClassModelMessageFBWhatsAppAccountValidator
         {
             $item->name = $form->name;
         } else {
-            $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('xmppservice/operatorvalidator','Please enter account name!');
+            $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter account name!');
         }
 
         if ( $form->hasValidData( 'dep_id' ))
         {
             $item->dep_id = $form->dep_id;
         } else {
-            $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('xmppservice/operatorvalidator','Please choose a department!');
+            $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please choose a department!');
         }
 
         if ( $form->hasValidData( 'access_token' ) && $form->access_token != '')
         {
             $item->access_token = $form->access_token;
         } else {
-            $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('xmppservice/operatorvalidator','Please enter an Access Token!');
+            $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter an Access Token!');
         }
 
         if ( $form->hasValidData( 'business_account_id' ) && $form->business_account_id != '')
         {
             $item->business_account_id = $form->business_account_id;
         } else {
-            $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('xmppservice/operatorvalidator','Please enter a Business Account ID!');
+            $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter a Business Account ID!');
         }
 
         if ( $form->hasValidData( 'active' ) && $form->active == true)

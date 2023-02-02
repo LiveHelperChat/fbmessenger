@@ -22,7 +22,7 @@ if (isset($_POST['UploadFileAction'])) {
     $errors = [];
 
     if (!isset($_POST['csfr_token']) || !$currentUser->validateCSFRToken($_POST['csfr_token'])) {
-        $errors[] = erTranslationClassLhTranslation::getInstance()->getTranslation('canned/import','Missing CSRF Token!!');
+        $errors[] = erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Missing CSRF Token!!');
     }
     
     if (empty($errors) && erLhcoreClassSearchHandler::isFile('files',array('csv'))) {
@@ -117,13 +117,13 @@ if (isset($_POST['UploadFileAction'])) {
 
             $tpl->set('update', $stats);
         } else {
-            $tpl->set('errors', [erTranslationClassLhTranslation::getInstance()->getTranslation('canned/import','Expected columns does not match!')]);
+            $tpl->set('errors', [erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Expected columns does not match!')]);
         }
 
     } elseif (!empty($errors)) {
         $tpl->set('errors', $errors);
     } else {
-        $tpl->set('errors', [erTranslationClassLhTranslation::getInstance()->getTranslation('canned/import','Invalid file format')]);
+        $tpl->set('errors', [erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Invalid file format')]);
     }
 }
 
