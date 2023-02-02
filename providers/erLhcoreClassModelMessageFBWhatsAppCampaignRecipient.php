@@ -119,14 +119,20 @@ class erLhcoreClassModelMessageFBWhatsAppCampaignRecipient
             case 'attr_str_4_front':
             case 'attr_str_5_front':
             case 'attr_str_6_front':
+
             case 'file_1_url_front':
             case 'file_2_url_front':
             case 'file_3_url_front':
             case 'file_4_url_front':
+
             case 'email_front':
                 $this->{$var} = '';
                 $varInternal = str_replace('_front','',$var);
-                if ($this->type == self::TYPE_MANUAL) {
+                if ($this->type == self::TYPE_MANUAL || in_array($varInternal,[
+                        'file_1_url',
+                        'file_2_url',
+                        'file_3_url',
+                        'file_3_url'])) {
                     $this->{$var} = $this->{$varInternal};
                 } else {
                     $recipient = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact::fetch($this->recipient_id);

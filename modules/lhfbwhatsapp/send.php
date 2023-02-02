@@ -263,6 +263,7 @@ if (ezcInputForm::hasPostData()) {
     }
 }
 
+
 $tpl->setArray([
     'send' => $item,
     'templates' => $templates,
