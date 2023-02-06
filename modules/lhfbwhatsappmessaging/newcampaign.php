@@ -4,6 +4,11 @@ $tpl = erLhcoreClassTemplate::getInstance('lhfbwhatsappmessaging/newcampaign.tpl
 
 $item = new LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign();
 
+if (isset($_POST['Cancel_page'])) {
+    erLhcoreClassModule::redirect('fbwhatsappmessaging/campaign');
+    exit;
+}
+
 $instance = LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance();
 
 if (isset($_POST['business_account_id']) && $_POST['business_account_id'] > 0) {
