@@ -4,6 +4,11 @@ $tpl = erLhcoreClassTemplate::getInstance('lhfbwhatsappmessaging/newmailinglist.
 
 $item = new LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContactList();
 
+if (isset($_POST['Cancel_page'])) {
+    erLhcoreClassModule::redirect('fbwhatsappmessaging/mailinglist');
+    exit;
+}
+
 if (ezcInputForm::hasPostData()) {
 
     if (!isset($_POST['csfr_token']) || !$currentUser->validateCSFRToken($_POST['csfr_token'])) {

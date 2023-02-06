@@ -185,6 +185,8 @@ if (ezcInputForm::hasPostData()) {
         }
     }
 
+    $messageVariablesOriginal = $messageVariables;
+
     if (isset($contact)) {
         $recipient = new \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient();
         $recipient->recipient_id = $contact->id;
@@ -196,6 +198,7 @@ if (ezcInputForm::hasPostData()) {
 
     $item->message_variables_array = $messageVariables;
     $item->message_variables = json_encode($messageVariables);
+
     $item->business_account_id = isset($account) && is_object($account) ? $account->id : 0;
 
     if ($form->hasValidData( 'template' ) && $form->template != '') {
@@ -263,6 +266,10 @@ if (ezcInputForm::hasPostData()) {
     }
 }
 
+if (isset($messageVariablesOriginal)) {
+    $item->message_variables_array = $messageVariablesOriginal;
+    $item->message_variables = json_encode($messageVariablesOriginal);
+}
 
 $tpl->setArray([
     'send' => $item,

@@ -28,7 +28,7 @@ class erLhcoreClassModelMessageFBWhatsAppContactList
     public function afterRemove()
     {
         $db = \ezcDbInstance::get();
-        $stmt = $db->prepare('DELETE FROM `lhc_mailconv_mailing_list_recipient` WHERE `mailing_list_id` = :ml_id');
+        $stmt = $db->prepare('DELETE FROM `lhc_fbmessengerwhatsapp_contact_list_contact` WHERE `contact_list_id` = :ml_id');
         $stmt->bindValue(':ml_id', $this->id, \PDO::PARAM_INT);
         $stmt->execute();
     }

@@ -104,7 +104,8 @@ class erLhcoreClassModelMessageFBWhatsAppCampaignRecipient
                 }
 
                 if (strpos($this->{$var},'[file=') !== false) {
-                    $this->{$var} = \erLhcoreClassBBCodePlain::make_clickable($this->{$var});
+                    $link = \explode(' ',\erLhcoreClassBBCodePlain::make_clickable($this->{$var}))[0];
+                    $this->{$var} = $link;
                 }
 
                 return $this->{$var};
@@ -132,7 +133,7 @@ class erLhcoreClassModelMessageFBWhatsAppCampaignRecipient
                         'file_1_url',
                         'file_2_url',
                         'file_3_url',
-                        'file_3_url'])) {
+                        'file_4_url'])) {
                     $this->{$var} = $this->{$varInternal};
                 } else {
                     $recipient = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact::fetch($this->recipient_id);
