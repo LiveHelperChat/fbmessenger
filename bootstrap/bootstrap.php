@@ -781,15 +781,29 @@ class erLhcoreClassExtensionFbmessenger {
 
 	            // Check that user has permission to see the chat. Let say if user purposely types file bbcode
 	            if ($hash == $file->security_hash) {
-	                
-	                $elements = [
-                        new Tgallice\FBMessenger\Model\Button\WebUrl(erTranslationClassLhTranslation::getInstance()->getTranslation('file/file','Download'), 'https://' . $_SERVER['HTTP_HOST'] . erLhcoreClassDesign::baseurl('file/downloadfile')."/{$file->id}/{$hash}" )
-                    ];
-	                	                
-                    $template = new Tgallice\FBMessenger\Model\Attachment\Template\Button(erTranslationClassLhTranslation::getInstance()->getTranslation('file/file','Download').' - '.htmlspecialchars($file->upload_name).' ['.$file->extension.']', $elements);
-	                
+
+
+                    if (in_array($file->extension,['png','jpeg','jpg','gif','bmp'])) {
+
+                        $url = erLhcoreClassBBCodePlain::_make_url_file([1 => $fileKey]);
+
+                        $url = erLhcoreClassBBCode::esc_url($url);
+
+                        if ( empty($url) ) {
+                            continue;
+                        }
+
+                        $template = new Tgallice\FBMessenger\Model\Attachment\Image(urldecode(ltrim($url,"/")));
+
+                    } else {
+                        $elements = [
+                            new Tgallice\FBMessenger\Model\Button\WebUrl(erTranslationClassLhTranslation::getInstance()->getTranslation('file/file','Download'), 'https://' . $_SERVER['HTTP_HOST'] . erLhcoreClassDesign::baseurl('file/downloadfile')."/{$file->id}/{$hash}" )
+                        ];
+                        $template = new Tgallice\FBMessenger\Model\Attachment\Template\Button(erTranslationClassLhTranslation::getInstance()->getTranslation('file/file','Download').' - '.htmlspecialchars($file->upload_name).' ['.$file->extension.']', $elements);
+                    }
+
 	                $imagesAttatchements[] = $template;
-	                
+
 	                $ret = preg_replace('/'.preg_quote($matches[0][$key], '/').'/', '[split_img]', $ret, 1);
 	            }
 	            	
@@ -1224,7 +1238,15 @@ class erLhcoreClassExtensionFbmessenger {
                 $chat->pnd_time = time();
 				
 				$chat->saveThis ();
-				
+
+                $_SERVER['HTTP_USER_AGENT'] = 'API, Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.71 Safari/537.36';
+
+                $eChat = new erLhcoreClassModelChatIncoming();
+                $eChat->incoming_id = $recipientUserId;
+                $eChat->chat_external_id = $userId.'_'.$pageId.'_'.($page instanceof erLhcoreClassModelFBPage ? 0 : 1);
+
+                erLhcoreClassChatWebhookIncoming::assignOnlineVisitor($chat, $eChat);
+
 				if ($initMessage == true) {
 				    $msgInitial = new erLhcoreClassModelmsg();
 				    $msgInitial->msg = "Facebook user started a chat.";
@@ -1651,6 +1673,14 @@ class erLhcoreClassExtensionFbmessenger {
                 $chat->chat_variables = json_encode ( $dataArray );
                 $chat->pnd_time = time();
                 $chat->saveThis ();
+
+                $_SERVER['HTTP_USER_AGENT'] = 'API, Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.71 Safari/537.36';
+
+                $eChat = new erLhcoreClassModelChatIncoming();
+                $eChat->incoming_id = $recipientUserId;
+                $eChat->chat_external_id = $userId.'_'.$pageId.'_'.($page instanceof erLhcoreClassModelFBPage ? 0 : 1);
+
+                erLhcoreClassChatWebhookIncoming::assignOnlineVisitor($chat, $eChat);
 
                 $msgInitial = new erLhcoreClassModelmsg();
                 $msgInitial->msg = "Facebook user started a chat.";
