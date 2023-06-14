@@ -427,6 +427,50 @@ class erLhcoreClassExtensionFbmessenger {
                                     $campaignRecipient->conversation_id = $fbWhatsAppMessage->chat_id > 0 ? $fbWhatsAppMessage->chat_id : $chatId;
                                     $campaignRecipient->updateThis(['update' => ['conversation_id']]);
                                 }
+
+                            } else { // It was normal message delivery status change
+
+                                $conditions = $params['webhook']->conditions_array;
+
+                                $chatIdExternal = $statusItem['recipient_id'];
+
+                                if (isset($conditions['chat_id_preg_rule']) && $conditions['chat_id_preg_rule'] != '') {
+                                    $chatIdExternal = preg_replace($conditions['chat_id_preg_rule'], $conditions['chat_id_preg_value'], $chatIdExternal);
+                                }
+
+                                $incomingChat = erLhcoreClassModelChatIncoming::findOne(array('filter' => array('chat_external_id' => $chatIdExternal.'__'.$changeItem['value']['metadata']['phone_number_id'])));
+
+                                // Chat was found, now we need to find exact message
+                                if ($incomingChat instanceof erLhcoreClassModelChatIncoming && is_object($incomingChat->chat)) {
+
+                                    $statusMap = [
+                                        'pending' => erLhcoreClassModelmsg::STATUS_PENDING,
+                                        'sent' => erLhcoreClassModelmsg::STATUS_SENT,
+                                        'delivered' => erLhcoreClassModelmsg::STATUS_DELIVERED,
+                                        'read' =>  erLhcoreClassModelmsg::STATUS_READ,
+                                        'rejected' =>  erLhcoreClassModelmsg::STATUS_REJECTED
+                                    ];
+
+                                    $msg = erLhcoreClassModelmsg::findOne(['filter' => ['chat_id' => $incomingChat->chat->id],'customfilter' => ['`meta_msg` != \'\' AND JSON_EXTRACT(meta_msg,\'$.iwh_msg_id\') = ' . ezcDbInstance::get()->quote($statusItem['id'])]]);
+
+                                    if (is_object($msg) && $msg->del_st != erLhcoreClassModelmsg::STATUS_READ) {
+
+                                        $msg->del_st = max($statusMap[$statusItem['status']],$msg->del_st);
+                                        $msg->updateThis(['update' => ['del_st']]);
+
+                                        // Refresh message delivery status for op
+                                        $chat = $incomingChat->chat;
+                                        $chat->operation_admin .= "lhinst.updateMessageRowAdmin({$msg->chat_id},{$msg->id});";
+                                        if ($msg->del_st == erLhcoreClassModelmsg::STATUS_READ) {
+                                            $chat->has_unread_op_messages = 0;
+                                        }
+                                        $chat->updateThis(['update' => ['operation_admin','has_unread_op_messages']]);
+
+                                        // NodeJS to update message delivery status
+                                        erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.message_updated', array('msg' => & $msg, 'chat' => & $chat));
+                                    }
+
+                                }
                             }
                         }
                     } else {
@@ -725,7 +769,17 @@ class erLhcoreClassExtensionFbmessenger {
     	            erLhcoreClassLog::write(print_r($e->getMessage(),true))."\n";
     	        }
     	    }
-    	}    	
+    	}
+
+        // LHC Core set's message to pending if it's setting remote ID
+        /*if (is_object($params['chat']->incoming_chat) &&
+            is_object($params['chat']->incoming_chat->incoming) &&
+            $params['chat']->incoming_chat->incoming->scope == 'facebookwhatsappscope' &&
+            $params['msg']->user_id != -1 && ($params['msg']->user_id > 0 || $params['msg']->user_id == -2)
+        ) {
+            $params['msg']->del_st = erLhcoreClassModelmsg::STATUS_PENDING;
+            $params['msg']->updateThis(['update' => ['del_st']]);
+        }*/
 	}
 
 	/**
