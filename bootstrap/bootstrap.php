@@ -750,10 +750,20 @@ class erLhcoreClassExtensionFbmessenger {
                                 $response = $messenger->sendMessage($chat->user_id, $msg);
                             }
                         }
+
+                        // I could not force fb to send me message delivery status while in dep mode of the app.
+                        // So I just mark those messages as send
+                        $params['msg']->del_st = erLhcoreClassModelmsg::STATUS_READ;
+                        $params['msg']->saveThis(['update' => ['del_st']]);
                     }
                 }
         	    
     	    } catch (Exception $e) {
+
+                // I could not force fb to send me message delivery status while in dep mode of the app.
+                // So I just mark those messages as send
+                $params['msg']->del_st = erLhcoreClassModelmsg::STATUS_REJECTED;
+                $params['msg']->saveThis(['update' => ['del_st']]);
 
                 $msgInitial = new erLhcoreClassModelmsg();
                 $msgInitial->msg = "Facebook Error: " . $e->getMessage();
