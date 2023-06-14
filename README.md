@@ -1,3 +1,7 @@
+# Requirements
+
+Min 4.26 Live Helper Chat version.
+
 # Facebook messenger extension
 Integration with Facebook messenger API. You will be able to chat with Facebook page users directly in lhc back office.
  * Bot support. [New] https://www.youtube.com/watch?v=_rLPJAdn4Us Supported bot elements
