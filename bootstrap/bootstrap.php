@@ -17,6 +17,11 @@ class erLhcoreClassExtensionFbmessenger {
 		    'sendMessageToFb'
 		));
 
+        $dispatcher->listen('chat.before_auto_responder_msg_saved', array(
+		    $this,
+		    'sendMessageToFb'
+		));
+
 		$dispatcher->listen('chat.customcommand', array(
 		    $this,
 		    'sendTemplate'
@@ -1374,6 +1379,74 @@ class erLhcoreClassExtensionFbmessenger {
                     $this->sendBotResponse($chat, $msg, array('init' => true));
                 }
 
+                // Create auto responder if there is none
+                if ($chat->auto_responder === false) {
+                    $responder = erLhAbstractModelAutoResponder::processAutoResponder($chat);
+                    if ($responder instanceof erLhAbstractModelAutoResponder) {
+                        $responderChat = new erLhAbstractModelAutoResponderChat();
+                        $responderChat->auto_responder_id = $responder->id;
+                        $responderChat->chat_id = $chat->id;
+                        $responderChat->wait_timeout_send = 1 - $responder->repeat_number;
+                        $responderChat->saveThis();
+
+                        $chat->auto_responder_id = $responderChat->id;
+                        $chat->auto_responder = $responderChat;
+                    }
+                }
+
+
+                if ($chat->auto_responder !== false) {
+
+                    $responder = $chat->auto_responder->auto_responder;
+
+                    $isOnline = erLhcoreClassChat::isOnline($chat->dep_id, false, array(
+                        'online_timeout' => (int)erLhcoreClassModelChatConfig::fetch('sync_sound_settings')->data['online_timeout'],
+                        'ignore_user_status' => (int)erLhcoreClassModelChatConfig::fetch('ignore_user_status')->current_value,
+                        'exclude_bot' => true
+                    ));
+
+                    if ($chat->status !== erLhcoreClassModelChat::STATUS_BOT_CHAT && is_object($responder) && $responder->offline_message != '' && $isOnline === false) {
+
+                        $msgResponder = new erLhcoreClassModelmsg();
+                        $msgResponder->msg = trim($responder->offline_message);
+                        $msgResponder->chat_id = $chat->id;
+                        $msgResponder->name_support = $responder->operator != '' ? $responder->operator : erTranslationClassLhTranslation::getInstance()->getTranslation('chat/startchat', 'Live Support');
+                        $msgResponder->user_id = -2;
+                        $msgResponder->time = time() + 1;
+                        erLhcoreClassChat::getSession()->save($msgResponder);
+
+                        $chat->last_msg_id = $msgResponder->id;
+
+                    } elseif ($chat->status !== erLhcoreClassModelChat::STATUS_BOT_CHAT && is_object($responder) && $responder->wait_message != '' && $isOnline === true) {
+
+                        $msgResponder = new erLhcoreClassModelmsg();
+                        $msgResponder->msg = trim($responder->wait_message);
+                        $msgResponder->chat_id = $chat->id;
+                        $msgResponder->name_support = $responder->operator != '' ? $responder->operator : erTranslationClassLhTranslation::getInstance()->getTranslation('chat/startchat', 'Live Support');
+                        $msgResponder->user_id = -2;
+                        $msgResponder->time = time() + 1;
+                        erLhcoreClassChat::getSession()->save($msgResponder);
+
+                        $chat->last_msg_id = $msgResponder->id;
+                    }
+
+                    if ($chat->status_sub != erLhcoreClassModelChat::STATUS_SUB_ON_HOLD && $chat->auto_responder !== false) {
+                        if ($chat->auto_responder->active_send_status != 0 && $chat->last_user_msg_time < $chat->last_op_msg_time) {
+                            $chat->auto_responder->active_send_status = 0;
+                            $chat->auto_responder->saveThis();
+                        }
+                    }
+                }
+
+                $chat->updateThis();
+
+                if (isset($msgResponder)) {
+                    erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.web_add_msg_admin', array(
+                        'chat' => & $chat,
+                        'msg' => $msgResponder
+                    ));
+                }
+
 				/**
 				 * Execute standard callback as chat was started
 				 */
@@ -1419,6 +1492,8 @@ class erLhcoreClassExtensionFbmessenger {
 			        }
 			    }
 
+                $last_user_msg_time = $chat->last_user_msg_time;
+
 				/**
 				 * It was standard message
 				 */
@@ -1447,7 +1522,47 @@ class erLhcoreClassExtensionFbmessenger {
                     $this->sendBotResponse($chat, $message, array('type' => 'payload', 'payload' => $payloadParts[1] . '__' . $payloadParts[2]));
                 }
 
+                if ($chat->auto_responder !== false) {
+
+                    $responder = $chat->auto_responder->auto_responder;
+
+                    $isOnline = erLhcoreClassChat::isOnline($chat->dep_id, false, array(
+                        'online_timeout' => (int)erLhcoreClassModelChatConfig::fetch('sync_sound_settings')->data['online_timeout'],
+                        'ignore_user_status' => (int)erLhcoreClassModelChatConfig::fetch('ignore_user_status')->current_value,
+                        'exclude_bot' => true
+                    ));
+
+                    if ($chat->status !== erLhcoreClassModelChat::STATUS_BOT_CHAT && is_object($responder) && $responder->offline_message != '' && $isOnline === false) {
+                        $msgResponder = new erLhcoreClassModelmsg();
+                        $msgResponder->msg = trim($responder->offline_message);
+                        $msgResponder->chat_id = $chat->id;
+                        $msgResponder->name_support = $responder->operator != '' ? $responder->operator : erTranslationClassLhTranslation::getInstance()->getTranslation('chat/startchat', 'Live Support');
+                        $msgResponder->user_id = -2;
+                        $msgResponder->time = time() + 1;
+                        erLhcoreClassChat::getSession()->save($msgResponder);
+
+                        $chat->last_msg_id = $msgResponder->id;
+                    }
+
+                    if ($chat->status_sub != erLhcoreClassModelChat::STATUS_SUB_ON_HOLD && $chat->auto_responder !== false) {
+                        if ($chat->auto_responder->active_send_status != 0 && $last_user_msg_time < $chat->last_op_msg_time) {
+                            $chat->auto_responder->active_send_status = 0;
+                            $chat->auto_responder->saveThis();
+                        }
+                    }
+                }
+
+                $chat->updateThis();
+
                 $db->commit();
+
+                if (isset($msgResponder))
+                {
+                    erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.web_add_msg_admin', array(
+                        'chat' => & $chat,
+                        'msg' => $msgResponder
+                    ));
+                }
 
 				erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.messages_added_passive',array('chat' => & $chat, 'msg' => & $msg));
 
