@@ -1,5 +1,5 @@
 <?php
-
+#[\AllowDynamicProperties]
 class erLhcoreClassModelFBLead
 {
     use erLhcoreClassDBTrait;

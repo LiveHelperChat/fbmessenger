@@ -1,6 +1,6 @@
 <?php
 
-$tpl = erLhcoreClassTemplate::getInstance('lhfbwhatsapp/account.tpl.php');
+$tpl = erLhcoreClassTemplate::getInstance('lhmessagebird/account.tpl.php');
 
 if (isset($_GET['doSearch'])) {
     $filterParams = erLhcoreClassSearchHandler::getParams(array('customfilterfile' => 'extension/fbmessenger/classes/filter/account.php','format_filter' => true, 'use_override' => true, 'uparams' => $Params['user_parameters_unordered']));

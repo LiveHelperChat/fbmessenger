@@ -1,6 +1,6 @@
 <?php
 
-$tpl = erLhcoreClassTemplate::getInstance('lhfbwhatsapp/editaccount.tpl.php');
+$tpl = erLhcoreClassTemplate::getInstance('lhmessagebird/editaccount.tpl.php');
 
 $item = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::fetch($Params['user_parameters']['id']);
 

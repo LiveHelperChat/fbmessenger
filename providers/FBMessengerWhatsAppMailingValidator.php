@@ -1,7 +1,7 @@
 <?php
 
 namespace LiveHelperChatExtension\fbmessenger\providers;
-
+#[\AllowDynamicProperties]
 class FBMessengerWhatsAppMailingValidator {
 
     public static function limitContactList() {

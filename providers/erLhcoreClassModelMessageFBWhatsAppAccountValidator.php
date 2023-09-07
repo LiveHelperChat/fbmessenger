@@ -1,7 +1,7 @@
 <?php
 
 namespace LiveHelperChatExtension\fbmessenger\providers;
-
+#[\AllowDynamicProperties]
 class erLhcoreClassModelMessageFBWhatsAppAccountValidator
 {
     public static function validateAccount(\LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount & $item)

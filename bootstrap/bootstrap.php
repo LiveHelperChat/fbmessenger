@@ -1,4 +1,5 @@
 <?php
+#[\AllowDynamicProperties]
 class erLhcoreClassExtensionFbmessenger {
     
 	public function __construct() {

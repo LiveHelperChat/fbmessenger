@@ -1,7 +1,7 @@
 <?php
 
 namespace LiveHelperChatExtension\fbmessenger\providers {
-
+    #[\AllowDynamicProperties]
     class FBMessengerWhatsAppLiveHelperChat {
 
         public static function getInstance() {

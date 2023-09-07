@@ -1,5 +1,5 @@
 <?php
-
+#[\AllowDynamicProperties]
 class erLhcoreClassFBValidator
 {
     public static function validatePage(erLhcoreClassModelFBPage & $item)

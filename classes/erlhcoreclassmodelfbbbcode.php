@@ -1,5 +1,5 @@
 <?php
-
+#[\AllowDynamicProperties]
 class erLhcoreClassModelFBBBCode
 {
     use erLhcoreClassDBTrait;
