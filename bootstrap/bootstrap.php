@@ -38,10 +38,6 @@ class erLhcoreClassExtensionFbmessenger {
 		    'sendMessageToFb'
 		));
 
-		$dispatcher->listen('telegram.msg_received', array(
-		    $this,
-		    'sendMessageToFb'
-		));
 		
 		$dispatcher->listen('chat.workflow.canned_message_before_save', array(
 		    $this,
@@ -1565,7 +1561,7 @@ class erLhcoreClassExtensionFbmessenger {
                     ));
                 }
 
-				erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.messages_added_passive',array('chat' => & $chat, 'msg' => & $msg));
+				erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.addmsguser',array('chat' => & $chat, 'msg' => & $msg));
 
 				erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.messages_added_fb',array('chat' => & $chat, 'msg' => & $msg));
 				
@@ -1685,7 +1681,7 @@ class erLhcoreClassExtensionFbmessenger {
 
             $db->commit();
 
-            erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.messages_added_passive',array('chat' => & $chat, 'msg' => & $msg));
+            erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.addmsguser',array('chat' => & $chat, 'msg' => & $msg));
 
         } catch (Exception $e) {
             $db->rollback();
@@ -1936,7 +1932,7 @@ class erLhcoreClassExtensionFbmessenger {
                     }
                 }
 
-                erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.messages_added_passive', array('chat' => & $chat, 'msg' => & $msg));
+                erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.addmsguser', array('chat' => & $chat, 'msg' => & $msg));
 
                 erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.messages_added_fb', array('chat' => & $chat, 'msg' => & $msg));
             }
@@ -1962,7 +1958,6 @@ class erLhcoreClassExtensionFbmessenger {
             // Find a new messages
             $botMessages = erLhcoreClassModelmsg::getList(array('filter' => array('user_id' => -2, 'chat_id' => $chat->id), 'filtergt' => array('id' => $msg->id)));
             foreach ($botMessages as $botMessage) {
-
                 erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.web_add_msg_admin', array(
                     'chat' => & $chat,
                     'msg' => $botMessage
