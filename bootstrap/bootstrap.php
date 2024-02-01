@@ -138,7 +138,32 @@ class erLhcoreClassExtensionFbmessenger {
             'addWhatsAppToken'
         ));
 
+        $dispatcher->listen('chat.webhook_incoming_chat_started', array(
+            $this,
+            'setWhatsAppToken'
+        ));
+
+        $dispatcher->listen('chat.webhook_incoming_chat_continue', array(
+            $this,
+            'setWhatsAppToken'
+        ));
 	}
+
+    public function setWhatsAppToken($params)
+    {
+        if (is_object($params['chat']->iwh) && $params['chat']->iwh->scope == 'facebookwhatsappscope') {
+            if (isset($params['chat']->chat_variables_array['iwh_field_2'])) {
+                $businessAccount = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::findOne(array('customfilter' => array("JSON_CONTAINS(`phone_number_ids`,'\"" . (int)$params['chat']->chat_variables_array['iwh_field_2'] . "\"','$')" )));
+
+                // Override only if we found separate business account for that phone number
+                if (is_object($businessAccount)) {
+                    $attributes = $params['webhook']->attributes;
+                    $attributes['access_token']= $businessAccount->access_token;
+                    $params['webhook']->attributes = $attributes;
+                }
+            }
+        }
+    }
 
     public function addWhatsAppToken($params) {
         if (is_object($params['chat']->incoming_chat) && $params['chat']->incoming_chat->incoming->scope == 'facebookwhatsappscope') {
