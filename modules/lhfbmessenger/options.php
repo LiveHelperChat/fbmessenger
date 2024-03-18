@@ -34,6 +34,9 @@ if ( isset($_POST['StoreOptions']) || isset($_POST['StoreOptionsWhatsApp']) || i
         'whatsapp_business_account_id' => new ezcInputFormDefinitionElement(
             ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
         ),
+        'whatsapp_business_account_phone_number' => new ezcInputFormDefinitionElement(
+            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+        ),
         'chat_attr' => new ezcInputFormDefinitionElement(
             ezcInputFormDefinitionElement::OPTIONAL, 'boolean'
         ),
@@ -70,6 +73,12 @@ if ( isset($_POST['StoreOptions']) || isset($_POST['StoreOptionsWhatsApp']) || i
         $data['whatsapp_access_token'] = $form->whatsapp_access_token;
     } else {
         $data['whatsapp_access_token'] = '';
+    }
+    
+    if ( $form->hasValidData( 'whatsapp_business_account_phone_number' )) {
+        $data['whatsapp_business_account_phone_number'] = $form->whatsapp_business_account_phone_number;
+    } else {
+        $data['whatsapp_business_account_phone_number'] = '';
     }
 
     if ( $form->hasValidData( 'whatsapp_business_account_id' )) {
