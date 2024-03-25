@@ -73,6 +73,19 @@ This is needed because we don't have chat upfront and can't set payload upfront.
 
 So just listen for `Custom text matching` with that keyword. This sample is provided [in bot sample](https://raw.githubusercontent.com/LiveHelperChat/fbmessenger/master/doc/whatsapp/bot-sample.json)
 
+## I have bot for default department, but I want chat go directly to pending state if I send a template?
+
+You have few options
+
+* Setup `quick reply` button in your template and listen for those events in your bot
+* While sending a message template choose a department without a bot.
+  * We will look for message template without a chat and assign new chat to selected department.
+
+Important
+
+* In all those scenarios Visitor should NOT have any active chat, otherwise his message will go to active chat and the above rules won't be applied.
+* In incoming webhook configuration `FacebookWhatsApp` in `Chat options` choose `If previous chat is found and it is closed we should => Create a new chat`
+
 ## Gotchas
 
 * While app is in testing mode received callback phone number and received callback numbers can be different. E.g
