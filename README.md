@@ -25,7 +25,7 @@ Integration with Facebook messenger API. You will be able to chat with Facebook 
 * Upload the files to your `lhc_web/extension/fbmessenger` folder
 * Install database either by executing `doc/install.sql` file or executing this command `php cron.php -s site_admin -e fbmessenger -c cron/update_structure`
 * Install dependencies using composer
-    * `cd extension/fbmessenger && composer install`
+    * Make sure your composer.json file looks like https://github.com/LiveHelperChat/livehelperchat/blob/master/lhc_web/composer.json 4.41v
     * Just for newbies if your webhosting does not have composer see https://www.vultr.com/docs/install-composer-on-centos-7
     * don't run composer as root, login in your ssh as your hosting normal user.
 * Activate extension in main settings file `lhc_web/settings/settings.ini.php` extension section `fbmessenger` by Adding lines: 
