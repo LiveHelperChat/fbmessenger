@@ -6,17 +6,15 @@ $helper = $fb->getRedirectLoginHelper();
 
 $permissions = ['email', 'manage_pages', 'pages_show_list', 'pages_messaging', 'pages_messaging_subscriptions']; // Optional permissions
 
-$loginUrl = $helper->getLoginUrl('https://'.$_SERVER['HTTP_HOST']. erLhcoreClassDesign::baseurl('fbmessenger/fbcallback'), $permissions);
-
 try {
     $accessToken = $helper->getAccessToken();
 } catch(Facebook\Exceptions\FacebookResponseException $e) { ?>
-    <?php $errors[] = $e->getMessage() ?>
+    <?php $errors[] = $e->getMessage();$loginUrl = $helper->getLoginUrl('https://'.$_SERVER['HTTP_HOST']. erLhcoreClassDesign::baseurl('fbmessenger/fbcallback'), $permissions); ?>
     <?php include(erLhcoreClassDesign::designtpl('lhkernel/validation_error.tpl.php'));?>
     <a class="btn btn-default" href="<?php echo $loginUrl?>">Try login again!</a>
     <?php return; ?>
 <?php } catch(Facebook\Exceptions\FacebookSDKException $e) { ?>
-    <?php $errors[] = $e->getMessage() ?>
+    <?php $errors[] = $e->getMessage();$loginUrl = $helper->getLoginUrl('https://'.$_SERVER['HTTP_HOST']. erLhcoreClassDesign::baseurl('fbmessenger/fbcallback'), $permissions); ?>
     <?php include(erLhcoreClassDesign::designtpl('lhkernel/validation_error.tpl.php'));?>
     <a class="btn btn-default" href="<?php echo $loginUrl?>">Try login again!</a>
     <?php return; ?>
@@ -55,7 +53,7 @@ if (! $accessToken->isLongLived()) {
     try {
         $accessToken = $oAuth2Client->getLongLivedAccessToken($accessToken);
     } catch (Facebook\Exceptions\FacebookSDKException $e) { ?>
-        <?php $errors[] = 'Error getting long-lived access token: ' . $helper->getMessage() ?>
+        <?php $errors[] = 'Error getting long-lived access token: ' . $helper->getMessage(); $helper->getLoginUrl('https://'.$_SERVER['HTTP_HOST']. erLhcoreClassDesign::baseurl('fbmessenger/fbcallback'), $permissions); ?>
         <?php include(erLhcoreClassDesign::designtpl('lhkernel/validation_error.tpl.php'));?>
         <a class="btn btn-default" href="<?php echo $loginUrl?>">Try login again!</a>
         <?php return; ?>
