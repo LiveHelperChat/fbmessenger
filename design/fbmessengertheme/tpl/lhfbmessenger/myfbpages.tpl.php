@@ -19,7 +19,7 @@
                         <?php if (isset($current_pages[$page['id']]) && $current_pages[$page['id']]->enabled == 1) : ?>
                             <a class="btn btn-sm btn-danger btn-block csfr-required" href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/pagesubscribe')?>/<?php echo $page['id']?>/(action)/unsubscribe"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Un Subscribe')?></a>
                         <?php else : ?>
-                            <a class="btn btn-sm btn-success btn-block" onclick="document.location = '<?php echo erLhcoreClassDesign::baseurl('fbmessenger/pagesubscribe')?>/<?php echo $page['id']?>/(dep)/'+$('#id_DepartmentID<?php echo $page['id']?>').val()+'/(csfr)/'+confLH.csrf_token" href=""><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Subscribe')?></a>
+                            <a class="btn btn-sm btn-success btn-block" onclick="document.location = '<?php echo erLhcoreClassDesign::baseurl('fbmessenger/pagesubscribe')?>/<?php echo $page['id']?>/(dep)/'+$('#id_DepartmentID<?php echo $page['id']?>').val()+'/(csfr)/'+confLH.csrf_token;return false;" href="#"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Subscribe')?></a>
                         <?php endif; ?>
                     </div>
                 </div>

@@ -25,7 +25,7 @@ Integration with Facebook messenger API. You will be able to chat with Facebook 
 * Upload the files to your `lhc_web/extension/fbmessenger` folder
 * Install database either by executing `doc/install.sql` file or executing this command `php cron.php -s site_admin -e fbmessenger -c cron/update_structure`
 * Install dependencies using composer
-    * `cd extension/fbmessenger && composer install`
+    * Make sure your composer.json file looks like https://github.com/LiveHelperChat/livehelperchat/blob/master/lhc_web/composer.json 4.41v
     * Just for newbies if your webhosting does not have composer see https://www.vultr.com/docs/install-composer-on-centos-7
     * don't run composer as root, login in your ssh as your hosting normal user.
 * Activate extension in main settings file `lhc_web/settings/settings.ini.php` extension section `fbmessenger` by Adding lines: 
@@ -72,6 +72,19 @@ Each quick reply button send from lhc get's payload constructed as.
 This is needed because we don't have chat upfront and can't set payload upfront.
 
 So just listen for `Custom text matching` with that keyword. This sample is provided [in bot sample](https://raw.githubusercontent.com/LiveHelperChat/fbmessenger/master/doc/whatsapp/bot-sample.json)
+
+## I have bot for default department, but I want chat go directly to pending state if I send a template?
+
+You have few options
+
+* Setup `quick reply` button in your template and listen for those events in your bot
+* While sending a message template choose a department without a bot.
+  * We will look for message template without a chat and assign new chat to selected department.
+
+Important
+
+* In all those scenarios Visitor should NOT have any active chat, otherwise his message will go to active chat and the above rules won't be applied.
+* In incoming webhook configuration `FacebookWhatsApp` in `Chat options` choose `If previous chat is found and it is closed we should => Create a new chat`
 
 ## Gotchas
 

@@ -47,6 +47,11 @@
         <input class="form-control form-control-sm" type="text" name="whatsapp_business_account_id" value="<?php (isset($fb_options['whatsapp_business_account_id'])) ? print htmlspecialchars($fb_options['whatsapp_business_account_id']) : print ''?>" />
     </div>
 
+    <div class="form-group">
+        <label>Accept only those phone number ID's. Separated by comma. Phone numbers list has to include from all business accounts.</label>
+        <input class="form-control form-control-sm" placeholder="E.g 233359883100000,233359883111100" type="text" name="whatsapp_business_account_phone_number" value="<?php (isset($fb_options['whatsapp_business_account_phone_number'])) ? print htmlspecialchars($fb_options['whatsapp_business_account_phone_number']) : print ''?>" />
+    </div>
+
     <p>Once it's activate we will create necessary dependencies. Rest API, Bot and Incoming web hook configuration.</p>
 
     <p>You will see what information you have to put</p>

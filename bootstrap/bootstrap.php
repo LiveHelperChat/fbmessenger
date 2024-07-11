@@ -9,8 +9,6 @@ class erLhcoreClassExtensionFbmessenger {
 	public function run() {
 		$this->registerAutoload ();
 		
-		include_once 'extension/fbmessenger/vendor/autoload.php';
-		
 		$dispatcher = erLhcoreClassChatEventDispatcher::getInstance();
 		
 		$dispatcher->listen('chat.web_add_msg_admin', array(
@@ -147,7 +145,29 @@ class erLhcoreClassExtensionFbmessenger {
             $this,
             'setWhatsAppToken'
         ));
+
+        $dispatcher->listen('chat.webhook_incoming_chat_before_save', array(
+            $this,
+            'verifyPhoneBeforeSave'
+        ));
 	}
+
+    public function verifyPhoneBeforeSave($params)
+    {
+        if (is_object($params['chat']->iwh) && $params['chat']->iwh->scope == 'facebookwhatsappscope') {
+            if (isset($params['chat']->chat_variables_array['iwh_field_2'])) {
+                $tOptions = \erLhcoreClassModelChatConfig::fetch('fbmessenger_options');
+                $data = (array)$tOptions->data;
+                if (isset($data['whatsapp_business_account_phone_number']) && !empty($data['whatsapp_business_account_phone_number'])) {
+                    $validPhoneNumbers = explode(',',str_replace(' ','',$data['whatsapp_business_account_phone_number']));
+                    if (!in_array($params['chat']->chat_variables_array['iwh_field_2'],$validPhoneNumbers)) {
+                        echo json_encode(['error' => true, 'message' => 'Not defined phone number - ' . $params['chat']->chat_variables_array['iwh_field_2']]);
+                        exit; // Not supported phone number
+                    }
+                }
+            }
+        }
+    }
 
     public function setWhatsAppToken($params)
     {
