@@ -1,6 +1,6 @@
-<table class="table">
+<table class="table" ng-non-bindable>
         <thead>
-            <th colspan="3">Page</th>
+            <th colspan="3"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Page')?></th>
         </thead>
     <?php foreach ($pages['data'] as $page) : $instagram = false?>
         <tr>
@@ -17,10 +17,10 @@
                         );  echo erLhcoreClassRenderHelper::renderCombobox( $params ); ?></div>
                     <div class="col-4">
                         <?php if (isset($current_pages[$page['id']]) && $current_pages[$page['id']]->enabled == 1) : ?>
-                            <a class="btn btn-sm btn-danger btn-block" href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/pagesubscribe')?>/<?php echo $page['id']?>/(action)/unsubscribe">Un Subscribe</a>
+                            <a class="btn btn-sm btn-danger btn-block csfr-required" href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/pagesubscribe')?>/<?php echo $page['id']?>/(action)/unsubscribe">Un Subscribe</a>
                             <?php if ($current_pages[$page['id']]->instagram_business_account != 0) : $instagram = true?><?php endif; ?>
                         <?php else : ?>
-                            <a class="btn btn-sm btn-success btn-block" onclick="document.location = '<?php echo erLhcoreClassDesign::baseurl('fbmessenger/pagesubscribe')?>/<?php echo $page['id']?>/(dep)/'+$('#id_DepartmentID<?php echo $page['id']?>').val()" href="">Subscribe</a>
+                            <a class="btn btn-sm btn-success btn-block" onclick="document.location = '<?php echo erLhcoreClassDesign::baseurl('fbmessenger/pagesubscribe')?>/<?php echo $page['id']?>/(dep)/'+$('#id_DepartmentID<?php echo $page['id']?>').val()+'/(csfr)/'+confLH.csrf_token;return false;" href="#"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Subscribe')?></a>
                         <?php endif; ?>
                     </div>
                     <div class="col-4">
