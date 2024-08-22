@@ -1,5 +1,5 @@
 <?php
-
+#[\AllowDynamicProperties]
 class erLhcoreClassModelFBLead
 {
     use erLhcoreClassDBTrait;
@@ -16,11 +16,13 @@ class erLhcoreClassModelFBLead
     {
         return array(
             'id' => $this->id,
+            'user_id' => $this->user_id,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'profile_pic' => $this->profile_pic,
             'locale' => $this->locale,
             'timezone' => $this->timezone,
+            'blocked' => $this->blocked,
             'gender' => $this->gender,
             'email' => $this->email,
             'phone' => $this->phone,
@@ -41,20 +43,26 @@ class erLhcoreClassModelFBLead
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'deleted_at' => $this->deleted_at,
-            'user_id' => $this->user_id,
             'page_id' => $this->page_id,
+            'type' => $this->type,
+            'dep_id' => $this->dep_id,
             'profile_pic_updated' => $this->profile_pic_updated
         );
     }
 
     public function __toString()
     {
-        return $this->ctime;
+        return $this->first_name . ' ' . $this->last_name;
     }
 
     public function __get($var)
     {
         switch ($var) {
+
+            case 'dep':
+                $this->dep = erLhcoreClassModelDepartament::fetch($this->dep_id);
+                return $this->dep;
+                break;
 
             case 'ctime_front':
                 $this->ctime_front = date('Ymd') == date('Ymd', $this->ctime) ? date(erLhcoreClassModule::$dateHourFormat, $this->ctime) : date(erLhcoreClassModule::$dateDateHourFormat, $this->ctime);
@@ -62,9 +70,13 @@ class erLhcoreClassModelFBLead
                 break;
 
             case 'page':
-                $this->page = erLhcoreClassModelMyFBPage::fetch($this->page_id);
-                return $this->page;
-                break;
+            if ($this->type == 1) {
+                $this->page = erLhcoreClassModelMyFBPage::findOne(array('filter' => array('page_id' => $this->page_id)));
+            } else {
+                $this->page = erLhcoreClassModelFBPage::fetch($this->page_id);
+            }
+            return $this->page;
+            break;
 
             case 'chat':
 
