@@ -33,6 +33,7 @@ class erLhcoreClassModelFBLead
             'linked_account' => $this->linked_account,
             'subscribe' => $this->subscribe,
             'is_payment_enabled' => $this->is_payment_enabled,
+            'ctime' => $this->ctime,
             'auto_stop' => $this->auto_stop,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
