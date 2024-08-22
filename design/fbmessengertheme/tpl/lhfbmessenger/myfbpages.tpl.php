@@ -38,7 +38,7 @@
             </td>
             <td width="40%" nowrap="nowrap">
                 <?php if ($instagram == true) : ?>
-                    <img class="img-fluid mr-2" style="height: 20px" src="/extension/chatto/design/chattotheme/images/social/instagram.png">
+                    <img class="img-fluid mr-2" style="height: 20px" src="<?php echo erLhcoreClassDesign::design('images/finstagram.png')?>">
                 <?php endif; ?>
                 <?php echo htmlspecialchars($page['name'])?>
             </td>
