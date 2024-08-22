@@ -1,5 +1,11 @@
 <?php
 
+$sessionCookieName = erConfigClassLhConfig::getInstance()->getSetting( 'site', 'php_session_cookie_name', false );
+
+if (!empty($sessionCookieName) && $sessionCookieName !== false) {
+    session_name($sessionCookieName);
+}
+
 $fb = erLhcoreClassModelFBMessengerUser::getFBAppInstance();
 $helper = $fb->getRedirectLoginHelper();
 $permissions = ['email', 'pages_show_list', 'pages_messaging', 'instagram_manage_messages', 'instagram_basic', 'pages_manage_metadata', 'pages_read_engagement']; // Optional permissions
