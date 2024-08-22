@@ -111,28 +111,20 @@ class erLhcoreClassModelFBLead
                 break;
 
             case 'chat':
-
                 $this->chat = false;
-
                 if ($this->chat_id > 0) {
                     $this->chat = erLhcoreClassModelChat::fetch($this->chat_id);
                 }
-
                 return $this->chat;
                 break;
 
             case 'subscribe_channels':
-
                 if ($this->subscribe != '') {
-
                     $channels = erLhcoreClassModelFBChannel::getList(array('filterin' => array('id' => explode(',', $this->subscribe))));
-
                     $names = array();
-
                     foreach ($channels as $channel) {
                         $names[] = $channel->name;
                     }
-
                     return implode(', ',$names);
                 }
                 return $this->subscribe;
@@ -167,6 +159,10 @@ class erLhcoreClassModelFBLead
     public $user_id = null;
     public $page_id = 0;
     public $profile_pic_updated = 0;
+    public $ctime = 0;
+    public $blocked = 0;
+    public $type = 0;
+    public $dep_id = 0;
 }
 
 ?>
