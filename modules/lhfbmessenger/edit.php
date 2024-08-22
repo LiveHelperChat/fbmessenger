@@ -10,7 +10,12 @@ if (ezcInputForm::hasPostData()) {
         erLhcoreClassModule::redirect('fbmessenger/list');
         exit ;
     }
-    
+
+    if (!isset($_POST['csfr_token']) || !$currentUser->validateCSFRToken($_POST['csfr_token'])) {
+        erLhcoreClassModule::redirect('fbmessenger/list');
+        exit;
+    }
+
     $Errors = erLhcoreClassFBValidator::validatePage($item);
 
     if (count($Errors) == 0) {
@@ -37,7 +42,7 @@ $Result['content'] = $tpl->fetch();
 
 $Result['path'] = array(
     array (
-        'url' =>erLhcoreClassDesign::baseurl('fbmessenger/list'), 
+        'url' => erLhcoreClassDesign::baseurl('fbmessenger/list'),
         'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Facebook pages')        
     ),
     array (       
