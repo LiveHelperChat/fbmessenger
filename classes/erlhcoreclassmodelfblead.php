@@ -67,41 +67,7 @@ class erLhcoreClassModelFBLead
                     }
                     return $this->page;
                 break;
-
-            case 'ctime_front':
-                $this->ctime_front = date('Ymd') == date('Ymd', $this->ctime) ? date(erLhcoreClassModule::$dateHourFormat, $this->ctime) : date(erLhcoreClassModule::$dateDateHourFormat, $this->ctime);
-                return $this->ctime_front;
-                break;
-
-            case 'chat':
-
-                $this->chat = false;
-
-                if ($this->chat_id > 0) {
-                    $this->chat = erLhcoreClassModelChat::fetch($this->chat_id);
-                }
-
-                return $this->chat;
-                break;
-
-            case 'subscribe_channels':
-
-                if ($this->subscribe != '') {
-
-                    $channels = erLhcoreClassModelFBChannel::getList(array('filterin' => array('id' => explode(',', $this->subscribe))));
-
-                    $names = array();
-
-                    foreach ($channels as $channel) {
-                        $names[] = $channel->name;
-                    }
-
-                    return implode(', ',$names);
-                }
-                return $this->subscribe;
-                break;
-
-
+                
             case 'profile_pic_front':
                 $this->profile_pic_front = $this->profile_pic;
                 if ($this->profile_pic_updated < time()-5*24*3600) {
@@ -137,6 +103,39 @@ class erLhcoreClassModelFBLead
                     }
                 }
                 return $this->profile_pic_front;
+                break;
+
+            case 'ctime_front':
+                $this->ctime_front = date('Ymd') == date('Ymd', $this->ctime) ? date(erLhcoreClassModule::$dateHourFormat, $this->ctime) : date(erLhcoreClassModule::$dateDateHourFormat, $this->ctime);
+                return $this->ctime_front;
+                break;
+
+            case 'chat':
+
+                $this->chat = false;
+
+                if ($this->chat_id > 0) {
+                    $this->chat = erLhcoreClassModelChat::fetch($this->chat_id);
+                }
+
+                return $this->chat;
+                break;
+
+            case 'subscribe_channels':
+
+                if ($this->subscribe != '') {
+
+                    $channels = erLhcoreClassModelFBChannel::getList(array('filterin' => array('id' => explode(',', $this->subscribe))));
+
+                    $names = array();
+
+                    foreach ($channels as $channel) {
+                        $names[] = $channel->name;
+                    }
+
+                    return implode(', ',$names);
+                }
+                return $this->subscribe;
                 break;
 
             default:
