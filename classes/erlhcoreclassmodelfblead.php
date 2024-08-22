@@ -60,12 +60,12 @@ class erLhcoreClassModelFBLead
                 break;
 
             case 'page':
-                if ($this->type == 1) {
-                    $this->page = erLhcoreClassModelMyFBPage::findOne(array('filter' => array('page_id' => $this->page_id)));
-                } else {
-                    $this->page = erLhcoreClassModelFBPage::fetch($this->page_id);
-                }
-                return $this->page;
+                    if ($this->type == 1) {
+                        $this->page = erLhcoreClassModelMyFBPage::findOne(array('filter' => array('page_id' => $this->page_id)));
+                    } else {
+                        $this->page = erLhcoreClassModelFBPage::fetch($this->page_id);
+                    }
+                    return $this->page;
                 break;
 
             case 'ctime_front':
@@ -101,36 +101,43 @@ class erLhcoreClassModelFBLead
                 return $this->subscribe;
                 break;
 
+
             case 'profile_pic_front':
                 $this->profile_pic_front = $this->profile_pic;
-
-                if (($this->profile_pic_updated < time()-5*24*3600 && $this->page_id > 0) || $this->user_id == 1550628698362714) {
-
-                    $page = erLhcoreClassModelMyFBPage::findOne(array('filter' => array('page_id' => $this->page_id)));
-
-                    $pageToken = false;
-
-                    if ($page instanceof erLhcoreClassModelMyFBPage) {
-                        $pageToken = $page->access_token;
+                if ($this->profile_pic_updated < time()-5*24*3600) {
+                    if ($this->type == 1) {
+                        $page = erLhcoreClassModelMyFBPage::findOne(array('filter' => array('page_id' => $this->page_id)));
+                        if ($page instanceof erLhcoreClassModelMyFBPage) {
+                            $pageToken = $page->page_token;
+                        } else {
+                            $pageToken = false;
+                        }
+                    } else {
+                        $page = erLhcoreClassModelFBPage::fetch($this->page_id);
+                        if ($page instanceof erLhcoreClassModelFBPage) {
+                            $pageToken = $page->page_token;
+                        } else {
+                            $pageToken = false;
+                        }
                     }
 
                     if ($pageToken !== false) {
                         try {
                             $messenger = Tgallice\FBMessenger\Messenger::create($pageToken);
                             $profile = $messenger->getUserProfile($this->user_id);
+
                             $this->profile_pic_front = $this->profile_pic = $profile->getProfilePic();
                             $this->profile_pic_updated = time();
                             $this->saveThis();
                         } catch (Exception $e) {
+                            $this->profile_pic = '';
                             $this->profile_pic_updated = time();
-                            $this->profile_pic_front = $this->profile_pic = '';
                             $this->saveThis();
                         }
                     }
                 }
                 return $this->profile_pic_front;
                 break;
-
 
             default:
                 ;
