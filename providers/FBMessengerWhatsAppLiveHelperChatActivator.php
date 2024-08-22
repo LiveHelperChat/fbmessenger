@@ -40,7 +40,11 @@ class FBMessengerWhatsAppLiveHelperChatActivator {
         // GoogleBusinessMessage
         $incomingWebhook = \erLhcoreClassModelChatIncomingWebhook::findOne(['filter' => ['name' => 'FacebookWhatsApp']]);
 
-        $incomingWebhookContent = str_replace('{whatsapp_access_token}', '{whatsapp_access_token}'/*$data['whatsapp_access_token']*/, file_get_contents('extension/fbmessenger/doc/whatsapp/incoming-webhook.json'));
+        $fbOptions = \erLhcoreClassModelChatConfig::fetch('fbmessenger_options');	        $incomingWebhookContent = str_replace('{whatsapp_access_token}', '{whatsapp_access_token}'/*$data['whatsapp_access_token']*/, file_get_contents('extension/fbmessenger/doc/whatsapp/incoming-webhook.json'));
+
+        $data = (array)$fbOptions->data;
+
+        $incomingWebhookContent = str_replace('{whatsapp_access_token}', (isset($data['whatsapp_access_token']) && $data['whatsapp_access_token'] != '' ? $data['whatsapp_access_token'] : '{whatsapp_access_token}'), file_get_contents('extension/fbmessenger/doc/whatsapp/incoming-webhook.json'));
         $content = json_decode($incomingWebhookContent,true);
 
         if (!$incomingWebhook) {
