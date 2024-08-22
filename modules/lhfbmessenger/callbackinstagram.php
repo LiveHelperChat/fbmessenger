@@ -15,58 +15,6 @@ if (isset($_GET['hub_verify_token']) && $_GET['hub_verify_token'] == $ext->setti
         exit;
     }
 }
-/*
- * {
-  "object": "instagram",
-  "entry": [
-    {
-      "time": 1649146383189,
-      "id": "17841406424087811",
-      "messaging": [
-        {
-          "sender": {
-            "id": "4765048090283896"
-          },
-          "recipient": {
-            "id": "17841406424087811"
-          },
-          "timestamp": 1649146382475,
-          "message": {
-            "mid": "aWdfZAG1faXRlbToxOklHTWVzc2FnZAUlEOjE3ODQxNDA2NDI0MDg3ODExOjM0MDI4MjM2Njg0MTcxMDMwMDk0OTEyODIxMzM0MDU3OTE4MTMwNDozMDQyMTM4MTI1NzYwMDc4Njc1Njk1ODgyNzkwNjU5Njg2NAZDZD",
-            "text": "Developer test 2"
-          }
-        }
-      ]
-    }
-  ]
-}
-{
-  "object": "page",
-  "entry": [
-    {
-      "id": "161532587221126",
-      "time": 1649068938485,
-      "messaging": [
-        {
-          "sender": {
-            "id": "4495198570581026"
-          },
-          "recipient": {
-            "id": "161532587221126"
-          },
-          "timestamp": 1649068938195,
-          "message": {
-            "mid": "m_ZKYx3kFkGQxwvcINle7dbk0dkawYkg9FOLBOuMAfCrmPzSqTuAmc7camDtfIl6sOR_jMIvJ4PZPIOO5DRQ0S3Q",
-            "text": "I would like to know if you have travel package from SG to Nongsa Resort includes accomodations, rt ferry and land transfer"
-          }
-        }
-      ]
-    }
-  ]
-}
- * */
-
-// curl -X GET "https://graph.facebook.com/v12.0/4765048090283896?fields=name,profile_pic,follower_count&access_token=EAAEIZBhN1GU0BAFXWga2sE9L9xfd3fotqSNTCTNvunafxGlkdG5aqjkIW3vAHh5gO4AI7kbHZBi0YblZArSx4VSweCuWhgUCl6ztPHI3nxsva3PLC1XoRpnrPk2nzMvZALAFNcWXvWUk3pHN5iU1yBgbcArzftdPi3hJ6GoJYAWdjXHqlCcG"
 
 use Tgallice\FBMessenger\WebhookRequestHandler;
 use Tgallice\FBMessenger\Callback\MessageEvent;
