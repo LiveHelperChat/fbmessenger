@@ -4,7 +4,7 @@ class erLhcoreClassModelFBLead
 {
     use erLhcoreClassDBTrait;
 
-    public static $dbTable = 'bot_leads';
+    public static $dbTable = 'lhc_fbmessenger_lead';
 
     public static $dbTableId = 'id';
 
@@ -19,7 +19,6 @@ class erLhcoreClassModelFBLead
             'user_id' => $this->user_id,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
-            'profile_pic' => $this->profile_pic,
             'locale' => $this->locale,
             'timezone' => $this->timezone,
             'blocked' => $this->blocked,
@@ -28,12 +27,7 @@ class erLhcoreClassModelFBLead
             'phone' => $this->phone,
             'country' => $this->country,
             'location' => $this->location,
-            'timezone' => $this->timezone,
-            'gender' => $this->gender,
-            'email' => $this->email,
-            'phone' => $this->phone,
-            'country' => $this->country,
-            'location' => $this->location,
+            'profile_pic' => $this->profile_pic,
             '_wait' => $this->_wait,
             '_quick_save' => $this->_quick_save,
             'linked_account' => $this->linked_account,
