@@ -23,6 +23,10 @@
 </div>
 
 <div class="form-group">
+    <label><input type="checkbox" name="bot_disabled" value="on" <?php $item->bot_disabled == 1 ? print ' checked="checked" ' : ''?> > <?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Bot disabled');?></label>
+</div>
+
+<div class="form-group">
     <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Department');?></label>
     <?php echo erLhcoreClassRenderHelper::renderCombobox(array(
             'input_name'     => 'dep_id',

@@ -6,7 +6,7 @@
             <?php include(erLhcoreClassDesign::designtpl('lhkernel/validation_error.tpl.php'));?>
         <?php endif; ?>
 
-        <form action="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/newchannel')?>" method="post">
+        <form action="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/newchannel')?>" method="post" ng-non-bindable>
 
             <div class="form-group">
                 <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Name');?></label>
