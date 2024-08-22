@@ -94,11 +94,11 @@ class erLhcoreClassModelMyFBPage
         switch ($var) {
 
             case 'verified':
-                return true;
+                    return true;
                 break;
 
             case 'page_token':
-                return $this->access_token;
+                    return $this->access_token;
                 break;
 
             default:
