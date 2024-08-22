@@ -48,97 +48,13 @@
                 "key": "",
                 "default": null,
                 "extra": ""
-            }
-        ],
-        "lhc_fbmessenger_bbcode": [
-            {
-                "field": "id",
-                "type": "bigint(20)",
-                "null": "NO",
-                "key": "PRI",
-                "default": null,
-                "extra": "auto_increment"
             },
             {
-                "field": "bbcode",
-                "type": "varchar(50)",
+                "field": "type",
+                "type": "tinyint(1)",
                 "null": "NO",
                 "key": "",
-                "default": null,
-                "extra": ""
-            },
-            {
-                "field": "name",
-                "type": "varchar(50)",
-                "null": "NO",
-                "key": "",
-                "default": null,
-                "extra": ""
-            },
-            {
-                "field": "configuration",
-                "type": "text",
-                "null": "NO",
-                "key": "",
-                "default": null,
-                "extra": ""
-            }
-        ],
-        "lhc_fbmessenger_page": [
-            {
-                "field": "id",
-                "type": "bigint(20)",
-                "null": "NO",
-                "key": "PRI",
-                "default": null,
-                "extra": "auto_increment"
-            },
-            {
-                "field": "dep_id",
-                "type": "int(11)",
-                "null": "NO",
-                "key": "",
-                "default": null,
-                "extra": ""
-            },
-            {
-                "field": "verified",
-                "type": "int(11)",
-                "null": "NO",
-                "key": "",
-                "default": null,
-                "extra": ""
-            },
-            {
-                "field": "page_token",
-                "type": "varchar(250)",
-                "null": "NO",
-                "key": "",
-                "default": null,
-                "extra": ""
-            },
-            {
-                "field": "verify_token",
-                "type": "varchar(250)",
-                "null": "NO",
-                "key": "",
-                "default": null,
-                "extra": ""
-            },
-            {
-                "field": "app_secret",
-                "type": "varchar(250)",
-                "null": "NO",
-                "key": "",
-                "default": null,
-                "extra": ""
-            },
-            {
-                "field": "name",
-                "type": "varchar(250)",
-                "null": "NO",
-                "key": "",
-                "default": null,
+                "default": "0",
                 "extra": ""
             }
         ],
@@ -160,32 +76,8 @@
                 "extra": ""
             },
             {
-                "field": "instagram_business_account",
-                "type": "bigint(20)",
-                "null": "NO",
-                "key": "",
-                "default": "0",
-                "extra": ""
-            },
-            {
-                "field": "whatsapp_business_account_id",
-                "type": "bigint(20)",
-                "null": "NO",
-                "key": "",
-                "default": "0",
-                "extra": ""
-            },
-            {
-                "field": "whatsapp_business_phone_number_id",
-                "type": "bigint(20)",
-                "null": "NO",
-                "key": "",
-                "default": "0",
-                "extra": ""
-            },
-            {
                 "field": "access_token",
-                "type": "varchar(250)",
+                "type": "varchar(500)",
                 "null": "NO",
                 "key": "",
                 "default": null,
@@ -202,6 +94,14 @@
             {
                 "field": "dep_id",
                 "type": "int(11)",
+                "null": "NO",
+                "key": "",
+                "default": null,
+                "extra": ""
+            },
+            {
+                "field": "bot_disabled",
+                "type": "tinyint(1)",
                 "null": "NO",
                 "key": "",
                 "default": null,
@@ -240,252 +140,89 @@
                 "key": "",
                 "default": null,
                 "extra": ""
+            }
+        ],
+        "lhc_fbmessenger_bbcode": [
+            {
+                "field": "id",
+                "type": "bigint(20)",
+                "null": "NO",
+                "key": "PRI",
+                "default": null,
+                "extra": "auto_increment"
             },
             {
-                "field": "expired_informed",
-                "type": "tinyint(1) unsigned",
+                "field": "bbcode",
+                "type": "varchar(50)",
+                "null": "NO",
+                "key": "",
+                "default": null,
+                "extra": "",
+                "collation": "utf8mb4_general_ci"
+            },
+            {
+                "field": "name",
+                "type": "varchar(50)",
+                "null": "NO",
+                "key": "",
+                "default": null,
+                "extra": "",
+                "collation": "utf8mb4_general_ci"
+            },
+            {
+                "field": "configuration",
+                "type": "text",
+                "null": "NO",
+                "key": "",
+                "default": null,
+                "extra": "",
+                "collation": "utf8mb4_general_ci"
+            }
+        ],
+        "lhc_fbmessenger_lead": [
+            {
+                "field": "id",
+                "type": "bigint(20)",
+                "null": "NO",
+                "key": "PRI",
+                "default": null,
+                "extra": "auto_increment"
+            },
+            {
+                "field": "is_payment_enabled",
+                "type": "tinyint(1)",
                 "null": "NO",
                 "key": "",
                 "default": "0",
                 "extra": ""
-            }
-        ],
-        "bot_channels": [
-            {
-                "field": "id",
-                "type": "bigint(20)",
-                "null": "NO",
-                "key": "PRI",
-                "default": null,
-                "extra": "auto_increment"
-            },
-            {
-                "field": "name",
-                "type": "varchar(250)",
-                "null": "NO",
-                "key": "",
-                "default": null,
-                "extra": ""
-            }
-        ],
-        "lhc_fbmessenger_bot": [
-            {
-                "field": "id",
-                "type": "bigint(20)",
-                "null": "NO",
-                "key": "PRI",
-                "default": null,
-                "extra": "auto_increment"
-            },
-            {
-                "field": "name",
-                "type": "varchar(50)",
-                "null": "NO",
-                "key": "",
-                "default": null,
-                "extra": ""
-            },
-            {
-                "field": "configuration",
-                "type": "text",
-                "null": "NO",
-                "key": "",
-                "default": null,
-                "extra": ""
-            },
-            {
-                "field": "enabled",
-                "type": "int(11)",
-                "null": "NO",
-                "key": "",
-                "default": null,
-                "extra": ""
-            }
-        ],
-        "lhc_fbmessenger_bot_group": [
-            {
-                "field": "id",
-                "type": "bigint(20)",
-                "null": "NO",
-                "key": "PRI",
-                "default": null,
-                "extra": "auto_increment"
-            },
-            {
-                "field": "name",
-                "type": "varchar(50)",
-                "null": "NO",
-                "key": "",
-                "default": null,
-                "extra": ""
-            },
-            {
-                "field": "bot_id",
-                "type": "int(11)",
-                "null": "NO",
-                "key": "",
-                "default": null,
-                "extra": ""
-            }
-        ],
-        "lhc_fbmessenger_bot_block": [
-            {
-                "field": "id",
-                "type": "bigint(20)",
-                "null": "NO",
-                "key": "PRI",
-                "default": null,
-                "extra": "auto_increment"
-            },
-            {
-                "field": "name",
-                "type": "varchar(50)",
-                "null": "NO",
-                "key": "",
-                "default": null,
-                "extra": ""
-            },
-            {
-                "field": "configuration",
-                "type": "text",
-                "null": "NO",
-                "key": "",
-                "default": null,
-                "extra": ""
-            },
-            {
-                "field": "group_id",
-                "type": "int(11)",
-                "null": "NO",
-                "key": "",
-                "default": null,
-                "extra": ""
-            }
-        ],
-        "lhc_fbmessenger_bot_element": [
-            {
-                "field": "id",
-                "type": "bigint(20)",
-                "null": "NO",
-                "key": "PRI",
-                "default": null,
-                "extra": "auto_increment"
-            },
-            {
-                "field": "block_id",
-                "type": "int(11)",
-                "null": "NO",
-                "key": "",
-                "default": null,
-                "extra": ""
-            },
-            {
-                "field": "type",
-                "type": "int(11)",
-                "null": "NO",
-                "key": "",
-                "default": null,
-                "extra": ""
-            },
-            {
-                "field": "configuration",
-                "type": "text",
-                "null": "NO",
-                "key": "",
-                "default": null,
-                "extra": ""
-            }
-        ],
-        "bot_nodes": [
-            {
-                "field": "id",
-                "type": "int(10)",
-                "null": "NO",
-                "key": "PRI",
-                "default": null,
-                "extra": "auto_increment"
-            },
-            {
-                "field": "node_type",
-                "type": "int(11)",
-                "null": "NO",
-                "key": "",
-                "default": null,
-                "extra": ""
-            },
-            {
-                "field": "has_errors",
-                "type": "int(11)",
-                "null": "NO",
-                "key": "",
-                "default": null,
-                "extra": ""
-            },
-            {
-                "field": "name",
-                "type": "varchar(250)",
-                "null": "NO",
-                "key": "",
-                "default": null,
-                "extra": ""
-            },
-            {
-                "field": "pattern_payload",
-                "type": "text",
-                "null": "NO",
-                "key": "",
-                "default": null,
-                "extra": ""
-            },
-            {
-                "field": "node_group_id",
-                "type": "int(11)",
-                "null": "NO",
-                "key": "",
-                "default": null,
-                "extra": ""
-            }
-        ],
-        "bot_messages": [
-            {
-                "field": "id",
-                "type": "bigint(20)",
-                "null": "NO",
-                "key": "PRI",
-                "default": null,
-                "extra": "auto_increment"
-            },
-            {
-                "field": "exclude_channel",
-                "type": "text",
-                "null": "NO",
-                "key": "",
-                "default": "",
-                "extra": ""
-            }
-        ],
-        "bot_leads_meta": [
-            {
-                "field": "id",
-                "type": "int(10)",
-                "null": "NO",
-                "key": "PRI",
-                "default": null,
-                "extra": "auto_increment"
-            }
-        ],
-        "bot_leads": [
-            {
-                "field": "id",
-                "type": "int(10)",
-                "null": "NO",
-                "key": "PRI",
-                "default": null,
-                "extra": "auto_increment"
             },
             {
                 "field": "page_id",
                 "type": "bigint(20)",
+                "null": "NO",
+                "key": "",
+                "default": "0",
+                "extra": ""
+            },
+            {
+                "field": "type",
+                "type": "tinyint(1)",
+                "null": "NO",
+                "key": "",
+                "default": "0",
+                "extra": ""
+            },
+            {
+                "field": "dep_id",
+                "type": "int(11)",
+                "null": "NO",
+                "key": "",
+                "default": "0",
+                "extra": ""
+            },
+            {
+                "field": "blocked",
+                "type": "tinyint(1)",
                 "null": "NO",
                 "key": "",
                 "default": "0",
@@ -500,54 +237,10 @@
                 "extra": ""
             }
         ],
-        "bot_instances": [
-            {
-                "field": "id",
-                "type": "varchar(150)",
-                "null": "NO",
-                "key": "PRI",
-                "default": null,
-                "extra": ""
-            }
-        ],
-        "bot_image": [
+        "lhc_fbmessenger_notification_schedule": [
             {
                 "field": "id",
                 "type": "bigint(20)",
-                "null": "NO",
-                "key": "PRI",
-                "default": null,
-                "extra": ""
-            },
-            {
-                "field": "path",
-                "type": "varchar(150)",
-                "null": "NO",
-                "key": "",
-                "default": null,
-                "extra": ""
-            },
-            {
-                "field": "original",
-                "type": "int(11)",
-                "null": "NO",
-                "key": "",
-                "default": null,
-                "extra": ""
-            },
-            {
-                "field": "child_of",
-                "type": "int(11)",
-                "null": "NO",
-                "key": "",
-                "default": null,
-                "extra": ""
-            }
-        ],
-        "bot_nodes_group": [
-            {
-                "field": "id",
-                "type": "int(11)",
                 "null": "NO",
                 "key": "PRI",
                 "default": null,
@@ -559,54 +252,306 @@
                 "null": "NO",
                 "key": "",
                 "default": null,
-                "extra": ""
+                "extra": "",
+                "collation": "utf8mb4_general_ci"
             },
             {
-                "field": "updated_at",
-                "type": "timestamp",
+                "field": "message",
+                "type": "text",
+                "null": "NO",
+                "key": "",
+                "default": null,
+                "extra": "",
+                "collation": "utf8mb4_general_ci"
+            }
+        ],
+        "lhc_fbmessenger_notification_schedule_campaign": [
+            {
+                "field": "id",
+                "type": "bigint(20)",
+                "null": "NO",
+                "key": "PRI",
+                "default": null,
+                "extra": "auto_increment"
+            },
+            {
+                "field": "last_send",
+                "type": "int(11)",
+                "null": "NO",
+                "key": "",
+                "default": null,
+                "extra": ""
+            }
+        ],
+        "lhc_fbmessenger_notification_schedule_item": [
+            {
+                "field": "id",
+                "type": "bigint(20)",
+                "null": "NO",
+                "key": "PRI",
+                "default": null,
+                "extra": "auto_increment"
+            }
+        ],
+        "lhc_fbmessenger_standalone_fb_page": [
+          {
+              "field": "id",
+              "type": "bigint(20) unsigned",
+              "null": "NO",
+              "key": "PRI",
+              "default": null,
+              "extra": "auto_increment"
+          }
+        ],
+        "lhc_fbmessengerwhatsapp_contact_list_contact": [
+          {
+              "field": "id",
+              "type": "bigint(20) unsigned",
+              "null": "NO",
+              "key": "PRI",
+              "default": null,
+              "extra": "auto_increment"
+          }
+        ],
+        "lhc_fbmessengerwhatsapp_contact_list": [
+          {
+              "field": "id",
+              "type": "bigint(20) unsigned",
+              "null": "NO",
+              "key": "PRI",
+              "default": null,
+              "extra": "auto_increment"
+          }
+        ],
+        "lhc_fbmessengerwhatsapp_contact": [
+          {
+              "field": "id",
+              "type": "bigint(20) unsigned",
+              "null": "NO",
+              "key": "PRI",
+              "default": null,
+              "extra": "auto_increment"
+          }
+        ],
+        "lhc_fbmessengerwhatsapp_campaign_recipient": [
+          {
+              "field": "id",
+              "type": "bigint(20) unsigned",
+              "null": "NO",
+              "key": "PRI",
+              "default": null,
+              "extra": "auto_increment"
+          }
+        ],
+        "lhc_fbmessengerwhatsapp_campaign": [
+          {
+              "field": "id",
+              "type": "bigint(20) unsigned",
+              "null": "NO",
+              "key": "PRI",
+              "default": null,
+              "extra": "auto_increment"
+          }
+        ],
+        "lhc_fbmessengerwhatsapp_message": [
+          {
+              "field": "id",
+              "type": "bigint(20) unsigned",
+              "null": "NO",
+              "key": "PRI",
+              "default": null,
+              "extra": "auto_increment"
+          },
+          {
+            "field": "business_account_id",
+            "type": "int(11)",
+            "null": "NO",
+            "key": "",
+            "default": "0",
+            "extra": ""
+          },
+          {
+            "field": "scheduled_at",
+            "type": "bigint(20) unsigned",
+            "null": "NO",
+            "key": "",
+            "default": "0",
+            "extra": ""
+          },
+          {
+            "field": "campaign_id",
+            "type": "bigint(20) unsigned",
+            "null": "NO",
+            "key": "",
+            "default": "0",
+            "extra": ""
+          },
+          {
+            "field": "campaign_recipient_id",
+            "type": "bigint(20) unsigned",
+            "null": "NO",
+            "key": "",
+            "default": "0",
+            "extra": ""
+          },
+          {
+            "field": "recipient_id",
+            "type": "bigint(20) unsigned",
+            "null": "NO",
+            "key": "",
+            "default": "0",
+            "extra": ""
+          },
+          {
+            "field": "private",
+            "type": "tinyint(1) unsigned",
+            "null": "NO",
+            "key": "",
+            "default": "0",
+            "extra": ""
+          },
+          {
+            "field": "phone_whatsapp",
+            "type": "varchar(20)",
+            "null": "NO",
+            "key": "",
+            "default": null,
+            "extra": "",
+            "collation": "utf8mb4_general_ci"
+          }
+        ],
+        "lhc_fbmessengerwhatsapp_account": [
+          {
+              "field": "id",
+              "type": "int(11) unsigned",
+              "null": "NO",
+              "key": "PRI",
+              "default": null,
+              "extra": "auto_increment"
+          },
+          {
+            "field": "phone_number_deps",
+            "type": "text",
+            "null": "NO",
+            "key": "",
+            "default": null,
+            "extra": "",
+            "collation": "utf8mb4_general_ci"
+          }
+        ],
+        "lhc_fbmessenger_page": [
+            {
+                "field": "id",
+                "type": "bigint(20)",
+                "null": "NO",
+                "key": "PRI",
+                "default": null,
+                "extra": "auto_increment"
+            },
+            {
+                "field": "dep_id",
+                "type": "int(11)",
                 "null": "NO",
                 "key": "",
                 "default": null,
                 "extra": ""
             },
             {
-                "field": "created_at",
-                "type": "timestamp",
-                "null": "NO",
-                "key": "",
-                "default": "",
-                "extra": ""
-            },
-            {
-                "field": "priority",
+                "field": "verified",
                 "type": "int(11)",
                 "null": "NO",
                 "key": "",
-                "default": "0",
+                "default": null,
                 "extra": ""
+            },
+            {
+                "field": "bot_disabled",
+                "type": "tinyint(1)",
+                "null": "NO",
+                "key": "",
+                "default": null,
+                "extra": ""
+            },
+            {
+                "field": "page_token",
+                "type": "varchar(250)",
+                "null": "NO",
+                "key": "",
+                "default": null,
+                "extra": "",
+                "collation": "utf8mb4_general_ci"
+            },
+            {
+                "field": "verify_token",
+                "type": "varchar(250)",
+                "null": "NO",
+                "key": "",
+                "default": null,
+                "extra": "",
+                "collation": "utf8mb4_general_ci"
+            },
+            {
+                "field": "app_secret",
+                "type": "varchar(250)",
+                "null": "NO",
+                "key": "",
+                "default": null,
+                "extra": "",
+                "collation": "utf8mb4_general_ci"
+            },
+            {
+                "field": "name",
+                "type": "varchar(250)",
+                "null": "NO",
+                "key": "",
+                "default": null,
+                "extra": "",
+                "collation": "utf8mb4_general_ci"
             }
         ]
     },  
     "tables_data": {    },
     "tables_data_identifier": {    },
-    "tables_indexes" : {    },
+    "tables_indexes" : {
+        "lhc_fbmessenger_lead" : {
+            "new" : {
+                "dep_id" : "ALTER TABLE `lhc_fbmessenger_lead` ADD INDEX `dep_id` (`dep_id`);",
+                "blocked" : "ALTER TABLE `lhc_fbmessenger_lead` ADD INDEX `blocked` (`blocked`);"
+            },
+            "old" : []
+        },
+        "lhc_fbmessengerwhatsapp_message" : {
+            "new" : {
+                "created_at" : "ALTER TABLE `lhc_fbmessengerwhatsapp_message` ADD INDEX `created_at` (`created_at`);",
+                "business_account_id" : "ALTER TABLE `lhc_fbmessengerwhatsapp_message` ADD INDEX `business_account_id` (`business_account_id`);",
+                "user_id_private" : "ALTER TABLE `lhc_fbmessengerwhatsapp_message` ADD INDEX `user_id_private` (`user_id`,`private`);",
+                "campaign_id" : "ALTER TABLE `lhc_fbmessengerwhatsapp_message` ADD INDEX `campaign_id` (`campaign_id`);",
+                "dep_id" : "ALTER TABLE `lhc_fbmessengerwhatsapp_message` ADD INDEX `dep_id` (`dep_id`);",
+                "phone_sender" : "ALTER TABLE `lhc_fbmessengerwhatsapp_message` ADD INDEX `phone_sender` (`phone_sender`);",
+                "phone" : "ALTER TABLE `lhc_fbmessengerwhatsapp_message` ADD INDEX `phone` (`phone`);",
+                "template" : "ALTER TABLE `lhc_fbmessengerwhatsapp_message` ADD INDEX `template` (`template`);",
+                "status" : "ALTER TABLE `lhc_fbmessengerwhatsapp_message` ADD INDEX `status` (`status`);"
+            },
+            "old" : []
+        }
+    },
     "tables_create": {
-    	"lhc_fbmessenger_chat" : "CREATE TABLE `lhc_fbmessenger_chat` (`id` bigint(20) NOT NULL AUTO_INCREMENT, `user_id` bigint(20) NOT NULL, `recipient_user_id` bigint(20) NOT NULL, `page_id` bigint(20) NOT NULL, `chat_id` bigint(20) NOT NULL, `ctime` int(11) NOT NULL,  PRIMARY KEY (`id`),  KEY `user_id_recipient_user_id_page_id` (`user_id`,`recipient_user_id`, `page_id`),  KEY `chat_id` (`chat_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
-    	"lhc_fbmessenger_page" : "CREATE TABLE `lhc_fbmessenger_page` (`id` bigint(20) NOT NULL AUTO_INCREMENT, `dep_id` int(11) NOT NULL, `verified` int(11) NOT NULL, `page_token` varchar(250) NOT NULL, `verify_token` varchar(250) NOT NULL, `app_secret` varchar(250) NOT NULL, `name` varchar(250) NOT NULL,  PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
-    	"lhc_fbmessenger_bbcode" : "CREATE TABLE `lhc_fbmessenger_bbcode` (`id` bigint(20) NOT NULL AUTO_INCREMENT, `bbcode` varchar(50) NOT NULL, `name` varchar(50) NOT NULL, `configuration` text NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
-    	"lhc_fbmessenger_fbuser" : "CREATE TABLE `lhc_fbmessenger_fbuser` (`id` bigint(20) NOT NULL AUTO_INCREMENT, `user_id` int(11) NOT NULL, `fb_user_id` bigint(20) NOT NULL,`expired_informed` tinyint(1) unsigned NOT NULL DEFAULT '0', `access_token` varchar(500) NOT NULL, PRIMARY KEY (`id`), KEY `user_id` (`user_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
-    	"lhc_fbmessenger_my_page" : "CREATE TABLE `lhc_fbmessenger_my_page` (`id` bigint(20) NOT NULL AUTO_INCREMENT, `page_id` bigint(20) NOT NULL, `whatsapp_business_phone_number_id` bigint(20) NOT NULL DEFAULT 0, `whatsapp_business_account_id` bigint(20) NOT NULL DEFAULT 0, `instagram_business_account` bigint(20) NOT NULL DEFAULT 0, `access_token` varchar(250) NOT NULL, `enabled` int(11) NOT NULL, `dep_id` int(11) NOT NULL, PRIMARY KEY (`id`), KEY `whatsapp_business_account_id` (`whatsapp_business_account_id`), KEY `instagram_business_account` (`instagram_business_account`), KEY `page_id` (`page_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
-    	"lhc_fbmessenger_bot" : "CREATE TABLE `lhc_fbmessenger_bot` (`id` bigint(20) NOT NULL AUTO_INCREMENT, `name` varchar(50) NOT NULL, `configuration` text NOT NULL, `enabled` int(11) NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
-    	"lhc_fbmessenger_bot_group" : "CREATE TABLE `lhc_fbmessenger_bot_group` (`id` bigint(20) NOT NULL AUTO_INCREMENT, `name` varchar(50) NOT NULL, `bot_id` int(11) NOT NULL, PRIMARY KEY (`id`), KEY `bot_id` (`bot_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
-    	"lhc_fbmessenger_bot_block" : "CREATE TABLE `lhc_fbmessenger_bot_block` (`id` bigint(20) NOT NULL AUTO_INCREMENT, `name` varchar(50) NOT NULL, `group_id` int(11) NOT NULL, `configuration` text NOT NULL, PRIMARY KEY (`id`), KEY `group_id` (`group_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
-    	"lhc_fbmessenger_bot_element" : "CREATE TABLE `lhc_fbmessenger_bot_element` (`id` bigint(20) NOT NULL AUTO_INCREMENT, `block_id` int(11) NOT NULL, `type` int(11) NOT NULL, `configuration` text NOT NULL, PRIMARY KEY (`id`), KEY `block_id` (`block_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
-    	"bot_nodes" : "CREATE TABLE `bot_nodes` (`id` int(10) unsigned NOT NULL AUTO_INCREMENT, `instance_id` int(10) unsigned DEFAULT NULL, `name` varchar(250) DEFAULT NULL, `has_errors` int(11) DEFAULT NULL, `node_group_id` int(11) DEFAULT NULL, `node_type` int(11) unsigned DEFAULT NULL, `creator_id` int(10) unsigned DEFAULT NULL,`pattern` text COLLATE utf8mb4_unicode_ci, `pattern_payload` text COLLATE utf8mb4_unicode_ci, `answers` text COLLATE utf8mb4_unicode_ci NOT NULL,`wait` varchar(99) COLLATE utf8mb4_unicode_ci DEFAULT NULL,`sources` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,`type` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,`notification_type` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT 'REGULAR',`status` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,`tags` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,`created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,`updated_at` timestamp NULL DEFAULT NULL,`deleted_at` timestamp NULL DEFAULT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
-    	"bot_nodes_group" : "CREATE TABLE `bot_nodes_group` (`id` int(11) NOT NULL AUTO_INCREMENT, `priority` int(11) NOT NULL, `updated_at` timestamp NULL DEFAULT NULL, `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, `name` varchar(50) DEFAULT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
-    	"bot_messages" : "CREATE TABLE `bot_messages` (        `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,        `instance_id` int(10) unsigned DEFAULT NULL,        `creator_id` int(10) unsigned DEFAULT NULL,        `to_lead` text, `name` varchar(250) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',        `to_channel` text, `exclude_channel` text,        `content` text NOT NULL,        `description` varchar(255) DEFAULT NULL,        `wait` varchar(99) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,        `status` varchar(50) DEFAULT NULL,        `notification_type` varchar(20) DEFAULT 'REGULAR',        `send_limit` varchar(10) DEFAULT '1',        `sent_count` int(11) unsigned NOT NULL DEFAULT '0',        `routines` varchar(255) DEFAULT NULL,        `unique_id` varchar(150) DEFAULT NULL,        `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,        `updated_at` timestamp NULL DEFAULT NULL,        `start_at` timestamp NULL DEFAULT NULL,        `end_at` timestamp NULL DEFAULT NULL,        `sent_at` timestamp NULL DEFAULT NULL,        PRIMARY KEY (`id`),        UNIQUE KEY `unique_id` (`unique_id`)        ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
-    	"bot_leads_meta" : "CREATE TABLE `bot_leads_meta` (        `id` int(10) unsigned NOT NULL AUTO_INCREMENT,        `user_id` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',        `meta_key` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,        `meta_value` longtext COLLATE utf8mb4_unicode_ci,        PRIMARY KEY (`id`),        UNIQUE KEY `lead_id` (`user_id`,`meta_key`)        ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
-    	"bot_leads" : "CREATE TABLE `bot_leads` (        `id` int(10) unsigned NOT NULL AUTO_INCREMENT,        `instance_id` int(10) unsigned DEFAULT NULL,`page_id` bigint(20) unsigned DEFAULT NULL, `profile_pic_updated` int(11) unsigned DEFAULT NULL , `creator_id` int(10) unsigned DEFAULT NULL,        `source` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT 'facebook',        `user_id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',        `first_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,        `last_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,        `profile_pic` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,        `locale` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,        `timezone` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,        `gender` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,        `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,        `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,        `country` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,        `location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,        `_wait` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,        `_quick_save` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,        `linked_account` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,        `subscribe` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,        `is_payment_enabled` varchar(30) COLLATE utf8mb4_unicode_ci DEFAULT NULL,        `auto_stop` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,        `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,        `updated_at` timestamp NULL DEFAULT NULL,        `deleted_at` timestamp NULL DEFAULT NULL,        PRIMARY KEY (`id`),        UNIQUE KEY `source` (`source`,`user_id`)        ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
-    	"bot_instances" : "CREATE TABLE `bot_instances` (        `id` varchar(150) NOT NULL,        `name` varchar(255) NOT NULL,        `meta` text,        `status` varchar(50) NOT NULL,        UNIQUE KEY `ix_instance_id` (`id`)        ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
-    	"bot_image" : "CREATE TABLE `bot_image` ( `id` bigint(20) NOT NULL AUTO_INCREMENT, `path` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL, `original` bigint(20) NOT NULL, `child_of` int(11) NOT NULL, PRIMARY KEY (`id`), KEY `original` (`original`), KEY `path` (`path`) ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
-    	"bot_channels" : "CREATE TABLE `bot_channels` (  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,  `name` varchar(255) NOT NULL,     PRIMARY KEY (`id`) ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;"
+    	"lhc_fbmessenger_chat" : "CREATE TABLE `lhc_fbmessenger_chat` (`id` bigint(20) NOT NULL AUTO_INCREMENT, `user_id` bigint(20) NOT NULL, `type` tinyint(1) NOT NULL DEFAULT '0', `recipient_user_id` bigint(20) NOT NULL, `page_id` bigint(20) NOT NULL, `chat_id` bigint(20) NOT NULL, `ctime` int(11) NOT NULL,  PRIMARY KEY (`id`),  KEY `user_id_recipient_user_id_page_id` (`user_id`,`recipient_user_id`, `page_id`),  KEY `chat_id` (`chat_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;",
+    	"lhc_fbmessenger_page" : "CREATE TABLE `lhc_fbmessenger_page` (`id` bigint(20) NOT NULL AUTO_INCREMENT, `dep_id` int(11) NOT NULL, `bot_disabled` tinyint(1) NOT NULL, `verified` int(11) NOT NULL, `page_token` varchar(250) NOT NULL, `verify_token` varchar(250) NOT NULL, `app_secret` varchar(250) NOT NULL, `name` varchar(250) NOT NULL,  PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;",
+    	"lhc_fbmessenger_bbcode" : "CREATE TABLE `lhc_fbmessenger_bbcode` (`id` bigint(20) NOT NULL AUTO_INCREMENT, `bbcode` varchar(50) NOT NULL, `name` varchar(50) NOT NULL, `configuration` text NOT NULL, PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;",
+        "lhc_fbmessenger_fbuser" : "CREATE TABLE `lhc_fbmessenger_fbuser` (`id` bigint(20) NOT NULL AUTO_INCREMENT, `user_id` int(11) NOT NULL, `fb_user_id` bigint(20) NOT NULL, `access_token` varchar(500) NOT NULL, PRIMARY KEY (`id`), KEY `user_id` (`user_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
+        "lhc_fbmessenger_my_page" : "CREATE TABLE `lhc_fbmessenger_my_page` (`id` bigint(20) NOT NULL AUTO_INCREMENT, `bot_disabled` tinyint(1) NOT NULL, `page_id` bigint(20) NOT NULL, `access_token` varchar(500) NOT NULL, `enabled` int(11) NOT NULL, `dep_id` int(11) NOT NULL, PRIMARY KEY (`id`), KEY `page_id` (`page_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
+        "lhc_fbmessenger_lead" : "CREATE TABLE `lhc_fbmessenger_lead` ( `id` bigint(20) NOT NULL AUTO_INCREMENT,`type` tinyint(1) NOT NULL DEFAULT '0', `dep_id` int(11) NOT NULL DEFAULT '0', `blocked` tinyint(1) NOT NULL DEFAULT '0', `page_id` bigint(20) NOT NULL DEFAULT '0', `user_id` bigint(20) NOT NULL, `first_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `last_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `profile_pic` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `profile_pic_updated` int(11) NOT NULL DEFAULT '0', `locale` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `timezone` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `gender` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `country` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL, `ctime` int(11) NULL DEFAULT NULL, `is_payment_enabled` tinyint(1) NULL DEFAULT 0, PRIMARY KEY (`id`), KEY `blocked` (`blocked`), KEY `dep_id` (`dep_id`), UNIQUE KEY `user_id` (`user_id`) ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
+        "lhc_fbmessenger_notification_schedule" : "\tCREATE TABLE `lhc_fbmessenger_notification_schedule` (\n  `id` bigint(20) NOT NULL AUTO_INCREMENT,\n  `filter` text COLLATE utf8mb4_unicode_ci NOT NULL,\n  `name` varchar(50) CHARACTER SET utf8mb4 NOT NULL,\n  `message` text CHARACTER SET utf8mb4 NOT NULL,\n  `start_at` int(11) NOT NULL,\n  `status` int(11) NOT NULL,\n  `last_send` int(11) NOT NULL,\n  `interval` int(11) NOT NULL,\n  `amount` int(11) NOT NULL,\n  PRIMARY KEY (`id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+        "lhc_fbmessenger_notification_schedule_campaign" : "CREATE TABLE `lhc_fbmessenger_notification_schedule_campaign` ( `id` bigint(20) NOT NULL AUTO_INCREMENT, `schedule_id` bigint(20) NOT NULL, `status` int(11) NOT NULL, `last_id` int(11) NOT NULL, `ctime` int(11) NOT NULL, `last_send` int(11) NOT NULL, PRIMARY KEY (`id`), KEY `schedule_id` (`schedule_id`)) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
+        "lhc_fbmessenger_notification_schedule_item" : "CREATE TABLE `lhc_fbmessenger_notification_schedule_item` ( `id` bigint(20) NOT NULL AUTO_INCREMENT, `lead_id` bigint(20) NOT NULL, `status` int(11) NOT NULL, `log` text NOT NULL, `schedule_id` bigint(20) NOT NULL, `campaign_id` bigint(20) NOT NULL, `send_time` int(11) NOT NULL, PRIMARY KEY (`id`), KEY `campaign_id` (`campaign_id`), KEY `schedule_id` (`schedule_id`)) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
+        "lhc_fbmessenger_standalone_fb_page" : "CREATE TABLE `lhc_fbmessenger_standalone_fb_page` (`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,`page_id` bigint(20) NOT NULL, `address` varchar(100) NOT NULL, PRIMARY KEY (`id`),  UNIQUE KEY `page_id` (`page_id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;",
+        "lhc_fbmessengerwhatsapp_message" : "CREATE TABLE `lhc_fbmessengerwhatsapp_message` ( `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,`user_id` bigint(20) unsigned NOT NULL,`created_at` bigint(20) unsigned NOT NULL,`updated_at` bigint(20) unsigned NOT NULL,`phone` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,`phone_whatsapp` varchar(20) CHARACTER SET utf8mb4 NOT NULL,`phone_sender` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,`phone_sender_id` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,`status` tinyint(1) unsigned NOT NULL DEFAULT 0,`template` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,`template_id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,`message` text COLLATE utf8mb4_unicode_ci NOT NULL,`language` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,`fb_msg_id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,`send_status_raw` longtext COLLATE utf8mb4_unicode_ci NOT NULL,`conversation_id` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,`dep_id` bigint(20) unsigned NOT NULL,`chat_id` bigint(20) unsigned NOT NULL,`initiation` bigint(20) unsigned NOT NULL,`message_variables` longtext COLLATE utf8mb4_unicode_ci NOT NULL, `business_account_id` int(11) NOT NULL DEFAULT 0,`scheduled_at` bigint(20) unsigned NOT NULL DEFAULT 0,`campaign_id` bigint(20) unsigned NOT NULL DEFAULT 0,`campaign_recipient_id` bigint(20) unsigned NOT NULL DEFAULT 0,\n                                                   `recipient_id` bigint(20) unsigned NOT NULL DEFAULT 0,`private` tinyint(3) unsigned NOT NULL DEFAULT 0, PRIMARY KEY (`id`), KEY `fb_msg_id` (`fb_msg_id`), KEY `conversation_id` (`conversation_id`), KEY `status` (`status`), KEY `template` (`template`), KEY `phone` (`phone`), KEY `phone_sender` (`phone_sender`), KEY `dep_id` (`dep_id`), KEY `campaign_id` (`campaign_id`), KEY `user_id_private` (`user_id`,`private`), KEY `business_account_id` (`business_account_id`), KEY `created_at` (`created_at`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
+        "lhc_fbmessengerwhatsapp_account" : "CREATE TABLE `lhc_fbmessengerwhatsapp_account` ( `id` int(11) unsigned NOT NULL AUTO_INCREMENT, `dep_id` int(11) unsigned NOT NULL,`business_account_id` bigint(20) unsigned NOT NULL, `active` tinyint(1) NOT NULL, `access_token` text COLLATE utf8mb4_unicode_ci NOT NULL, `name` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL, `phone_number_ids` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL, PRIMARY KEY (`id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
+        "lhc_fbmessengerwhatsapp_contact_list_contact" : "CREATE TABLE `lhc_fbmessengerwhatsapp_contact_list_contact` (`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n                                                                `contact_list_id` bigint(20) unsigned NOT NULL,\n                                                                `contact_id` bigint(20) unsigned NOT NULL,\n                                                                PRIMARY KEY (`id`),\n                                                                KEY `contact_list_id` (`contact_list_id`),\n                                                                KEY `contact_id` (`contact_id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
+        "lhc_fbmessengerwhatsapp_contact_list" : "CREATE TABLE `lhc_fbmessengerwhatsapp_contact_list` (`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n                                                        `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                        `user_id` bigint(20) unsigned NOT NULL DEFAULT 0,\n                                                        `private` tinyint(1) unsigned NOT NULL DEFAULT 0,\n                                                        `created_at` bigint(20) unsigned NOT NULL,\n                                                        PRIMARY KEY (`id`),\n                                                        KEY `user_id` (`user_id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
+        "lhc_fbmessengerwhatsapp_contact" : "CREATE TABLE `lhc_fbmessengerwhatsapp_contact` (`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n                                                   `data` text COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                   `disabled` tinyint(1) NOT NULL DEFAULT 0,\n                                                   `email` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                   `phone` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                   `phone_recipient` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                   `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                   `attr_str_1` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                   `attr_str_2` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                   `attr_str_3` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                   `attr_str_4` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                   `attr_str_5` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                   `attr_str_6` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                   `created_at` bigint(20) unsigned NOT NULL,\n                                                   `date` bigint(20) unsigned NOT NULL,\n                                                   `delivery_status` tinyint(1) unsigned NOT NULL,\n                                                   `title` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                   `lastname` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                   `company` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                   `file_1` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                   `file_2` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                   `file_3` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                   `file_4` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                   `chat_id` bigint(20) unsigned NOT NULL,\n                                                   `user_id` bigint(20) unsigned NOT NULL,\n                                                   `private` tinyint(1) unsigned NOT NULL DEFAULT 0,\n                                                   PRIMARY KEY (`id`),\n                                                   KEY `disabled` (`disabled`),\n                                                   KEY `email` (`email`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
+        "lhc_fbmessengerwhatsapp_campaign_recipient" : "CREATE TABLE `lhc_fbmessengerwhatsapp_campaign_recipient` (`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n                                                              `campaign_id` bigint(20) unsigned NOT NULL,\n                                                              `recipient_id` bigint(20) unsigned NOT NULL,\n                                                              `type` tinyint(1) NOT NULL DEFAULT 0,\n                                                              `email` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                              `status` tinyint(1) NOT NULL DEFAULT 0,\n                                                              `send_at` bigint(20) unsigned NOT NULL,\n                                                              `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                              `attr_str_1` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                              `attr_str_2` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                              `attr_str_3` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                              `log` text COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                              `message_id` bigint(20) unsigned NOT NULL DEFAULT 0,\n                                                              `conversation_id` bigint(20) unsigned NOT NULL DEFAULT 0,\n                                                              `opened_at` bigint(20) unsigned NOT NULL DEFAULT 0,\n                                                              `attr_str_4` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                              `attr_str_5` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                              `attr_str_6` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                              `phone` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                              `phone_recipient` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                              `created_at` bigint(20) unsigned NOT NULL,\n                                                              `date` bigint(20) unsigned NOT NULL,\n                                                              `delivery_status` tinyint(1) unsigned NOT NULL,\n                                                              `title` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                              `lastname` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                              `company` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                              `file_1` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                              `file_2` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                              `file_3` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                              `file_4` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                              PRIMARY KEY (`id`),\n                                                              KEY `campaign_id_status` (`campaign_id`,`status`),\n                                                              KEY `message_id` (`message_id`),\n                                                              KEY `campaign_id_email` (`campaign_id`,`email`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;",
+        "lhc_fbmessengerwhatsapp_campaign" : "CREATE TABLE `lhc_fbmessengerwhatsapp_campaign` (`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,\n                                                    `name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                    `user_id` bigint(20) unsigned NOT NULL,\n                                                    `status` tinyint(1) NOT NULL DEFAULT 0,\n                                                    `starts_at` bigint(20) unsigned NOT NULL,\n                                                    `enabled` tinyint(1) unsigned NOT NULL DEFAULT 0,\n                                                    `business_account_id` bigint(20) unsigned NOT NULL,\n                                                    `dep_id` bigint(20) unsigned NOT NULL,\n                                                    `message_variables` longtext COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                    `phone_sender` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                    `phone_sender_id` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                    `template` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                    `template_id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                    `language` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,\n                                                    `private` tinyint(1) unsigned NOT NULL DEFAULT 0,\n                                                    PRIMARY KEY (`id`),\n                                                    KEY `status_enabled_starts_at` (`status`,`enabled`,`starts_at`),\n                                                    KEY `enabled` (`enabled`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;"
     }
 }
