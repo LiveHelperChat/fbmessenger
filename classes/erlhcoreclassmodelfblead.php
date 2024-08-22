@@ -55,23 +55,23 @@ class erLhcoreClassModelFBLead
         switch ($var) {
 
             case 'dep':
-                $this->dep = erLhcoreClassModelDepartament::fetch($this->dep_id);
-                return $this->dep;
+                    $this->dep = erLhcoreClassModelDepartament::fetch($this->dep_id);
+                    return $this->dep;
+                break;
+
+            case 'page':
+                if ($this->type == 1) {
+                    $this->page = erLhcoreClassModelMyFBPage::findOne(array('filter' => array('page_id' => $this->page_id)));
+                } else {
+                    $this->page = erLhcoreClassModelFBPage::fetch($this->page_id);
+                }
+                return $this->page;
                 break;
 
             case 'ctime_front':
                 $this->ctime_front = date('Ymd') == date('Ymd', $this->ctime) ? date(erLhcoreClassModule::$dateHourFormat, $this->ctime) : date(erLhcoreClassModule::$dateDateHourFormat, $this->ctime);
                 return $this->ctime_front;
                 break;
-
-            case 'page':
-            if ($this->type == 1) {
-                $this->page = erLhcoreClassModelMyFBPage::findOne(array('filter' => array('page_id' => $this->page_id)));
-            } else {
-                $this->page = erLhcoreClassModelFBPage::fetch($this->page_id);
-            }
-            return $this->page;
-            break;
 
             case 'chat':
 
