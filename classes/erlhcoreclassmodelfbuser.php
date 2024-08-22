@@ -1,16 +1,16 @@
 <?php
-
+#[\AllowDynamicProperties]
 class erLhcoreClassModelFBMessengerUser
 {
-	use erLhcoreClassDBTrait;
+    use erLhcoreClassDBTrait;
 
-	public static $dbTable = 'lhc_fbmessenger_fbuser';
+    public static $dbTable = 'lhc_fbmessenger_fbuser';
 
-	public static $dbTableId = 'id';
+    public static $dbTableId = 'id';
 
-	public static $dbSessionHandler = 'erLhcoreClassExtensionFbmessenger::getSession';
+    public static $dbSessionHandler = 'erLhcoreClassExtensionFbmessenger::getSession';
 
-	public static $dbSortOrder = 'DESC';
+    public static $dbSortOrder = 'DESC';
 
     public function getState()
     {
@@ -24,10 +24,13 @@ class erLhcoreClassModelFBMessengerUser
 
     private static $fb = null;
 
-    public static function getFBAppInstance(){
+    public static function getFBAppInstance() {
+        
+        $ext = erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger');
+
         return new \Facebook\Facebook([
-            'app_id' => erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['app_settings']['app_id'],
-            'app_secret' => erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['app_settings']['app_secret'],
+            'app_id' => $ext->settings['app_settings']['app_id'],
+            'app_secret' =>  $ext->settings['app_settings']['app_secret'],
             'default_graph_version' => 'v20.0'
         ]);
     }
