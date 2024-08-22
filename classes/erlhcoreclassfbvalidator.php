@@ -20,6 +20,9 @@ class erLhcoreClassFBValidator
                 'verified' => new ezcInputFormDefinitionElement(
                     ezcInputFormDefinitionElement::OPTIONAL, 'boolean'
                 ),
+                'bot_disabled' => new ezcInputFormDefinitionElement(
+                    ezcInputFormDefinitionElement::OPTIONAL, 'boolean'
+                ),
                 'dep_id' => new ezcInputFormDefinitionElement(
                     ezcInputFormDefinitionElement::OPTIONAL, 'int', array('min_range' => 1)
                 )
@@ -69,7 +72,7 @@ class erLhcoreClassFBValidator
             } else {
                 $item->verified = 0;
             }
-            
+
             if ( $form->hasValidData( 'bot_disabled' ) && $form->bot_disabled == true)
             {
                 $item->bot_disabled = 1;
@@ -78,6 +81,128 @@ class erLhcoreClassFBValidator
             }
 
             return $Errors;        
+    }
+    public static function validateNotification(erLhcoreClassModelFBNotificationSchedule & $item)
+    {
+        $definition = array(
+            'name' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ),
+            'start_at' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ),
+            'start_at_hours' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'int'
+            ),
+            'start_at_minutes' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'int'
+            ),
+
+
+            // Buttons options
+            'interval' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'int'
+            ),
+            'dep_id' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'int', array('min_range' => 1)
+            ),
+            'amount' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'int'
+            ),
+            'filter_gender' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ),
+            'message' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ),
+            'processed' => new ezcInputFormDefinitionElement(
+                ezcInputFormDefinitionElement::OPTIONAL, 'boolean'
+            ),
+        );
+
+        $form = new ezcInputForm( INPUT_POST, $definition );
+        $Errors = array();
+
+        if ( $form->hasValidData( 'name' ) && $form->name != '') {
+            $item->name = $form->name;
+        } else {
+            $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter name!');
+        }
+
+        if ( $form->hasValidData( 'processed' ) && $form->processed == true) {
+            $item->status = erLhcoreClassModelFBNotificationSchedule::STATUS_PROCESSED;
+        } else {
+            $item->status = erLhcoreClassModelFBNotificationSchedule::STATUS_PENDING;
+        }
+
+        if ( $form->hasValidData( 'start_at' ) && $form->start_at != '') {
+
+            $dateFormated = erLhcoreClassSearchHandler::formatDateToTimestamp($form->start_at);
+
+            if ($dateFormated != false) {
+                $item->start_at = $dateFormated;
+                $item->start_at_day = $form->start_at;
+            } else {
+                $Errors[] = erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter start date!');
+            }
+        } else {
+            $item->start_at = 0;
+        }
+
+        $appendHours = 0;
+        if ( $form->hasValidData( 'start_at_hours' ) && $item->start_at > 0) {
+            $appendHours = 3600 * $form->start_at_hours;
+            $item->start_at_hour = $form->start_at_hours;
+        }
+
+        $appendMinutes = 0;
+        if ( $form->hasValidData( 'start_at_minutes' ) && $item->start_at > 0) {
+            $appendMinutes = 60 * $form->start_at_minutes;
+            $item->start_at_minute = $form->start_at_minutes;
+        }
+
+        if ($item->start_at > 0) {
+            $item->start_at = $item->start_at + $appendHours + $appendMinutes;
+        }
+
+        if ( $form->hasValidData( 'interval' ) ) {
+            $item->interval = $form->interval;
+        } else {
+            $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter interval!');
+        }
+
+        if ( $form->hasValidData( 'amount' ) ) {
+            $item->amount = $form->amount;
+        } else {
+            $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter batch size!');
+        }
+
+        $filterArray = $item->filter_array;
+
+        if ( $form->hasValidData( 'filter_gender' ) && $form->filter_gender != '') {
+            $filterArray['gender'] = $form->filter_gender;
+        } else {
+            $filterArray['gender'] = '';
+        }
+
+        if ( $form->hasValidData( 'dep_id' )) {
+            $filterArray['dep_id'] = $form->dep_id;
+        } else {
+            $filterArray['dep_id'] = '';
+        }
+
+        if ( $form->hasValidData( 'message' ) && $form->message != '' ) {
+            $item->message = $form->message;
+        } else {
+            $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter message!');
+        }
+
+        $filterArray = array_filter($filterArray);
+
+        $item->filter = json_encode($filterArray);
+        $item->filter_array = $filterArray;
+
+        return $Errors;
     }
 
     public static function validateChannel(erLhcoreClassModelFBChannel & $item)
