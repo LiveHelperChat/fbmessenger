@@ -1,5 +1,5 @@
 <?php
-#[\AllowDynamicProperties]
+
 class erLhcoreClassModelMyFBPage
 {
     use erLhcoreClassDBTrait;
@@ -20,66 +20,57 @@ class erLhcoreClassModelMyFBPage
             'access_token' => $this->access_token,
             'enabled' => $this->enabled,
             'dep_id' => $this->dep_id,
-            'bot_disabled' => $this->bot_disabled,
+            'instagram_business_account' => $this->instagram_business_account,
+            'whatsapp_business_account_id' => $this->whatsapp_business_account_id,
+            'whatsapp_business_phone_number_id' => $this->whatsapp_business_phone_number_id,
         );
     }
 
     public function afterSave()
     {
-        
-        if (erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['standalone']['enabled'] == true) {
-            erLhcoreClassFBValidator::processSubscribeOnMaster([
-                'page_id' => $this->page_id,
-                'address' => $_SERVER['HTTP_HOST'],
-                'action' => 'add'
-            ]);
-        }
-        
-        /*$cfg = erConfigClassLhConfig::getInstance();
+        $cfg = erConfigClassLhConfig::getInstance();
 
         $db = ezcDbInstance::get();
         $db->query('USE '.$cfg->getSetting( 'db', 'database'));
-        $stmt = $db->prepare("INSERT IGNORE INTO lhc_instance_fb_page (page_id, instance_id) VALUES (:page_id, :instance_id)");
+        $stmt = $db->prepare("INSERT IGNORE INTO lhc_instance_fb_page (page_id, instance_id, instagram_business_account, whatsapp_business_account_id) VALUES (:page_id, :instance_id, :instagram_business_account, :whatsapp_business_account_id)");
         $stmt->bindValue( ':page_id',$this->page_id);
         $stmt->bindValue( ':instance_id',erLhcoreClassInstance::getInstance()->id);
+        $stmt->bindValue( ':instagram_business_account',$this->instagram_business_account);
+        $stmt->bindValue( ':whatsapp_business_account_id',$this->whatsapp_business_account_id);
         $stmt->execute();
 
-        $db->query('USE '.$cfg->getSetting( 'db', 'database_user_prefix').erLhcoreClassInstance::getInstance()->id);*/
+        $db->query('USE '.$cfg->getSetting( 'db', 'database_user_prefix').erLhcoreClassInstance::getInstance()->id);
     }
 
     public function afterRemove()
     {
-        if (erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['standalone']['enabled'] == true) {
-            erLhcoreClassFBValidator::processSubscribeOnMaster([
-                'page_id' => $this->page_id,
-                'address' => $_SERVER['HTTP_HOST'],
-                'action' => 'remove'
-            ]);
-        }
-
-        /*$cfg = erConfigClassLhConfig::getInstance();
+        $cfg = erConfigClassLhConfig::getInstance();
 
         $db = ezcDbInstance::get();
-        $db->query('USE '.$cfg->getSetting( 'db', 'database'));
-        $stmt = $db->prepare("DELETE FROM lhc_instance_fb_page WHERE page_id = :page_id AND instance_id = :instance_id");
-        $stmt->bindValue( ':page_id',$this->page_id);
-        $stmt->bindValue( ':instance_id',erLhcoreClassInstance::getInstance()->id);
-        $stmt->execute();
 
-        $db->query('USE '.$cfg->getSetting( 'db', 'database_user_prefix').erLhcoreClassInstance::getInstance()->id);*/
+        if ($this->page_id > 0) {
+            $db->query('USE ' . $cfg->getSetting('db', 'database'));
+            $stmt = $db->prepare("DELETE FROM lhc_instance_fb_page WHERE page_id = :page_id AND instance_id = :instance_id");
+            $stmt->bindValue(':page_id', $this->page_id);
+            $stmt->bindValue(':instance_id', erLhcoreClassInstance::getInstance()->id);
+            $stmt->execute();
+        }
+
+        if ($this->whatsapp_business_account_id > 0) {
+            $db->query('USE '.$cfg->getSetting( 'db', 'database'));
+            $stmt = $db->prepare("DELETE FROM lhc_instance_fb_page WHERE whatsapp_business_account_id = :whatsapp_business_account_id AND instance_id = :instance_id");
+            $stmt->bindValue( ':whatsapp_business_account_id',$this->whatsapp_business_account_id);
+            $stmt->bindValue( ':instance_id',erLhcoreClassInstance::getInstance()->id);
+            $stmt->execute();
+        }
+
+
+        $db->query('USE '.$cfg->getSetting( 'db', 'database_user_prefix').erLhcoreClassInstance::getInstance()->id);
     }
 
     public function __get($var)
     {
         switch ($var) {
-
-            case 'verified':
-                    return true;
-                break;
-
-            case 'page_token':
-                    return $this->access_token;
-                break;
 
             default:
                 ;
@@ -95,7 +86,9 @@ class erLhcoreClassModelMyFBPage
 
     public $enabled = null;
 
-    public $bot_disabled = 0;
+    public $instagram_business_account = 0;
+    public $whatsapp_business_account_id = 0;
+    public $whatsapp_business_phone_number_id = 0;
 }
 
 ?>

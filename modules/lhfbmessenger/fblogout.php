@@ -1,19 +1,21 @@
 <?php
 
-if (!$currentUser->validateCSFRToken($Params['user_parameters_unordered']['csfr'])) {
-    die('Invalid CSFR Token');
-    exit;
-}
-
-$user = erLhcoreClassModelFBMessengerUser::findOne(array('filter' => array('user_id' => erLhcoreClassUser::instance()->getUserID())));
-
 try {
+    $user = erLhcoreClassModelFBMessengerUser::findOne(array('filter' => array('user_id' => erLhcoreClassUser::instance()->getUserID())));
+
     if ($user instanceof erLhcoreClassModelFBMessengerUser) {
 
         $fb = erLhcoreClassModelFBMessengerUser::getFBApp(false);
 
-        if ($fb !== false){
-            $response = $fb->get('me/accounts?type=page');
+        if ($fb !== false) {
+
+            try {
+                $response = $fb->get('me/accounts?type=page');
+            } catch (Exception $e) {
+                $user->removeThis();
+                header('Location: ' .erLhcoreClassDesign::baseurldirect('site_admin/fbmessenger/index') );
+                exit;
+            }
 
             $bodyResponse = $response->getDecodedBody();
 
@@ -31,20 +33,15 @@ try {
                     }
                 }
             }
-        } else {
-
         }
+
+        $user->removeThis();
     }
 
-    $user->removeThis();
     header('Location: ' .erLhcoreClassDesign::baseurldirect('site_admin/fbmessenger/index') );
     exit;
 
 } catch (Exception $e) {
-
-    if ($user instanceof erLhcoreClassModelFBMessengerUser) {
-        $user->removeThis();
-    }
 
     header('Location: ' .erLhcoreClassDesign::baseurldirect('site_admin/fbmessenger/index') );
     exit;

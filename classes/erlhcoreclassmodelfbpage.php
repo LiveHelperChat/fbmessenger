@@ -1,5 +1,5 @@
 <?php
-#[\AllowDynamicProperties]
+
 class erLhcoreClassModelFBPage
 {
 	use erLhcoreClassDBTrait;
@@ -21,14 +21,13 @@ class erLhcoreClassModelFBPage
         	'verify_token' => $this->verify_token,
         	'app_secret' => $this->app_secret,
         	'name' => $this->name,
-        	'verified' => $this->verified,
-            'bot_disabled' => $this->bot_disabled
+        	'verified' => $this->verified            
         );
     }
 
     public function __toString()
     {
-        return $this->name;
+    	return $this->name;
     }
 
     public function __get($var)
@@ -69,9 +68,7 @@ class erLhcoreClassModelFBPage
 
     public $name = '';   
     
-    public $verified = 0;
-
-    public $bot_disabled = 0;
+    public $verified = 0;   
 }
 
 ?>

@@ -4,34 +4,44 @@
 
 $helper = $fb->getRedirectLoginHelper();
 
-$permissions = ['email', 'manage_pages', 'pages_show_list', 'pages_messaging', 'pages_messaging_subscriptions']; // Optional permissions
+$permissions = ['email', 'pages_show_list', 'pages_messaging', 'instagram_manage_messages', 'instagram_basic', 'pages_manage_metadata']; // Optional permissions
+
+$loginUrl = $helper->getLoginUrl('https://'.$_SERVER['HTTP_HOST']. erLhcoreClassDesign::baseurl('fbmessenger/fbcallback'), $permissions);
 
 try {
-    $accessToken = $helper->getAccessToken();
+  	$accessToken = $helper->getAccessToken();
 } catch(Facebook\Exceptions\FacebookResponseException $e) { ?>
-    <?php $errors[] = $e->getMessage();$loginUrl = $helper->getLoginUrl('https://'.$_SERVER['HTTP_HOST']. erLhcoreClassDesign::baseurl('fbmessenger/fbcallback'), $permissions); ?>
-    <?php include(erLhcoreClassDesign::designtpl('lhkernel/validation_error.tpl.php'));?>
-    <a class="btn btn-default" href="<?php echo $loginUrl?>">Try login again!</a>
-    <?php return; ?>
+
+	<?php $errors[] = $e->getMessage() ?>
+	<?php include(erLhcoreClassDesign::designtpl('lhkernel/validation_error.tpl.php'));?>	
+	<a class="btn btn-default" href="<?php echo $loginUrl?>">Try login again!</a>
+	<?php return; ?>
+
 <?php } catch(Facebook\Exceptions\FacebookSDKException $e) { ?>
-    <?php $errors[] = $e->getMessage();$loginUrl = $helper->getLoginUrl('https://'.$_SERVER['HTTP_HOST']. erLhcoreClassDesign::baseurl('fbmessenger/fbcallback'), $permissions); ?>
-    <?php include(erLhcoreClassDesign::designtpl('lhkernel/validation_error.tpl.php'));?>
-    <a class="btn btn-default" href="<?php echo $loginUrl?>">Try login again!</a>
-    <?php return; ?>
+
+	<?php $errors[] = $e->getMessage() ?>
+	<?php include(erLhcoreClassDesign::designtpl('lhkernel/validation_error.tpl.php'));?>
+	<a class="btn btn-default" href="<?php echo $loginUrl?>">Try login again!</a>
+	<?php return; ?>
+
 <?php }
 if (! isset($accessToken)) {
-    if ($helper->getError()) {
-        header('HTTP/1.0 401 Unauthorized');
-        echo "Error: " . $helper->getError() . "\n";
-        echo "Error Code: " . $helper->getErrorCode() . "\n";
-        echo "Error Reason: " . $helper->getErrorReason() . "\n";
-        echo "Error Description: " . $helper->getErrorDescription() . "\n";
-    } else {
-        header('HTTP/1.0 400 Bad Request');
-        echo 'Bad request';
-    }
-    exit;
+  if ($helper->getError()) {
+    header('HTTP/1.0 401 Unauthorized');
+    echo "Error: " . $helper->getError() . "\n";
+    echo "Error Code: " . $helper->getErrorCode() . "\n";
+    echo "Error Reason: " . $helper->getErrorReason() . "\n";
+    echo "Error Description: " . $helper->getErrorDescription() . "\n";
+  } else {
+    header('HTTP/1.0 400 Bad Request');
+    echo 'Bad request';
+  }
+  exit;
 }
+
+// Logged in
+//echo '<h3>Access Token</h3>';
+//var_dump($accessToken->getValue());
 
 // The OAuth 2.0 client handler helps us manage access tokens
 $oAuth2Client = $fb->getOAuth2Client();
@@ -49,32 +59,55 @@ $tokenMetadata->validateAppId(erLhcoreClassModule::getExtensionInstance('erLhcor
 $tokenMetadata->validateExpiration();
 
 if (! $accessToken->isLongLived()) {
-    // Exchanges a short-lived access token for a long-lived one
-    try {
-        $accessToken = $oAuth2Client->getLongLivedAccessToken($accessToken);
-    } catch (Facebook\Exceptions\FacebookSDKException $e) { ?>
-        <?php $errors[] = 'Error getting long-lived access token: ' . $helper->getMessage(); $helper->getLoginUrl('https://'.$_SERVER['HTTP_HOST']. erLhcoreClassDesign::baseurl('fbmessenger/fbcallback'), $permissions); ?>
-        <?php include(erLhcoreClassDesign::designtpl('lhkernel/validation_error.tpl.php'));?>
-        <a class="btn btn-default" href="<?php echo $loginUrl?>">Try login again!</a>
-        <?php return; ?>
-    <?php  }
+  // Exchanges a short-lived access token for a long-lived one
+  try {
+    $accessToken = $oAuth2Client->getLongLivedAccessToken($accessToken);
+  } catch (Facebook\Exceptions\FacebookSDKException $e) { ?>
+
+    <?php $errors[] = 'Error getting long-lived access token: ' . $helper->getMessage() ?>
+	<?php include(erLhcoreClassDesign::designtpl('lhkernel/validation_error.tpl.php'));?>
+    <a class="btn btn-secondary" href="<?php echo $loginUrl?>">Try login again!</a>
+    <?php return; ?>
+
+<?php  }
+  //echo '<h3>Long-lived</h3>';
+  //var_dump($accessToken->getValue());
 }
+
+/*
+try {
+	// Returns a `Facebook\FacebookResponse` object
+	$response = $fb->get('/me?fields=id,name', $accessToken);
+} catch(Facebook\Exceptions\FacebookResponseException $e) { ?>
+	<?php $errors[] = $e->getMessage() ?>
+	<?php include(erLhcoreClassDesign::designtpl('lhkernel/validation_error.tpl.php'));?>
+	<a class="btn btn-default" href="<?php echo $loginUrl?>">Try login again!</a>
+	<?php return; ?>
+<?php } catch(Facebook\Exceptions\FacebookSDKException $e) { ?>
+	<?php $errors[] = $e->getMessage() ?>
+	<?php include(erLhcoreClassDesign::designtpl('lhkernel/validation_error.tpl.php'));?>
+	<a class="btn btn-default" href="<?php echo $loginUrl?>">Try login again!</a>
+	<?php return; ?>
+<?php } */
+?>
+
+<?php
 
 $_SESSION['fb_access_token'] = (string) $accessToken;
 
 $fbUser = erLhcoreClassModelFBMessengerUser::findOne(array('filter' => array('user_id' => erLhcoreClassUser::instance()->getUserID())));
 
 if (!($fbUser instanceof erLhcoreClassModelFBMessengerUser)) {
-    $fbUser = new erLhcoreClassModelFBMessengerUser();
-    $fbUser->user_id = erLhcoreClassUser::instance()->getUserID();
-    $fbUser->fb_user_id =  $tokenMetadata->getUserId();
-    $fbUser->access_token = $accessToken;
-    $fbUser->saveThis();
+	$fbUser = new erLhcoreClassModelFBMessengerUser();
+	$fbUser->user_id = erLhcoreClassUser::instance()->getUserID();
+	$fbUser->fb_user_id =  $tokenMetadata->getUserId();
+	$fbUser->access_token = $accessToken;
+	$fbUser->saveThis();
 } else {
-    $fbUser->user_id = erLhcoreClassUser::instance()->getUserID();
-    $fbUser->fb_user_id =  $tokenMetadata->getUserId();
-    $fbUser->access_token = $accessToken;
-    $fbUser->saveThis();
+	$fbUser->user_id = erLhcoreClassUser::instance()->getUserID();
+	$fbUser->fb_user_id =  $tokenMetadata->getUserId();
+	$fbUser->access_token = $accessToken;
+	$fbUser->saveThis();
 }
 
 header('Location: ' .erLhcoreClassDesign::baseurldirect('fbmessenger/myfbpages'));

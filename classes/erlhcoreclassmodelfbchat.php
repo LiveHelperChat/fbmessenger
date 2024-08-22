@@ -1,5 +1,5 @@
 <?php
-#[\AllowDynamicProperties]
+
 class erLhcoreClassModelFBChat
 {
 	use erLhcoreClassDBTrait;
@@ -20,8 +20,7 @@ class erLhcoreClassModelFBChat
         	'recipient_user_id' => $this->recipient_user_id,
         	'chat_id' => $this->chat_id,
         	'page_id' => $this->page_id,
-        	'ctime' => $this->ctime,            
-        	'type' => $this->type
+        	'ctime' => $this->ctime            
         );
     }
 
@@ -40,11 +39,7 @@ class erLhcoreClassModelFBChat
                 break;
 
             case 'page':
-                    if ($this->type == 0) {
-                        $this->page = erLhcoreClassModelFBPage::fetch($this->page_id);
-                    } else {
-                        $this->page = erLhcoreClassModelMyFBPage::findOne(array('filter' => array('page_id' => $this->page_id)));
-                    }
+                    $this->page = erLhcoreClassModelMyFBPage::fetch($this->page_id);
                     return $this->page;
                 break;
                 
@@ -65,9 +60,6 @@ class erLhcoreClassModelFBChat
         }
     }
 
-    const TYPE_STATIC = 0;
-    const TYPE_DYNAMIC = 0;
-
     public $id = null;
 
     public $user_id = null;
@@ -78,9 +70,7 @@ class erLhcoreClassModelFBChat
 
     public $chat_id = null;
 
-    public $ctime = 0;
-
-    public $type = self::TYPE_STATIC;
+    public $ctime = 0;    
 }
 
 ?>

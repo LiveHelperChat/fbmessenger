@@ -1,8 +1,14 @@
+<?php $fbmessenger_module_enabled_pre = !class_exists('erLhcoreClassInstance') || erLhcoreClassInstance::getInstance()->feature_2_supported == 1;?>
+
+<?php if ($fbmessenger_module_enabled_pre === false) : $errors[] = 'Module not supported'; ?>
+<?php include(erLhcoreClassDesign::designtpl('lhkernel/validation_error.tpl.php'));?>
+<?php return; endif; ?>
+
 <h1><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Facebook pages list');?></h1>
 
 <?php if (isset($items)) : ?>
 
-<table cellpadding="0" cellspacing="0" class="table table-sm" width="100%" ng-non-bindable>
+<table cellpadding="0" cellspacing="0" class="table" width="100%">
 <thead>
     <tr>   
         <th width="1%">ID</th>
@@ -18,10 +24,6 @@
         <td><?php echo $item->name?></td>
         <td><?php echo $item->callback_url?></td>
         <td><?php if ($item->verified == 1) : ?>Yes<?php else : ?>No<?php endif;?></td>
-        <td nowrap="">
-            <a class="btn btn-secondary btn-xs csfr-required" href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/thread')?>/<?php echo $item->id?>/(action)/addbutton" ><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Add start button')?></a>
-            <a class="btn btn-secondary btn-xs csfr-required" href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/thread')?>/<?php echo $item->id?>/(action)/rembutton" ><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Remove start button')?></a>
-        </td>
         <td nowrap>
           <div class="btn-group" role="group" aria-label="..." style="width:60px;">
             <a class="btn btn-secondary btn-xs" href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/edit')?>/<?php echo $item->id?>" ><i class="material-icons mr-0">&#xE254;</i></a>
@@ -40,4 +42,4 @@
 
 <?php endif;?>
 
-<a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/new')?>" class="btn btn-secondary"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Register new page');?></a>
+<a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/new')?>" class="btn btn-default"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Register new page');?></a>

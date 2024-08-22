@@ -34,11 +34,6 @@ $def->properties['recipient_user_id']->columnName   = 'recipient_user_id';
 $def->properties['recipient_user_id']->propertyName = 'recipient_user_id';
 $def->properties['recipient_user_id']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
 
-$def->properties['type'] = new ezcPersistentObjectProperty();
-$def->properties['type']->columnName   = 'type';
-$def->properties['type']->propertyName = 'type';
-$def->properties['type']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
-
 return $def;
 
 ?>

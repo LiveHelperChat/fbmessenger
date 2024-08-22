@@ -1,27 +1,3 @@
-1.3v
-
-1. Option to schedule campaigns
-To have campaigns running you need to have these cronjobs running.
-Every minute. Schedules campaign if found.
-php cron.php -s site_admin -e fbmessenger -c cron/schedule_compaign
-
-Every minute. Collects recipients
-php cron.php -s site_admin -e fbmessenger -c cron/collect_recipients
-
-Every minute or more frequent. Sends notifications.
-php cron.php -s site_admin -e fbmessenger -c cron/send_notification
-
-1.2v
-1. Option to login with facebook account. To automate new pages addign to extension without requirement to create app for each page.
-Address for callback should be
-https://<domain.ltd>/fbmessenger/callbackgeneral
-In settings file put
-'app_settings' => array (
-        'app_id' => '<app_id>',
-        'app_secret' => '<app_secret>',
-        'verify_token' => '<verify_token>',
-)
-
 1.1v
 1. Options to have buttons as bbcodes
 

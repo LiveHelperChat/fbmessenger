@@ -7,11 +7,6 @@ $tpl->set('item',$item);
 
 if (ezcInputForm::hasPostData()) {
 
-    if (!isset($_POST['csfr_token']) || !$currentUser->validateCSFRToken($_POST['csfr_token'])) {
-        erLhcoreClassModule::redirect('fbmessenger/bbcode');
-        exit;
-    }
-
     $Errors = erLhcoreClassFBValidator::validateBBCode($item);
 
     if (count($Errors) == 0) {

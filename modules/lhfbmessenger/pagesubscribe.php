@@ -4,17 +4,16 @@ $tpl = erLhcoreClassTemplate::getInstance('lhfbmessenger/pagesubscribe.tpl.php')
 
 $fb = erLhcoreClassModelFBMessengerUser::getFBApp();
 
-$response = $fb->get('me/accounts?type=page&limit=1000');
+$response = $fb->get('me/accounts?type=page');
 
 $bodyResponse = $response->getDecodedBody();
 
-if (!$currentUser->validateCSFRToken($Params['user_parameters_unordered']['csfr'])) {
-    die('Invalid CSFR Token');
-    exit;
-}
-
 foreach ($bodyResponse['data'] as $page) {
     if ($Params['user_parameters']['id'] == $page['id']) {
+
+        // Get current subscribed apps
+        // $response = $fb->get('/' . $page['id'] . '/subscribed_apps', $page['access_token']);
+        // print_r($response->getDecodedBody());
 
         try {
             if ($Params['user_parameters_unordered']['action'] == 'unsubscribe') {
@@ -25,9 +24,7 @@ foreach ($bodyResponse['data'] as $page) {
                     $pageMy->removeThis();
                 }
 
-                $extFb = erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger');
-                $response = $fb->delete('/' . $page['id'] . '/subscribed_apps', array(), $extFb->settings['app_settings']['app_id'].'|'.$extFb->settings['app_settings']['app_secret']);
-
+                $response = $fb->delete('/' . $page['id'] . '/subscribed_apps', array(), $page['access_token']);
                 $bodyResponse = $response->getDecodedBody();
 
                 if ($bodyResponse['success'] == 1) {
@@ -35,7 +32,7 @@ foreach ($bodyResponse['data'] as $page) {
                 } else {
                     $tpl->set('errors', array('We could not un-subscription'));
                 }
-                
+
             } else {
 
                 if (!is_numeric($Params['user_parameters_unordered']['dep'])) {
@@ -43,7 +40,6 @@ foreach ($bodyResponse['data'] as $page) {
                 } else {
 
                     $response = $fb->post('/' . $page['id'] . '/subscribed_apps', array('subscribed_fields' => array('messages', 'messaging_postbacks', 'message_deliveries', 'message_reads', 'messaging_pre_checkouts', 'messaging_checkout_updates', 'messaging_referrals', 'message_echoes', 'standby', 'messaging_handovers', 'message_reactions')), $page['access_token']);
-
                     $bodyResponse = $response->getDecodedBody();
 
                     if ($bodyResponse['success'] == 1) {
@@ -55,10 +51,23 @@ foreach ($bodyResponse['data'] as $page) {
                             $pageMy = new erLhcoreClassModelMyFBPage();
                         }
 
-                        $pageMy->dep_id = $Params['user_parameters_unordered']['dep'];
+                        $pageMy->dep_id = $Params['user_parameters_unordered']['dep']; // Not supported
                         $pageMy->access_token = $page['access_token'];
                         $pageMy->enabled = 1;
                         $pageMy->page_id = $page['id'];
+
+                        try {
+                            $responseINST = $fb->get('/' . $page['id'] . '/?fields=instagram_business_account', $page['access_token']);
+                            $instagramAccountData = $responseINST->getDecodedBody();
+
+                            if (isset($instagramAccountData['instagram_business_account']['id'])) {
+                                $pageMy->instagram_business_account = $instagramAccountData['instagram_business_account']['id'];
+                            }
+
+                        } catch (Exception $e) {
+
+                        }
+
                         $pageMy->saveThis();
 
                         // Set default page settings
@@ -86,6 +95,9 @@ foreach ($bodyResponse['data'] as $page) {
                 }
             }
         } catch (Exception $e) {
+
+            //print_r($e);
+
             $tpl->set('errors', array($e->getMessage()));
         }
     }

@@ -39,11 +39,6 @@ $def->properties['verified']->columnName   = 'verified';
 $def->properties['verified']->propertyName = 'verified';
 $def->properties['verified']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
 
-$def->properties['bot_disabled'] = new ezcPersistentObjectProperty();
-$def->properties['bot_disabled']->columnName   = 'bot_disabled';
-$def->properties['bot_disabled']->propertyName = 'bot_disabled';
-$def->properties['bot_disabled']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
-
 return $def;
 
 ?>

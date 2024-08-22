@@ -1,19 +1,9 @@
 <?php
 
-$sessionCookieName = erConfigClassLhConfig::getInstance()->getSetting( 'site', 'php_session_cookie_name', false );
-
-if (!empty($sessionCookieName) && $sessionCookieName !== false) {
-    session_name($sessionCookieName);
-}
-
 $fb = erLhcoreClassModelFBMessengerUser::getFBAppInstance();
-
 $helper = $fb->getRedirectLoginHelper();
-
-$permissions = ['email', 'pages_show_list', 'pages_messaging', 'pages_messaging_subscriptions']; // Optional permissions
-
+$permissions = ['email', 'pages_show_list', 'pages_messaging', 'instagram_manage_messages', 'instagram_basic', 'pages_manage_metadata', 'pages_read_engagement']; // Optional permissions
 $loginUrl = $helper->getLoginUrl('https://' . erConfigClassLhConfig::getInstance()->getSetting('site','seller_subdomain') . '.' . erConfigClassLhConfig::getInstance()->getSetting('site','seller_domain') . erLhcoreClassDesign::baseurl('fbmessenger/fbcallbackinstance'), $permissions);
-
 try {
     $accessToken = $helper->getAccessToken();
 } catch(Facebook\Exceptions\FacebookResponseException $e) { ?>
@@ -40,22 +30,17 @@ if (! isset($accessToken)) {
     }
     exit;
 }
-
 // The OAuth 2.0 client handler helps us manage access tokens
 $oAuth2Client = $fb->getOAuth2Client();
-
 // Get the access token metadata from /debug_token
 $tokenMetadata = $oAuth2Client->debugToken($accessToken);
 //echo '<h3>Metadata</h3>';
 //var_dump($tokenMetadata);
-
 // Validation (these will throw FacebookSDKException's when they fail)
 $tokenMetadata->validateAppId(erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['app_settings']['app_id']); // app_id app_idReplace {app-id} with your app id
-
 // If you know the user ID this access token belongs to, you can validate it here
 //$tokenMetadata->validateUserId('123');
 $tokenMetadata->validateExpiration();
-
 if (! $accessToken->isLongLived()) {
     // Exchanges a short-lived access token for a long-lived one
     try {
@@ -67,20 +52,14 @@ if (! $accessToken->isLongLived()) {
         <?php return; ?>
     <?php  }
 }
-
 $_SESSION['fb_access_token'] = (string) $accessToken;
-
 if (is_numeric($_SESSION['lhc_instance']) && is_numeric($_SESSION['lhc_instance_uid'])) {
-
     $cfg = erConfigClassLhConfig::getInstance();
     $instance = erLhcoreClassModelInstance::fetch($_SESSION['lhc_instance']);
-
     // Switch to customer DB
     $db = ezcDbInstance::get();
     $db->query('USE '.$cfg->getSetting( 'db', 'database_user_prefix').$instance->id);
-
     $fbUser = erLhcoreClassModelFBMessengerUser::findOne(array('filter' => array('user_id' => $_SESSION['lhc_instance_uid'])));
-
     if (!($fbUser instanceof erLhcoreClassModelFBMessengerUser)) {
         $fbUser = new erLhcoreClassModelFBMessengerUser();
         $fbUser->user_id = $_SESSION['lhc_instance_uid'];
@@ -93,9 +72,9 @@ if (is_numeric($_SESSION['lhc_instance']) && is_numeric($_SESSION['lhc_instance_
         $fbUser->access_token = $accessToken;
         $fbUser->saveThis();
     }
-
     header('Location: https://' . $instance->address . '.' .  erConfigClassLhConfig::getInstance()->getSetting('site','seller_domain') . '/site_admin/' .erLhcoreClassDesign::baseurldirect('fbmessenger/myfbpages'));
     exit;
 }
-
 exit;
+
+?>

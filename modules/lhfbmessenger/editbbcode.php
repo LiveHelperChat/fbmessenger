@@ -6,11 +6,6 @@ $item =  erLhcoreClassModelFBBBCode::fetch($Params['user_parameters']['id']);
 
 if (ezcInputForm::hasPostData()) {
 
-    if (!isset($_POST['csfr_token']) || !$currentUser->validateCSFRToken($_POST['csfr_token'])) {
-        erLhcoreClassModule::redirect('fbmessenger/bbcode');
-        exit;
-    }
-
     if (isset($_POST['Cancel_action'])) {
         erLhcoreClassModule::redirect('fbmessenger/bbcode');
         exit ;
