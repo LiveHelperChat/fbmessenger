@@ -26,16 +26,6 @@ class erLhcoreClassModelFBChannelLead
         return $this->channel_id;
     }
 
-    public function __get($var)
-    {
-        switch ($var) {
-
-            default:
-                ;
-                break;
-        }
-    }
-
     public $id = null;
 
     public $channel_id = 0;

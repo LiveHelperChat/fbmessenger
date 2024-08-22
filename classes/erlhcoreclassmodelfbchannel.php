@@ -25,16 +25,6 @@ class erLhcoreClassModelFBChannel
         return $this->name;
     }
 
-    public function __get($var)
-    {
-        switch ($var) {
-
-            default:
-                ;
-                break;
-        }
-    }
-
     public $id = null;
 
     public $name = null;
