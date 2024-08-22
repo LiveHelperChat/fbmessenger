@@ -3,10 +3,10 @@
 $tpl = erLhcoreClassTemplate::getInstance('lhfbmessenger/leads.tpl.php');
 
 if (isset($_GET['doSearch'])) {
-    $filterParams = erLhcoreClassSearchHandler::getParams(array('customfilterfile' => 'extension/fbmessenger/classes/filter.php','format_filter' => true, 'use_override' => true, 'uparams' => $Params['user_parameters_unordered']));
+    $filterParams = erLhcoreClassSearchHandler::getParams(array('customfilterfile' => 'extension/fbmessenger/classes/filter/leads.php','format_filter' => true, 'use_override' => true, 'uparams' => $Params['user_parameters_unordered']));
     $filterParams['is_search'] = true;
 } else {
-    $filterParams = erLhcoreClassSearchHandler::getParams(array('customfilterfile' => 'extension/fbmessenger/classes/filter.php','format_filter' => true, 'uparams' => $Params['user_parameters_unordered']));
+    $filterParams = erLhcoreClassSearchHandler::getParams(array('customfilterfile' => 'extension/fbmessenger/classes/filter/leads.php','format_filter' => true, 'uparams' => $Params['user_parameters_unordered']));
     $filterParams['is_search'] = false;
 }
 
@@ -29,11 +29,10 @@ $tpl->set('input',$filterParams['input_form']);
 $tpl->set('inputAppend',$append);
 
 $Result['content'] = $tpl->fetch();
-$Result['hide_right_column'] = true;
 
 $Result['path'] = array(
-    array('url' =>erLhcoreClassDesign::baseurl('fbmessenger/index'), 'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Facebook messenger')),
-    array('title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Leads'))
+    array('url' =>erLhcoreClassDesign::baseurl('fbmessenger/index'), 'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Facebook chat')),
+    array('url' =>erLhcoreClassDesign::baseurl('fbmessenger/leads'), 'title' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Facebook leads'))
 );
 
 ?>

@@ -6,7 +6,7 @@ try {
 
     $fb = erLhcoreClassModelFBMessengerUser::getFBApp();
 
-    $response = $fb->get('me/accounts?type=page');
+    $response = $fb->get('me/accounts?type=page&limit=1000');
 
     $currentPages = erLhcoreClassModelMyFBPage::getList();
 
@@ -49,27 +49,6 @@ try {
     } catch (Exception $e){ // Not all busienss we can manage
 
     }
-
-   /* $response = $fb->get('1523574761036090/client_whatsapp_business_accounts');*/
-
-
-
-    /*foreach ($responseData['data'] as $business) {
-
-    }*/
-
-
-    /*$response = $fb->get('me/accounts?type=business');
-    print_r($response->getDecodedBody());*/
-
-
-    /*$response = $fb->get('107976205428517/phone_numbers');
-    print_r($response->getDecodedBody());*/
-
-
-
-    /*curl -X GET "https://graph.facebook.com/v20.0/{whatsapp-business-account-id}/phone_numbers
-      ?access_token={system-user-access-token}"*/
 
 } catch (Exception $e) {
     $tpl = erLhcoreClassTemplate::getInstance('lhkernel/validation_error.tpl.php');
