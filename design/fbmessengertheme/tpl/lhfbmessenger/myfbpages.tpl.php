@@ -63,15 +63,11 @@
                             'list_function_params'  => array('limit' => '1000000')
                         );  echo erLhcoreClassRenderHelper::renderCombobox( $params ); ?></div>
                     <div class="col-4">
-
                         <?php if (isset($current_pages_whatsapp[$phoneNumber['whatsapp_business_account_id']]) && $current_pages_whatsapp[$phoneNumber['whatsapp_business_account_id']]->enabled == 1 && $phoneNumber['id'] == $current_pages_whatsapp[$phoneNumber['whatsapp_business_account_id']]->whatsapp_business_phone_number_id ) : ?>
-                            <a class="btn btn-sm btn-danger btn-block" href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/whatsappsubscribe')?>/<?php echo $phoneNumber['business_id']?>/<?php echo $phoneNumber['whatsapp_business_account_id']?>/<?php echo $phoneNumber['id']?>/(action)/unsubscribe">Un Subscribe</a>
+                            <a class="btn btn-sm btn-danger btn-block csfr-required" href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/whatsappsubscribe')?>/<?php echo $phoneNumber['business_id']?>/<?php echo $phoneNumber['whatsapp_business_account_id']?>/<?php echo $phoneNumber['id']?>/(action)/unsubscribe">Un Subscribe</a>
                         <?php else : ?>
-                            <a class="btn btn-sm btn-success btn-block" onclick="document.location = '<?php echo erLhcoreClassDesign::baseurl('fbmessenger/whatsappsubscribe')?>/<?php echo $phoneNumber['business_id']?>/<?php echo $phoneNumber['whatsapp_business_account_id']?>/<?php echo $phoneNumber['id']?>/(dep)/'+$('#id_DepartmentID<?php echo $phoneNumber['id']?>').val()+'/(action)/subscribe'" href="">Subscribe</a>
+                            <a class="btn btn-sm btn-success btn-block" onclick="document.location = '<?php echo erLhcoreClassDesign::baseurl('fbmessenger/whatsappsubscribe')?>/<?php echo $phoneNumber['business_id']?>/<?php echo $phoneNumber['whatsapp_business_account_id']?>/<?php echo $phoneNumber['id']?>/(dep)/'+$('#id_DepartmentID<?php echo $phoneNumber['id']?>').val()+'/(action)/subscribe'+'/(csfr)/'+confLH.csrf_token;return false;" href="#">Subscribe</a>
                         <?php endif; ?>
-
-                        <?php /*<button type="button" disabled class="btn btn-sm btn-success btn-block">Subscribe is disabled at the moment</button>*/ ?>
-
                     </div>
                     <div class="col-4 fs12">
                         <span title="Phone number ID - <?php echo htmlspecialchars($phoneNumber['id']);?>"><?php echo htmlspecialchars($phoneNumber['display_phone_number']);?></span>, <?php echo htmlspecialchars($phoneNumber['verified_name']);?>, <?php echo htmlspecialchars($phoneNumber['code_verification_status']);?>
