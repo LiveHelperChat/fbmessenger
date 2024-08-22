@@ -25,7 +25,7 @@ class erLhcoreClassModelFBMessengerUser
     private static $fb = null;
 
     public static function getFBAppInstance() {
-        
+
         $ext = erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger');
 
         return new \Facebook\Facebook([
@@ -38,9 +38,12 @@ class erLhcoreClassModelFBMessengerUser
     public static function getFBApp($redirect = true)
     {
         if (self::$fb === null) {
+
+            $ext = erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger');
+
             self::$fb = new \Facebook\Facebook([
-                'app_id' => erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['app_settings']['app_id'],
-                'app_secret' => erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['app_settings']['app_secret'],
+                'app_id' => $ext->settings['app_settings']['app_id'],
+                'app_secret' => $ext->settings['app_settings']['app_secret'],
                 'default_graph_version' => 'v20.0'
             ]);
 
@@ -50,9 +53,8 @@ class erLhcoreClassModelFBMessengerUser
                 self::$fb->setDefaultAccessToken($fbUser->access_token);
             } else {
                 if ($redirect == true) {
-                    $permissions = ['email', 'pages_show_list', 'pages_messaging', 'instagram_manage_messages', 'instagram_basic', 'pages_manage_metadata']; // Optional permissions
+                    $permissions = ['email', 'pages_show_list', 'pages_messaging', 'pages_messaging_subscriptions','instagram_manage_messages', 'instagram_basic', 'pages_manage_metadata']; // Optional permissions
                     $helper = self::$fb->getRedirectLoginHelper();
-
                     header('Location: ' . $helper->getLoginUrl('https://'.$_SERVER['HTTP_HOST']. erLhcoreClassDesign::baseurl('fbmessenger/fbcallback'), $permissions));
                     exit;
                 } else {
