@@ -380,9 +380,101 @@ class erLhcoreClassFBValidator
         return $Errors;
     }
 
-    public static function renderElementsByBlock($block) {
-        $elements = erLhcoreClassModelFBBotElement::getList(array('filter' => array('block_id' => $block->id)));
-        erLhcoreClassChat::prefillGetAttributes($elements, array('id','type'), array(), array('remove_all' => true,'do_not_clean' => true));
-        return array_values($elements);
+    public static function sendNotification($params = array())
+    {
+        $lead = erLhcoreClassModelFBLead::fetch($params['item']->lead_id);
+
+        if (is_object($lead->page)) {
+            $messenger = Tgallice\FBMessenger\Messenger::create($lead->page->page_token);
+
+            $messages = erLhcoreClassExtensionFbmessenger::parseMessageForFB(str_replace(array('{first_name}','{last_name}'), array($lead->first_name,$lead->last_name), $params['schedule']->message));
+
+            foreach ($messages as $msg) {
+                if ($msg !== null) {
+                    try {
+                        $response = $messenger->sendMessage($lead->user_id, $msg);
+                    } catch (Exception $e) {
+                        $lead->blocked = 1;
+                        $lead->saveThis();
+                        throw $e;
+                    }
+                }
+            }
+        } else {
+            throw new Exception('Page could not be found!');
+        }
     }
+
+    public static function registerStandalonePage($params) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, 'https://' . $params['address'] . '/fbmessenger/registerstandalone/' . sha1(json_encode($params).'_'.erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['standalone']['secret_hash']));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        @curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
+        $content = curl_exec($ch);
+
+        $http_error = '';
+
+        if (curl_errno($ch)) {
+            $http_error = curl_error($ch);
+        }
+
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        if ($httpcode != 200) {
+            throw new Exception('Request failed with '.$httpcode.' code. '.$http_error . '|' . $content);
+        }
+
+        return $content;
+    }
+
+    public static function processSubscribeOnMaster($params) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['standalone']['address'] . '/fbmessenger/registersubscribe/' . sha1(json_encode($params).'_'.erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['standalone']['secret_hash']));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        @curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
+        $content = curl_exec($ch);
+
+        $http_error = '';
+
+        if (curl_errno($ch)) {
+            $http_error = curl_error($ch);
+        }
+
+        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+        if ($httpcode != 200) {
+            throw new Exception('Request failed with '.$httpcode.' code. '.$http_error . '|' . $content);
+        }
+
+        return $content;
+    }
+
+    // We don't need verification as FB does that for us
+    public static function proxyStandaloneRequest($params) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $params['address']);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        @curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array_merge(['Content-Type: application/json'],$params['headers']));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $params['body']);
+        $content = curl_exec($ch);
+        return $content;
+    }
+
 }
