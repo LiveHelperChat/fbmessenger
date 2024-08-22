@@ -62,7 +62,7 @@ class erLhcoreClassModelMyFBPage
                 'whatsapp_business_account_id' => $this->whatsapp_business_account_id,
                 'instance_id' => erLhcoreClassInstance::getInstance()->id,
                 'address' => $_SERVER['HTTP_HOST'],
-                'action' => 'add'
+                'action' => 'remove'
             ]);
         }
 
