@@ -106,10 +106,22 @@ $ViewList['fbcallbackinstance'] = array(
 $ViewList['fbcallbackstandalone'] = array(
     'params' => array(),
     'uparams' => array(),
-    'functions' => array()
+    'functions' => array(),
 );
 
 $ViewList['fblogininstance'] = array(
+    'params' => array('id','uid','time','hash'),
+    'uparams' => array(),
+    'functions' => array(),
+);
+
+$ViewList['registerstandalone'] = array(
+    'params' => array('hash'),
+    'uparams' => array(),
+    'functions' => array(),
+);
+
+$ViewList['fbloginstandalone'] = array(
     'params' => array('id','uid','time','hash'),
     'uparams' => array(),
     'functions' => array(),
