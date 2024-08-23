@@ -20,6 +20,35 @@ $ViewList['callbackgeneral'] = array(
     'uparams' => array()
 );
 
+$ViewList['registersubscribe'] = array(
+    'params' => array('hash'),
+    'uparams' => array()
+);
+
+$ViewList['leads'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('use_fb_messenger'),
+);
+
+$ViewList['thread'] = array(
+    'params' => array('id'),
+    'uparams' => array('action','csfr'),
+    'functions' => array('use_fb_messenger'),
+);
+
+$ViewList['threadmy'] = array(
+    'params' => array('id'),
+    'uparams' => array('action','csfr'),
+    'functions' => array('use_fb_messenger'),
+);
+
+$ViewList['options'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('use_options')
+);
+
 $ViewList['callbackinstagram'] = array(
     'params' => array(),
     'uparams' => array()
@@ -42,11 +71,7 @@ $ViewList['bot'] = array(
     'functions' => array('use_admin'),
 );
 
-$ViewList['leads'] = array(
-    'params' => array(),
-    'uparams' => array(),
-    'functions' => array('use_admin'),
-);
+
 
 $ViewList['fbcallbackinstance'] = array(
     'params' => array(),
@@ -173,16 +198,6 @@ $ViewList['editbbcode'] = array(
     'functions' => array('use_admin'),
 );
 
-$ViewList['thread'] = array(
-    'params' => array('id'),
-    'uparams' => array('action','csfr'),
-    'functions' => array('use_fb_messenger'),
-);
 
-$ViewList['threadmy'] = array(
-    'params' => array('id'),
-    'uparams' => array('action','csfr'),
-    'functions' => array('use_fb_messenger'),
-);
 
 $FunctionList['use_admin'] = array('explain' => 'Allow operator to configure Facebook Messenger');
