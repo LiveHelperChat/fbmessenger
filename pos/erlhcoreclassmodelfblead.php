@@ -1,7 +1,7 @@
 <?php
 
 $def = new ezcPersistentObjectDefinition();
-$def->table = "bot_leads";
+$def->table = "lhc_fbmessenger_lead";
 $def->class = "erLhcoreClassModelFBLead";
 
 $def->idProperty = new ezcPersistentObjectIdProperty();
@@ -42,7 +42,17 @@ $def->properties['source']->propertyType = ezcPersistentObjectProperty::PHP_TYPE
 $def->properties['user_id'] = new ezcPersistentObjectProperty();
 $def->properties['user_id']->columnName   = 'user_id';
 $def->properties['user_id']->propertyName = 'user_id';
-$def->properties['user_id']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
+$def->properties['user_id']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
+
+$def->properties['is_payment_enabled'] = new ezcPersistentObjectProperty();
+$def->properties['is_payment_enabled']->columnName   = 'is_payment_enabled';
+$def->properties['is_payment_enabled']->propertyName = 'is_payment_enabled';
+$def->properties['is_payment_enabled']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
+
+$def->properties['blocked'] = new ezcPersistentObjectProperty();
+$def->properties['blocked']->columnName   = 'blocked';
+$def->properties['blocked']->propertyName = 'blocked';
+$def->properties['blocked']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
 
 $def->properties['first_name'] = new ezcPersistentObjectProperty();
 $def->properties['first_name']->columnName   = 'first_name';
@@ -128,11 +138,6 @@ $def->properties['subscribe'] = new ezcPersistentObjectProperty();
 $def->properties['subscribe']->columnName   = 'subscribe';
 $def->properties['subscribe']->propertyName = 'subscribe';
 $def->properties['subscribe']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
-
-$def->properties['is_payment_enabled'] = new ezcPersistentObjectProperty();
-$def->properties['is_payment_enabled']->columnName   = 'is_payment_enabled';
-$def->properties['is_payment_enabled']->propertyName = 'is_payment_enabled';
-$def->properties['is_payment_enabled']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
 
 $def->properties['auto_stop'] = new ezcPersistentObjectProperty();
 $def->properties['auto_stop']->columnName   = 'auto_stop';
