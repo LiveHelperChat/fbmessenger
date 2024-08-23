@@ -67,9 +67,10 @@ $ViewList['editnotification'] = array(
     'functions' => array('use_fb_messenger')
 );
 
-$ViewList['callbackwhatsapp'] = array(
+$ViewList['newnotification'] = array(
     'params' => array(),
-    'uparams' => array()
+    'uparams' => array(),
+    'functions' => array('use_fb_messenger')
 );
 
 $ViewList['index'] = array(
@@ -210,6 +211,11 @@ $ViewList['editbbcode'] = array(
 );
 
 $ViewList['callbackinstagram'] = array(
+    'params' => array(),
+    'uparams' => array()
+);
+
+$ViewList['callbackwhatsapp'] = array(
     'params' => array(),
     'uparams' => array()
 );
