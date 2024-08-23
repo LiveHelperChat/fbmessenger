@@ -61,9 +61,6 @@ try {
     }
 
 } catch (Exception $e) {
-
-    //print_r($e);
-
     $responseData = $e->getResponseData();
     $tpl->set('errors', array($e->getMessage() .'. '. $responseData['error']['error_user_title'].'. ' .  $responseData['error']['error_user_msg']));
 }

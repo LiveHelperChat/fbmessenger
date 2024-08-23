@@ -142,7 +142,7 @@ $ViewList['index'] = array(
 $ViewList['deletelead'] = array(
     'params' => array('id'),
     'uparams' => array('csfr'),
-    'functions' => array('use_admin'),
+    'functions' => array('use_fb_messenger'),
 );
 
 $ViewList['pagesubscribe'] = array(
