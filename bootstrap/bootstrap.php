@@ -60,7 +60,12 @@ class erLhcoreClassExtensionFbmessenger {
 		    $this,
 		    'instanceDestroyed'
 		));
-		
+
+        $dispatcher->listen('chat.workflow.autoassign', array(
+            $this,
+            'autoAssignBlock'
+        ));
+
 		$dispatcher->listen('chat.syncadmin', array(
 		    $this,
 		    'syncAdmin'
@@ -469,6 +474,23 @@ class erLhcoreClassExtensionFbmessenger {
         }
     }
 
+    public static function allowSetBot($params)
+    {
+        $chat = $params['chat'];
+
+        $variablesArray = $chat->chat_variables_array;
+
+        if (isset($variablesArray['fb_chat']) && is_numeric($variablesArray['fb_chat'])) {
+
+            $tOptions = \erLhcoreClassModelChatConfig::fetch('fbmessenger_options');
+            $data = (array)$tOptions->data;
+
+            if (isset($data['block_bot']) && $data['block_bot'] == 1) {
+                return array('status' => erLhcoreClassChatEventDispatcher::STOP_WORKFLOW);
+            }
+        }
+    }
+
     public function updateWhatsAppDepartment($params)
     {
         if (isset($params['data']['entry'][0]['changes'][0]['value']['metadata']['phone_number_id']) && is_numeric($params['data']['entry'][0]['changes'][0]['value']['metadata']['phone_number_id'])) {
@@ -492,6 +514,29 @@ class erLhcoreClassExtensionFbmessenger {
                        }
                    }
                    $params['webhook']->conditions_array = $attributes;
+                }
+            }
+        }
+    }
+
+    /**
+     *
+     * If user disabled auto assign for timed out assign wrofklows
+     *
+     * @param array $params
+     */
+    public function autoAssignBlock($params) {
+        if (isset($params['chat']) && isset($params['params']['auto_assign_timeout']) && $params['params']['auto_assign_timeout'] == true) {
+            $chatVariables = $params['chat']->chat_variables_array;
+
+            if (isset($chatVariables['fb_chat']) && $chatVariables['fb_chat'] == 1)
+            {
+                $fbOptions = erLhcoreClassModelChatConfig::fetch('fbmessenger_options');
+                $data = (array)$fbOptions->data;
+
+                if (isset($data['exclude_workflow']) && $data['exclude_workflow'] == true)
+                {
+                    return array('status' => erLhcoreClassChatEventDispatcher::STOP_WORKFLOW, 'user_id' => 0); // Do nothing if it was executed
                 }
             }
         }
