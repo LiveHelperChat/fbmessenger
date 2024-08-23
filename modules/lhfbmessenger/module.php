@@ -151,11 +151,10 @@ $ViewList['botedit'] = array(
     'functions' => array('use_admin'),
 );
 
-
 $ViewList['pagesubscribe'] = array(
     'params' => array('id'),
-    'uparams' => array('action','dep'),
-    'functions' => array('use_admin'),
+    'uparams' => array('action','dep','csfr'),
+    'functions' => array('use_fb_messenger'),
 );
 
 $ViewList['whatsappsubscribe'] = array(
@@ -167,24 +166,24 @@ $ViewList['whatsappsubscribe'] = array(
 $ViewList['list'] = array(
     'params' => array(),
     'uparams' => array(),
-    'functions' => array('use_admin'),
+    'functions' => array('use_fb_messenger'),
 );
 
 $ViewList['new'] = array(
     'params' => array(),
     'uparams' => array(),
-    'functions' => array('use_admin'),
-);
-
-$ViewList['fbcallbackapp'] = array(
-    'params' => array(),
-    'uparams' => array(),
+    'functions' => array('use_fb_messenger'),
 );
 
 $ViewList['edit'] = array(
     'params' => array('id'),
     'uparams' => array('csfr'),
     'functions' => array('use_fb_messenger'),
+);
+
+$ViewList['fbcallbackapp'] = array(
+    'params' => array(),
+    'uparams' => array(),
 );
 
 $ViewList['deletenotification'] = array(
