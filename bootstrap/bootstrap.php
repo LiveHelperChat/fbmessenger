@@ -11,10 +11,6 @@ class erLhcoreClassExtensionFbmessenger {
 
 		$dispatcher = erLhcoreClassChatEventDispatcher::getInstance();
 
-        $this->registerAutoload ();
-
-        $dispatcher = erLhcoreClassChatEventDispatcher::getInstance();
-
         $dispatcher->listen('chat.web_add_msg_admin', array(
             $this,
             'sendMessageToFb'
