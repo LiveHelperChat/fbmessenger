@@ -10,6 +10,16 @@ $ViewList['callback'] = array(
     'uparams' => array()
 );
 
+$ViewList['callbackstandalone'] = array(
+    'params' => array(),
+    'uparams' => array()
+);
+
+$ViewList['callbackgeneral'] = array(
+    'params' => array(),
+    'uparams' => array()
+);
+
 $ViewList['callbackinstagram'] = array(
     'params' => array(),
     'uparams' => array()
@@ -18,12 +28,6 @@ $ViewList['callbackinstagram'] = array(
 $ViewList['callbackwhatsapp'] = array(
     'params' => array(),
     'uparams' => array()
-);
-
-$ViewList['instagramchannels'] = array(
-    'params' => array(),
-    'uparams' => array(),
-    'functions' => array('use_admin')
 );
 
 $ViewList['index'] = array(
