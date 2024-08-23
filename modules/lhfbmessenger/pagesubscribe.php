@@ -56,7 +56,7 @@ foreach ($bodyResponse['data'] as $page) {
                             $pageMy = new erLhcoreClassModelMyFBPage();
                         }
 
-                        $pageMy->dep_id = $Params['user_parameters_unordered']['dep']; // Not supported
+                        $pageMy->dep_id = $Params['user_parameters_unordered']['dep'];
                         $pageMy->access_token = $page['access_token'];
                         $pageMy->enabled = 1;
                         $pageMy->page_id = $page['id'];
