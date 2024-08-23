@@ -205,26 +205,6 @@ class erLhcoreClassFBValidator
         return $Errors;
     }
 
-    public static function validateChannel(erLhcoreClassModelFBChannel & $item)
-    {
-        $definition = array(
-            'name' => new ezcInputFormDefinitionElement(
-                ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
-            )
-        );
-
-        $form = new ezcInputForm( INPUT_POST, $definition );
-        $Errors = array();
-
-        if ( $form->hasValidData( 'name' ) && $form->name != '') {
-            $item->name = $form->name;
-        } else {
-            $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter name!');
-        }
-
-        return $Errors;
-    }
-
     public static function validateBBCode(erLhcoreClassModelFBBBCode & $item)
     {
         $definition = array(

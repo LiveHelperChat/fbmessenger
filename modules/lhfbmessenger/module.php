@@ -68,33 +68,9 @@ $ViewList['fblogininstanceinstagram'] = array(
     'functions' => array(),
 );
 
-$ViewList['channels'] = array(
-    'params' => array(),
-    'uparams' => array(),
-    'functions' => array('use_admin'),
-);
-
-$ViewList['deletechannel'] = array(
-    'params' => array('id'),
-    'uparams' => array('csfr'),
-    'functions' => array('use_admin'),
-);
-
 $ViewList['deletelead'] = array(
     'params' => array('id'),
     'uparams' => array('csfr'),
-    'functions' => array('use_admin'),
-);
-
-$ViewList['newchannel'] = array(
-    'params' => array(),
-    'uparams' => array(),
-    'functions' => array('use_admin'),
-);
-
-$ViewList['editchannel'] = array(
-    'params' => array('id'),
-    'uparams' => array(),
     'functions' => array('use_admin'),
 );
 
