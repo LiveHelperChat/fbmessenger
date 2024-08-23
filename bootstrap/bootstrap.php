@@ -1,4 +1,5 @@
 <?php
+#[\AllowDynamicProperties]
 class erLhcoreClassExtensionFbmessenger {
     
 	public function __construct() {
@@ -14,7 +15,22 @@ class erLhcoreClassExtensionFbmessenger {
 		    $this,
 		    'sendMessageToFb'
 		));
-		
+
+        $dispatcher->listen('chat.before_auto_responder_msg_saved', array(
+            $this,
+            'sendMessageToFb'
+        ));
+
+        $dispatcher->listen('chat.customcommand', array(
+            $this,
+            'sendTemplate'
+        ));
+
+        $dispatcher->listen('chat.auto_preload', array(
+            $this,
+            'autoPreload'
+        ));
+        
 		$dispatcher->listen('chat.desktop_client_admin_msg', array(
 		    $this,
 		    'sendMessageToFb'
