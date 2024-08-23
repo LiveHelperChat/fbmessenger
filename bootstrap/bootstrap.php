@@ -30,7 +30,7 @@ class erLhcoreClassExtensionFbmessenger {
             $this,
             'autoPreload'
         ));
-        
+
 		$dispatcher->listen('chat.desktop_client_admin_msg', array(
 		    $this,
 		    'sendMessageToFb'
@@ -989,22 +989,17 @@ class erLhcoreClassExtensionFbmessenger {
 
 	public function autoload($className) {
 		$classesArray = array (
-				'erLhcoreClassModelFBChat'  => 'extension/fbmessenger/classes/erlhcoreclassmodelfbchat.php',
-				'erLhcoreClassModelMyFBPage'=> 'extension/fbmessenger/classes/erlhcoreclassmodelmyfbpage.php',
-				'erLhcoreClassModelFBPage'  => 'extension/fbmessenger/classes/erlhcoreclassmodelfbpage.php',
-				'erLhcoreClassModelFBBot'  => 'extension/fbmessenger/classes/erlhcoreclassmodelfbbot.php',
-				'erLhcoreClassModelFBBBCode'=> 'extension/fbmessenger/classes/erlhcoreclassmodelfbbbcode.php',
-				'erLhcoreClassModelFBMessengerUser'=> 'extension/fbmessenger/classes/erlhcoreclassmodelfbuser.php',
-				'erLhcoreClassFBValidator'  => 'extension/fbmessenger/classes/erlhcoreclassfbvalidator.php',
-				'erLhcoreClassModelFBBotBlock'  => 'extension/fbmessenger/classes/erlhcoreclassmodelfbbotblock.php',
-				'erLhcoreClassModelFBBotGroup'  => 'extension/fbmessenger/classes/erlhcoreclassmodelfbbotgroup.php',
-				'erLhcoreClassModelFBBotElement'  => 'extension/fbmessenger/classes/erlhcoreclassmodelfbbotelement.php',
-				'erLhcoreClassModelFBLead'  => 'extension/fbmessenger/classes/erlhcoreclassmodelfblead.php',
-				'erLhcoreClassModelFBNodeBlock'  => 'extension/fbmessenger/classes/erlhcoreclassmodelfbnodeblock.php',
-				'erLhcoreClassModelFBNodeGroup'  => 'extension/fbmessenger/classes/erlhcoreclassmodelfbnodegroup.php',
-				'erLhcoreClassModelFBChannel'  => 'extension/fbmessenger/classes/erlhcoreclassmodelfbchannel.php',
-				'erLhcoreClassModelFBChannelLead'  => 'extension/fbmessenger/classes/erlhcoreclassmodelfbchannellead.php',
-				'erLhcoreClassModelFBBotImage'  => 'extension/fbmessenger/classes/erlhcoreclassmodelfbbotimage.php',
+            'erLhcoreClassModelFBChat'  => 'extension/fbmessenger/classes/erlhcoreclassmodelfbchat.php',
+            'erLhcoreClassModelFBPage'  => 'extension/fbmessenger/classes/erlhcoreclassmodelfbpage.php',
+            'erLhcoreClassModelFBBBCode'=> 'extension/fbmessenger/classes/erlhcoreclassmodelfbbbcode.php',
+            'erLhcoreClassFBValidator'                          => 'extension/fbmessenger/classes/erlhcoreclassfbvalidator.php',
+            'erLhcoreClassModelFBMessengerUser'                 => 'extension/fbmessenger/classes/erlhcoreclassmodelfbuser.php',
+            'erLhcoreClassModelMyFBPage'                        => 'extension/fbmessenger/classes/erlhcoreclassmodelmyfbpage.php',
+            'erLhcoreClassModelFBLead'                          => 'extension/fbmessenger/classes/erlhcoreclassmodelfblead.php',
+            'erLhcoreClassModelFBNotificationSchedule'          => 'extension/fbmessenger/classes/erlhcoreclassmodelfbnotificationschedule.php',
+            'erLhcoreClassModelFBNotificationStatus'            => 'extension/fbmessenger/classes/erlhcoreclassmodelfbnotificationstatus.php',
+            'erLhcoreClassModelFBNotificationScheduleCampaign'  => 'extension/fbmessenger/classes/erlhcoreclassmodelfbnotificationschedulecampaign.php',
+            'erLhcoreClassModelFBNotificationScheduleItem'      => 'extension/fbmessenger/classes/erlhcoreclassmodelfbnotificationscheduleitem.php',
 		);
 
 		if (key_exists ( $className, $classesArray )) {
