@@ -10,11 +10,150 @@ class erLhcoreClassExtensionFbmessenger {
 		$this->registerAutoload ();
 
 		$dispatcher = erLhcoreClassChatEventDispatcher::getInstance();
-		
-		$dispatcher->listen('chat.web_add_msg_admin', array(
-		    $this,
-		    'sendMessageToFb'
-		));
+
+        $this->registerAutoload ();
+
+        $dispatcher = erLhcoreClassChatEventDispatcher::getInstance();
+
+        $dispatcher->listen('chat.web_add_msg_admin', array(
+            $this,
+            'sendMessageToFb'
+        ));
+
+        $dispatcher->listen('chat.before_auto_responder_msg_saved', array(
+            $this,
+            'sendMessageToFb'
+        ));
+
+        $dispatcher->listen('chat.customcommand', array(
+            $this,
+            'sendTemplate'
+        ));
+
+        $dispatcher->listen('chat.auto_preload', array(
+            $this,
+            'autoPreload'
+        ));
+
+        $dispatcher->listen('chat.desktop_client_admin_msg', array(
+            $this,
+            'sendMessageToFb'
+        ));
+
+
+        $dispatcher->listen('chat.workflow.canned_message_before_save', array(
+            $this,
+            'sendMessageToFb'
+        ));
+
+        $dispatcher->listen('chat.delete', array(
+            $this,
+            'deleteChat'
+        ));
+
+        $dispatcher->listen('instance.extensions_structure', array(
+            $this,
+            'checkStructure'
+        ));
+
+        $dispatcher->listen('instance.registered.created', array(
+            $this,
+            'instanceCreated'
+        ));
+
+        $dispatcher->listen('instance.destroyed', array(
+            $this,
+            'instanceDestroyed'
+        ));
+
+        $dispatcher->listen('chat.workflow.autoassign', array(
+            $this,
+            'autoAssignBlock'
+        ));
+
+
+        // Elastic Search
+        $dispatcher->listen('system.getelasticstructure', array(
+                $this,'getElasticStructure')
+        );
+
+        $dispatcher->listen('elasticsearch.indexchat', array(
+                $this,'indexChat')
+        );
+
+        $dispatcher->listen('elasticsearch.getstate', array(
+                $this,'getState')
+        );
+
+        $dispatcher->listen('elasticsearch.getpreviouschats', array(
+                $this, 'getPreviousChatsFilter')
+        );
+
+        $dispatcher->listen('elasticsearch.getpreviouschats_abstract', array(
+                $this, 'getPreviousChatsFilter')
+        );
+
+        // Handle canned messages custom workflow
+        $dispatcher->listen('chat.canned_msg_before_save', array(
+                $this, 'cannedMessageValidate')
+        );
+
+        $dispatcher->listen('chat.before_newcannedmsg', array(
+                $this, 'cannedMessageValidate')
+        );
+
+        $dispatcher->listen('chat.workflow.canned_message_replace', array(
+                $this, 'cannedMessageReplace')
+        );
+
+        $dispatcher->listen('elasticsearch.chatsearchattr', array(
+                $this, 'appendSearchAttr')
+        );
+
+        $dispatcher->listen('elasticsearch.chatsearchexecute',array(
+                $this, 'chatSearchExecute')
+        );
+
+        // Bot related callbacks
+        $dispatcher->listen('chat.genericbot_set_bot',array(
+                $this, 'allowSetBot')
+        );
+
+        // WhatsApp Integration
+        $dispatcher->listen('chat.webhook_incoming', array(
+            $this,
+            'verifyWhatsAppToken'
+        ));
+
+        $dispatcher->listen('chat.webhook_incoming', array(
+            $this,
+            'incommingWebhook'
+        ));
+
+        $dispatcher->listen('chat.webhook_incoming_chat_started', array(
+            $this,
+            'incommingChatStarted'
+        ));
+
+        $dispatcher->listen('chat.rest_api_before_request', array(
+            $this,
+            'addWhatsAppToken'
+        ));
+
+        $dispatcher->listen('chat.webhook_incoming_chat_started', array(
+            $this,
+            'setWhatsAppToken'
+        ));
+
+        $dispatcher->listen('chat.webhook_incoming_chat_continue', array(
+            $this,
+            'setWhatsAppToken'
+        ));
+
+        $dispatcher->listen('chat.webhook_incoming_chat_before_save', array(
+            $this,
+            'verifyPhoneBeforeSave'
+        ));
 
         $dispatcher->listen('chat.before_auto_responder_msg_saved', array(
             $this,
