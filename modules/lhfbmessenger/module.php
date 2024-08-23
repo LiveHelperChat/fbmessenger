@@ -177,6 +177,12 @@ $ViewList['new'] = array(
 
 $ViewList['edit'] = array(
     'params' => array('id'),
+    'uparams' => array(),
+    'functions' => array('use_fb_messenger'),
+);
+
+$ViewList['delete'] = array(
+    'params' => array('id'),
     'uparams' => array('csfr'),
     'functions' => array('use_fb_messenger'),
 );
@@ -190,12 +196,6 @@ $ViewList['deletenotification'] = array(
     'params' => array('id'),
     'uparams' => array('csfr'),
     'functions' => array('use_fb_messenger'),
-);
-
-$ViewList['delete'] = array(
-    'params' => array('id'),
-    'uparams' => array('csfr'),
-    'functions' => array('use_admin'),
 );
 
 $ViewList['deletebbcode'] = array(
