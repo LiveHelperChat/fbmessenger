@@ -226,6 +226,11 @@ $ViewList['callbackwhatsapp'] = array(
     'uparams' => array()
 );
 
+$ViewList['callbackstandalonelegacy'] = array(
+    'params' => array(),
+    'uparams' => array()
+);
+
 $FunctionList['use_admin'] = array('explain' => 'Allow operator to use see menu option');
 $FunctionList['use_fb_messenger'] = array('explain' => 'Allow operator to use Facebook Messenger/WhatsApp');
 $FunctionList['use_options'] = array('explain' => 'Allow operator to configure Facebook Messenger/WhatsApp module');
