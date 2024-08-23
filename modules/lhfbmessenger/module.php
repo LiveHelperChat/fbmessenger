@@ -127,12 +127,6 @@ $ViewList['fbloginstandalone'] = array(
     'functions' => array(),
 );
 
-$ViewList['fbcallbackinstanceinstagram'] = array(
-    'params' => array(),
-    'uparams' => array(),
-    'functions' => array(),
-);
-
 $ViewList['fblogininstanceinstagram'] = array(
     'params' => array('id','uid','time','hash'),
     'uparams' => array(),
