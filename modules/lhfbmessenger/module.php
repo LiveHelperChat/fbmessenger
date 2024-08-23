@@ -97,12 +97,6 @@ $ViewList['fbcallback'] = array(
     'functions' => array('use_fb_messenger'),
 );
 
-$ViewList['index'] = array(
-    'params' => array(),
-    'uparams' => array(),
-    'functions' => array('use_admin'),
-);
-
 $ViewList['fbcallbackinstance'] = array(
     'params' => array(),
     'uparams' => array(),
@@ -115,14 +109,14 @@ $ViewList['fbcallbackstandalone'] = array(
     'functions' => array()
 );
 
-$ViewList['fbcallbackinstanceinstagram'] = array(
-    'params' => array(),
+$ViewList['fblogininstance'] = array(
+    'params' => array('id','uid','time','hash'),
     'uparams' => array(),
     'functions' => array(),
 );
 
-$ViewList['fblogininstance'] = array(
-    'params' => array('id','uid','time','hash'),
+$ViewList['fbcallbackinstanceinstagram'] = array(
+    'params' => array(),
     'uparams' => array(),
     'functions' => array(),
 );
@@ -133,21 +127,15 @@ $ViewList['fblogininstanceinstagram'] = array(
     'functions' => array(),
 );
 
-$ViewList['deletelead'] = array(
-    'params' => array('id'),
-    'uparams' => array('csfr'),
-    'functions' => array('use_admin'),
-);
-
-$ViewList['newbot'] = array(
+$ViewList['index'] = array(
     'params' => array(),
     'uparams' => array(),
     'functions' => array('use_admin'),
 );
 
-$ViewList['botedit'] = array(
+$ViewList['deletelead'] = array(
     'params' => array('id'),
-    'uparams' => array(),
+    'uparams' => array('csfr'),
     'functions' => array('use_admin'),
 );
 
