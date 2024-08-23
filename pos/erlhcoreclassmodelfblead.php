@@ -109,7 +109,6 @@ $def->properties['creator_id']->columnName   = 'creator_id';
 $def->properties['creator_id']->propertyName = 'creator_id';
 $def->properties['creator_id']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
 
-
 $def->properties['source'] = new ezcPersistentObjectProperty();
 $def->properties['source']->columnName   = 'source';
 $def->properties['source']->propertyName = 'source';
