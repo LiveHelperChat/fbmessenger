@@ -49,6 +49,12 @@ $ViewList['options'] = array(
     'functions' => array('use_options')
 );
 
+$ViewList['sendtestmessage'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('use_fb_messenger')
+);
+
 $ViewList['callbackinstagram'] = array(
     'params' => array(),
     'uparams' => array()
