@@ -61,9 +61,10 @@ $ViewList['notifications'] = array(
     'functions' => array('use_fb_messenger')
 );
 
-$ViewList['callbackinstagram'] = array(
-    'params' => array(),
-    'uparams' => array()
+$ViewList['editnotification'] = array(
+    'params' => array('id'),
+    'uparams' => array(),
+    'functions' => array('use_fb_messenger')
 );
 
 $ViewList['callbackwhatsapp'] = array(
@@ -82,8 +83,6 @@ $ViewList['bot'] = array(
     'uparams' => array(),
     'functions' => array('use_admin'),
 );
-
-
 
 $ViewList['fbcallbackinstance'] = array(
     'params' => array(),
@@ -210,6 +209,9 @@ $ViewList['editbbcode'] = array(
     'functions' => array('use_admin'),
 );
 
-
+$ViewList['callbackinstagram'] = array(
+    'params' => array(),
+    'uparams' => array()
+);
 
 $FunctionList['use_admin'] = array('explain' => 'Allow operator to configure Facebook Messenger');
