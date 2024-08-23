@@ -82,11 +82,17 @@ $ViewList['fblogout'] = array(
 $ViewList['myfbpages'] = array(
     'params' => array(),
     'uparams' => array(),
-    'functions' => array('use_admin'),
+    'functions' => array('use_fb_messenger'),
 );
 
 $ViewList['disablebot'] = array(
     'params' => array('page_id','status'),
+    'uparams' => array(),
+    'functions' => array('use_fb_messenger'),
+);
+
+$ViewList['fbcallback'] = array(
+    'params' => array(),
     'uparams' => array(),
     'functions' => array('use_fb_messenger'),
 );
@@ -97,16 +103,16 @@ $ViewList['index'] = array(
     'functions' => array('use_admin'),
 );
 
-$ViewList['bot'] = array(
-    'params' => array(),
-    'uparams' => array(),
-    'functions' => array('use_admin'),
-);
-
 $ViewList['fbcallbackinstance'] = array(
     'params' => array(),
     'uparams' => array(),
     'functions' => array(),
+);
+
+$ViewList['fbcallbackstandalone'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array()
 );
 
 $ViewList['fbcallbackinstanceinstagram'] = array(
@@ -165,12 +171,6 @@ $ViewList['list'] = array(
 );
 
 $ViewList['new'] = array(
-    'params' => array(),
-    'uparams' => array(),
-    'functions' => array('use_admin'),
-);
-
-$ViewList['fbcallback'] = array(
     'params' => array(),
     'uparams' => array(),
     'functions' => array('use_admin'),
