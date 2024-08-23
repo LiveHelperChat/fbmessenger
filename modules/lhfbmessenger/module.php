@@ -180,6 +180,12 @@ $ViewList['edit'] = array(
     'functions' => array('use_fb_messenger'),
 );
 
+$ViewList['deletenotification'] = array(
+    'params' => array('id'),
+    'uparams' => array('csfr'),
+    'functions' => array('use_fb_messenger'),
+);
+
 $ViewList['delete'] = array(
     'params' => array('id'),
     'uparams' => array('csfr'),
@@ -220,4 +226,6 @@ $ViewList['callbackwhatsapp'] = array(
     'uparams' => array()
 );
 
-$FunctionList['use_admin'] = array('explain' => 'Allow operator to configure Facebook Messenger');
+$FunctionList['use_admin'] = array('explain' => 'Allow operator to use see menu option');
+$FunctionList['use_fb_messenger'] = array('explain' => 'Allow operator to use Facebook Messenger/WhatsApp');
+$FunctionList['use_options'] = array('explain' => 'Allow operator to configure Facebook Messenger/WhatsApp module');
