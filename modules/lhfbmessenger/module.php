@@ -75,8 +75,20 @@ $ViewList['newnotification'] = array(
 
 $ViewList['fblogout'] = array(
     'params' => array(),
+    'uparams' => array('csfr'),
+    'functions' => array('use_fb_messenger'),
+);
+
+$ViewList['myfbpages'] = array(
+    'params' => array(),
     'uparams' => array(),
     'functions' => array('use_admin'),
+);
+
+$ViewList['disablebot'] = array(
+    'params' => array('page_id','status'),
+    'uparams' => array(),
+    'functions' => array('use_fb_messenger'),
 );
 
 $ViewList['index'] = array(
@@ -133,11 +145,6 @@ $ViewList['botedit'] = array(
     'functions' => array('use_admin'),
 );
 
-$ViewList['myfbpages'] = array(
-    'params' => array(),
-    'uparams' => array(),
-    'functions' => array('use_admin'),
-);
 
 $ViewList['pagesubscribe'] = array(
     'params' => array('id'),
