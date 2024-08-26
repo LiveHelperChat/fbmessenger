@@ -109,11 +109,6 @@ $def->properties['creator_id']->columnName   = 'creator_id';
 $def->properties['creator_id']->propertyName = 'creator_id';
 $def->properties['creator_id']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
 
-$def->properties['source'] = new ezcPersistentObjectProperty();
-$def->properties['source']->columnName   = 'source';
-$def->properties['source']->propertyName = 'source';
-$def->properties['source']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
-
 $def->properties['user_id'] = new ezcPersistentObjectProperty();
 $def->properties['user_id']->columnName   = 'user_id';
 $def->properties['user_id']->propertyName = 'user_id';
@@ -148,21 +143,6 @@ $def->properties['auto_stop'] = new ezcPersistentObjectProperty();
 $def->properties['auto_stop']->columnName   = 'auto_stop';
 $def->properties['auto_stop']->propertyName = 'auto_stop';
 $def->properties['auto_stop']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
-
-$def->properties['created_at'] = new ezcPersistentObjectProperty();
-$def->properties['created_at']->columnName   = 'created_at';
-$def->properties['created_at']->propertyName = 'created_at';
-$def->properties['created_at']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
-
-$def->properties['updated_at'] = new ezcPersistentObjectProperty();
-$def->properties['updated_at']->columnName   = 'updated_at';
-$def->properties['updated_at']->propertyName = 'updated_at';
-$def->properties['updated_at']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
-
-$def->properties['deleted_at'] = new ezcPersistentObjectProperty();
-$def->properties['deleted_at']->columnName   = 'deleted_at';
-$def->properties['deleted_at']->propertyName = 'deleted_at';
-$def->properties['deleted_at']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
 
 return $def;
 

@@ -10,7 +10,7 @@ if (!($user instanceof erLhcoreClassModelFBMessengerUser)) {
 
     $helper = $fb->getRedirectLoginHelper();
 
-    $permissions = ['email', 'pages_show_list', 'pages_messaging', 'instagram_manage_messages', 'instagram_basic', 'pages_manage_metadata'];
+    $permissions = erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['scopes'];
 
     if (erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['standalone']['enabled'] == true) {
         $time = time();
