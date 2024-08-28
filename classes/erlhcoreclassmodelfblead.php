@@ -111,18 +111,6 @@ class erLhcoreClassModelFBLead
                 return $this->chat;
                 break;
 
-            case 'subscribe_channels':
-                if ($this->subscribe != '') {
-                    $channels = erLhcoreClassModelFBChannel::getList(array('filterin' => array('id' => explode(',', $this->subscribe))));
-                    $names = array();
-                    foreach ($channels as $channel) {
-                        $names[] = $channel->name;
-                    }
-                    return implode(', ',$names);
-                }
-                return $this->subscribe;
-                break;
-
             default:
                 ;
                 break;
@@ -140,7 +128,6 @@ class erLhcoreClassModelFBLead
     public $country = null;
     public $location = null;
     public $timezone = null;
-    public $subscribe = null;
     public $is_payment_enabled = null;
     public $created_at = null;
     public $updated_at = null;
