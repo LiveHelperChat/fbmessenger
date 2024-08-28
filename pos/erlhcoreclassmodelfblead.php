@@ -124,26 +124,6 @@ $def->properties['blocked']->columnName   = 'blocked';
 $def->properties['blocked']->propertyName = 'blocked';
 $def->properties['blocked']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
 
-$def->properties['_wait'] = new ezcPersistentObjectProperty();
-$def->properties['_wait']->columnName   = '_wait';
-$def->properties['_wait']->propertyName = '_wait';
-$def->properties['_wait']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
-
-$def->properties['_quick_save'] = new ezcPersistentObjectProperty();
-$def->properties['_quick_save']->columnName   = '_quick_save';
-$def->properties['_quick_save']->propertyName = '_quick_save';
-$def->properties['_quick_save']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
-
-$def->properties['linked_account'] = new ezcPersistentObjectProperty();
-$def->properties['linked_account']->columnName   = 'linked_account';
-$def->properties['linked_account']->propertyName = 'linked_account';
-$def->properties['linked_account']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
-
-$def->properties['auto_stop'] = new ezcPersistentObjectProperty();
-$def->properties['auto_stop']->columnName   = 'auto_stop';
-$def->properties['auto_stop']->propertyName = 'auto_stop';
-$def->properties['auto_stop']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_STRING;
-
 return $def;
 
 ?>

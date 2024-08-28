@@ -28,13 +28,9 @@ class erLhcoreClassModelFBLead
             'country' => $this->country,
             'location' => $this->location,
             'profile_pic' => $this->profile_pic,
-            '_wait' => $this->_wait,
-            '_quick_save' => $this->_quick_save,
-            'linked_account' => $this->linked_account,
             'subscribe' => $this->subscribe,
             'is_payment_enabled' => $this->is_payment_enabled,
             'ctime' => $this->ctime,
-            'auto_stop' => $this->auto_stop,
             'page_id' => $this->page_id,
             'type' => $this->type,
             'dep_id' => $this->dep_id,
@@ -144,12 +140,8 @@ class erLhcoreClassModelFBLead
     public $country = null;
     public $location = null;
     public $timezone = null;
-    public $_wait = null;
-    public $_quick_save = null;
-    public $linked_account = null;
     public $subscribe = null;
     public $is_payment_enabled = null;
-    public $auto_stop = null;
     public $created_at = null;
     public $updated_at = null;
     public $deleted_at = null;

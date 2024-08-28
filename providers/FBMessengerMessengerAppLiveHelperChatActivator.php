@@ -2,7 +2,7 @@
 
 namespace LiveHelperChatExtension\fbmessenger\providers;
 #[\AllowDynamicProperties]
-class FBMessengerWhatsAppLiveHelperChatActivator {
+class FBMessengerMessengerAppLiveHelperChatActivator {
 
     public static function remove()
     {
@@ -68,7 +68,7 @@ class FBMessengerWhatsAppLiveHelperChatActivator {
         }
 
         $restAPI->setState($content);
-        $restAPI->name = 'FacebookWhatsApp';
+        $restAPI->name = 'FacebookMessengerApp';
         $restAPI->saveThis();
 
         if ($botPrevious = \erLhcoreClassModelGenericBotBot::findOne(['filter' => ['name' => 'FacebookMessengerApp']])) {

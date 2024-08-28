@@ -236,6 +236,38 @@ And add this line
 ```
 
 # Todo
- * Add support for images, not just plain messages.
  * Add support for automated hosting environment.
  * Get facebook user details like email or phone.
+ * Support for reactions
+ * Support for messages delivery status
+
+Support reactions
+
+```json
+{
+    "object": "page",
+    "entry": [
+        {
+            "time": 1724823155620,
+            "id": "384264185009325",
+            "messaging": [
+                {
+                    "sender": {
+                        "id": "1524304520946032"
+                    },
+                    "recipient": {
+                        "id": "384264185009325"
+                    },
+                    "timestamp": 1724823155439,
+                    "reaction": {
+                        "mid": "m_EY8RCDmlAwLV0qC58VoxMQfERpjjsOU-gzKWAIcVKXIrPc4R1SE0eh20kA0FUJxnE7RO3QLpzRL0scYbVOl5jg",
+                        "action": "react",
+                        "emoji": "\ud83d\udc4d",
+                        "reaction": "like"
+                    }
+                }
+            ]
+        }
+    ]
+}
+```
