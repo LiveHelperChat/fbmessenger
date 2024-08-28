@@ -11,6 +11,9 @@ class erLhcoreClassFBValidator
                 'page_token' => new ezcInputFormDefinitionElement(
                     ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
                 ),
+                'page_id' => new ezcInputFormDefinitionElement(
+                    ezcInputFormDefinitionElement::OPTIONAL, 'int', array('min_range' => 1)
+                ),
                 'verify_token' => new ezcInputFormDefinitionElement(
                     ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
                 ),
@@ -50,6 +53,13 @@ class erLhcoreClassFBValidator
                 $item->page_token = $form->page_token;
             } else {
                 $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter page token!');
+            }
+
+            if ( $form->hasValidData( 'page_id' ))
+            {
+                $item->page_id = $form->page_id;
+            } else {
+                $Errors[] =  erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter Page ID!');
             }
 
             if ( $form->hasValidData( 'verify_token' ) && $form->verify_token != '')

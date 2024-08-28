@@ -5,10 +5,7 @@ $ext = erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessen
 // Load for which page callback is processed
 $fbpage = erLhcoreClassModelFBPage::fetch($Params['user_parameters']['id']);
 
-// Set page with which we are working
-$ext->setPage($fbpage);
-
-if (isset($_GET['hub_verify_token']) && $_GET['hub_verify_token'] == $ext->getPage()->verify_token) {	
+if (isset($_GET['hub_verify_token']) && $_GET['hub_verify_token'] == $fbpage->verify_token) {
 	if (isset($_GET['hub_mode']) && $_GET['hub_mode'] == 'subscribe') {
 	    
 	    if ($ext->settings['enable_debug'] == true) {
@@ -21,11 +18,8 @@ if (isset($_GET['hub_verify_token']) && $_GET['hub_verify_token'] == $ext->getPa
 }
 
 use Tgallice\FBMessenger\WebhookRequestHandler;
-use Tgallice\FBMessenger\Callback\MessageEvent;
-use Tgallice\FBMessenger\Callback\PostbackEvent;
-use Tgallice\FBMessenger\Callback\MessageEchoEvent;
 
-$webookHandler = new WebhookRequestHandler($ext->getPage()->app_secret, $ext->getPage()->verify_token);
+$webookHandler = new WebhookRequestHandler($fbpage->app_secret,$fbpage->verify_token);
 
 if (!$webookHandler->isValidCallbackRequest()) {    
     if ($ext->settings['enable_debug'] == true) {
@@ -49,33 +43,20 @@ if (function_exists('fastcgi_finish_request')){
     fastcgi_finish_request();
 }
 
-$events = $webookHandler->getAllCallbackEvents();
+$cfg = erConfigClassLhConfig::getInstance();
+$db = ezcDbInstance::get();
 
-foreach($events as $event) {
+$webhookPresent = erLhcoreClassModelChatIncomingWebhook::findOne(array('filter' => array('scope' => 'facebookmessengerappscope')));
 
-    if ($event instanceof MessageEvent || $event instanceof PostbackEvent || $event instanceof MessageEchoEvent) {
-
-        if ($event instanceof MessageEchoEvent) {
-            $pageId = $event->getSenderId();
-        } else {
-            $pageId = $event->getRecipientId();
-        }
-
-	    try {
-            if ($event instanceof MessageEvent) {
-                $ext->processVisitorMessage($event);
-            } elseif ($event instanceof PostbackEvent) {
-                $ext->processCallbackDefault($event);
-            } elseif ($event instanceof MessageEchoEvent) {
-                $ext->processEchoMessage($event);
-            }
-		} catch (Exception $e) {
-		    if ($ext->settings['enable_debug'] == true) {
-		      erLhcoreClassLog::write(print_r($e->getMessage(),true))."\n";
-		    }
-		};
-	}
+if (!is_object($webhookPresent)) {
+    \LiveHelperChatExtension\fbmessenger\providers\FBMessengerMessengerAppLiveHelperChatActivator::installOrUpdate(['dep_id' => 0]);
+    $webhookPresent = erLhcoreClassModelChatIncomingWebhook::findOne(array('filter' => array('scope' => 'facebookmessengerappscope')));
 }
+
+$identifier = $webhookPresent->identifier;
+
+$Params['user_parameters']['identifier'] = $identifier;
+include 'modules/lhwebhooks/incoming.php';
 
 exit();
 ?>

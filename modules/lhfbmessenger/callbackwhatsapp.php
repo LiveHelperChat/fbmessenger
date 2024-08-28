@@ -16,12 +16,7 @@ if (isset($_GET['hub_verify_token']) && $_GET['hub_verify_token'] == $ext->setti
     }
 }
 
-
 use Tgallice\FBMessenger\WebhookRequestHandler;
-use Tgallice\FBMessenger\Callback\MessageEvent;
-use Tgallice\FBMessenger\Callback\PostbackEvent;
-use Tgallice\FBMessenger\Callback\MessageEchoEvent;
-use Tgallice\FBMessenger\Callback\MessageDeleteEvent;
 
 $webookHandler = new WebhookRequestHandler($ext->settings['app_settings']['app_secret'], $ext->settings['app_settings']['whatsapp_verify_token']);
 
@@ -49,32 +44,19 @@ $db = ezcDbInstance::get();
 
 $payloadData = json_decode(file_get_contents("php://input"),true);
 
-if (isset($payloadData['entry']) && is_array($payloadData['entry'])) {
-    foreach ($payloadData['entry'] as $entryData) {
-        $db->query('USE ' . $cfg->getSetting('db', 'database'));
+$cfg = erConfigClassLhConfig::getInstance();
+$db = ezcDbInstance::get();
 
-        $stmt = $db->prepare("SELECT instance_id FROM lhc_instance_fb_page WHERE whatsapp_business_account_id = :whatsapp_business_account_id");
-        $stmt->bindValue(':whatsapp_business_account_id', $entryData['id']);
-        $stmt->execute();
-        $instanceId = $stmt->fetchColumn();
+$dummyPayload = $payloadData = json_decode(file_get_contents("php://input"),true);
 
-        if (is_numeric($instanceId)) {
-            erLhcoreClassInstance::$instanceChat->id = $instanceId;
-            $db->query('USE ' . $cfg->getSetting('db', 'database_user_prefix') . $instanceId);
+$webhookPresent = erLhcoreClassModelChatIncomingWebhook::findOne(array('filter' => array('scope' => 'facebookwhatsappscope')));
 
-            $webhookPresent = erLhcoreClassModelChatIncomingWebhook::findOne(array('filter' => array('scope' => 'facebookwhatsappscope')));
-
-            if (!is_object($webhookPresent)) {
-                // Install dependencies with chosen department
-                $subscribeNumber = erLhcoreClassModelMyFBPage::findOne(['filter' => ['whatsapp_business_account_id' => $entryData['id']]]);
-                \LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChatActivator::installOrUpdate(['dep_id' => $subscribeNumber->dep_id]);
-            }
-
-            $identifier = $webhookPresent->identifier;
-            break;
-        }
-    }
+if (!is_object($webhookPresent)) {
+    \LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChatActivator::installOrUpdate(['dep_id' => 0]);
+    $webhookPresent = erLhcoreClassModelChatIncomingWebhook::findOne(array('filter' => array('scope' => 'facebookwhatsappscope')));
 }
+
+$identifier = $webhookPresent->identifier;
 
 $Params['user_parameters']['identifier'] = $identifier;
 include 'modules/lhwebhooks/incoming.php';

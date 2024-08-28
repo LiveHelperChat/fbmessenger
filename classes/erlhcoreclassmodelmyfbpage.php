@@ -35,6 +35,7 @@ class erLhcoreClassModelMyFBPage
                 'instance_id' => erLhcoreClassInstance::getInstance()->id,
                 'instagram_business_account' => $this->instagram_business_account,
                 'whatsapp_business_account_id' => $this->whatsapp_business_account_id,
+                'whatsapp_business_phone_number_id' => $this->whatsapp_business_phone_number_id,
                 'address' => $_SERVER['HTTP_HOST'],
                 'action' => 'add'
             ]);
@@ -59,7 +60,9 @@ class erLhcoreClassModelMyFBPage
         if (erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['standalone']['enabled'] == true) {
             erLhcoreClassFBValidator::processSubscribeOnMaster([
                 'page_id' => $this->page_id,
+                'instagram_business_account' => $this->instagram_business_account,
                 'whatsapp_business_account_id' => $this->whatsapp_business_account_id,
+                'whatsapp_business_phone_number_id' => $this->whatsapp_business_phone_number_id,
                 'instance_id' => erLhcoreClassInstance::getInstance()->id,
                 'address' => $_SERVER['HTTP_HOST'],
                 'action' => 'remove'

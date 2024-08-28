@@ -38,7 +38,7 @@
             </td>
             <td width="40%" nowrap="nowrap">
                 <?php if ($instagram == true) : ?>
-                    <img class="img-fluid mr-2" style="height: 20px" src="<?php echo erLhcoreClassDesign::design('images/finstagram.png')?>">
+                    <img class="img-fluid mr-2" title="<?php echo $current_pages[$page['id']]->instagram_business_account?>" style="height: 20px" src="<?php echo erLhcoreClassDesign::design('images/instagram.png')?>">
                 <?php endif; ?>
                 <?php echo htmlspecialchars($page['name'])?>
             </td>

@@ -23,7 +23,6 @@ try {
         $bodyResponse = $response->getDecodedBody();
 
         if ($bodyResponse['success'] == 1) {
-            //\LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChatActivator::remove();
             $tpl->set('unsubscribed', true);
         } else {
             $tpl->set('errors', array('We could not un-subscription'));
@@ -53,7 +52,6 @@ try {
             $pageMy->saveThis();
 
             $webhookPresent = erLhcoreClassModelChatIncomingWebhook::findOne(array('filter' => array('scope' => 'facebookwhatsappscope')));
-
             if (!is_object($webhookPresent)) {
                 \LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChatActivator::installOrUpdate(['dep_id' => $pageMy->dep_id]);
             }

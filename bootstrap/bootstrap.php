@@ -99,17 +99,27 @@ class erLhcoreClassExtensionFbmessenger {
     {
         if (is_object($params['chat']->iwh) && $params['chat']->iwh->scope == 'facebookwhatsappscope') {
             if (isset($params['chat']->chat_variables_array['iwh_field_2'])) {
-                $businessAccount = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::findOne(array('customfilter' => array("JSON_CONTAINS(`phone_number_ids`,'\"" . (int)$params['chat']->chat_variables_array['iwh_field_2'] . "\"','$')" )));
+                $businessAccount = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::findOne(array('filter' => ['active' => 1], 'customfilter' => array("JSON_CONTAINS(`phone_number_ids`,'\"" . (int)$params['chat']->chat_variables_array['iwh_field_2'] . "\"','$')" )));
+
+                if (!is_object($businessAccount)) {
+                    $businessAccount = erLhcoreClassModelMyFBPage::findOne(['filter' => ['page_id' => 0,/*'whatsapp_business_account_id' =>  $params['data']['entry'][0]['id'],*/'whatsapp_business_phone_number_id' => (int)$params['chat']->chat_variables_array['iwh_field_2']]]);
+                }
+
                 // Override only if we found separate business account for that phone number
                 if (is_object($businessAccount)) {
                     $attributes = $params['webhook']->attributes;
-                    $attributes['access_token']= $businessAccount->access_token;
+                    $attributes['access_token'] = $businessAccount->access_token;
                     $params['webhook']->attributes = $attributes;
                 }
             }
         } else if (is_object($params['chat']->iwh) && $params['chat']->iwh->scope == 'facebookmessengerappscope') {
             $pageId = $params['data']['entry'][0]['id'];
-            $page = erLhcoreClassModelMyFBPage::findOne(array('page_id' => $pageId));
+            $page = erLhcoreClassModelMyFBPage::findOne(['filter' => ['page_id' => $pageId]]);
+
+            if (!is_object($page)) {
+                $page = erLhcoreClassModelFBPage::findOne(['filter' => ['page_id' => $pageId]]);
+            }
+
             if (is_object($page)) {
                 $attributes = $params['webhook']->attributes;
                 $attributes['access_token']= $page->access_token;
@@ -121,7 +131,12 @@ class erLhcoreClassExtensionFbmessenger {
     public function addWhatsAppToken($params) {
         if (is_object($params['chat']->incoming_chat) && $params['chat']->incoming_chat->incoming->scope == 'facebookwhatsappscope') {
             if (isset($params['chat']->chat_variables_array['iwh_field_2'])) {
-                $businessAccount = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::findOne(array('customfilter' => array("JSON_CONTAINS(`phone_number_ids`,'\"" . (int)$params['chat']->chat_variables_array['iwh_field_2'] . "\"','$')" )));
+                $businessAccount = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::findOne(array('filter' => ['active' => 1], 'customfilter' => array("JSON_CONTAINS(`phone_number_ids`,'\"" . (int)$params['chat']->chat_variables_array['iwh_field_2'] . "\"','$')" )));
+
+                if (!is_object($businessAccount)) {
+                    $businessAccount = erLhcoreClassModelMyFBPage::findOne(['filter' => ['page_id' => 0, 'whatsapp_business_phone_number_id' => (int)$params['chat']->chat_variables_array['iwh_field_2']]]);
+                }
+
                 // Override only if we found separate business account for that phone number
                 if (is_object($businessAccount)) {
                     $attributes = $params['chat']->incoming_chat->incoming->attributes;
@@ -131,7 +146,12 @@ class erLhcoreClassExtensionFbmessenger {
             }
         } else if (is_object($params['chat']->incoming_chat) && $params['chat']->incoming_chat->incoming->scope == 'facebookmessengerappscope') {
             $pageId = $params['chat']->incoming_chat->chat_external_last;
-            $page = erLhcoreClassModelMyFBPage::findOne(array('page_id' => $pageId));
+            $page = erLhcoreClassModelMyFBPage::findOne(['filter' => ['page_id' => $pageId]]);
+
+            if (!is_object($page)) {
+                $page = erLhcoreClassModelFBPage::findOne(['filter' => ['page_id' => $pageId]]);
+            }
+
             if (is_object($page)) {
                 $attributes = $params['chat']->incoming_chat->incoming->attributes;
                 $attributes['access_token']= $page->access_token;
@@ -154,7 +174,7 @@ class erLhcoreClassExtensionFbmessenger {
 
             $instance = LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance();
 
-            $businessAccount = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::findOne(array('customfilter' => array("JSON_CONTAINS(`phone_number_ids`,'\"" . (int)$params['chat']->chat_variables_array['iwh_field_2'] . "\"','$')" )));
+            $businessAccount = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::findOne(array('filter' => ['active' => 1], 'customfilter' => array("JSON_CONTAINS(`phone_number_ids`,'\"" . (int)$params['chat']->chat_variables_array['iwh_field_2'] . "\"','$')" )));
 
             // Override only if we found separate business account for that phone number
             if (is_object($businessAccount)) {
@@ -260,10 +280,18 @@ class erLhcoreClassExtensionFbmessenger {
                         }
 
                         if ($initMessageFound == false) {
-                            $businessAccount = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::findOne(array('customfilter' => array("JSON_CONTAINS(`phone_number_ids`,'\"" . (int)$changeItem['value']['metadata']["phone_number_id"] . "\"','$')" )));
+                            $businessAccount = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::findOne(array('filter' => ['active' => 1], 'customfilter' => array("JSON_CONTAINS(`phone_number_ids`,'\"" . (int)$changeItem['value']['metadata']["phone_number_id"] . "\"','$')" )));
+
                             // Override only if we found separate business account for that phone number
+                            // Or we have linked whats app page
                             if (is_object($businessAccount)) {
                                 $params['chat']->dep_id = isset($businessAccount->phone_number_deps_array[(string)$changeItem['value']['metadata']["phone_number_id"]]) ? $businessAccount->phone_number_deps_array[(string)$changeItem['value']['metadata']["phone_number_id"]] : $businessAccount->dep_id;
+                            } else {
+                                $businessAccount = erLhcoreClassModelMyFBPage::findOne(['filter' => ['page_id' => 0, 'whatsapp_business_phone_number_id' => (int)$changeItem['value']['metadata']["phone_number_id"]]]);
+                                
+                                if (is_object($businessAccount)) {
+                                    $params['chat']->dep_id = $businessAccount->dep_id;
+                                }
                             }
                         }
                     }
@@ -271,6 +299,11 @@ class erLhcoreClassExtensionFbmessenger {
             }
         } elseif (isset($params['data']['object']) && $params['data']['object'] == 'page' && $params['webhook']->scope == 'facebookmessengerappscope' && isset($params['data']['entry'][0]['id'])) {
             $myFbPage = erLhcoreClassModelMyFBPage::findOne(['filter' => ['page_id' => $params['data']['entry'][0]['id']]]);
+
+            if (!is_object($myFbPage)) {
+                $myFbPage = erLhcoreClassModelFBPage::findOne(['filter' => ['page_id' => $params['data']['entry'][0]['id']]]);
+            }
+
             if (is_object($myFbPage) && $myFbPage->dep_id > 0) {
                 $params['chat']->dep_id = $myFbPage->dep_id;
                 $params['chat']->updateThis(['update' => ['dep_id']]);
@@ -301,7 +334,7 @@ class erLhcoreClassExtensionFbmessenger {
                     $lead->ctime = time();
                     $lead->page_id = $params['chat']->incoming_chat->chat_external_last;
                     $lead->type = 1;
-                    $lead->dep_id = 0;
+                    $lead->dep_id = $params['chat']->dep_id;
                     $lead->saveThis();
                 } elseif ($lead->blocked == 1) {
                     $lead->blocked = 0;
@@ -616,15 +649,7 @@ class erLhcoreClassExtensionFbmessenger {
 		}
 		return self::$persistentSession;
 	}
-	
-	public function setPage($page) {
-	    $this->fbpage = $page;
-	}
-	
-	public function getPage() {
-	    return $this->fbpage;
-	}
-	
+
 	public function __get($var) {
 		switch ($var) {
 			case 'is_active' :
@@ -644,9 +669,7 @@ class erLhcoreClassExtensionFbmessenger {
 	}
 	
 	private static $persistentSession;
-	
-	private $fbpage = null;
-	
+
 	private $configData = false;
 	
 	private $instanceManual = false;

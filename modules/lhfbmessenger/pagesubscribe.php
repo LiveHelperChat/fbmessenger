@@ -77,7 +77,6 @@ foreach ($bodyResponse['data'] as $page) {
 
                         // Set default page settings
                         $ext = erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger');
-                        $ext->setPage($pageMy);
                         $settings = erLhcoreClassModelChatConfig::fetch('fb_page_' . $pageMy->id . '_settings');
 
                         $dataArray = array();
