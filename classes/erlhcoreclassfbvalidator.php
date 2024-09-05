@@ -250,6 +250,7 @@ class erLhcoreClassFBValidator
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         @curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'curl/7.29.0');
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
         $content = curl_exec($ch);
 
@@ -277,6 +278,7 @@ class erLhcoreClassFBValidator
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         @curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'curl/7.29.0');
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($params));
         $content = curl_exec($ch);
@@ -306,6 +308,7 @@ class erLhcoreClassFBValidator
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
         @curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'curl/7.29.0');
         curl_setopt($ch, CURLOPT_HTTPHEADER, array_merge(['Content-Type: application/json'],$params['headers']));
         curl_setopt($ch, CURLOPT_POSTFIELDS, $params['body']);
         $content = curl_exec($ch);
