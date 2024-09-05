@@ -20,7 +20,6 @@
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Gender');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Name');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Surname');?></th>
-            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Subscribe');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Status');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Locale');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Department');?></th>
@@ -44,7 +43,6 @@
                 <td><?php echo ucfirst($item->gender)?></td>
                 <td><?php echo htmlspecialchars($item->first_name)?></td>
                 <td><?php echo htmlspecialchars($item->last_name)?></td>
-                <td><?php echo htmlspecialchars($item->subscribe_channels)?></td>
                 <td><?php echo htmlspecialchars($item->auto_stop)?></td>
                 <td><?php echo htmlspecialchars($item->locale)?></td>
                 <td><?php echo htmlspecialchars($item->dep)?></td>

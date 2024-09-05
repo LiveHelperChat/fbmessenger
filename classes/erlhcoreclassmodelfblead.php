@@ -28,7 +28,6 @@ class erLhcoreClassModelFBLead
             'country' => $this->country,
             'location' => $this->location,
             'profile_pic' => $this->profile_pic,
-            'subscribe' => $this->subscribe,
             'is_payment_enabled' => $this->is_payment_enabled,
             'ctime' => $this->ctime,
             'page_id' => $this->page_id,

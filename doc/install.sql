@@ -53,16 +53,17 @@ CREATE TABLE `lhc_fbmessenger_chat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `lhc_fbmessenger_page` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `dep_id` int(11) NOT NULL,
-  `verified` int(11) NOT NULL,
-  `page_token` varchar(250) CHARACTER SET utf8mb4 NOT NULL,
-  `verify_token` varchar(250) CHARACTER SET utf8mb4 NOT NULL,
-  `name` varchar(250) CHARACTER SET utf8mb4 NOT NULL,
-  `bot_disabled` tinyint(1) NOT NULL,
-  `app_secret` varchar(250) CHARACTER SET utf8mb4 NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+                                        `id` bigint(20) NOT NULL AUTO_INCREMENT,
+                                        `dep_id` int(11) NOT NULL,
+                                        `verified` int(11) NOT NULL,
+                                        `page_token` varchar(250) CHARACTER SET utf8mb4 NOT NULL,
+                                        `verify_token` varchar(250) CHARACTER SET utf8mb4 NOT NULL,
+                                        `name` varchar(250) CHARACTER SET utf8mb4 NOT NULL,
+                                        `app_secret` varchar(250) CHARACTER SET utf8mb4 NOT NULL,
+                                        `bot_disabled` tinyint(1) NOT NULL,
+                                        `page_id` bigint(20) unsigned NOT NULL,
+                                        PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `lhc_fbmessenger_my_page` (
                                            `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -79,31 +80,33 @@ CREATE TABLE `lhc_fbmessenger_my_page` (
 ) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE `lhc_fbmessenger_lead` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `type` tinyint(1) NOT NULL DEFAULT 0,
-  `dep_id` int(11) NOT NULL DEFAULT 0,
-  `blocked` tinyint(1) NOT NULL DEFAULT 0,
-  `page_id` bigint(20) NOT NULL DEFAULT 0,
-  `user_id` bigint(20) NOT NULL,
-  `first_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `last_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `profile_pic` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `profile_pic_updated` int(11) NOT NULL DEFAULT 0,
-  `locale` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `timezone` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `gender` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `country` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `ctime` int(11) DEFAULT NULL,
-  `source` int(1) NOT NULL DEFAULT '0',
-  `is_payment_enabled` tinyint(1) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `user_id` (`user_id`),
-  KEY `blocked` (`blocked`),
-  KEY `dep_id` (`dep_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+                                        `id` bigint(20) NOT NULL AUTO_INCREMENT,
+                                        `type` tinyint(1) NOT NULL DEFAULT 0,
+                                        `dep_id` int(11) NOT NULL DEFAULT 0,
+                                        `blocked` tinyint(1) NOT NULL DEFAULT 0,
+                                        `page_id` bigint(20) NOT NULL DEFAULT 0,
+                                        `user_id` bigint(20) NOT NULL,
+                                        `first_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                        `last_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                        `profile_pic` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                        `profile_pic_updated` int(11) NOT NULL DEFAULT 0,
+                                        `locale` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                        `timezone` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                        `gender` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                        `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                        `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                        `country` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                        `location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+                                        `ctime` int(11) DEFAULT NULL,
+                                        `is_payment_enabled` tinyint(1) DEFAULT 0,
+                                        `creator_id` bigint(20) unsigned NOT NULL DEFAULT 0,
+                                        `source` int(11) NOT NULL DEFAULT 0,
+                                        PRIMARY KEY (`id`),
+                                        UNIQUE KEY `user_id` (`user_id`),
+                                        KEY `blocked` (`blocked`),
+                                        KEY `dep_id` (`dep_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+
 
 CREATE TABLE `lhc_fbmessenger_fbuser` (
 `id` bigint(20) NOT NULL AUTO_INCREMENT,

@@ -20,7 +20,7 @@ $webookHandler = new WebhookRequestHandler($ext->settings['app_settings']['app_s
 
 if (!$webookHandler->isValidCallbackRequest()) {
     if ($ext->settings['enable_debug'] == true) {
-        erLhcoreClassLog::write('INVALID__TOKEN' . print_r($ext->settings['app_settings'],true));
+        erLhcoreClassLog::write('INVALID__TOKEN');
     }
     exit;
 }
