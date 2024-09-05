@@ -101,6 +101,18 @@ $ViewList['disablebot'] = array(
     'functions' => array('use_fb_messenger'),
 );
 
+$ViewList['updatedepartment'] = array(
+    'params' => array('page_id','dep_id'),
+    'uparams' => array(),
+    'functions' => array('use_fb_messenger'),
+);
+
+$ViewList['updatedepartmentwhatsapp'] = array(
+    'params' => array('whatsapp_business_account_id','phone_number_id','dep_id'),
+    'uparams' => array(),
+    'functions' => array('use_fb_messenger'),
+);
+
 $ViewList['fbcallback'] = array(
     'params' => array(),
     'uparams' => array(),

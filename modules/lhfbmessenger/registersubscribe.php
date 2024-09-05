@@ -26,7 +26,7 @@ try {
             $stmt->execute();
         } elseif ($requestBody['action'] == 'remove') {
             $db = ezcDbInstance::get();
-            $stmt = $db->prepare("DELETE FROM lhc_fbmessenger_standalone_fb_page WHERE page_id = :page_id AND address = :address AND instance_id = :instance_id, instagram_business_account = :instagram_business_account, whatsapp_business_account_id = :whatsapp_business_account_id, whatsapp_business_phone_number_id = :whatsapp_business_phone_number_id");
+            $stmt = $db->prepare("DELETE FROM lhc_fbmessenger_standalone_fb_page WHERE page_id = :page_id AND address = :address AND instance_id = :instance_id AND instagram_business_account = :instagram_business_account AND whatsapp_business_account_id = :whatsapp_business_account_id AND whatsapp_business_phone_number_id = :whatsapp_business_phone_number_id");
             $stmt->bindValue( ':page_id',$requestBody['page_id']);
             $stmt->bindValue( ':address',$requestBody['address']);
             $stmt->bindValue( ':instance_id',$requestBody['instance_id']);

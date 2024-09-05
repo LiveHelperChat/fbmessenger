@@ -13,7 +13,8 @@
                             'css_class'      => 'form-control form-control-sm',
                             'selected_id'    => isset($current_pages[$page['id']]) ? $current_pages[$page['id']]->dep_id : 0,
                             'list_function'  => 'erLhcoreClassModelDepartament::getList',
-                            'list_function_params'  => array('limit' => '1000000')
+                            'on_change'     => 'updateDepartment(' . $page['id'] . ',$(this).val())',
+                            'list_function_params'  => array('limit' => false)
                         );  echo erLhcoreClassRenderHelper::renderCombobox( $params ); ?></div>
                     <div class="col-4">
                         <?php if (isset($current_pages[$page['id']]) && $current_pages[$page['id']]->enabled == 1) : ?>
@@ -60,6 +61,7 @@
                             'css_class'      => 'form-control form-control-sm',
                             'selected_id'    => isset($current_pages_whatsapp[$phoneNumber['whatsapp_business_account_id']]) ? $current_pages_whatsapp[$phoneNumber['whatsapp_business_account_id']]->dep_id : 0,
                             'list_function'  => 'erLhcoreClassModelDepartament::getList',
+                            'on_change'     => 'updateDepartmentWhatsApp(' . $phoneNumber['whatsapp_business_account_id'] . ',' . $phoneNumber['id'] . ',$(this).val())',
                             'list_function_params'  => array('limit' => '1000000')
                         );  echo erLhcoreClassRenderHelper::renderCombobox( $params ); ?></div>
                     <div class="col-4">
@@ -80,5 +82,26 @@
         </tr>
     <?php endforeach; endif;?>
 </table>
+
+<script>
+    function updateDepartment(page_id,dep_id) {
+        $.postJSON(WWW_DIR_JAVASCRIPT  +'fbmessenger/updatedepartment/' + page_id + '/' + dep_id, function(data) {
+            if (data.updated){
+                alert(data.msg);
+            } else if (data.error) {
+                alert(data.msg);
+            }
+        });
+    }
+    function updateDepartmentWhatsApp(whatsapp_business_account_id,phone_number_id,dep_id) {
+        $.postJSON(WWW_DIR_JAVASCRIPT  +'fbmessenger/updatedepartmentwhatsapp/' + whatsapp_business_account_id + '/' + phone_number_id + '/' + dep_id, function(data) {
+            if (data.updated){
+                alert(data.msg);
+            } else if (data.error) {
+                alert(data.msg);
+            }
+        });
+    }
+</script>
 
 <?php include(erLhcoreClassDesign::designtpl('lhkernel/secure_links.tpl.php')); ?>

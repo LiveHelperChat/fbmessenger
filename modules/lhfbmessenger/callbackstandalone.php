@@ -46,11 +46,11 @@ try {
         if (!empty($addressInstance['address']) || !empty($addressInstance['instance_id'])) {
 
             if (!empty($addressInstance['address'])) {
-                $addressInstance = $addressInstance['address'];
+                $addressInstanceURL = $addressInstance['address'];
             } else {
                 $cfg = erConfigClassLhConfig::getInstance();
                 $instance = erLhcoreClassModelInstance::fetch($addressInstance['instance_id']);
-                $addressInstance = erConfigClassLhConfig::getInstance()->getSetting( 'site', 'http_mode').$instance->address . '.' . $cfg->getSetting( 'site', 'seller_domain');
+                $addressInstanceURL = $instance->address . '.' . $cfg->getSetting( 'site', 'seller_domain');
             }
 
             erLhcoreClassFBValidator::proxyStandaloneRequest([
@@ -59,7 +59,7 @@ try {
                     'X-Hub-Signature: '.$_SERVER['HTTP_X_HUB_SIGNATURE']
                 ],
                 'body' => file_get_contents('php://input'),
-                'address' => 'https://'.$addressInstance.'/fbmessenger/callbackgeneral'
+                'address' => 'https://' . $addressInstanceURL.'/fbmessenger/callbackgeneral'
             ]);
 
         } else {

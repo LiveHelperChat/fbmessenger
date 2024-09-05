@@ -17,6 +17,47 @@ Changes
 * Instagram support added
 * Required scopes are defined in the settings file.
 
+To manage instagram and whatsapp they both has to be matched to you page
+
+# Permissions we request from facebook during login
+
+Default scopes. You can change those in settings/settings.ini.php file
+
+```
+'email','pages_show_list','pages_messaging','instagram_manage_messages',
+'instagram_basic','pages_manage_metadata','pages_read_engagement',
+'whatsapp_business_management','whatsapp_business_messaging','business_management'
+```
+
+# Webhook configuration and subscription fields
+
+Webhooks configuration place
+
+![See image](https://raw.githubusercontent.com/LiveHelperChat/fbmessenger/master/doc/webhooks-app.png)
+
+Products you should have
+
+![See image](https://raw.githubusercontent.com/LiveHelperChat/fbmessenger/master/doc/products-app.png)
+
+
+### Facebook messenger
+
+In webhooks page you have to choose `Page` and subscribe to those fields
+
+Subscribed fields - `message_deliveries,message_echoes,message_edits,message_reactions,message_reads,messages,messaging_postbacks`
+
+### Instagram
+
+In webhooks page you have to choose `Instagram` and subscribe to those fields
+
+Subscribed fields - `messages,messages,messaging_postbacks,messaging_seen`
+
+### WhatsApp
+
+In webhooks page you have to choose `Whatsapp Business Account` and subscribe to those fields
+
+Subscribed fields - `messages`
+
 ## Most common URL
 
 ### URL if you are using Facebook Login flow without automated hosting environment
@@ -25,31 +66,31 @@ This is the most common installation method and you choose what page you managed
 
 Webhook URL's. Use same URL for webhook verification calls.
 
-* Facebook Messenger - `https://exmaple.com/fbmessenger/fbmessenger/callbackgeneral`
-* WhatsApp - `https://exmaple.com/fbmessenger/callbackwhatsapp`
-* Instagram - `https://exmaple.com/fbmessenger/callbackinstagram`
+* Facebook Messenger - `https://example.com/fbmessenger/fbmessenger/callbackgeneral`
+* WhatsApp - `https://example.com/fbmessenger/callbackwhatsapp`
+* Instagram - `https://example.com/fbmessenger/callbackinstagram`
 
 Valid OAuth Redirect URIs
 
-* `https://exmaple.com/site_admin/fbmessenger/fbcallback`
+* `https://example.com/site_admin/fbmessenger/fbcallback`
 
-### Webhook URL for facebook messenger if you define standalone page
+### Webhook URL for facebook messenger if you define independent page
 
 You create a facebook app and add pages manually to lhc back office without login flow.
 
-* Facebook Messenger - `https://exmaple.com/fbmessenger/fbmessenger/callback/<page_id>`
+* Facebook Messenger - `https://example.com/fbmessenger/fbmessenger/callback/<page_id>`
 
 ### URL if you are using Facebook Login flow with automated hosting environment
 
-Valid OAuth Redirect URIs
+Valid OAuth Redirect URIs. `master.example.com` in this scenario is our manager address
 
-* `https://devmysql.livehelperchat.com/site_admin/fbmessenger/fbcallbackstandalone`
+* `https://master.example.com/site_admin/fbmessenger/fbcallbackstandalone`
 
 Webhook URL's. Use same URL for webhook verification calls.
 
  * Facebook Messenger - `https://master.example.com/fbmessenger/callbackstandalone`
- * WhatsApp - `https://devmysql.livehelperchat.com/fbmessenger/callbackstandalonewhatsapp`
- * Instagram - `https://devmysql.livehelperchat.com/fbmessenger/callbackstandaloneinstagram`
+ * WhatsApp - `https://master.example.com/fbmessenger/callbackstandalonewhatsapp`
+ * Instagram - `https://master.example.com/fbmessenger/callbackstandaloneinstagram`
 
 # Facebook messenger extension
 Integration with Facebook messenger API. You will be able to chat with Facebook page users directly in lhc back office.
