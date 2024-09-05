@@ -9,7 +9,7 @@
         <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Page');?></th>
         <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Callback URL');?></th>
         <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Verified');?></th>
-        <th width="1%"></th>
+        <th width="1%" colspan="2"></th>
     </tr>
 </thead>
     <?php foreach ($items as $item) : ?>

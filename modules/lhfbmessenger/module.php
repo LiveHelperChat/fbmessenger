@@ -15,6 +15,16 @@ $ViewList['callbackstandalone'] = array(
     'uparams' => array()
 );
 
+$ViewList['callbackstandaloneinstagram'] = array(
+    'params' => array(),
+    'uparams' => array()
+);
+
+$ViewList['callbackstandalonewhatsapp'] = array(
+    'params' => array(),
+    'uparams' => array()
+);
+
 $ViewList['callbackgeneral'] = array(
     'params' => array(),
     'uparams' => array()
@@ -91,6 +101,18 @@ $ViewList['disablebot'] = array(
     'functions' => array('use_fb_messenger'),
 );
 
+$ViewList['updatedepartment'] = array(
+    'params' => array('page_id','dep_id'),
+    'uparams' => array(),
+    'functions' => array('use_fb_messenger'),
+);
+
+$ViewList['updatedepartmentwhatsapp'] = array(
+    'params' => array('whatsapp_business_account_id','phone_number_id','dep_id'),
+    'uparams' => array(),
+    'functions' => array('use_fb_messenger'),
+);
+
 $ViewList['fbcallback'] = array(
     'params' => array(),
     'uparams' => array(),
@@ -133,10 +155,22 @@ $ViewList['index'] = array(
     'functions' => array('use_admin'),
 );
 
+$ViewList['deletelead'] = array(
+    'params' => array('id'),
+    'uparams' => array('csfr'),
+    'functions' => array('use_fb_messenger'),
+);
+
 $ViewList['pagesubscribe'] = array(
     'params' => array('id'),
     'uparams' => array('action','dep','csfr'),
     'functions' => array('use_fb_messenger'),
+);
+
+$ViewList['whatsappsubscribe'] = array(
+    'params' => array('business_id','whatsapp_business_account_id','phone_number_id'),
+    'uparams' => array('action','dep'),
+    'functions' => array('use_admin'),
 );
 
 $ViewList['list'] = array(
@@ -163,34 +197,30 @@ $ViewList['delete'] = array(
     'functions' => array('use_fb_messenger'),
 );
 
+$ViewList['fbcallbackapp'] = array(
+    'params' => array(),
+    'uparams' => array(),
+);
+
 $ViewList['deletenotification'] = array(
     'params' => array('id'),
     'uparams' => array('csfr'),
     'functions' => array('use_fb_messenger'),
 );
 
-$ViewList['deletebbcode'] = array(
-    'params' => array('id'),
-    'uparams' => array('csfr'),
-    'functions' => array('use_fb_messenger'),
-);
-
-$ViewList['bbcode'] = array(
+$ViewList['callbackinstagram'] = array(
     'params' => array(),
-    'uparams' => array(),
-    'functions' => array('use_fb_messenger'),
+    'uparams' => array()
 );
 
-$ViewList['newbbcode'] = array(
+$ViewList['callbackwhatsapp'] = array(
     'params' => array(),
-    'uparams' => array(),
-    'functions' => array('use_fb_messenger'),
+    'uparams' => array()
 );
 
-$ViewList['editbbcode'] = array(
-    'params' => array('id'),
-    'uparams' => array(),
-    'functions' => array('use_fb_messenger'),
+$ViewList['callbackstandalonelegacy'] = array(
+    'params' => array(),
+    'uparams' => array()
 );
 
 $FunctionList['use_admin'] = array('explain' => 'Allow operator to use see menu option');

@@ -4,6 +4,11 @@
 </div>
 
 <div class="form-group">
+    <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Page ID');?></label>
+    <input type="text" maxlength="250" class="form-control" name="page_id" value="<?php echo htmlspecialchars($item->page_id)?>" />
+</div>
+
+<div class="form-group">
     <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Page token');?></label>
     <input type="text" maxlength="250" class="form-control" name="page_token" value="<?php echo htmlspecialchars($item->page_token)?>" />
 </div>

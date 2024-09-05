@@ -10,10 +10,10 @@ $item =  erLhcoreClassModelFBPage::fetch($Params['user_parameters']['id']);
 use Tgallice\FBMessenger\Messenger;
 
 if ($Params['user_parameters_unordered']['action'] == 'addbutton') {
-    $messenger = Messenger::create($item->page_token);
+    $messenger = Messenger::create($item->access_token);
     $messenger->setStartedButton('GET_STARTED');
 } else if ($Params['user_parameters_unordered']['action'] == 'rembutton') {
-    $messenger = Messenger::create($item->page_token);
+    $messenger = Messenger::create($item->access_token);
     $messenger->deleteStartedButton();
 }
 

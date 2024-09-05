@@ -16,9 +16,9 @@ class erLhcoreClassModelFBMessengerUser
     {
         return array(
             'id' => $this->id,
-            'user_id' => $this->user_id,
-            'fb_user_id' => $this->fb_user_id,
-            'access_token' => $this->access_token
+        	'user_id' => $this->user_id,
+        	'fb_user_id' => $this->fb_user_id,
+        	'access_token' => $this->access_token           
         );
     }
 
@@ -30,8 +30,8 @@ class erLhcoreClassModelFBMessengerUser
 
         return new \Facebook\Facebook([
             'app_id' => $ext->settings['app_settings']['app_id'],
-            'app_secret' => $ext->settings['app_settings']['app_secret'],
-            'default_graph_version' => 'v2.12'
+            'app_secret' =>  $ext->settings['app_settings']['app_secret'],
+            'default_graph_version' => 'v20.0'
         ]);
     }
 
@@ -44,7 +44,7 @@ class erLhcoreClassModelFBMessengerUser
             self::$fb = new \Facebook\Facebook([
                 'app_id' => $ext->settings['app_settings']['app_id'],
                 'app_secret' => $ext->settings['app_settings']['app_secret'],
-                'default_graph_version' => 'v2.12'
+                'default_graph_version' => 'v20.0'
             ]);
 
             $fbUser = erLhcoreClassModelFBMessengerUser::findOne(array('filter' => array('user_id' => erLhcoreClassUser::instance()->getUserID())));
@@ -53,9 +53,8 @@ class erLhcoreClassModelFBMessengerUser
                 self::$fb->setDefaultAccessToken($fbUser->access_token);
             } else {
                 if ($redirect == true) {
-                    $permissions = ['email', 'manage_pages', 'pages_show_list', 'pages_messaging', 'pages_messaging_subscriptions']; // Optional permissions
+                    $permissions = erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['scopes']; // Optional permissions
                     $helper = self::$fb->getRedirectLoginHelper();
-
                     header('Location: ' . $helper->getLoginUrl('https://'.$_SERVER['HTTP_HOST']. erLhcoreClassDesign::baseurl('fbmessenger/fbcallback'), $permissions));
                     exit;
                 } else {
@@ -69,32 +68,32 @@ class erLhcoreClassModelFBMessengerUser
 
     public function __toString()
     {
-        return $this->name;
+    	return $this->name;
     }
 
     public function __get($var)
     {
         switch ($var) {
-
+                
             case 'callback_url':
                 $this->callback_url = erLhcoreClassXMP::getBaseHost() . $_SERVER['HTTP_HOST'] . erLhcoreClassDesign::baseurldirect('fbmessenger/callback') . '/' . $this->id;
                 return $this->callback_url;
                 break;
-
+                
             default:
                 ;
                 break;
         }
     }
-
+    
     public $id = null;
 
     public $user_id = null;
-
+    
     public $fb_user_id = null;
 
-    public $access_token = null;
-
+    public $access_token = null;   
+    
 }
 
 ?>

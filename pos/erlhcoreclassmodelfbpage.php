@@ -14,6 +14,11 @@ $def->properties['dep_id']->columnName   = 'dep_id';
 $def->properties['dep_id']->propertyName = 'dep_id';
 $def->properties['dep_id']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
 
+$def->properties['page_id'] = new ezcPersistentObjectProperty();
+$def->properties['page_id']->columnName   = 'page_id';
+$def->properties['page_id']->propertyName = 'page_id';
+$def->properties['page_id']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
+
 $def->properties['page_token'] = new ezcPersistentObjectProperty();
 $def->properties['page_token']->columnName   = 'page_token';
 $def->properties['page_token']->propertyName = 'page_token';
