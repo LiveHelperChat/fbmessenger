@@ -33,8 +33,9 @@ class erLhcoreClassExtensionFbmessenger {
 
         // Bot related callbacks
         $dispatcher->listen('chat.genericbot_set_bot',array(
-                $this, 'allowSetBot')
-        );
+                $this,
+                'allowSetBot'
+        ));
 
         // WhatsApp Integration
         $dispatcher->listen('chat.webhook_incoming', array(
@@ -102,7 +103,7 @@ class erLhcoreClassExtensionFbmessenger {
                 $businessAccount = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::findOne(array('filter' => ['active' => 1], 'customfilter' => array("JSON_CONTAINS(`phone_number_ids`,'\"" . (int)$params['chat']->chat_variables_array['iwh_field_2'] . "\"','$')" )));
 
                 if (!is_object($businessAccount)) {
-                    $businessAccount = erLhcoreClassModelMyFBPage::findOne(['filter' => ['page_id' => 0,/*'whatsapp_business_account_id' =>  $params['data']['entry'][0]['id'],*/'whatsapp_business_phone_number_id' => (int)$params['chat']->chat_variables_array['iwh_field_2']]]);
+                    $businessAccount = erLhcoreClassModelMyFBPage::findOne(['filter' => ['page_id' => 0, 'whatsapp_business_phone_number_id' => (int)$params['chat']->chat_variables_array['iwh_field_2']]]);
                 }
 
                 // Override only if we found separate business account for that phone number
@@ -112,6 +113,18 @@ class erLhcoreClassExtensionFbmessenger {
                     $params['webhook']->attributes = $attributes;
                 }
             }
+        } else if (is_object($params['chat']->iwh) && $params['chat']->iwh->scope == 'facebookinstagramappscope') {
+            $pageId = $params['data']['entry'][0]['id'];
+            $page = erLhcoreClassModelMyFBPage::findOne(['filter' => ['instagram_business_account' => $pageId]]);
+
+            if (is_object($page)) {
+                self::$currentPage = $page;
+                $attributes = $params['webhook']->attributes;
+                $attributes['access_token']= $page->access_token;
+                $attributes['page_id']= $page->page_id;
+                $params['webhook']->attributes = $attributes;
+            }
+
         } else if (is_object($params['chat']->iwh) && $params['chat']->iwh->scope == 'facebookmessengerappscope') {
             $pageId = $params['data']['entry'][0]['id'];
             $page = erLhcoreClassModelMyFBPage::findOne(['filter' => ['page_id' => $pageId]]);
@@ -121,6 +134,7 @@ class erLhcoreClassExtensionFbmessenger {
             }
 
             if (is_object($page)) {
+                self::$currentPage = $page;
                 $attributes = $params['webhook']->attributes;
                 $attributes['access_token']= $page->access_token;
                 $params['webhook']->attributes = $attributes;
@@ -155,6 +169,17 @@ class erLhcoreClassExtensionFbmessenger {
             if (is_object($page)) {
                 $attributes = $params['chat']->incoming_chat->incoming->attributes;
                 $attributes['access_token']= $page->access_token;
+                $params['chat']->incoming_chat->incoming->attributes = $attributes;
+            }
+        } else if (is_object($params['chat']->iwh) && $params['chat']->iwh->scope == 'facebookinstagramappscope') {
+
+            $pageId = $params['chat']->incoming_chat->chat_external_last;
+            $page = erLhcoreClassModelMyFBPage::findOne(['filter' => ['instagram_business_account' => $pageId]]);
+
+            if (is_object($page)) {
+                $attributes = $params['chat']->incoming_chat->incoming->attributes;
+                $attributes['access_token']= $page->access_token;
+                $attributes['page_id']= $page->page_id;
                 $params['chat']->incoming_chat->incoming->attributes = $attributes;
             }
         }
@@ -205,12 +230,12 @@ class erLhcoreClassExtensionFbmessenger {
     // WhatsApp Verify Token override call
     public function verifyWhatsAppToken($params)
     {
-        $tOptions = \erLhcoreClassModelChatConfig::fetch('fbmessenger_options');
-        $data = (array)$tOptions->data;
         if (
-            isset($_GET['hub_verify_token']) && $_GET['hub_verify_token'] == $data['whatsapp_verify_token']
+            isset($_GET['hub_verify_token'])
         ) {
-            if (isset($_GET['hub_mode']) && $_GET['hub_mode'] == 'subscribe') {
+            $tOptions = \erLhcoreClassModelChatConfig::fetch('fbmessenger_options');
+            $data = (array)$tOptions->data;
+            if ($_GET['hub_verify_token'] == $data['whatsapp_verify_token'] && isset($_GET['hub_mode']) && $_GET['hub_mode'] == 'subscribe') {
                 echo $_GET['hub_challenge'];
                 exit;
             }
@@ -299,12 +324,20 @@ class erLhcoreClassExtensionFbmessenger {
             }
         } elseif (isset($params['data']['object']) && $params['data']['object'] == 'page' && $params['webhook']->scope == 'facebookmessengerappscope' && isset($params['data']['entry'][0]['id'])) {
             $myFbPage = erLhcoreClassModelMyFBPage::findOne(['filter' => ['page_id' => $params['data']['entry'][0]['id']]]);
-
             if (!is_object($myFbPage)) {
                 $myFbPage = erLhcoreClassModelFBPage::findOne(['filter' => ['page_id' => $params['data']['entry'][0]['id']]]);
             }
 
             if (is_object($myFbPage) && $myFbPage->dep_id > 0) {
+                self::$currentPage = $myFbPage;
+                $params['chat']->dep_id = $myFbPage->dep_id;
+                $params['chat']->updateThis(['update' => ['dep_id']]);
+            }
+        } elseif (isset($params['data']['object']) && $params['data']['object'] == 'page' && $params['webhook']->scope == 'facebookinstagramappscope' && isset($params['data']['entry'][0]['id'])) {
+            $myFbPage = erLhcoreClassModelMyFBPage::findOne(['filter' => ['instagram_business_account' => $params['data']['entry'][0]['id']]]);
+
+            if (is_object($myFbPage) && $myFbPage->dep_id > 0) {
+                self::$currentPage = $myFbPage;
                 $params['chat']->dep_id = $myFbPage->dep_id;
                 $params['chat']->updateThis(['update' => ['dep_id']]);
             }
@@ -313,19 +346,34 @@ class erLhcoreClassExtensionFbmessenger {
 
     public function fetchMessengerUser($params)
     {
-        if (is_object($params['chat']->iwh) && $params['chat']->iwh->scope == 'facebookmessengerappscope') {
+        if (is_object($params['chat']->iwh) && ($params['chat']->iwh->scope == 'facebookmessengerappscope' || $params['chat']->iwh->scope == 'facebookinstagramappscope')) {
             $chatAttribute = $params['webhook']->attributes;
             try {
                 $senderId = $params['chat']->incoming_chat->chat_external_first;
                 $messenger = Tgallice\FBMessenger\Messenger::create($chatAttribute['access_token']);
-                $profile = $messenger->getUserProfile($senderId);
+
+                if ($params['chat']->iwh->scope == 'facebookinstagramappscope') {
+                    $profile = $messenger->getUserProfile($senderId,[
+                        \Tgallice\FBMessenger\Model\UserProfile::INSTAGRAM_NAME,
+                        \Tgallice\FBMessenger\Model\UserProfile::PROFILE_PIC
+                    ]);
+                } else {
+                    $profile = $messenger->getUserProfile($senderId);
+                }
+
                 $lead = erLhcoreClassModelFBLead::findOne(array('filter' => array('user_id' => $senderId)));
 
                 if (!($lead instanceof erLhcoreClassModelFBLead)) {
                     $lead = new erLhcoreClassModelFBLead();
                     $lead->user_id = $senderId;
-                    $lead->first_name = $profile->getFirstName();
-                    $lead->last_name = $profile->getLastName();
+
+                    if ($params['chat']->iwh->scope == 'facebookinstagramappscope') {
+                        $lead->first_name = $profile->getName();
+                    } else {
+                        $lead->first_name = $profile->getFirstName();
+                        $lead->last_name = $profile->getLastName();
+                    }
+
                     $lead->profile_pic = $profile->getProfilePic();
                     $lead->locale = $profile->getLocale();
                     $lead->timezone = $profile->getTimezone();
@@ -333,7 +381,12 @@ class erLhcoreClassExtensionFbmessenger {
                     $lead->is_payment_enabled = 0;
                     $lead->ctime = time();
                     $lead->page_id = $params['chat']->incoming_chat->chat_external_last;
-                    $lead->type = 1;
+
+                    if ($params['chat']->iwh->scope == 'facebookinstagramappscope') {
+                        $lead->source = erLhcoreClassModelFBLead::SOURCE_INSTAGRAM;
+                    }
+
+                    $lead->type = self::$typePage;
                     $lead->dep_id = $params['chat']->dep_id;
                     $lead->saveThis();
                 } elseif ($lead->blocked == 1) {
@@ -341,7 +394,7 @@ class erLhcoreClassExtensionFbmessenger {
                     $lead->saveThis();
                 }
 
-               $params['chat']->nick = trim($profile->getFirstName() . ' ' . $profile->getLastName());
+               $params['chat']->nick = trim( $lead->first_name . ' ' . $lead->last_name);
                $params['chat']->updateThis(['update' => ['nick']]);
 
             } catch (Exception $e) {
@@ -357,7 +410,6 @@ class erLhcoreClassExtensionFbmessenger {
             isset($params['data']['entry']) &&
             $params['data']['object'] == 'whatsapp_business_account'
         ) {
-            $skippedMessage = false;
             foreach ($params['data']['entry'] as $entryItem) {
                 foreach ($entryItem['changes'] as $changeItem) {
                     if (isset($changeItem['value']['statuses'])) {
@@ -492,69 +544,27 @@ class erLhcoreClassExtensionFbmessenger {
                                     $campaignRecipient->conversation_id = $fbWhatsAppMessage->chat_id > 0 ? $fbWhatsAppMessage->chat_id : $chatId;
                                     $campaignRecipient->updateThis(['update' => ['conversation_id']]);
                                 }
-
-                            } else { // It was normal message delivery status change
-
-                                $conditions = $params['webhook']->conditions_array;
-
-                                $chatIdExternal = $statusItem['recipient_id'];
-
-                                if (isset($conditions['chat_id_preg_rule']) && $conditions['chat_id_preg_rule'] != '') {
-                                    $chatIdExternal = preg_replace($conditions['chat_id_preg_rule'], $conditions['chat_id_preg_value'], $chatIdExternal);
-                                }
-
-                                $incomingChat = erLhcoreClassModelChatIncoming::findOne(array('filter' => array('chat_external_id' => $chatIdExternal.'__'.$changeItem['value']['metadata']['phone_number_id'])));
-
-                                // Chat was found, now we need to find exact message
-                                if ($incomingChat instanceof erLhcoreClassModelChatIncoming && is_object($incomingChat->chat)) {
-
-                                    $statusMap = [
-                                        'pending' => erLhcoreClassModelmsg::STATUS_PENDING,
-                                        'sent' => erLhcoreClassModelmsg::STATUS_SENT,
-                                        'delivered' => erLhcoreClassModelmsg::STATUS_DELIVERED,
-                                        'read' =>  erLhcoreClassModelmsg::STATUS_READ,
-                                        'rejected' =>  erLhcoreClassModelmsg::STATUS_REJECTED
-                                    ];
-
-                                    $msg = erLhcoreClassModelmsg::findOne(['filter' => ['chat_id' => $incomingChat->chat->id],'customfilter' => ['`meta_msg` != \'\' AND JSON_EXTRACT(meta_msg,\'$.iwh_msg_id\') = ' . ezcDbInstance::get()->quote($statusItem['id'])]]);
-
-                                    if (is_object($msg) && $msg->del_st != erLhcoreClassModelmsg::STATUS_READ) {
-
-                                        $msg->del_st = max($statusMap[$statusItem['status']],$msg->del_st);
-                                        $msg->updateThis(['update' => ['del_st']]);
-
-                                        // Refresh message delivery status for op
-                                        $chat = $incomingChat->chat;
-                                        $chat->operation_admin .= "lhinst.updateMessageRowAdmin({$msg->chat_id},{$msg->id});";
-                                        if ($msg->del_st == erLhcoreClassModelmsg::STATUS_READ) {
-                                            $chat->has_unread_op_messages = 0;
-                                        }
-                                        $chat->updateThis(['update' => ['operation_admin','has_unread_op_messages']]);
-
-                                        // NodeJS to update message delivery status
-                                        erLhcoreClassChatEventDispatcher::getInstance()->dispatch('chat.message_updated', array('msg' => & $msg, 'chat' => & $chat));
-                                    }
-
-                                }
                             }
                         }
-                    } else {
-                        $skippedMessage = true;
                     }
                 }
             }
 
-            // There was only our processed messages in the callback
-            // No need to process anything else
-            if ($skippedMessage === false) {
-                exit;
-            }
         } elseif (
             // This is echo message from our own API Call
-            $params['webhook']->scope == 'facebookmessengerappscope' &&
-            isset($params['data']['entry'][0]['messaging'][0]['message']['is_echo']) &&
-            isset($params['data']['entry'][0]['messaging'][0]['message']['app_id']) &&
-            $params['data']['entry'][0]['messaging'][0]['message']['app_id'] == $this->settings['app_settings']['app_id']
+            ($params['webhook']->scope == 'facebookmessengerappscope' &&
+                isset($params['data']['entry'][0]['messaging'][0]['message']['is_echo']) &&
+                isset($params['data']['entry'][0]['messaging'][0]['message']['app_id']) &&
+                $params['data']['entry'][0]['messaging'][0]['message']['app_id'] == $this->settings['app_settings']['app_id']) ||
+            (
+            // This is echo message from our own API Call
+            $params['webhook']->scope == 'facebookinstagramappscope' &&
+            isset($params['data']['entry'][0]['messaging'][0]['message']['is_echo'])
+            // Instagram does not differentiates what app was original message so we don't know was it our message or
+            // message from direct conversation
+            /*isset($params['data']['entry'][0]['messaging'][0]['message']['app_id']) &&
+            $params['data']['entry'][0]['messaging'][0]['message']['app_id'] == $this->settings['app_settings']['app_id']*/
+        )
         ) {
            exit;
         }
@@ -562,22 +572,12 @@ class erLhcoreClassExtensionFbmessenger {
 
     public static function allowSetBot($params)
     {
-        $chat = $params['chat'];
-
-        $variablesArray = $chat->chat_variables_array;
-
-        if (isset($variablesArray['fb_chat']) && is_numeric($variablesArray['fb_chat'])) {
-
-            $tOptions = \erLhcoreClassModelChatConfig::fetch('fbmessenger_options');
-            $data = (array)$tOptions->data;
-
-            if (isset($data['block_bot']) && $data['block_bot'] == 1) {
+        if (is_object($params['chat']->incoming_chat) &&
+            in_array($params['chat']->incoming_chat->incoming->scope,['facebookmessengerappscope','facebookinstagramappscope']) &&
+            is_object(self::$currentPage) && self::$currentPage->bot_disabled == 1) {
                 return array('status' => erLhcoreClassChatEventDispatcher::STOP_WORKFLOW);
-            }
         }
     }
-
-
 
 	/**
 	 * Checks automated hosting structure
@@ -627,7 +627,6 @@ class erLhcoreClassExtensionFbmessenger {
 	public function autoload($className) {
 		$classesArray = array (
 				'erLhcoreClassModelFBPage'  => 'extension/fbmessenger/classes/erlhcoreclassmodelfbpage.php',
-				'erLhcoreClassModelFBBBCode'=> 'extension/fbmessenger/classes/erlhcoreclassmodelfbbbcode.php',
 				'erLhcoreClassFBValidator'                          => 'extension/fbmessenger/classes/erlhcoreclassfbvalidator.php',
 				'erLhcoreClassModelFBMessengerUser'                 => 'extension/fbmessenger/classes/erlhcoreclassmodelfbuser.php',
 				'erLhcoreClassModelMyFBPage'                        => 'extension/fbmessenger/classes/erlhcoreclassmodelmyfbpage.php',
@@ -673,6 +672,9 @@ class erLhcoreClassExtensionFbmessenger {
 	private $configData = false;
 	
 	private $instanceManual = false;
+
+    public static $typePage = 1;
+    public static $currentPage = null;
 }
 
 

@@ -1,6 +1,55 @@
+# Features
+
+* Instagram
+* WhatsApp
+* Facebook Messenger
+* Message delivery status indication
+* Reactions
+* Bot support
+
 # Requirements
 
-Min 4.26 Live Helper Chat version.
+Min 4.46 Live Helper Chat version. 1.8v
+
+Changes
+
+* All messenger workflow will be handled by lhc core, so less bugs.
+* Instagram support added
+* Required scopes are defined in the settings file.
+
+## Most common URL
+
+### URL if you are using Facebook Login flow without automated hosting environment
+
+This is the most common installation method and you choose what page you managed during login flow.
+
+Webhook URL's. Use same URL for webhook verification calls.
+
+* Facebook Messenger - `https://exmaple.com/fbmessenger/fbmessenger/callbackgeneral`
+* WhatsApp - `https://exmaple.com/fbmessenger/callbackwhatsapp`
+* Instagram - `https://exmaple.com/fbmessenger/callbackinstagram`
+
+Valid OAuth Redirect URIs
+
+* `https://exmaple.com/site_admin/fbmessenger/fbcallback`
+
+### Webhook URL for facebook messenger if you define standalone page
+
+You create a facebook app and add pages manually to lhc back office without login flow.
+
+* Facebook Messenger - `https://exmaple.com/fbmessenger/fbmessenger/callback/<page_id>`
+
+### URL if you are using Facebook Login flow with automated hosting environment
+
+Valid OAuth Redirect URIs
+
+* `https://devmysql.livehelperchat.com/site_admin/fbmessenger/fbcallbackstandalone`
+
+Webhook URL's. Use same URL for webhook verification calls.
+
+ * Facebook Messenger - `https://master.example.com/fbmessenger/callbackstandalone`
+ * WhatsApp - `https://devmysql.livehelperchat.com/fbmessenger/callbackstandalonewhatsapp`
+ * Instagram - `https://devmysql.livehelperchat.com/fbmessenger/callbackstandaloneinstagram`
 
 # Facebook messenger extension
 Integration with Facebook messenger API. You will be able to chat with Facebook page users directly in lhc back office.
@@ -236,38 +285,5 @@ And add this line
 ```
 
 # Todo
- * Add support for automated hosting environment.
- * Get facebook user details like email or phone.
- * Support for reactions
- * Support for messages delivery status
-
-Support reactions
-
-```json
-{
-    "object": "page",
-    "entry": [
-        {
-            "time": 1724823155620,
-            "id": "384264185009325",
-            "messaging": [
-                {
-                    "sender": {
-                        "id": "1524304520946032"
-                    },
-                    "recipient": {
-                        "id": "384264185009325"
-                    },
-                    "timestamp": 1724823155439,
-                    "reaction": {
-                        "mid": "m_EY8RCDmlAwLV0qC58VoxMQfERpjjsOU-gzKWAIcVKXIrPc4R1SE0eh20kA0FUJxnE7RO3QLpzRL0scYbVOl5jg",
-                        "action": "react",
-                        "emoji": "\ud83d\udc4d",
-                        "reaction": "like"
-                    }
-                }
-            ]
-        }
-    ]
-}
-```
+ * Add support for typing indicator
+ * Add support for messenger notifications campaigns

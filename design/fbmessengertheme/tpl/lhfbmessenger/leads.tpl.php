@@ -37,7 +37,7 @@
                     N/A
                     <?php endif; ?>
                 </td>
-                <td><?php echo htmlspecialchars($item->page_id)?></td>
+                <td><?php if ($item->source == erLhcoreClassModelFBLead::SOURCE_INSTAGRAM) : ?><img class="img-fluid me-2" src="<?php echo erLhcoreClassDesign::design('images/social/instagram-ico.png')?>"><?php else : ?><img class="img-fluid me-2" src="<?php echo erLhcoreClassDesign::design('images/social/messenger-ico.png')?>"><?php endif; ?><?php echo htmlspecialchars($item->page_id)?></td>
                 <td><?php echo htmlspecialchars($item->user_id)?></td>
                 <td><?php echo htmlspecialchars($item->email)?></td>
                 <td><?php echo htmlspecialchars($item->phone)?></td>

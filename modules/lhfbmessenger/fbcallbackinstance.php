@@ -1,5 +1,7 @@
 <?php
-
+/*
+ * Should not be used after migration to new version
+ * */
 $sessionCookieName = erConfigClassLhConfig::getInstance()->getSetting( 'site', 'php_session_cookie_name', false );
 
 if (!empty($sessionCookieName) && $sessionCookieName !== false) {

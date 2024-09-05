@@ -86,8 +86,8 @@
 
 
 <ul class="nav nav-pills" role="tablist">
-    <li role="presentation" class="nav-item"><a class="active nav-link" href="#message" aria-controls="message" role="tab" data-toggle="tab"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Message');?></a></li>
-    <li role="presentation" class="nav-item"><a class="nav-link" href="#status" aria-controls="status" role="tab" data-toggle="tab"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Status');?></a></li>
+    <li role="presentation" class="nav-item"><a class="active nav-link" href="#message" aria-controls="message" role="tab" data-bs-toggle="tab" data-toggle="tab"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Message');?></a></li>
+    <li role="presentation" class="nav-item"><a class="nav-link" href="#status" aria-controls="status" role="tab" data-bs-toggle="tab" data-toggle="tab"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Status');?></a></li>
 </ul>
 
 <div class="tab-content">
@@ -106,7 +106,7 @@
                     <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Lead ID');?></label>
                     <input type="text" maxlength="250" class="form-control" id="id_fb_user_id" name="fb_user_id" value="<?php echo htmlspecialchars(isset($item->test_data['fb_user_id']) ? $item->test_data['fb_user_id'] : '')?>" />
                 </div>
-                <input type="button" class="btn btn-default" id="id-send-test-message" name="SendTestLead" value="Send test message">
+                <input type="button" class="btn btn-secondary" id="id-send-test-message" name="SendTestLead" value="Send test message">
             </div>
         </div>
     </div>

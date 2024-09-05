@@ -33,7 +33,6 @@ if (!($user instanceof erLhcoreClassModelFBMessengerUser)) {
     <?php if (isset($logoutFB)) : ?>
         <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/myfbpages');?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','My pages');?></a></li>
         <li><a class="csfr-required" href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/fblogout');?>" class=""><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Logout');?></a></li>
-        <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/bbcode')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('pagelayout/pagelayout','BBCode');?></a></li>
     <?php endif; ?>
 </ul>
 
@@ -44,9 +43,8 @@ if (!($user instanceof erLhcoreClassModelFBMessengerUser)) {
     <?php if (erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['standalone']['enabled'] == false) : ?>
         <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/list')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Facebook pages');?></a></li>
     <?php endif; ?>
-    <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/bbcode')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','BBCode');?></a></li>
     <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/leads')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Leads');?></a></li>
-    <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/notifications')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Notifications');?></a></li>
+    <?php /*<li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/notifications')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Notifications');?></a></li>*/ ?>
 </ul>
 <?php endif; ?>
 

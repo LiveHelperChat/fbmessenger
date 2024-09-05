@@ -15,6 +15,16 @@ $ViewList['callbackstandalone'] = array(
     'uparams' => array()
 );
 
+$ViewList['callbackstandaloneinstagram'] = array(
+    'params' => array(),
+    'uparams' => array()
+);
+
+$ViewList['callbackstandalonewhatsapp'] = array(
+    'params' => array(),
+    'uparams' => array()
+);
+
 $ViewList['callbackgeneral'] = array(
     'params' => array(),
     'uparams' => array()
@@ -127,12 +137,6 @@ $ViewList['fbloginstandalone'] = array(
     'functions' => array(),
 );
 
-$ViewList['fblogininstanceinstagram'] = array(
-    'params' => array('id','uid','time','hash'),
-    'uparams' => array(),
-    'functions' => array(),
-);
-
 $ViewList['index'] = array(
     'params' => array(),
     'uparams' => array(),
@@ -189,30 +193,6 @@ $ViewList['fbcallbackapp'] = array(
 $ViewList['deletenotification'] = array(
     'params' => array('id'),
     'uparams' => array('csfr'),
-    'functions' => array('use_fb_messenger'),
-);
-
-$ViewList['deletebbcode'] = array(
-    'params' => array('id'),
-    'uparams' => array('csfr'),
-    'functions' => array('use_fb_messenger'),
-);
-
-$ViewList['bbcode'] = array(
-    'params' => array(),
-    'uparams' => array(),
-    'functions' => array('use_fb_messenger'),
-);
-
-$ViewList['newbbcode'] = array(
-    'params' => array(),
-    'uparams' => array(),
-    'functions' => array('use_fb_messenger'),
-);
-
-$ViewList['editbbcode'] = array(
-    'params' => array('id'),
-    'uparams' => array(),
     'functions' => array('use_fb_messenger'),
 );
 

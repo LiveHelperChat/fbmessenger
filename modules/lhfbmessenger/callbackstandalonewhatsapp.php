@@ -1,10 +1,9 @@
 <?php
 
 // Works as proxy to child independent instances
-
 $ext = erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger');
 
-if (isset($_GET['hub_verify_token']) && $_GET['hub_verify_token'] == $ext->settings['app_settings']['verify_token']) {
+if (isset($_GET['hub_verify_token']) && $_GET['hub_verify_token'] == $ext->settings['app_settings']['whatsapp_verify_token']) {
     if (isset($_GET['hub_mode']) && $_GET['hub_mode'] == 'subscribe') {
 
         if ($ext->settings['enable_debug'] == true) {
@@ -33,13 +32,12 @@ if (function_exists('fastcgi_finish_request')){
 
 $data = json_decode(file_get_contents('php://input'), true);
 
-
 try {
     if (isset($data['entry'][0]['id']) && is_numeric($data['entry'][0]['id'])) {
         $db = ezcDbInstance::get();
 
-        $stmt = $db->prepare("SELECT address, instance_id FROM lhc_fbmessenger_standalone_fb_page WHERE page_id = :page_id");
-        $stmt->bindValue(':page_id', $data['entry'][0]['id']);
+        $stmt = $db->prepare("SELECT address, instance_id FROM lhc_fbmessenger_standalone_fb_page WHERE whatsapp_business_account_id = :whatsapp_business_account_id");
+        $stmt->bindValue(':whatsapp_business_account_id', $data['entry'][0]['id']);
         $stmt->execute();
         $addressInstance = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -59,7 +57,7 @@ try {
                     'X-Hub-Signature: '.$_SERVER['HTTP_X_HUB_SIGNATURE']
                 ],
                 'body' => file_get_contents('php://input'),
-                'address' => 'https://'.$addressInstance.'/fbmessenger/callbackgeneral'
+                'address' => 'https://'.$addressInstance.'/fbmessenger/callbackwhatsapp'
             ]);
 
         } else {

@@ -46,8 +46,9 @@ if (function_exists('fastcgi_finish_request')){
 $cfg = erConfigClassLhConfig::getInstance();
 $db = ezcDbInstance::get();
 
-$webhookPresent = erLhcoreClassModelChatIncomingWebhook::findOne(array('filter' => array('scope' => 'facebookmessengerappscope')));
+erLhcoreClassExtensionFbmessenger::$typePage = 0;
 
+$webhookPresent = erLhcoreClassModelChatIncomingWebhook::findOne(array('filter' => array('scope' => 'facebookmessengerappscope')));
 if (!is_object($webhookPresent)) {
     \LiveHelperChatExtension\fbmessenger\providers\FBMessengerMessengerAppLiveHelperChatActivator::installOrUpdate(['dep_id' => 0]);
     $webhookPresent = erLhcoreClassModelChatIncomingWebhook::findOne(array('filter' => array('scope' => 'facebookmessengerappscope')));

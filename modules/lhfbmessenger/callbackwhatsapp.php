@@ -1,7 +1,5 @@
 <?php
 
-erLhcoreClassLog::write(file_get_contents("php://input"));
-
 $ext = erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger');
 
 if (isset($_GET['hub_verify_token']) && $_GET['hub_verify_token'] == $ext->settings['app_settings']['whatsapp_verify_token']) {
@@ -47,8 +45,6 @@ $payloadData = json_decode(file_get_contents("php://input"),true);
 $cfg = erConfigClassLhConfig::getInstance();
 $db = ezcDbInstance::get();
 
-$dummyPayload = $payloadData = json_decode(file_get_contents("php://input"),true);
-
 $webhookPresent = erLhcoreClassModelChatIncomingWebhook::findOne(array('filter' => array('scope' => 'facebookwhatsappscope')));
 
 if (!is_object($webhookPresent)) {
@@ -56,9 +52,7 @@ if (!is_object($webhookPresent)) {
     $webhookPresent = erLhcoreClassModelChatIncomingWebhook::findOne(array('filter' => array('scope' => 'facebookwhatsappscope')));
 }
 
-$identifier = $webhookPresent->identifier;
-
-$Params['user_parameters']['identifier'] = $identifier;
+$Params['user_parameters']['identifier'] = $webhookPresent->identifier;;
 include 'modules/lhwebhooks/incoming.php';
 
 exit();

@@ -34,7 +34,8 @@ class erLhcoreClassModelFBLead
             'page_id' => $this->page_id,
             'type' => $this->type,
             'dep_id' => $this->dep_id,
-            'profile_pic_updated' => $this->profile_pic_updated
+            'profile_pic_updated' => $this->profile_pic_updated,
+            'source' => $this->source
         );
     }
 
@@ -117,6 +118,9 @@ class erLhcoreClassModelFBLead
         }
     }
 
+    const SOURCE_MESSENGER = 0;
+    const SOURCE_INSTAGRAM = 1;
+
     public $id = null;
     public $first_name = null;
     public $last_name = null;
@@ -139,6 +143,7 @@ class erLhcoreClassModelFBLead
     public $blocked = 0;
     public $type = 0;
     public $dep_id = 0;
+    public $source = self::SOURCE_MESSENGER;
 }
 
 ?>

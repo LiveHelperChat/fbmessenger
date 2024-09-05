@@ -1,1 +1,0 @@
-<li class="nav-item" role="presentation"><a class="nav-link" href="#main-extension-fb" aria-controls="main-extension-fb" role="tab" data-toggle="tab" ><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Facebook');?></a></li>

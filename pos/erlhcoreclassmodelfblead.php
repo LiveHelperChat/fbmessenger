@@ -14,6 +14,11 @@ $def->properties['user_id']->columnName   = 'user_id';
 $def->properties['user_id']->propertyName = 'user_id';
 $def->properties['user_id']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
 
+$def->properties['source'] = new ezcPersistentObjectProperty();
+$def->properties['source']->columnName   = 'source';
+$def->properties['source']->propertyName = 'source';
+$def->properties['source']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
+
 $def->properties['is_payment_enabled'] = new ezcPersistentObjectProperty();
 $def->properties['is_payment_enabled']->columnName   = 'is_payment_enabled';
 $def->properties['is_payment_enabled']->propertyName = 'is_payment_enabled';
@@ -98,11 +103,6 @@ $def->properties['dep_id'] = new ezcPersistentObjectProperty();
 $def->properties['dep_id']->columnName   = 'dep_id';
 $def->properties['dep_id']->propertyName = 'dep_id';
 $def->properties['dep_id']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
-
-$def->properties['instance_id'] = new ezcPersistentObjectProperty();
-$def->properties['instance_id']->columnName   = 'instance_id';
-$def->properties['instance_id']->propertyName = 'instance_id';
-$def->properties['instance_id']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
 
 $def->properties['creator_id'] = new ezcPersistentObjectProperty();
 $def->properties['creator_id']->columnName   = 'creator_id';
