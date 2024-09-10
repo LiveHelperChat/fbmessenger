@@ -127,7 +127,9 @@ Integration with Facebook messenger API. You will be able to chat with Facebook 
 
 # WhatsApp configuration
 
-This configuration option is available with [Permanent Access Token](https://developers.facebook.com/docs/whatsapp/business-management-api/get-started#1--acquire-an-). In the future we might add a Login option.
+Notice - WhatsApp campaigns etc are supported only for statically defined WhatsApp accounts. Login based WhatsApp phone numbers for campaigns will be added later.
+
+This configuration option is available with [Permanent Access Token](https://developers.facebook.com/docs/whatsapp/business-management-api/get-started#1--acquire-an-).
 In facebook Extension settings you have to enter
 * Permanent WhatsApp access token -  [Permanent Access Token](https://developers.facebook.com/docs/whatsapp/business-management-api/get-started#1--acquire-an-).
 * WhatsApp Business Account ID - You will find it in `WhatsApp-> Getting` Started section of the facebook app
