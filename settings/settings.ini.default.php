@@ -26,9 +26,10 @@ return array(
     ),
     'app_settings' => array (
         'app_id' => getenv('FBM_APPID') ?: '', # Facebook Messenger App ID
-        'app_secret' => getenv('FBM_APPSECRET') ?: '', # Facebook Messenger App Secret
-        'verify_token' => getenv('FBM_VERIFYTOKEN') ?: '', # Facebook Messenger Verify Token
-        'whatsapp_verify_token' => getenv('WHATSAPP_VERIFYTOKEN') ?: '',
+        'app_secret' => getenv('FBM_APPSECRET') ?: '',                      # Facebook Messenger App Secret
+        'verify_token' => getenv('FBM_VERIFYTOKEN') ?: '',                  # Facebook Messenger Verify Token
+        'whatsapp_verify_token' => getenv('WHATSAPP_VERIFYTOKEN') ?: '',    # WhatsApp Verify Token
+        'instagram_verify_token' => getenv('INSTAGRAM_VERIFYTOKEN') ?: '',  # Instagram verify Token
     )
 );
 
