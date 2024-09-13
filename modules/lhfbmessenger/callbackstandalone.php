@@ -16,20 +16,6 @@ if (isset($_GET['hub_verify_token']) && $_GET['hub_verify_token'] == $ext->setti
     }
 }
 
-use Tgallice\FBMessenger\WebhookRequestHandler;
-use Tgallice\FBMessenger\Callback\MessageEvent;
-use Tgallice\FBMessenger\Callback\PostbackEvent;
-use Tgallice\FBMessenger\Callback\MessageEchoEvent;
-
-$webookHandler = new WebhookRequestHandler($ext->settings['app_settings']['app_secret'], $ext->settings['app_settings']['verify_token']);
-
-if (!$webookHandler->isValidCallbackRequest()) {
-    if ($ext->settings['enable_debug'] == true) {
-        erLhcoreClassLog::write('INVALID__TOKEN');
-    }
-    exit;
-}
-
 ob_start();
 // do initial processing here
 echo "ok";
@@ -45,46 +31,44 @@ if (function_exists('fastcgi_finish_request')){
     fastcgi_finish_request();
 }
 
+$data = json_decode(file_get_contents('php://input'), true);
 
-$events = $webookHandler->getAllCallbackEvents();
 
-$cfg = erConfigClassLhConfig::getInstance();
-$db = ezcDbInstance::get();
+try {
+    if (isset($data['entry'][0]['id']) && is_numeric($data['entry'][0]['id'])) {
+        $db = ezcDbInstance::get();
 
-foreach($events as $event) {
+        $stmt = $db->prepare("SELECT address, instance_id FROM lhc_fbmessenger_standalone_fb_page WHERE page_id = :page_id");
+        $stmt->bindValue(':page_id', $data['entry'][0]['id']);
+        $stmt->execute();
+        $addressInstance = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($event instanceof MessageEvent || $event instanceof PostbackEvent || $event instanceof MessageEchoEvent) {
-        try {
+        if (!empty($addressInstance['address']) || !empty($addressInstance['instance_id'])) {
 
-            if ($event instanceof MessageEchoEvent) {
-                $pageId = $event->getSenderId();
+            if (!empty($addressInstance['address'])) {
+                $addressInstanceURL = $addressInstance['address'];
             } else {
-                $pageId = $event->getRecipientId();
+                $cfg = erConfigClassLhConfig::getInstance();
+                $instance = erLhcoreClassModelInstance::fetch($addressInstance['instance_id']);
+                $addressInstanceURL = $instance->address . '.' . $cfg->getSetting( 'site', 'seller_domain');
             }
 
-            $stmt = $db->prepare("SELECT address FROM lhc_fbmessenger_standalone_fb_page WHERE page_id = :page_id");
-            $stmt->bindValue(':page_id', $pageId);
-            $stmt->execute();
-            $addressInstance = $stmt->fetchColumn();
+            erLhcoreClassFBValidator::proxyStandaloneRequest([
+                'headers' => [
+                    'Facebook-API-Version: '.$_SERVER['HTTP_FACEBOOK_API_VERSION'],
+                    'X-Hub-Signature: '.$_SERVER['HTTP_X_HUB_SIGNATURE']
+                ],
+                'body' => file_get_contents('php://input'),
+                'address' => 'https://' . $addressInstanceURL.'/fbmessenger/callbackgeneral'
+            ]);
 
-            if (!empty($addressInstance)) {
-                erLhcoreClassFBValidator::proxyStandaloneRequest([
-                    'headers' => [
-                        'Facebook-API-Version: '.$_SERVER['HTTP_FACEBOOK_API_VERSION'],
-                        'X-Hub-Signature: '.$_SERVER['HTTP_X_HUB_SIGNATURE']
-                    ],
-                    'body' => file_get_contents('php://input'),
-                    'address' => 'https://'.$addressInstance.'/fbmessenger/callbackgeneral'
-                ]);
-            } else {
-                throw new Exception('Page not found to proxy - ' . $pageId);
-            }
-
-        } catch (Exception $e) {
-            if ($ext->settings['enable_debug'] == true) {
-                erLhcoreClassLog::write(print_r($e->getMessage(),true))."\n";
-            }
+        } else {
+            throw new Exception('Page not found to proxy - ' . json_encode($data));
         }
+    }
+} catch (\Exception $e){
+    if ($ext->settings['enable_debug'] == true) {
+        erLhcoreClassLog::write(print_r($e->getMessage(),true))."\n";
     }
 }
 

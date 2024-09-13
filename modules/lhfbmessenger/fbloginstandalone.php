@@ -4,7 +4,7 @@ $fb = erLhcoreClassModelFBMessengerUser::getFBAppInstance();
 
 $helper = $fb->getRedirectLoginHelper();
 
-$permissions = ['email', 'pages_show_list', 'pages_messaging', 'pages_messaging_subscriptions']; // Optional permissions
+$permissions = erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['scopes']; // Optional permissions
 
 $sessionCookieName = erConfigClassLhConfig::getInstance()->getSetting( 'site', 'php_session_cookie_name', false );
 

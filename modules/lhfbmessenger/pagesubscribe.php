@@ -27,7 +27,6 @@ foreach ($bodyResponse['data'] as $page) {
 
                 $extFb = erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger');
                 $response = $fb->delete('/' . $page['id'] . '/subscribed_apps', array(), $extFb->settings['app_settings']['app_id'].'|'.$extFb->settings['app_settings']['app_secret']);
-
                 $bodyResponse = $response->getDecodedBody();
 
                 if ($bodyResponse['success'] == 1) {
@@ -35,7 +34,7 @@ foreach ($bodyResponse['data'] as $page) {
                 } else {
                     $tpl->set('errors', array('We could not un-subscription'));
                 }
-                
+
             } else {
 
                 if (!is_numeric($Params['user_parameters_unordered']['dep'])) {
@@ -59,11 +58,23 @@ foreach ($bodyResponse['data'] as $page) {
                         $pageMy->access_token = $page['access_token'];
                         $pageMy->enabled = 1;
                         $pageMy->page_id = $page['id'];
+
+                        try {
+                            $responseINST = $fb->get('/' . $page['id'] . '/?fields=instagram_business_account', $page['access_token']);
+                            $instagramAccountData = $responseINST->getDecodedBody();
+
+                            if (isset($instagramAccountData['instagram_business_account']['id'])) {
+                                $pageMy->instagram_business_account = $instagramAccountData['instagram_business_account']['id'];
+                            }
+
+                        } catch (Exception $e) {
+
+                        }
+
                         $pageMy->saveThis();
 
                         // Set default page settings
                         $ext = erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger');
-                        $ext->setPage($pageMy);
                         $settings = erLhcoreClassModelChatConfig::fetch('fb_page_' . $pageMy->id . '_settings');
 
                         $dataArray = array();

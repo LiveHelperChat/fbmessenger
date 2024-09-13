@@ -1,6 +1,96 @@
+# Features
+
+* Instagram
+* WhatsApp
+* Facebook Messenger
+* Message delivery status indication
+* Reactions
+* Bot support
+
 # Requirements
 
-Min 4.26 Live Helper Chat version.
+Min 4.46 Live Helper Chat version. 1.8v
+
+Changes
+
+* All messenger workflow will be handled by lhc core, so less bugs.
+* Instagram support added
+* Required scopes are defined in the settings file.
+
+To manage instagram and whatsapp they both has to be matched to you page
+
+# Permissions we request from facebook during login
+
+Default scopes. You can change those in settings/settings.ini.php file
+
+```
+'email','pages_show_list','pages_messaging','instagram_manage_messages',
+'instagram_basic','pages_manage_metadata','pages_read_engagement',
+'whatsapp_business_management','whatsapp_business_messaging','business_management'
+```
+
+# Webhook configuration and subscription fields
+
+Webhooks configuration place
+
+![See image](https://raw.githubusercontent.com/LiveHelperChat/fbmessenger/master/doc/webhooks-app.png)
+
+Products you should have
+
+![See image](https://raw.githubusercontent.com/LiveHelperChat/fbmessenger/master/doc/products-app.png)
+
+
+### Facebook messenger
+
+In webhooks page you have to choose `Page` and subscribe to those fields
+
+Subscribed fields - `message_deliveries,message_echoes,message_edits,message_reactions,message_reads,messages,messaging_postbacks`
+
+### Instagram
+
+In webhooks page you have to choose `Instagram` and subscribe to those fields
+
+Subscribed fields - `messages,messages,messaging_postbacks,messaging_seen`
+
+### WhatsApp
+
+In webhooks page you have to choose `Whatsapp Business Account` and subscribe to those fields
+
+Subscribed fields - `messages`
+
+## Most common URL
+
+### URL if you are using Facebook Login flow without automated hosting environment
+
+This is the most common installation method and you choose what page you managed during login flow.
+
+Webhook URL's. Use same URL for webhook verification calls.
+
+* Facebook Messenger - `https://example.com/fbmessenger/fbmessenger/callbackgeneral`
+* WhatsApp - `https://example.com/fbmessenger/callbackwhatsapp`
+* Instagram - `https://example.com/fbmessenger/callbackinstagram`
+
+Valid OAuth Redirect URIs
+
+* `https://example.com/site_admin/fbmessenger/fbcallback`
+
+### Webhook URL for facebook messenger if you define independent page
+
+You create a facebook app and add pages manually to lhc back office without login flow.
+
+* Facebook Messenger - `https://example.com/fbmessenger/fbmessenger/callback/<page_id>`
+
+### URL if you are using Facebook Login flow with automated hosting environment
+
+Valid OAuth Redirect URIs. `master.example.com` in this scenario is our manager address
+
+* `https://master.example.com/site_admin/fbmessenger/fbcallbackstandalone`
+
+Webhook URL's. Use same URL for webhook verification calls.
+
+ * Facebook Messenger - `https://master.example.com/fbmessenger/callbackstandalone`
+ * WhatsApp - `https://master.example.com/fbmessenger/callbackstandalonewhatsapp`
+ * Instagram - `https://master.example.com/fbmessenger/callbackstandaloneinstagram`
 
 # Facebook messenger extension
 Integration with Facebook messenger API. You will be able to chat with Facebook page users directly in lhc back office.
@@ -37,7 +127,9 @@ Integration with Facebook messenger API. You will be able to chat with Facebook 
 
 # WhatsApp configuration
 
-This configuration option is available with [Permanent Access Token](https://developers.facebook.com/docs/whatsapp/business-management-api/get-started#1--acquire-an-). In the future we might add a Login option.
+Notice - WhatsApp campaigns etc are supported only for statically defined WhatsApp accounts. Login based WhatsApp phone numbers for campaigns will be added later.
+
+This configuration option is available with [Permanent Access Token](https://developers.facebook.com/docs/whatsapp/business-management-api/get-started#1--acquire-an-).
 In facebook Extension settings you have to enter
 * Permanent WhatsApp access token -  [Permanent Access Token](https://developers.facebook.com/docs/whatsapp/business-management-api/get-started#1--acquire-an-).
 * WhatsApp Business Account ID - You will find it in `WhatsApp-> Getting` Started section of the facebook app
@@ -236,6 +328,5 @@ And add this line
 ```
 
 # Todo
- * Add support for images, not just plain messages.
- * Add support for automated hosting environment.
- * Get facebook user details like email or phone.
+ * Add support for typing indicator
+ * Add support for messenger notifications campaigns

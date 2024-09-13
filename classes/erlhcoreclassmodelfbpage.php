@@ -17,6 +17,7 @@ class erLhcoreClassModelFBPage
         return array(
             'id' => $this->id,
         	'dep_id' => $this->dep_id,
+        	'page_id' => $this->page_id,
         	'page_token' => $this->page_token,
         	'verify_token' => $this->verify_token,
         	'app_secret' => $this->app_secret,
@@ -38,8 +39,11 @@ class erLhcoreClassModelFBPage
             case 'callback_url':
                 $this->callback_url = erLhcoreClassXMP::getBaseHost() . $_SERVER['HTTP_HOST'] . erLhcoreClassDesign::baseurldirect('fbmessenger/callback') . '/' . $this->id;
                 return $this->callback_url;
-                break;
-                
+
+            case 'access_token':
+                $this->access_token = $this->page_token;
+                return $this->access_token;
+
             default:
                 ;
                 break;
@@ -58,20 +62,14 @@ class erLhcoreClassModelFBPage
     }
     
     public $id = null;
-
     public $dep_id = null;
-    
     public $page_token = null;
-
     public $verify_token = null;
-    
     public $app_secret = null;
-
-    public $name = '';   
-    
+    public $name = '';
     public $verified = 0;
-
     public $bot_disabled = 0;
+    public $page_id = 0;
 }
 
 ?>

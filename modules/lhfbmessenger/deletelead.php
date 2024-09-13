@@ -6,10 +6,10 @@ if (!$currentUser->validateCSFRToken($Params['user_parameters_unordered']['csfr'
 }
 
 try {
-    $item = erLhcoreClassModelFBBBCode::fetch( $Params['user_parameters']['id']);
+    $item = erLhcoreClassModelFBLead::fetch( $Params['user_parameters']['id']);
     $item->removeThis();
 
-    erLhcoreClassModule::redirect('fbmessenger/bbcode');
+    erLhcoreClassModule::redirect('fbmessenger/leads');
     exit;
 
 } catch (Exception $e) {

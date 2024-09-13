@@ -33,7 +33,8 @@ class erLhcoreClassModelFBLead
             'page_id' => $this->page_id,
             'type' => $this->type,
             'dep_id' => $this->dep_id,
-            'profile_pic_updated' => $this->profile_pic_updated
+            'profile_pic_updated' => $this->profile_pic_updated,
+            'source' => $this->source
         );
     }
 
@@ -97,47 +98,51 @@ class erLhcoreClassModelFBLead
                     return $this->profile_pic_front;
                 break;
 
+            case 'ctime_front':
+                $this->ctime_front = date('Ymd') == date('Ymd', $this->ctime) ? date(erLhcoreClassModule::$dateHourFormat, $this->ctime) : date(erLhcoreClassModule::$dateDateHourFormat, $this->ctime);
+                return $this->ctime_front;
+                break;
+
+            case 'chat':
+                $this->chat = false;
+                if ($this->chat_id > 0) {
+                    $this->chat = erLhcoreClassModelChat::fetch($this->chat_id);
+                }
+                return $this->chat;
+                break;
+
             default:
                 ;
                 break;
         }
     }
 
+    const SOURCE_MESSENGER = 0;
+    const SOURCE_INSTAGRAM = 1;
+
     public $id = null;
-
-    public $user_id = 0;
-
-    public $first_name = '';
-
-    public $last_name = '';
-
-    public $locale = '';
-
-    public $profile_pic = '';
-
-    public $gender = '';
-
-    public $timezone = 0;
-
-    public $ctime = 0;
-
-    public $location = '';
-
-    public $email = '';
-
-    public $phone = '';
-
-    public $country = '';
-
+    public $first_name = null;
+    public $last_name = null;
+    public $profile_pic = null;
+    public $locale = null;
+    public $gender = null;
+    public $email = null;
+    public $phone = null;
+    public $country = null;
+    public $location = null;
+    public $timezone = null;
+    public $is_payment_enabled = null;
+    public $created_at = null;
+    public $updated_at = null;
+    public $deleted_at = null;
+    public $user_id = null;
     public $page_id = 0;
-    
-    public $blocked = 0;
-
     public $profile_pic_updated = 0;
-
+    public $ctime = 0;
+    public $blocked = 0;
     public $type = 0;
-
     public $dep_id = 0;
+    public $source = self::SOURCE_MESSENGER;
 }
 
 ?>

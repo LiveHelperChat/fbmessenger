@@ -1,3 +1,4 @@
 settings/settings.ini.php
 composer.phar
 composer-setup.php
+modules/lhcron/check_integrations.php

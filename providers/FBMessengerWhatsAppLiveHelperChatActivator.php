@@ -35,21 +35,22 @@ class FBMessengerWhatsAppLiveHelperChatActivator {
         }
     }
 
-    public static function installOrUpdate()
+    public static function installOrUpdate($paramsActivation = [])
     {
         // GoogleBusinessMessage
         $incomingWebhook = \erLhcoreClassModelChatIncomingWebhook::findOne(['filter' => ['name' => 'FacebookWhatsApp']]);
 
         $fbOptions = \erLhcoreClassModelChatConfig::fetch('fbmessenger_options');
+
         $data = (array)$fbOptions->data;
 
-        $incomingWebhookContent = str_replace('{whatsapp_access_token}', $data['whatsapp_access_token'], file_get_contents('extension/fbmessenger/doc/whatsapp/incoming-webhook.json'));
+        $incomingWebhookContent = str_replace('{whatsapp_access_token}', (isset($data['whatsapp_access_token']) && $data['whatsapp_access_token'] != '' ? $data['whatsapp_access_token'] : '{whatsapp_access_token}'), file_get_contents('extension/fbmessenger/doc/whatsapp/incoming-webhook.json'));
         $content = json_decode($incomingWebhookContent,true);
 
         if (!$incomingWebhook) {
             $incomingWebhook = new \erLhcoreClassModelChatIncomingWebhook();
             $incomingWebhook->setState($content);
-            $incomingWebhook->dep_id = 1;
+            $incomingWebhook->dep_id = isset($paramsActivation['dep_id']) && $paramsActivation['dep_id'] > 0 ? $paramsActivation['dep_id'] : 1;
             $incomingWebhook->name = 'FacebookWhatsApp';
             $incomingWebhook->identifier = \erLhcoreClassModelForgotPassword::randomPassword(20);
         } else {

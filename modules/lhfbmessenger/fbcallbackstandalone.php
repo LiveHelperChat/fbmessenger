@@ -7,23 +7,25 @@ if (!empty($sessionCookieName) && $sessionCookieName !== false) {
 }
 
 $fb = erLhcoreClassModelFBMessengerUser::getFBAppInstance();
-
 $helper = $fb->getRedirectLoginHelper();
 
-$permissions = ['email', 'pages_show_list', 'pages_messaging', 'pages_messaging_subscriptions']; // Optional permissions
-
-$loginUrl = $helper->getLoginUrl(erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['standalone']['address'] . erLhcoreClassDesign::baseurl('fbmessenger/fbcallbackinstance'), $permissions);
-
+$permissions = erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['scopes']; // Optional permissions
 
 try {
     $accessToken = $helper->getAccessToken();
 } catch(Facebook\Exceptions\FacebookResponseException $e) { ?>
-    <?php $errors[] = $e->getMessage() ?>
+    <?php
+    $errors[] = $e->getMessage();
+    $loginUrl = $helper->getLoginUrl(erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['standalone']['address'] . erLhcoreClassDesign::baseurl('fbmessenger/fbcallbackinstance'), $permissions);
+    ?>
     <?php include(erLhcoreClassDesign::designtpl('lhkernel/validation_error.tpl.php'));?>
     <a class="btn btn-default" href="<?php echo $loginUrl?>">Try login again!</a>
     <?php return; ?>
 <?php } catch(Facebook\Exceptions\FacebookSDKException $e) { ?>
-    <?php $errors[] = $e->getMessage() ?>
+    <?php
+    $errors[] = $e->getMessage();
+    $loginUrl = $helper->getLoginUrl(erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['standalone']['address'] . erLhcoreClassDesign::baseurl('fbmessenger/fbcallbackinstance'), $permissions);
+    ?>
     <?php include(erLhcoreClassDesign::designtpl('lhkernel/validation_error.tpl.php'));?>
     <a class="btn btn-default" href="<?php echo $loginUrl?>">Try login again!</a>
     <?php return; ?>
@@ -44,8 +46,6 @@ if (! isset($accessToken)) {
     exit;
 }
 
-
-
 // The OAuth 2.0 client handler helps us manage access tokens
 $oAuth2Client = $fb->getOAuth2Client();
 
@@ -62,13 +62,12 @@ $tokenMetadata->validateAppId(erLhcoreClassModule::getExtensionInstance('erLhcor
 //$tokenMetadata->validateUserId('123');
 $tokenMetadata->validateExpiration();
 
-
-
 if (! $accessToken->isLongLived()) {
     // Exchanges a short-lived access token for a long-lived one
     try {
         $accessToken = $oAuth2Client->getLongLivedAccessToken($accessToken);
-    } catch (Facebook\Exceptions\FacebookSDKException $e) { ?>
+    } catch (Facebook\Exceptions\FacebookSDKException $e) {
+        $loginUrl = $helper->getLoginUrl(erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['standalone']['address'] . erLhcoreClassDesign::baseurl('fbmessenger/fbcallbackinstance'), $permissions); ?>
         <?php $errors[] = 'Error getting long-lived access token: ' . $helper->getMessage() ?>
         <?php include(erLhcoreClassDesign::designtpl('lhkernel/validation_error.tpl.php'));?>
         <a class="btn btn-default" href="<?php echo $loginUrl?>">Try login again!</a>

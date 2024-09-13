@@ -10,7 +10,7 @@ if (!($user instanceof erLhcoreClassModelFBMessengerUser)) {
 
     $helper = $fb->getRedirectLoginHelper();
 
-    $permissions = ['email', 'pages_show_list', 'pages_messaging', 'pages_messaging_subscriptions']; // Optional permissions
+    $permissions = erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['scopes'];
 
     if (erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['standalone']['enabled'] == true) {
         $time = time();
@@ -24,7 +24,7 @@ if (!($user instanceof erLhcoreClassModelFBMessengerUser)) {
         $loginUrl = 'https://'.  erConfigClassLhConfig::getInstance()->getSetting('site','seller_subdomain',false) . '.' . erConfigClassLhConfig::getInstance()->getSetting('site','seller_domain',false) . erLhcoreClassDesign::baseurl('fbmessenger/fblogininstance') . '/' . erLhcoreClassInstance::getInstance()->id . '/' . erLhcoreClassUser::instance()->getUserID() . '/' . $time . '/' . $hash;
     }
 
-    echo '<a title="Log in with Facebook!" href="' . htmlspecialchars($loginUrl) . '"><img height="40" src="' . erLhcoreClassDesign::design('images/login-fb.png') .'" title="Log in with Facebook!" alt="Log in with Facebook!" /></a>';
+    echo '<a title="Log in with Facebook!" href="' . htmlspecialchars($loginUrl) . '"><img height="40" src="' . erLhcoreClassDesign::design('images/fblogin.png') .'" title="Log in with Facebook!" alt="Log in with Facebook!" /></a>';
 } else {
     $logoutFB = true;
 }
@@ -41,13 +41,11 @@ if (!($user instanceof erLhcoreClassModelFBMessengerUser)) {
 <hr>
 <ul>
     <?php if (erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['standalone']['enabled'] == false) : ?>
-    <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/list')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Facebook pages');?></a></li>
+        <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/list')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Facebook pages');?></a></li>
     <?php endif; ?>
-    <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/bbcode')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','BBCode');?></a></li>
     <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/leads')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Leads');?></a></li>
-    <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/notifications')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Notifications');?></a></li>
+    <?php /*<li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/notifications')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Notifications');?></a></li>*/ ?>
 </ul>
-
 <?php endif; ?>
 
 <?php if (erLhcoreClassUser::instance()->hasAccessTo('lhfbmessenger','use_options')) : ?>

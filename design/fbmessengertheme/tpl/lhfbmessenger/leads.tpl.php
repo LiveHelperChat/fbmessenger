@@ -20,6 +20,7 @@
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Gender');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Name');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Surname');?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Status');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Locale');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Department');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Status');?></th>
@@ -35,13 +36,14 @@
                     N/A
                     <?php endif; ?>
                 </td>
-                <td><?php echo htmlspecialchars($item->page_id)?></td>
+                <td><?php if ($item->source == erLhcoreClassModelFBLead::SOURCE_INSTAGRAM) : ?><img class="img-fluid me-2" src="<?php echo erLhcoreClassDesign::design('images/social/instagram-ico.png')?>"><?php else : ?><img class="img-fluid me-2" src="<?php echo erLhcoreClassDesign::design('images/social/messenger-ico.png')?>"><?php endif; ?><?php echo htmlspecialchars($item->page_id)?></td>
                 <td><?php echo htmlspecialchars($item->user_id)?></td>
                 <td><?php echo htmlspecialchars($item->email)?></td>
                 <td><?php echo htmlspecialchars($item->phone)?></td>
                 <td><?php echo ucfirst($item->gender)?></td>
                 <td><?php echo htmlspecialchars($item->first_name)?></td>
                 <td><?php echo htmlspecialchars($item->last_name)?></td>
+                <td><?php echo htmlspecialchars($item->auto_stop)?></td>
                 <td><?php echo htmlspecialchars($item->locale)?></td>
                 <td><?php echo htmlspecialchars($item->dep)?></td>
                 <td>

@@ -3,8 +3,7 @@
 <?php
 
 $helper = $fb->getRedirectLoginHelper();
-
-$permissions = ['email', 'manage_pages', 'pages_show_list', 'pages_messaging', 'pages_messaging_subscriptions']; // Optional permissions
+$permissions = erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['scopes'];
 
 try {
     $accessToken = $helper->getAccessToken();
