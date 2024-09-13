@@ -405,7 +405,7 @@ class FBMessengerWhatsAppMailingValidator {
         }
 
         if ($form->hasValidData( 'activate_again' ) && $form->activate_again == true) {
-            $item->status = \LiveHelperChatExtension\fbmessenger\provider\erLhcoreClassModelMessageFBWhatsAppCampaign::STATUS_PENDING;
+            $item->status = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaign::STATUS_PENDING;
         }
 
         if ($form->hasValidData( 'phone_sender_id' )) {
