@@ -144,6 +144,14 @@ In facebook Extension settings you have to enter
   * https://github.com/LiveHelperChat/lhc-php-resque/blob/master/lhcphpresque/settings/settings.ini.default.php
 * Sample commands you can use in the bot while sending text message. To get exact command for specific template just send a test message and at the top you will see command.
 
+Few documentation links in Meta platform
+
+ * Create Business Account - https://www.facebook.com/business/help/1710077379203657?id=180505742745347
+ * Create WhatsApp Business platform account - https://www.facebook.com/business/help/2087193751603668
+ * Create an app In Developer Mode - https://developers.facebook.com/apps/
+ * Add WhatsApp Product to Your Meta App
+ * Create a permanent access token https://developers.facebook.com/docs/whatsapp/business-management-api/get-started#1--acquire-an-access-token-using-a-system-user-or-facebook-login/
+
 ```
 !fbtemplate {"template_name":"hello_world","template_lang":"en_us","args":{}}
 !fbtemplate {"template_name":"quick_reply","template_lang":"en","args":{"field_1":"name","field_header_1":"header"}}
