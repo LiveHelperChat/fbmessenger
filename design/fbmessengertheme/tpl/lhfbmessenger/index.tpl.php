@@ -48,7 +48,7 @@ if (!($user instanceof erLhcoreClassModelFBMessengerUser)) {
 </ul>
 <?php endif; ?>
 
-<?php if (erLhcoreClassUser::instance()->hasAccessTo('lhfbmessenger','use_options')) : ?>
+<?php if ((!isset(erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['standalone']['disable_manual_whatsapp']) || erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['standalone']['disable_manual_whatsapp'] === false) && erLhcoreClassUser::instance()->hasAccessTo('lhfbmessenger','use_options')) : ?>
     <hr>
     <h4><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Options');?></h4>
     <ul>
@@ -56,6 +56,7 @@ if (!($user instanceof erLhcoreClassModelFBMessengerUser)) {
     </ul>
 <?php endif; ?>
 
+<?php if (!isset(erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['standalone']['disable_manual_whatsapp']) || erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['standalone']['disable_manual_whatsapp'] === false) : ?>
 <div class="row">
     <div class="col-6">
         <?php if (erLhcoreClassUser::instance()->hasAccessTo('lhfbwhatsapp','use_admin')) : ?>
@@ -80,3 +81,4 @@ if (!($user instanceof erLhcoreClassModelFBMessengerUser)) {
         <?php endif; ?>
     </div>
 </div>
+<?php endif; ?>

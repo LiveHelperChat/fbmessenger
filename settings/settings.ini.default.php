@@ -20,6 +20,7 @@ return array(
         'business_management'
     ),
     'standalone' => array (
+        'disable_manual_whatsapp' => false,            # Should we hide WhatsApp manual numbers section
         'enabled' => false,                            # Is standalone mode enabled
         'secret_hash' => '',                           # Put any random string we use for communication and verifying request
         'address' => 'https://demo.livehelperchat.com' # Master instance where all login happens
