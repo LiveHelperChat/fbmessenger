@@ -66,7 +66,7 @@ This is the most common installation method and you choose what page you managed
 
 Webhook URL's. Use same URL for webhook verification calls.
 
-* Facebook Messenger - `https://example.com/fbmessenger/fbmessenger/callbackgeneral`
+* Facebook Messenger - `https://example.com/fbmessenger/callbackgeneral`
 * WhatsApp - `https://example.com/fbmessenger/callbackwhatsapp`
 * Instagram - `https://example.com/fbmessenger/callbackinstagram`
 
@@ -78,7 +78,7 @@ Valid OAuth Redirect URIs
 
 You create a facebook app and add pages manually to lhc back office without login flow.
 
-* Facebook Messenger - `https://example.com/fbmessenger/fbmessenger/callback/<page_id>`
+* Facebook Messenger - `https://example.com/fbmessenger/callback/<page_id>`
 
 ### URL if you are using Facebook Login flow with automated hosting environment
 
