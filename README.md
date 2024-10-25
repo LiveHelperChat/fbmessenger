@@ -9,7 +9,8 @@
 
 # Requirements
 
-Min 4.46 Live Helper Chat version. 1.8v
+ * Min 4.46 Live Helper Chat version. 1.8v
+ * Webhooks has to be enabled - https://github.com/LiveHelperChat/livehelperchat/blob/master/lhc_web/settings/settings.ini.default.php#L86
 
 Changes
 
