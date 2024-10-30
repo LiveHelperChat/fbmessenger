@@ -291,7 +291,7 @@ in `extension/fbmessenger/settings/settings.ini.php` change setting to `'enable_
 * Make sure messenger button is activated on your page
 * Switch to your page profile
 * Navigate to https://facebook.com/settings/?tab=profile_access
-* Add a user to your page. It should **NOT** be `PEople with task access`
+* Add a user to your page. It should **NOT** be `People with task access`
 ![image](https://github.com/user-attachments/assets/1dbdc6f4-350a-4ef1-b7e0-9747ac8fd93b)
 * This facebook user does not need to have full control over your page
 ![image](https://github.com/user-attachments/assets/d94f0baa-8823-4989-944c-1efed8ae3339)
