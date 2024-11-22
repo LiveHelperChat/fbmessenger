@@ -75,11 +75,20 @@ Valid OAuth Redirect URIs
 
 * `https://example.com/site_admin/fbmessenger/fbcallback`
 
+Quick settings
+
+ * `app_id` https://github.com/LiveHelperChat/fbmessenger/blob/master/settings/settings.ini.default.php#L29 | App ID
+ * `app_secret` https://github.com/LiveHelperChat/fbmessenger/blob/master/settings/settings.ini.default.php#L29 | App Secret
+ * `verify_token` you have to put in https://github.com/LiveHelperChat/fbmessenger/blob/master/settings/settings.ini.default.php#L31 file. | Facebook Messenger
+ * `whatsapp_verify_token` https://github.com/LiveHelperChat/fbmessenger/blob/master/settings/settings.ini.default.php#L32C10-L32C31 file. | WhatsApp
+ * `instagram_verify_token` https://github.com/LiveHelperChat/fbmessenger/blob/master/settings/settings.ini.default.php#L33 file. | Instagram
+
 ### Webhook URL for facebook messenger if you define independent page
 
 You create a facebook app and add pages manually to lhc back office without login flow.
 
 * Facebook Messenger - `https://example.com/fbmessenger/callback/<page_id>`
+* Verify token you enter manually in back office in that case
 
 ### URL if you are using Facebook Login flow with automated hosting environment
 
@@ -92,6 +101,16 @@ Webhook URL's. Use same URL for webhook verification calls.
  * Facebook Messenger - `https://master.example.com/fbmessenger/callbackstandalone`
  * WhatsApp - `https://master.example.com/fbmessenger/callbackstandalonewhatsapp`
  * Instagram - `https://master.example.com/fbmessenger/callbackstandaloneinstagram`
+
+Quick settings
+
+* `app_id` https://github.com/LiveHelperChat/fbmessenger/blob/master/settings/settings.ini.default.php#L29 | App ID
+* `app_secret` https://github.com/LiveHelperChat/fbmessenger/blob/master/settings/settings.ini.default.php#L29 | App Secret
+* `verify_token` you have to put in https://github.com/LiveHelperChat/fbmessenger/blob/master/settings/settings.ini.default.php#L31 file. | Facebook Messenger
+* `whatsapp_verify_token` https://github.com/LiveHelperChat/fbmessenger/blob/master/settings/settings.ini.default.php#L32C10-L32C31 file. | WhatsApp
+* `instagram_verify_token` https://github.com/LiveHelperChat/fbmessenger/blob/master/settings/settings.ini.default.php#L33 file. | Instagram
+* Put any random string there https://github.com/LiveHelperChat/fbmessenger/blob/master/settings/settings.ini.default.php#L25
+* Set `enabled` to true https://github.com/LiveHelperChat/fbmessenger/blob/master/settings/settings.ini.default.php#L24 file.
 
 # Facebook messenger extension
 Integration with Facebook messenger API. You will be able to chat with Facebook page users directly in lhc back office.
@@ -117,7 +136,7 @@ Integration with Facebook messenger API. You will be able to chat with Facebook 
 * Install database either by executing `doc/install.sql` file or executing this command `php cron.php -s site_admin -e fbmessenger -c cron/update_structure`
 * Install dependencies using composer
     * Make sure your composer.json file looks like https://github.com/LiveHelperChat/livehelperchat/blob/master/lhc_web/composer.json 4.41v
-    * Just for newbies if your webhosting does not have composer see https://www.vultr.com/docs/install-composer-on-centos-7
+    * Just for newbies if your web hosting does not have composer see https://www.vultr.com/docs/install-composer-on-centos-7
     * don't run composer as root, login in your ssh as your hosting normal user.
 * Activate extension in main settings file `lhc_web/settings/settings.ini.php` extension section `fbmessenger` by Adding lines: 
 ```
@@ -256,6 +275,7 @@ To activate that option you have to edit `extension/fbmessenger/settings/setting
 ```
 'standalone' => array (
         'enabled' => true,
+        'disable_manual_whatsapp' => false, 
         'secret_hash' => 'random_string_to_out',
         'address' => 'https://mater.example.com' // Master instance address
     ),
