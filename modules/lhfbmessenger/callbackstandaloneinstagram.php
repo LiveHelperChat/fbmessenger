@@ -34,7 +34,7 @@ if (function_exists('fastcgi_finish_request')){
 $data = json_decode(file_get_contents('php://input'), true);
 
 // We ignore messages which are reply to story
-if (isset($data['entry'][0]['messaging'][0]['message']['reply_to'])){
+if (isset($data['entry'][0]['messaging'][0]['message']['reply_to']) && !isset($data['entry'][0]['messaging'][0]['message']['text'])){
     exit();
 }
 
@@ -72,7 +72,7 @@ try {
     }
 } catch (\Exception $e){
     if ($ext->settings['enable_debug'] == true) {
-        erLhcoreClassLog::write(print_r($e->getMessage(),true))."\n";
+        erLhcoreClassLog::write(print_r($e->getMessage(),true));
     }
 }
 

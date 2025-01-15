@@ -47,7 +47,10 @@ In webhooks page you have to choose `Page` and subscribe to those fields
 
 Subscribed fields - `message_deliveries,message_echoes,message_edits,message_reactions,message_reads,messages,messaging_postbacks`
 
-Messenger does not have **delete webhook**
+* Messages `new` - supported and working
+* Messages `unsend` - not supported by webhooks. Meta limitation.
+* Messages `reply` - supported and working.
+* Messages `edits` - are not sent by webhooks. Meta limitation. Perhaps I'm missing something there, because there is a webhook subscription, but it does not send anything.
 
 ### Instagram
 
@@ -55,11 +58,21 @@ In webhooks page you have to choose `Instagram` and subscribe to those fields
 
 Subscribed fields - `messages,messages,messaging_postbacks,messaging_seen`
 
+* Messages `new` - supported and working.
+* Messages `edits` - are not sent by webhooks. Meta limitation.
+* Messages `unsend` - supported and fully working.
+* Messages `repy` - supported and fully working.
+
 ### WhatsApp
 
 In webhooks page you have to choose `Whatsapp Business Account` and subscribe to those fields
 
 Subscribed fields - `messages`
+
+* Messages `new` - supported and working.
+* Messages `unsend` - not supported by WhatsApp. Meta limitation.
+* Messages `reply` - supported and working.
+* Messages `edits` - not supported by WhatsApp. Meta limitation.
 
 ## Most common URL
 

@@ -27,7 +27,7 @@ if (!$webookHandler->isValidInstagramCallbackRequest()) {
 
 $data = json_decode(file_get_contents('php://input'), true);
 
-if (isset($data['entry'][0]['messaging'][0]['message']['reply_to'])){
+if (isset($data['entry'][0]['messaging'][0]['message']['reply_to']) && !isset($data['entry'][0]['messaging'][0]['message']['text'])) {
     exit();
 }
 
