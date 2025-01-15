@@ -47,6 +47,8 @@ In webhooks page you have to choose `Page` and subscribe to those fields
 
 Subscribed fields - `message_deliveries,message_echoes,message_edits,message_reactions,message_reads,messages,messaging_postbacks`
 
+Messenger does not have **delete webhook**
+
 ### Instagram
 
 In webhooks page you have to choose `Instagram` and subscribe to those fields
