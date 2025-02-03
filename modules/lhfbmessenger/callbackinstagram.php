@@ -27,9 +27,11 @@ if (!$webookHandler->isValidInstagramCallbackRequest()) {
 
 $data = json_decode(file_get_contents('php://input'), true);
 
-if (isset($data['entry'][0]['messaging'][0]['message']['reply_to']) && !isset($data['entry'][0]['messaging'][0]['message']['text'])) {
+// We ignore messages which are reply to story
+if (isset($data['entry'][0]['messaging'][0]['message']['reply_to']['story'])) {
     exit();
 }
+
 
 $cfg = erConfigClassLhConfig::getInstance();
 $db = ezcDbInstance::get();
