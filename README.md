@@ -312,7 +312,7 @@ https://mater.example.com/fbmessenger/callbackstandalone
 * Before facebook validates your application keep settings `verified` false (in your LHC facebook page configuration)*
 * After facebook has reviewed your application set "verified" to *YES*. So you will be able to send a messages. During testing, if you add some developer, you can set it to true to see how it works.
  
-## Finally Make your app public. 
+## Finally, Make your app public. 
  * After facebook has reviewed your application you need to make your app live and available
  
 # How it works
@@ -384,3 +384,7 @@ And add this line
 # Todo
  * Add support for typing indicator
  * Add support for messenger notifications campaigns
+
+# Caveats
+
+* Facebook story replies are a chat messages. There is no way to ignore them.
