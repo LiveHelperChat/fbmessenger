@@ -1,8 +1,9 @@
 <?php 
 
 return array(
-    'enable_debug' => false, // Log errors etc in cache/default.log file
-    'fb_disabled' => false, // If you only WhatsApp integration you can disable facebook messenger related part completely
+    'enable_debug' => false,    // Log errors etc in cache/default.log file
+    'fb_disabled' => false,     // If you only WhatsApp integration you can disable facebook messenger related part completely
+    'hide_fb_login' => false,    // Hide fb login option and leave only manual page definition
     'scopes' => array(
         'email',
         'pages_show_list',
