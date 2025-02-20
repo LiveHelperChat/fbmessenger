@@ -245,7 +245,7 @@ Should be run every minute or more frequent.
 php cron.php -s site_admin -e fbmessenger -c cron/whatsapp_campaign
 ```
 
-# One page one app installation workflow
+# Multiple pages one app installation workflow
 
 This method is usefull if you are planning to use this extension by creating separate apps for each page you manage.
 
@@ -254,6 +254,10 @@ This method is usefull if you are planning to use this extension by creating sep
 * Once page is created you will see what callback url you have to put in facebook webhook. URL is presented in list. HTTPS is must!
 * Facebook APP has to use 8.0v or newer
 * https://www.youtube.com/watch?v=nIExwuWeb3E watch youtube video how to set up it in Live Helper Chat hosting https://livehelperchat.com/order/now same steps applies for local installation :)
+
+## Can I have multiple pages in one app?
+
+Yes you can. Define all variables as first page except `Page token`. You can choose different department for easier differentiation :)
 
 ## Actions to do in developers.facebook.com and Live Helper Chat back office
 
