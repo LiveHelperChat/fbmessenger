@@ -1,6 +1,9 @@
 <?php if (erLhcoreClassUser::instance()->hasAccessTo('lhfbmessenger','use_fb_messenger') && !(isset(erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['fb_disabled']) && erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['fb_disabled'] === true)) : ?>
 
 <h4><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Facebook chat');?></h4>
+
+<?php if (!isset(erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['hide_fb_login']) || erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['hide_fb_login'] == false) : ?>
+
 <?php
 $user = erLhcoreClassModelFBMessengerUser::findOne(array('filter' => array('user_id' => erLhcoreClassUser::instance()->getUserID())));
 
@@ -29,12 +32,15 @@ if (!($user instanceof erLhcoreClassModelFBMessengerUser)) {
     $logoutFB = true;
 }
 ?>
-<ul>
-    <?php if (isset($logoutFB)) : ?>
+
+<?php if (isset($logoutFB)) : ?>
+    <ul>
         <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/myfbpages');?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','My pages');?></a></li>
         <li><a class="csfr-required" href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/fblogout');?>" class=""><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Logout');?></a></li>
-    <?php endif; ?>
-</ul>
+    </ul>
+<?php endif; ?>
+
+<?php endif; ?>
 
 <?php include(erLhcoreClassDesign::designtpl('lhkernel/secure_links.tpl.php')); ?>
 
@@ -44,7 +50,6 @@ if (!($user instanceof erLhcoreClassModelFBMessengerUser)) {
         <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/list')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Facebook pages');?></a></li>
     <?php endif; ?>
     <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/leads')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Leads');?></a></li>
-    <?php /*<li><a href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/notifications')?>"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Notifications');?></a></li>*/ ?>
 </ul>
 <?php endif; ?>
 
