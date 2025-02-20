@@ -7,6 +7,10 @@
 * Reactions
 * Bot support
 
+# Demo
+
+Just ask anything on our [Facebook page](https://www.facebook.com/LiveHelperChat/)
+
 # Requirements
 
  * Min 4.46 Live Helper Chat version. 1.8v
