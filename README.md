@@ -9,7 +9,7 @@
 
 # Demo
 
-Just ask anything on our [Facebook page](https://www.facebook.com/LiveHelperChat/)
+Just ask anything on our [Facebook page](https://www.facebook.com/LiveHelperChat/) ask messenger :)
 
 # Requirements
 
