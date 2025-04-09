@@ -2,6 +2,23 @@
 
 $tpl = erLhcoreClassTemplate::getInstance('lhfbwhatsapp/massmessage.tpl.php');
 
+$limitation = [];
+$limitation['phones'] = [];
+$limitation['business_accounts'] = [];
+
+if ($Params['user_limitation'] !== true) {
+    $limitationPermission = json_decode($Params['user_limitation'], true);
+    if (isset($limitationPermission['phones']) && is_array($limitationPermission['phones'])) {
+        $limitation['phones'] = $limitationPermission['phones'];
+    }
+    if (isset($limitationPermission['business_accounts']) && is_array($limitationPermission['business_accounts'])) {
+        \erLhcoreClassChat::validateFilterInString($limitationPermission['business_accounts']);
+        $limitation['business_accounts'] = $limitationPermission['business_accounts'];
+    }
+}
+
+$tpl->set('limitation', $limitation);
+
 $itemDefault = new LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage();
 $instance = LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance();
 
@@ -9,16 +26,20 @@ if (isset($_POST['business_account_id']) && $_POST['business_account_id'] > 0) {
     $Params['user_parameters_unordered']['business_account_id'] = (int)$_POST['business_account_id'];
 }
 
-if (is_numeric($Params['user_parameters_unordered']['business_account_id'])) {
+if (is_numeric($Params['user_parameters_unordered']['business_account_id']) && (empty($limitation['business_accounts']) || in_array($Params['user_parameters_unordered']['business_account_id'],$limitation['business_accounts']))) {
     $account = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::fetch($Params['user_parameters_unordered']['business_account_id']);
     $instance->setAccessToken($account->access_token);
     $instance->setBusinessAccountID($account->business_account_id);
     $itemDefault->business_account_id = $account->id;
     $tpl->set('business_account_id', $account->id);
+} elseif (!empty($limitation['business_accounts']) && !in_array("default",$limitation['business_accounts'])) {
+    $tpl->set('errors',['No permission to use default business account!']);
+    $tpl->setFile('lhkernel/validation_error.tpl.php');
+    $hasPermission = false;
 }
 
 $templates = $instance->getTemplates();
-$phones = $instance->getPhones();
+$phones = $instance->getPhones($limitation['phones']);
 
 if (isset($_POST['UploadFileAction'])) {
 

@@ -91,13 +91,24 @@
 
             <div class="form-group">
                 <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Business account');?>, <small><i><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','you can set a custom business account');?></i></small></label>
-                <?php echo erLhcoreClassRenderHelper::renderCombobox( array (
+                <?php
+
+                $renderOptions = array (
                     'input_name'     => 'business_account_id',
-                    'optional_field' => erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Default configuration'),
                     'selected_id'    => $send->business_account_id,
                     'css_class'      => 'form-control form-control-sm',
                     'list_function'  => '\LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::getList'
-                )); ?>
+                );
+
+                if (empty($limitation['business_accounts']) || in_array("default",$limitation['business_accounts'])) {
+                    $renderOptions['optional_field'] = erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Default configuration');
+                }
+
+                if (!empty($limitation['business_accounts'])) {
+                    $renderOptions['list_function_params'] = ['filterin' => ['id' => $limitation['business_accounts']]];
+                }
+
+                echo erLhcoreClassRenderHelper::renderCombobox($renderOptions); ?>
             </div>
 
             <div class="form-group">

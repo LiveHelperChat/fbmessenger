@@ -72,6 +72,9 @@ if (!($user instanceof erLhcoreClassModelFBMessengerUser)) {
                 <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/massmessage')?>"><span class="material-icons">forum</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Send a mass message');?></a></li>
                 <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/messages')?>"><span class="material-icons">chat</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Messages');?></a></li>
                 <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/account')?>"><span class="material-icons">manage_accounts</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Business Accounts');?></a></li>
+                <?php if (erLhcoreClassUser::instance()->hasAccessTo('lhfbwhatsapp','limit_generator')) : ?>
+                    <li><a href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/limitgenerator')?>"><span class="material-icons">supervisor_account</span><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Limit generator');?></a></li>
+                <?php endif; ?>
             </ul>
         <?php endif; ?>
     </div>

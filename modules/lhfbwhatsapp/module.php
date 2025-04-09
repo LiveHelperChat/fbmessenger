@@ -87,6 +87,11 @@ $ViewList['deleteaccount'] = array(
     'uparams' => array(),
     'functions' => array('manage_accounts'),
 );
+$ViewList['limitgenerator'] = array(
+    'params' => array(),
+    'uparams' => array(),
+    'functions' => array('limit_generator'),
+);
 
 $FunctionList['use_admin'] = array('explain' => 'Allow operator to use WhatsApp');
 $FunctionList['manage_accounts'] = array('explain' => 'Manage business accounts');
@@ -95,3 +100,4 @@ $FunctionList['manage_accounts'] = array('explain' => 'Manage business accounts'
 $FunctionList['all_send_messages'] = array('explain' => 'Operator can see all send messages, otherwise only his own and public');
 $FunctionList['delete_messages'] = array('explain' => 'Allow operator to delete sent messages, only his own');
 $FunctionList['delete_all_messages'] = array('explain' => 'Allow operator to delete all sent messages, not only his own');
+$FunctionList['limit_generator'] = array('explain' => 'Allow operator to generate limit rule');

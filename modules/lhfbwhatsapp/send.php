@@ -2,6 +2,23 @@
 
 $tpl = erLhcoreClassTemplate::getInstance('lhfbwhatsapp/send.tpl.php');
 
+$limitation = [];
+$limitation['phones'] = [];
+$limitation['business_accounts'] = [];
+
+if ($Params['user_limitation'] !== true) {
+    $limitationPermission = json_decode($Params['user_limitation'], true);
+    if (isset($limitationPermission['phones']) && is_array($limitationPermission['phones'])) {
+        $limitation['phones'] = $limitationPermission['phones'];
+    }
+    if (isset($limitationPermission['business_accounts']) && is_array($limitationPermission['business_accounts'])) {
+        \erLhcoreClassChat::validateFilterInString($limitationPermission['business_accounts']);
+        $limitation['business_accounts'] = $limitationPermission['business_accounts'];
+    }
+}
+
+$tpl->set('limitation', $limitation);
+
 $item = new \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage();
 $item->campaign_name = '';
 
@@ -10,17 +27,21 @@ $instance = \LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLi
 if (isset($_POST['business_account_id']) && $_POST['business_account_id'] > 0) {
     $Params['user_parameters_unordered']['business_account_id'] = (int)$_POST['business_account_id'];
 }
-
-if (is_numeric($Params['user_parameters_unordered']['business_account_id']) && $Params['user_parameters_unordered']['business_account_id'] > 0) {
+$hasPermission = true;
+if (is_numeric($Params['user_parameters_unordered']['business_account_id']) && $Params['user_parameters_unordered']['business_account_id'] > 0 && (empty($limitation['business_accounts']) || in_array($Params['user_parameters_unordered']['business_account_id'],$limitation['business_accounts']))) {
     $account = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::fetch($Params['user_parameters_unordered']['business_account_id']);
     $instance->setAccessToken($account->access_token);
     $instance->setBusinessAccountID($account->business_account_id);
     $item->business_account_id = $account->id;
     $tpl->set('business_account_id', $account->id);
+} elseif (!empty($limitation['business_accounts']) && !in_array("default",$limitation['business_accounts'])) {
+    $tpl->set('errors',['No permission to use default business account!']);
+    $tpl->setFile('lhkernel/validation_error.tpl.php');
+    $hasPermission = false;
 }
 
 $templates = $instance->getTemplates();
-$phones = $instance->getPhones();
+$phones = $instance->getPhones($limitation['phones']);
 
 if (is_numeric($Params['user_parameters_unordered']['recipient'])) {
     $contact = LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppContact::fetch($Params['user_parameters_unordered']['recipient']);
@@ -30,7 +51,7 @@ if (is_numeric($Params['user_parameters_unordered']['recipient'])) {
     $tpl->set('whatsapp_contact', $contact);
 }
 
-if (ezcInputForm::hasPostData()) {
+if (ezcInputForm::hasPostData() && $hasPermission == true) {
 
     if (!isset($_POST['csfr_token']) || !$currentUser->validateCSFRToken($_POST['csfr_token'])) {
         erLhcoreClassModule::redirect('fbwhatsapp/send');

@@ -40,7 +40,7 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
             $this->whatsapp_business_account_id = $businessAccountID;
         }
 
-        public function getPhones() {
+        public function getPhones($phones = []) {
             // https://developers.facebook.com/docs/graph-api/reference/whats-app-business-account/phone_numbers/
             // curl -i -X GET "https://graph.facebook.com/LATEST-VERSION/WHATSAPP-BUSINESS-ACCOUNT-ID/phone_numbers?access_token=USER-ACCESS-TOKEN"
             $templates = $this->getRestAPI([
@@ -50,7 +50,13 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
             ]);
 
             if (isset($templates['data']) && is_array($templates['data'])) {
-                return $templates['data'];
+                if (empty($phones)) {
+                    return $templates['data'];
+                } else {
+                    return array_filter($templates['data'], function ($item) use ($phones) {
+                        return in_array($item['id'], $phones);
+                    });
+                }
             } else {
                 throw new \Exception('Could not fetch phone numbers - ' . print_r( $templates, true),100);
             }
