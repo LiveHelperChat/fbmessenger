@@ -21,10 +21,10 @@ return array(
         'business_management'
     ),
     'standalone' => array (
-        'disable_manual_whatsapp' => false,            # Should we hide WhatsApp manual numbers section
-        'enabled' => false,                            # Is standalone mode enabled
+        'disable_manual_whatsapp' => false,            # Should we hide WhatsApp manual numbers section?
+        'enabled' => false,                            # Is standalone mode enabled. Are we in automated hosting environment?
         'secret_hash' => '',                           # Put any random string we use for communication and verifying request
-        'address' => 'https://demo.livehelperchat.com' # Master instance where all login happens
+        'address' => 'https://master.example.com'      # Master instance where all logins happen
     ),
     'app_settings' => array (
         'app_id' => getenv('FBM_APPID') ?: '', # Facebook Messenger App ID

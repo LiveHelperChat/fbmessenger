@@ -108,6 +108,7 @@ You create a facebook app and add pages manually to lhc back office without logi
 
 * Facebook Messenger - `https://example.com/fbmessenger/callback/<page_id>`
 * Verify token you enter manually in back office in that case
+* You can register manually multiple pages and just keep the same webhook. https://www.youtube.com/watch?v=nIExwuWeb3E (You still most likely will have callback URL like `https://example.com/fbmessenger/callback/1`, but it will work for consecutive pages also.)
 
 ### URL if you are using Facebook Login flow with automated hosting environment
 
@@ -258,6 +259,7 @@ This method is usefull if you are planning to use this extension by creating sep
 * Once page is created you will see what callback url you have to put in facebook webhook. URL is presented in list. HTTPS is must!
 * Facebook APP has to use 8.0v or newer
 * https://www.youtube.com/watch?v=nIExwuWeb3E watch youtube video how to set up it in Live Helper Chat hosting https://livehelperchat.com/order/now same steps applies for local installation :)
+* You still most likely will have callback URL like `https://example.com/fbmessenger/callback/1`, but it will work for consecutive pages also.
 
 ## Can I have multiple pages in one app?
 
@@ -301,20 +303,20 @@ To activate that option you have to edit `extension/fbmessenger/settings/setting
         'enabled' => true,
         'disable_manual_whatsapp' => false, 
         'secret_hash' => 'random_string_to_out',
-        'address' => 'https://mater.example.com' // Master instance address
+        'address' => 'https://master.example.com' // Master instance address
     ),
 ```
 
 In facebook `Valid OAuth Redirect URIs` has to be changed to E.g
 
 ```
-https://mater.example.com/site_admin/fbmessenger/fbcallbackstandalone
+https://master.example.com/site_admin/fbmessenger/fbcallbackstandalone
 ```
 
 `Messenger -> Settings` Webhooks `Callback URL` has to be set to
 
 ```
-https://mater.example.com/fbmessenger/callbackstandalone
+https://master.example.com/fbmessenger/callbackstandalone
 ```
 
 ## Then Submit to facebook to validate your app
