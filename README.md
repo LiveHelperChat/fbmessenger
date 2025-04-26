@@ -203,6 +203,11 @@ From WhatsApp perspective we support `images`, `text`, `video`, `audio`, `contac
 
 To send campaign of template messages this cronjob has to be setup.
 
+## Why there is two places I can put my WhatsApp account details?
+
+* If you have only one WhatsApp account number/account put it in options `fbmessenger/options`
+* Any consecutive should be added by creating new business account in lhc. `fbwhatsapp/account`
+
 ## How to listen for quick reply actions from templates you send?
 
 Each quick reply button send from lhc get's payload constructed as.
