@@ -15,7 +15,7 @@
     <?php foreach ($items as $item) : ?>
     <tr>
         <td><?php echo $item->id?></td>
-        <td><?php echo $item->name?></td>
+        <td><?php echo htmlspecialchars($item->name)?></td>
         <td><?php echo $item->callback_url?></td>
         <td><?php if ($item->verified == 1) : ?>Yes<?php else : ?>No<?php endif;?></td>
         <td nowrap="">
