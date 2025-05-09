@@ -2,7 +2,7 @@
 
 <h4><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Facebook chat');?></h4>
 
-<?php if (!isset(erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['hide_fb_login']) || erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['hide_fb_login'] == false) : ?>
+<?php if (erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['app_id'] != '' && (!isset(erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['hide_fb_login']) || erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['hide_fb_login'] == false)) : ?>
 
 <?php
 $user = erLhcoreClassModelFBMessengerUser::findOne(array('filter' => array('user_id' => erLhcoreClassUser::instance()->getUserID())));
