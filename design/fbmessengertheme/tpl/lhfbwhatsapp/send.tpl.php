@@ -97,6 +97,7 @@
                     'input_name'     => 'business_account_id',
                     'selected_id'    => $send->business_account_id,
                     'css_class'      => 'form-control form-control-sm',
+                    'list_function_params'  => array('limit' => false, 'filter' => ['active' => 1]),
                     'list_function'  => '\LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::getList'
                 );
 

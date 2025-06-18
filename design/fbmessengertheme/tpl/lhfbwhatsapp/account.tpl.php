@@ -10,6 +10,7 @@
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Name');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Department');?></th>
             <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Account ID');?></th>
+            <th><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Active');?></th>
             <th width="1%"></th>
         </tr>
         </thead>
@@ -28,6 +29,9 @@
                 </td>
                 <td>
                     <?php echo $item->business_account_id?>
+                </td>
+                <td>
+                    <?php if ($item->active == 1) : ?><span class="material-icons text-success">check</span><?php else : ?><span class="material-icons text-danger">cancel</span><?php endif; ?>
                 </td>
                 <td>
                     <a class="csfr-required csfr-post material-icons text-danger" data-trans="delete_confirm" title="<?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Delete account');?>" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/deleteaccount')?>/<?php echo htmlspecialchars($item->id) ?>">delete</a>
