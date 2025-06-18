@@ -22,22 +22,68 @@ $tpl->set('limitation', $limitation);
 $item = new \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage();
 $item->campaign_name = '';
 
-$instance = \LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance();
+if (isset($Params['user_parameters_unordered']['business_account_id']) && str_starts_with($Params['user_parameters_unordered']['business_account_id'],'whatsapp-')) {
 
-if (isset($_POST['business_account_id']) && $_POST['business_account_id'] > 0) {
-    $Params['user_parameters_unordered']['business_account_id'] = (int)$_POST['business_account_id'];
-}
-$hasPermission = true;
-if (is_numeric($Params['user_parameters_unordered']['business_account_id']) && $Params['user_parameters_unordered']['business_account_id'] > 0 && (empty($limitation['business_accounts']) || in_array($Params['user_parameters_unordered']['business_account_id'],$limitation['business_accounts']))) {
-    $account = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::fetch($Params['user_parameters_unordered']['business_account_id']);
-    $instance->setAccessToken($account->access_token);
-    $instance->setBusinessAccountID($account->business_account_id);
-    $item->business_account_id = $account->id;
-    $tpl->set('business_account_id', $account->id);
-} elseif (!empty($limitation['business_accounts']) && !in_array("default",$limitation['business_accounts'])) {
-    $tpl->set('errors',['No permission to use default business account!']);
-    $tpl->setFile('lhkernel/validation_error.tpl.php');
-    $hasPermission = false;
+    $fb = \erLhcoreClassModelFBMessengerUser::getFBApp();
+    $instance = \LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance($fb->getDefaultAccessToken(), str_replace('whatsapp-', '', $Params['user_parameters_unordered']['business_account_id']));
+    $item->business_account_id = $Params['user_parameters_unordered']['business_account_id'];
+    $tpl->set('business_account_id', $Params['user_parameters_unordered']['business_account_id']);
+   
+    $account = new \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount();
+    $account->id = $Params['user_parameters_unordered']['business_account_id'];
+
+    $hasPermission = true;
+
+} else if (isset($_POST['business_account_id']) && str_starts_with($_POST['business_account_id'],'whatsapp-')) {
+
+    $fb = \erLhcoreClassModelFBMessengerUser::getFBApp();
+    $instance = \LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance($fb->getDefaultAccessToken(), str_replace('whatsapp-', '', $_POST['business_account_id']));
+    $item->business_account_id = $_POST['business_account_id'];
+    $tpl->set('business_account_id', $_POST['business_account_id']);
+   
+    $account = new \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount();
+    $account->id = $_POST['business_account_id'];
+
+    $hasPermission = true;
+
+} else {
+
+    $fbOptions = erLhcoreClassModelChatConfig::fetch('fbmessenger_options');
+    $data = (array)$fbOptions->data;
+
+    if (!empty($data['whatsapp_access_token']) && !empty($data['whatsapp_business_account_id'])) {
+        $instance = \LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance();
+    } else {
+        $fb = \erLhcoreClassModelFBMessengerUser::getFBApp();
+        $businessAccountId = \LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChatBusinessValidator::getFirstBusinessAccountId();
+
+        $instance = \LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance($fb->getDefaultAccessToken(), $businessAccountId);
+        $item->business_account_id = 'whatsapp-'.$businessAccountId;
+
+        $account = new \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount();
+        $account->id = $item->business_account_id ;
+
+        $tpl->set('business_account_id', $item->business_account_id);
+    }
+    
+
+    if (isset($_POST['business_account_id']) && $_POST['business_account_id'] > 0) {
+        $Params['user_parameters_unordered']['business_account_id'] = (int)$_POST['business_account_id'];
+    }
+
+    $hasPermission = true;
+
+    if (is_numeric($Params['user_parameters_unordered']['business_account_id']) && $Params['user_parameters_unordered']['business_account_id'] > 0 && (empty($limitation['business_accounts']) || in_array($Params['user_parameters_unordered']['business_account_id'],$limitation['business_accounts']))) {
+        $account = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::fetch($Params['user_parameters_unordered']['business_account_id']);
+        $instance->setAccessToken($account->access_token);
+        $instance->setBusinessAccountID($account->business_account_id);
+        $item->business_account_id = $account->id;
+        $tpl->set('business_account_id', $account->id);
+    } elseif (!empty($limitation['business_accounts']) && !in_array("default",$limitation['business_accounts'])) {
+        $tpl->set('errors',['No permission to use default business account!']);
+        $tpl->setFile('lhkernel/validation_error.tpl.php');
+        $hasPermission = false;
+    }
 }
 
 $templates = $instance->getTemplates();
