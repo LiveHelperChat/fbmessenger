@@ -66,7 +66,7 @@
                         );  echo erLhcoreClassRenderHelper::renderCombobox( $params ); ?></div>
                     <div class="col-4">
                         <?php if (isset($current_pages_whatsapp[$phoneNumber['whatsapp_business_account_id']]) && $current_pages_whatsapp[$phoneNumber['whatsapp_business_account_id']]->enabled == 1 && $phoneNumber['id'] == $current_pages_whatsapp[$phoneNumber['whatsapp_business_account_id']]->whatsapp_business_phone_number_id ) : ?>
-                            <a class="btn btn-sm btn-danger btn-block csfr-required" href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/whatsappsubscribe')?>/<?php echo $phoneNumber['business_id']?>/<?php echo $phoneNumber['whatsapp_business_account_id']?>/<?php echo $phoneNumber['id']?>/(action)/unsubscribe">Un Subscribe</a>
+                            <a class="btn btn-sm btn-danger csfr-required" href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/whatsappsubscribe')?>/<?php echo $phoneNumber['business_id']?>/<?php echo $phoneNumber['whatsapp_business_account_id']?>/<?php echo $phoneNumber['id']?>/(action)/unsubscribe">Un Subscribe</a>
                             &nbsp;<a class="btn btn-sm btn-info" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/send')?>/(business_account_id)/whatsapp-<?php echo $phoneNumber['whatsapp_business_account_id']?>">Send template</a>
                             &nbsp;<a class="btn btn-sm btn-info" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/messages')?>">Messages</a>
                         <?php else : ?>
