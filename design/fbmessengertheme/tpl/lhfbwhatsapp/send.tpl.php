@@ -93,7 +93,7 @@
                 <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Business account');?>, <small><i><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','you can set a custom business account');?></i></small></label>
                 <?php
 
-                $renderOptions = array (
+               /* $renderOptions = array (
                     'input_name'     => 'business_account_id',
                     'selected_id'    => $send->business_account_id,
                     'css_class'      => 'form-control form-control-sm',
@@ -107,6 +107,21 @@
 
                 if (!empty($limitation['business_accounts'])) {
                     $renderOptions['list_function_params'] = ['filterin' => ['id' => $limitation['business_accounts']]];
+                }*/
+
+                $renderOptions = array (
+                    'input_name'     => 'business_account_id',
+                    'selected_id'    => $send->business_account_id,
+                    'css_class'      => 'form-control form-control-sm',
+                    'list_function_params'  => array('limitation' => $limitation),
+                    'list_function'  => '\LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChatBusinessValidator::getBusinessAccounts'
+                );
+
+                $fbOptions = erLhcoreClassModelChatConfig::fetch('fbmessenger_options');
+                $data = (array)$fbOptions->data;
+
+                if (!empty($data['whatsapp_access_token']) && !empty($data['whatsapp_business_account_id']) && (empty($limitation['business_accounts']) || in_array("default",$limitation['business_accounts']))) {
+                    $renderOptions['optional_field'] = erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Default configuration');
                 }
 
                 echo erLhcoreClassRenderHelper::renderCombobox($renderOptions); ?>
@@ -135,8 +150,8 @@
 
             <script>
                 var messageFieldsValues = <?php echo json_encode($send->message_variables_array);?>;
-                <?php if (isset($business_account_id) && is_numeric($business_account_id)) : ?>
-                    var businessAccountId = <?php echo (int)$business_account_id?>;
+                <?php if (isset($business_account_id)) : ?>
+                    var businessAccountId = <?php echo json_encode($business_account_id)?>;
                 <?php endif;?>
             </script>
 

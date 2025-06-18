@@ -4,31 +4,44 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
     #[\AllowDynamicProperties]
     class FBMessengerWhatsAppLiveHelperChat {
 
-        public static function getInstance() {
+        public static function getInstance($accessKey = null, $businessAccountID = null) {
 
-            if (self::$instance !== null){
+            if (self::$instance !== null) {
+
+                if (!is_null($accessKey)) {
+                    self::$instance->access_key = $accessKey;
+                    self::$instance->whatsapp_business_account_id = $businessAccountID;
+                }
+
                 return self::$instance;
             }
 
-            self::$instance = new self();
+            self::$instance = new self($accessKey, $businessAccountID);
 
             return self::$instance;
         }
 
-        public function __construct() {
-            $mbOptions = \erLhcoreClassModelChatConfig::fetch('fbmessenger_options');
-            $data = (array)$mbOptions->data;
+        public function __construct($accessKey = null, $businessAccountID = null) {
 
-            if (!isset($data['whatsapp_access_token']) || empty($data['whatsapp_access_token'])) {
-                throw new \Exception('Access Key is not set!',100);
+            if (is_null($accessKey)) {
+                $mbOptions = \erLhcoreClassModelChatConfig::fetch('fbmessenger_options');
+                $data = (array)$mbOptions->data;
+
+                if (!isset($data['whatsapp_access_token']) || empty($data['whatsapp_access_token'])) {
+                    throw new \Exception('Access Key is not set!',100);
+                }
+
+                if (!isset($data['whatsapp_business_account_id']) || empty($data['whatsapp_business_account_id'])) {
+                    throw new \Exception('WhatsApp Business Account ID',100);
+                }
+
+                $this->access_key = $data['whatsapp_access_token'];
+                $this->whatsapp_business_account_id = $data['whatsapp_business_account_id'];
+            } else {
+                $this->access_key = $accessKey;
+                $this->whatsapp_business_account_id = $businessAccountID;
             }
-
-            if (!isset($data['whatsapp_business_account_id']) || empty($data['whatsapp_business_account_id'])) {
-                throw new \Exception('WhatsApp Business Account ID',100);
-            }
-
-            $this->access_key = $data['whatsapp_access_token'];
-            $this->whatsapp_business_account_id = $data['whatsapp_business_account_id'];
+           
             $this->endpoint = 'https://graph.facebook.com/';
         }
 

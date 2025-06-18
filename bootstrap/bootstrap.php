@@ -88,8 +88,10 @@ class erLhcoreClassExtensionFbmessenger {
                 if (isset($data['whatsapp_business_account_phone_number']) && !empty($data['whatsapp_business_account_phone_number'])) {
                     $validPhoneNumbers = explode(',',str_replace(' ','',$data['whatsapp_business_account_phone_number']));
                     if (!in_array($params['chat']->chat_variables_array['iwh_field_2'],$validPhoneNumbers)) {
-                        echo json_encode(['error' => true, 'message' => 'Not defined phone number - ' . $params['chat']->chat_variables_array['iwh_field_2']]);
-                        exit; // Not supported phone number
+                        if (erLhcoreClassModelMyFBPage::getCount(['filter' => ['page_id' => 0, 'whatsapp_business_phone_number_id' => (int)$params['chat']->chat_variables_array['iwh_field_2']]]) == 0) {
+                            echo json_encode(['error' => true, 'message' => 'Not defined phone number - ' . $params['chat']->chat_variables_array['iwh_field_2']]);
+                            exit; // Not supported phone number
+                        }
                     }
                 }
             }
@@ -197,7 +199,12 @@ class erLhcoreClassExtensionFbmessenger {
 
             $item = new \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage();
 
-            $instance = LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance();
+            $fbOptions = erLhcoreClassModelChatConfig::fetch('fbmessenger_options');
+            $data = (array)$fbOptions->data;
+
+            if (!empty($data['whatsapp_access_token']) && !empty($data['whatsapp_business_account_id'])) {
+                $instance = LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance();
+            }
 
             $businessAccount = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppAccount::findOne(array('filter' => ['active' => 1], 'customfilter' => array("JSON_CONTAINS(`phone_number_ids`,'\"" . (int)$params['chat']->chat_variables_array['iwh_field_2'] . "\"','$')" )));
 
@@ -205,6 +212,13 @@ class erLhcoreClassExtensionFbmessenger {
             if (is_object($businessAccount)) {
                 $instance->setBusinessAccountID($businessAccount->business_account_id);
                 $instance->setAccessToken($businessAccount->access_token);
+            }
+
+            $subscribePhoneNumber = erLhcoreClassModelMyFBPage::findOne(['filter' => ['page_id' => 0, 'whatsapp_business_phone_number_id' => (int)$params['chat']->chat_variables_array['iwh_field_2']]]);
+
+            if (is_object($subscribePhoneNumber)) {
+                $fb = \erLhcoreClassModelFBMessengerUser::getFBApp();
+                $instance = \LiveHelperChatExtension\fbmessenger\providers\FBMessengerWhatsAppLiveHelperChat::getInstance($fb->getDefaultAccessToken(), $subscribePhoneNumber->whatsapp_business_account_id);
             }
 
             // Templates are required for images to be sent
