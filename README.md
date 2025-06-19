@@ -327,7 +327,10 @@ https://master.example.com/fbmessenger/callbackstandalone
 Once visitor writes a message in facebook page. You will receive a chat with visitor.
 
 # How to debug
-in `extension/fbmessenger/settings/settings.ini.php` change setting to `'enable_debug' => true` if you have verified site. Check `cache/default.log` for more detailed error.
+
+* in `extension/fbmessenger/settings/settings.ini.php` change setting to `'enable_debug' => true` if you have verified site. Check `cache/default.log` for more detailed error.
+* Messages aren't received being sent from Live Helper Chat back office. In `System configuration > Rest API Calls` find related item and edit it. Check `Log all request and their responses as system messages.` or `Log all request and their responses in audit log.`
+* Messages were not received by Live Helper Chat. In `System configuration > Incoming webhooks` find related item and edit it. Check `Log request. All request will be logged`
 
 # How to grant permission to other facebook user to your page so he can subscribe to messenger
 
