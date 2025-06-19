@@ -80,7 +80,7 @@ Subscribed fields - `messages`
 
 ## Most common URL
 
-### URL if you are using Facebook Login flow without automated hosting environment
+### URL if you are using Facebook Login flow WITHOUT automated hosting environment
 
 This is the most common installation method and you choose what page you managed during login flow.
 
@@ -110,7 +110,7 @@ You create a facebook app and add pages manually to lhc back office without logi
 * Verify token you enter manually in back office in that case
 * You can register manually multiple pages and just keep the same webhook. https://www.youtube.com/watch?v=nIExwuWeb3E (You still most likely will have callback URL like `https://example.com/fbmessenger/callback/1`, but it will work for consecutive pages also.)
 
-### URL if you are using Facebook Login flow with automated hosting environment
+### URL if you are using Facebook Login flow WITH automated hosting environment
 
 Valid OAuth Redirect URIs. `master.example.com` in this scenario is our manager address
 
@@ -165,9 +165,11 @@ Integration with Facebook messenger API. You will be able to chat with Facebook 
 * If you don't see this in Module, check your `lhc_web/settings/settings.ini.php` and also click `Clean Cache` from back office
 * copy `extension/fbmessenger/settings/settings.ini.default.php` to `extension/fbmessenger/settings/settings.ini.php`
 
-# WhatsApp configuration
+# WhatsApp configuration WITHOUT facebook login
 
 Notice - WhatsApp campaigns etc are supported only for statically defined WhatsApp accounts. Login based WhatsApp phone numbers for campaigns will be added later.
+
+Webhook URL you will find once you click `Save and Activate WhatsApp configuration` it will be in a field `Callback URL for Facebook WhatsApp integration`.
 
 This configuration option is available with [Permanent Access Token](https://developers.facebook.com/docs/whatsapp/business-management-api/get-started#1--acquire-an-).
 In facebook Extension settings you have to enter
@@ -286,16 +288,6 @@ So at the end everything should look like
 ![See image](https://raw.githubusercontent.com/LiveHelperChat/fbmessenger/master/doc/access_token.png)
 
 ![See image](https://raw.githubusercontent.com/LiveHelperChat/fbmessenger/master/doc/webhooks.png)
-
-# One account multiple page installation workflow
-
-This workflow is usefull if you are planning to use more than one page per facebook account.
-
-* Your facebook application has to have "pages_messaging" permission for lhc to be able to extract visitor information and be able to send messages back to lhc. For that you will have to submit application and wait for FB to review it.
-* Set webhook callback to url similar to this. `https://example.com/fbmessenger/callbackgeneral` verify token you have to put in `extension/fbmessenger/settings/settings.ini.php` file.
-* `Valid OAuth Redirect URLs` should look like `https://example.com/site_admin/fbmessenger/fbcallback`
-* We request these scopes `email, pages_show_lis, pages_messaging, pages_messaging_subscriptions`
-* If you did everything correctly you should be able to login from facebook and grant access Live Helper Chat to see your pages and subscribe to messages events.
 
 # One app multiple servers installation
 
