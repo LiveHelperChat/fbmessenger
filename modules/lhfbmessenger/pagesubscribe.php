@@ -58,6 +58,7 @@ foreach ($bodyResponse['data'] as $page) {
                         $pageMy->access_token = $page['access_token'];
                         $pageMy->enabled = 1;
                         $pageMy->page_id = $page['id'];
+                        $pageMy->fb_user_id = erLhcoreClassModelFBMessengerUser::getFBUser()->fb_user_id;
 
                         try {
                             $responseINST = $fb->get('/' . $page['id'] . '/?fields=instagram_business_account', $page['access_token']);

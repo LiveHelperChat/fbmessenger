@@ -30,6 +30,16 @@ $ViewList['callbackgeneral'] = array(
     'uparams' => array()
 );
 
+$ViewList['deleterequest'] = array(
+    'params' => array(),
+    'uparams' => array()
+);
+
+$ViewList['deleterequeststatus'] = array(
+    'params' => array('user_id'),
+    'uparams' => array()
+);
+
 $ViewList['registersubscribe'] = array(
     'params' => array('hash'),
     'uparams' => array()

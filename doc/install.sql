@@ -68,6 +68,7 @@ CREATE TABLE `lhc_fbmessenger_page` (
 CREATE TABLE `lhc_fbmessenger_my_page` (
                                            `id` bigint(20) NOT NULL AUTO_INCREMENT,
                                            `page_id` bigint(20) NOT NULL,
+                                           `fb_user_id` bigint(20) unsigned NOT NULL DEFAULT 0,
                                            `access_token` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
                                            `enabled` int(11) NOT NULL,
                                            `dep_id` int(11) NOT NULL,
@@ -111,7 +112,7 @@ CREATE TABLE `lhc_fbmessenger_lead` (
 CREATE TABLE `lhc_fbmessenger_fbuser` (
 `id` bigint(20) NOT NULL AUTO_INCREMENT,
 `user_id` int(11) NOT NULL,
-`fb_user_id` bigint(20) NOT NULL,
+`fb_user_id` bigint(20) unsigned NOT NULL DEFAULT 0,
 `access_token` varchar(500) NOT NULL,
 PRIMARY KEY (`id`),
 KEY `user_id` (`user_id`)
@@ -137,6 +138,7 @@ CREATE TABLE `lhc_fbmessenger_standalone_fb_page` (
                                                       `page_id` bigint(20) NOT NULL,
                                                       `address` varchar(100) NOT NULL,
                                                       `instance_id` bigint(20) unsigned NOT NULL DEFAULT 0,
+                                                      `fb_user_id` bigint(20) unsigned NOT NULL DEFAULT 0,
                                                       `instagram_business_account` bigint(20) unsigned NOT NULL DEFAULT 0,
                                                       `whatsapp_business_account_id` bigint(20) unsigned NOT NULL DEFAULT 0,
                                                       `whatsapp_business_phone_number_id` bigint(20) unsigned NOT NULL DEFAULT 0,

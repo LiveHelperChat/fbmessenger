@@ -23,6 +23,7 @@ class erLhcoreClassModelFBMessengerUser
     }
 
     private static $fb = null;
+    private static $fbUser = null;
 
     public static function getFBAppInstance() {
 
@@ -51,6 +52,7 @@ class erLhcoreClassModelFBMessengerUser
 
             if ($fbUser instanceof erLhcoreClassModelFBMessengerUser){
                 self::$fb->setDefaultAccessToken($fbUser->access_token);
+                self::$fbUser = $fbUser;
             } else {
                 if ($redirect == true) {
                     $permissions = erLhcoreClassModule::getExtensionInstance('erLhcoreClassExtensionFbmessenger')->settings['scopes']; // Optional permissions
@@ -64,6 +66,11 @@ class erLhcoreClassModelFBMessengerUser
         }
 
         return self::$fb;
+    }
+
+    public static function getFBUser()
+    {
+        return self::$fbUser;
     }
 
     public function __toString()

@@ -14,6 +14,11 @@ $def->properties['page_id']->columnName   = 'page_id';
 $def->properties['page_id']->propertyName = 'page_id';
 $def->properties['page_id']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
 
+$def->properties['fb_user_id'] = new ezcPersistentObjectProperty();
+$def->properties['fb_user_id']->columnName   = 'fb_user_id';
+$def->properties['fb_user_id']->propertyName = 'fb_user_id';
+$def->properties['fb_user_id']->propertyType = ezcPersistentObjectProperty::PHP_TYPE_INT;
+
 $def->properties['instagram_business_account'] = new ezcPersistentObjectProperty();
 $def->properties['instagram_business_account']->columnName   = 'instagram_business_account';
 $def->properties['instagram_business_account']->propertyName = 'instagram_business_account';

@@ -23,13 +23,14 @@ try {
             $stmt->bindValue( ':instance_id',$requestBody['instance_id']);
             $stmt->execute();
 
-            $stmt = $db->prepare("INSERT IGNORE INTO lhc_fbmessenger_standalone_fb_page (page_id, address, instance_id, instagram_business_account, whatsapp_business_account_id, whatsapp_business_phone_number_id) VALUES (:page_id, :address, :instance_id, :instagram_business_account, :whatsapp_business_account_id, :whatsapp_business_phone_number_id)");
+            $stmt = $db->prepare("INSERT IGNORE INTO lhc_fbmessenger_standalone_fb_page (fb_user_id, page_id, address, instance_id, instagram_business_account, whatsapp_business_account_id, whatsapp_business_phone_number_id) VALUES (:fb_user_id, :page_id, :address, :instance_id, :instagram_business_account, :whatsapp_business_account_id, :whatsapp_business_phone_number_id)");
             $stmt->bindValue( ':page_id',$requestBody['page_id']);
             $stmt->bindValue( ':address',$requestBody['address']);
             $stmt->bindValue( ':instance_id',$requestBody['instance_id']);
             $stmt->bindValue( ':instagram_business_account',$requestBody['instagram_business_account']);
             $stmt->bindValue( ':whatsapp_business_account_id',$requestBody['whatsapp_business_account_id']);
             $stmt->bindValue( ':whatsapp_business_phone_number_id',$requestBody['whatsapp_business_phone_number_id']);
+            $stmt->bindValue( ':fb_user_id',$requestBody['fb_user_id'] ?? 0);
             $stmt->execute();
         } elseif ($requestBody['action'] == 'remove') {
             $db = ezcDbInstance::get();

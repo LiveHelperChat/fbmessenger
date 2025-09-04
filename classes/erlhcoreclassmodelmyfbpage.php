@@ -24,6 +24,7 @@ class erLhcoreClassModelMyFBPage
             'instagram_business_account' => $this->instagram_business_account,
             'whatsapp_business_account_id' => $this->whatsapp_business_account_id,
             'whatsapp_business_phone_number_id' => $this->whatsapp_business_phone_number_id,
+            'fb_user_id' => $this->fb_user_id,
         );
     }
 
@@ -36,6 +37,7 @@ class erLhcoreClassModelMyFBPage
                 'instagram_business_account' => $this->instagram_business_account,
                 'whatsapp_business_account_id' => $this->whatsapp_business_account_id,
                 'whatsapp_business_phone_number_id' => $this->whatsapp_business_phone_number_id,
+                'fb_user_id' => $this->fb_user_id,
                 'address' => $_SERVER['HTTP_HOST'],
                 'action' => 'add'
             ]);
@@ -50,6 +52,7 @@ class erLhcoreClassModelMyFBPage
                 'instagram_business_account' => $this->instagram_business_account,
                 'whatsapp_business_account_id' => $this->whatsapp_business_account_id,
                 'whatsapp_business_phone_number_id' => $this->whatsapp_business_phone_number_id,
+                'fb_user_id' => $this->fb_user_id,
                 'instance_id' => erLhcoreClassInstance::getInstance()->id,
                 'address' => $_SERVER['HTTP_HOST'],
                 'action' => 'remove'
@@ -85,6 +88,7 @@ class erLhcoreClassModelMyFBPage
 
     public $bot_disabled = 0;
 
+    public $fb_user_id = 0;
     public $instagram_business_account = 0;
     public $whatsapp_business_account_id = 0;
     public $whatsapp_business_phone_number_id = 0;

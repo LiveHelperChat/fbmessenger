@@ -80,6 +80,17 @@ Subscribed fields - `messages`
 
 ## Most common URL
 
+### Data Deletion Requests 
+
+Just enter URL. Change `example.com` to your domain.
+
+`https://example.com/fbmessenger/deleterequest`
+
+It will
+
+ * Delete user leads
+ * Delete it's own pages if it's user after login requesting data deletion.
+
 ### URL if you are using Facebook Login flow WITHOUT automated hosting environment
 
 This is the most common installation method and you choose what page you managed during login flow.
