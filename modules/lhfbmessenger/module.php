@@ -123,6 +123,12 @@ $ViewList['updatedepartmentwhatsapp'] = array(
     'functions' => array('use_fb_messenger'),
 );
 
+$ViewList['whatsappregistercloudapi'] = array(
+    'params' => array('business_id','whatsapp_business_account_id','phone_number_id'),
+    'uparams' => array(),
+    'functions' => array('use_fb_messenger'),
+);
+
 $ViewList['fbcallback'] = array(
     'params' => array(),
     'uparams' => array(),

@@ -69,12 +69,14 @@
                             <a class="btn btn-sm btn-danger csfr-required" href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/whatsappsubscribe')?>/<?php echo $phoneNumber['business_id']?>/<?php echo $phoneNumber['whatsapp_business_account_id']?>/<?php echo $phoneNumber['id']?>/(action)/unsubscribe">Un Subscribe</a>
                             &nbsp;<a class="btn btn-sm btn-info" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/send')?>/(business_account_id)/whatsapp-<?php echo $phoneNumber['whatsapp_business_account_id']?>">Send template</a>
                             &nbsp;<a class="btn btn-sm btn-info" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsapp/messages')?>">Messages</a>
+                            &nbsp;<a class="btn btn-sm btn-info" href="<?php echo erLhcoreClassDesign::baseurl('fbmessenger/whatsappregistercloudapi')?>/<?php echo $phoneNumber['business_id']?>/<?php echo $phoneNumber['whatsapp_business_account_id']?>/<?php echo $phoneNumber['id']?>">Register in Cloud-API</a>
                         <?php else : ?>
                             <a class="btn btn-sm btn-success " onclick="document.location = '<?php echo erLhcoreClassDesign::baseurl('fbmessenger/whatsappsubscribe')?>/<?php echo $phoneNumber['business_id']?>/<?php echo $phoneNumber['whatsapp_business_account_id']?>/<?php echo $phoneNumber['id']?>/(dep)/'+$('#id_DepartmentID<?php echo $phoneNumber['id']?>').val()+'/(action)/subscribe'+'/(csfr)/'+confLH.csrf_token;return false;" href="#">Subscribe</a>
                         <?php endif; ?>
+
                     </div>
                     <div class="col-4 fs12">
-                        <span title="Phone number ID - <?php echo htmlspecialchars($phoneNumber['id']);?>"><?php echo htmlspecialchars($phoneNumber['display_phone_number']);?></span>, <?php echo htmlspecialchars($phoneNumber['verified_name']);?>, <?php echo htmlspecialchars($phoneNumber['code_verification_status']);?>
+                        <span title="Phone number ID - <?php echo htmlspecialchars($phoneNumber['id']);?>">ID - <?php echo htmlspecialchars($phoneNumber['id']);?>, <?php echo htmlspecialchars($phoneNumber['display_phone_number']);?></span>, <?php echo htmlspecialchars($phoneNumber['verified_name']);?>, <?php echo htmlspecialchars($phoneNumber['code_verification_status']);?>
                     </div>
                 </div>
             </td>
