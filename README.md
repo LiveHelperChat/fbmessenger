@@ -18,11 +18,14 @@ Just ask anything on our [Facebook page](https://www.facebook.com/LiveHelperChat
 
 Changes
 
-* All messenger workflow will be handled by lhc core, so less bugs.
+* All messenger workflow will be handled by lhc core, so fewer bugs.
 * Instagram support added
 * Required scopes are defined in the settings file.
 
-To manage instagram and whatsapp they both has to be matched to you page
+To manage Instagram and WhatsApp, both must be linked to your Facebook Page/Meta Business Account.
+
+If you add your personal phone number to a WhatsApp Business account and the status still shows "Pending" after you have connected and subscribed, open the Live Helper Chat back office and click "Register in Cloud-API". This button appears after the phone number is subscribed.
+
 
 # Permissions we request from facebook during login
 
