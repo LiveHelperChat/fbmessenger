@@ -566,21 +566,21 @@ class erLhcoreClassExtensionFbmessenger {
 
         } elseif (
             // This is echo message from our own API Call
-            ($params['webhook']->scope == 'facebookmessengerappscope' &&
+                $params['webhook']->scope == 'facebookmessengerappscope' &&
                 isset($params['data']['entry'][0]['messaging'][0]['message']['is_echo']) &&
                 isset($params['data']['entry'][0]['messaging'][0]['message']['app_id']) &&
-                $params['data']['entry'][0]['messaging'][0]['message']['app_id'] == $this->settings['app_settings']['app_id']) ||
-            (
-            // This is echo message from our own API Call
-            $params['webhook']->scope == 'facebookinstagramappscope' &&
-            isset($params['data']['entry'][0]['messaging'][0]['message']['is_echo'])
-            // Instagram does not differentiates what app was original message so we don't know was it our message or
-            // message from direct conversation
-            /*isset($params['data']['entry'][0]['messaging'][0]['message']['app_id']) &&
-            $params['data']['entry'][0]['messaging'][0]['message']['app_id'] == $this->settings['app_settings']['app_id']*/
-        )
+                $params['data']['entry'][0]['messaging'][0]['message']['app_id'] == $this->settings['app_settings']['app_id']
         ) {
-           exit;
+            exit;
+        } else if ($params['webhook']->scope == 'facebookinstagramappscope' && isset($params['data']['entry'][0]['messaging'][0]['message']['is_echo'])) {
+            // Instagram does not differentiate what app was original message so we don't know was it our message or direct message
+            // In this scenario we have to check manually
+            // message from direct conversation
+            $chat_external_id = $params['data']['entry'][0]['messaging'][0]['recipient']['id'] .'__' .$params['data']['entry'][0]['messaging'][0]['sender']['id'];
+            $incomingChat = erLhcoreClassModelChatIncoming::findOne(['filter' => ['incoming_id' => $params['webhook']->id, 'chat_external_id' => $chat_external_id]]);
+            if (is_object($incomingChat) && erLhcoreClassModelmsg::getCount(['filter' => ['chat_id' => $incomingChat->chat_id], 'customfilter' => ['`meta_msg` != \'\' AND JSON_EXTRACT(meta_msg,\'$.iwh_msg_id\') = ' . ezcDbInstance::get()->quote($params['data']['entry'][0]['messaging'][0]['message']['mid'])]]) > 0) {
+                exit;
+            }
         }
     }
 
