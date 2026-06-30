@@ -24,6 +24,7 @@ class erLhcoreClassModelMessageFBWhatsAppCampaignRecipient
             'email' => $this->email,
             'phone' => $this->phone,
             'phone_recipient' => $this->phone_recipient,
+            'fb_recipient_id' => $this->fb_recipient_id,
             'status' => $this->status,
             'send_at' => $this->send_at,
             'opened_at' => $this->opened_at,
@@ -224,6 +225,7 @@ class erLhcoreClassModelMessageFBWhatsAppCampaignRecipient
     public $email = '';
     public $phone = '';
     public $phone_recipient = '';
+    public $fb_recipient_id = '';
     public $status = self::STATUS_PENDING;
     public $log = '';
     public $message_id = 0;

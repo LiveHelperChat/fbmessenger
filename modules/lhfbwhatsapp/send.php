@@ -94,6 +94,7 @@ if (is_numeric($Params['user_parameters_unordered']['recipient'])) {
     $item->phone = $contact->phone;
     $item->phone_whatsapp = $contact->phone_recipient;
     $item->recipient_id = $contact->id;
+    $item->fb_recipient_id = $contact->fb_recipient_id;
     $tpl->set('whatsapp_contact', $contact);
 }
 
@@ -106,6 +107,9 @@ if (ezcInputForm::hasPostData() && $hasPermission == true) {
 
     $definition = array(
         'phone' => new ezcInputFormDefinitionElement(
+            ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+        ),
+        'fb_recipient_id' => new ezcInputFormDefinitionElement(
             ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
         ),
         'scheduled_at' => new ezcInputFormDefinitionElement(
@@ -184,10 +188,14 @@ if (ezcInputForm::hasPostData() && $hasPermission == true) {
 
     if (!isset($contact)) {
 
+        if ($form->hasValidData( 'fb_recipient_id' ) && $form->fb_recipient_id != '') {
+            $item->fb_recipient_id = $form->fb_recipient_id;
+        }
+
         if ($form->hasValidData( 'phone' ) && $form->phone != '') {
             $item->phone = $form->phone;
-        } else {
-            $Errors[] = erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter a phone');
+        } elseif (empty($item->fb_recipient_id)) {
+            $Errors[] = erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter a phone or user id');
         }
 
         if ($form->hasValidData( 'phone_whatsapp' ) && $form->phone_whatsapp != '') {
@@ -311,6 +319,7 @@ if (ezcInputForm::hasPostData() && $hasPermission == true) {
                     $campaignRecipient->type = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::TYPE_MANUAL;
                     $campaignRecipient->phone = $item->phone;
                     $campaignRecipient->phone_recipient = $item->phone_whatsapp;
+                    $campaignRecipient->fb_recipient_id = $item->fb_recipient_id;
                 }
 
                 $campaignRecipient->user_id = $item->user_id;

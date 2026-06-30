@@ -10,7 +10,7 @@ $def->idProperty->propertyName = 'id';
 $def->idProperty->generator = new ezcPersistentGeneratorDefinition(  'ezcPersistentNativeGenerator' );
 
 foreach (array(
-             'email','data','name','phone','phone_recipient',
+             'email','data','name','phone','phone_recipient','fb_recipient_id',
              'attr_str_1','attr_str_2','attr_str_3',
              'attr_str_4','attr_str_5','attr_str_6',
              'title','lastname','company','file_1','file_2','file_3','file_4'

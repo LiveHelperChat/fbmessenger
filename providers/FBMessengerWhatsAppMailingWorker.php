@@ -88,6 +88,7 @@ class FBMessengerWhatsAppMailingWorker {
         $item->campaign_recipient_id = $recipient->id;
         $item->phone = $recipient->recipient_phone;
         $item->phone_whatsapp = $recipient->recipient_phone_recipient;
+        $item->fb_recipient_id = $recipient->fb_recipient_id;
         $item->recipient_id = $recipient->recipient_id;
 
         $item->private = $campaign->private;

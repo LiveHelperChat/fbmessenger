@@ -29,18 +29,18 @@
                     <?php if ($item->type == \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppCampaignRecipient::TYPE_MANUAL) : ?>
 
                         <?php if ($item->can_edit) : ?>
-                            <button class="p-0 m-0 btn btn-sm btn-link" href="#" onclick="return lhc.revealModal({'title' : 'Import', 'height':350, backdrop:true, 'url':'<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/newcampaignrecipient')?>/<?php echo $campaign->id?>/<?php echo $item->id?>'})"><span class="material-icons">edit</span><?php echo htmlspecialchars($item->recipient_phone)?><?php $item->recipient_phone_recipient != '' ? print ' (' . $item->recipient_phone_recipient . ') ' : print ' '?><?php echo htmlspecialchars($item->recipient)?></button>
+                            <button class="p-0 m-0 btn btn-sm btn-link" href="#" onclick="return lhc.revealModal({'title' : 'Import', 'height':350, backdrop:true, 'url':'<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/newcampaignrecipient')?>/<?php echo $campaign->id?>/<?php echo $item->id?>'})"><span class="material-icons">edit</span><?php echo htmlspecialchars($item->recipient_phone)?><?php $item->recipient_phone_recipient != '' ? print ' (' . $item->recipient_phone_recipient . ') ' : print ' '?><?php echo htmlspecialchars($item->fb_recipient_id)?> <?php echo htmlspecialchars($item->recipient)?></button>
                         <?php else : ?>
-                            <span class="material-icons">edit_off</span><?php echo htmlspecialchars($item->recipient_phone)?><?php $item->recipient_phone_recipient != '' ? print ' (' . $item->recipient_phone_recipient . ') ' : print ' '?><?php echo htmlspecialchars($item->recipient)?>
+                            <span class="material-icons">edit_off</span><?php echo htmlspecialchars($item->recipient_phone)?><?php $item->recipient_phone_recipient != '' ? print ' (' . $item->recipient_phone_recipient . ') ' : print ' '?><?php echo htmlspecialchars($item->recipient)?><?php echo htmlspecialchars($item->fb_recipient_id)?>
                         <?php endif; ?>
 
                     <?php else : ?>
                         <?php if ($item->can_edit) : ?>
                             <button class="m-0 p-0 btn btn-sm btn-link" href="#" onclick="return lhc.revealModal({'title' : 'Import', 'height':350, backdrop:true, 'url': WWW_DIR_JAVASCRIPT + '/fbwhatsappmessaging/editmailingrecipient/<?php echo $item->recipient_id?>'})">
-                                <span class="material-icons">edit</span><?php echo htmlspecialchars($item->recipient_phone)?><?php $item->recipient_phone_recipient != '' ? print ' (' . $item->recipient_phone_recipient . ') ' : print ' '?><?php echo htmlspecialchars($item->recipient)?>
+                                <span class="material-icons">edit</span><?php echo htmlspecialchars($item->recipient_phone)?><?php $item->recipient_phone_recipient != '' ? print ' (' . $item->recipient_phone_recipient . ') ' : print ' '?><?php echo htmlspecialchars($item->recipient)?><?php echo htmlspecialchars($item->fb_recipient_id)?>
                             </button>
                         <?php else : ?>
-                            <span class="material-icons">edit_off</span><?php echo htmlspecialchars($item->recipient_phone)?><?php $item->recipient_phone_recipient != '' ? print ' (' . $item->recipient_phone_recipient . ') ' : print ' '?><?php echo htmlspecialchars($item->recipient)?>
+                            <span class="material-icons">edit_off</span><?php echo htmlspecialchars($item->recipient_phone)?><?php $item->recipient_phone_recipient != '' ? print ' (' . $item->recipient_phone_recipient . ') ' : print ' '?><?php echo htmlspecialchars($item->recipient)?><?php echo htmlspecialchars($item->fb_recipient_id)?>
                         <?php endif; ?>&nbsp;
                     <?php endif; ?>&nbsp;
                     <a class="csfr-required text-muted border rounded px-1" href="<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/sendtestmessage')?>/<?php echo $item->id?>" onclick="return confirm('Are you sure?')"><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Send test message');?></a>

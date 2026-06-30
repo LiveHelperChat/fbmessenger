@@ -42,6 +42,7 @@ class erLhcoreClassModelMessageFBWhatsAppMessage
             'campaign_id' => $this->campaign_id,
             'campaign_recipient_id' => $this->campaign_recipient_id,
             'recipient_id' => $this->recipient_id,
+            'fb_recipient_id' => $this->fb_recipient_id,
             'private' => $this->private
         );
     }
@@ -192,6 +193,7 @@ class erLhcoreClassModelMessageFBWhatsAppMessage
     public $scheduled_at = 0;
     public $campaign_id = 0;
     public $recipient_id = 0;
+    public $fb_recipient_id = '';
     public $private = self::LIST_PUBLIC;
     public $campaign_recipient_id = 0;
     public $initiation = self::INIT_US;

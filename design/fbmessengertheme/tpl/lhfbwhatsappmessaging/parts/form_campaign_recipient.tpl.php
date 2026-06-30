@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-6">
+    <div class="col-4">
         <div class="form-group">
             <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Phone');?></label>
             <div class="input-group input-group-sm mb-3">
@@ -8,12 +8,21 @@
             </div>
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-4">
         <div class="form-group">
             <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Recipient Phone (WhatsApp internal number)');?></label>
             <div class="input-group input-group-sm mb-3">
                 <span class="input-group-text" id="basic-addon1">+</span>
                 <input placeholder="370865111111" type="text" maxlength="50" class="form-control form-control-sm" name="phone_recipient" value="<?php echo htmlspecialchars($item->phone_recipient)?>" />
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="form-group">
+            <label><?php echo erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Recipient user_id');?></label>
+            <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text" id="basic-addon1">BSUID</span>
+                <input type="text" <?php if (isset($whatsapp_contact)) : ?>disabled="disabled"<?php endif;?> placeholder="LT.xxxxxxxx" name="fb_recipient_id" class="form-control" value="<?php echo htmlspecialchars($item->fb_recipient_id)?>" aria-label="Username" aria-describedby="basic-addon1">
             </div>
         </div>
     </div>

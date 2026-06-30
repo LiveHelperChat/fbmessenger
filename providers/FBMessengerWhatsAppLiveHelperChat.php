@@ -205,23 +205,32 @@ namespace LiveHelperChatExtension\fbmessenger\providers {
                 ];
             }
 
+            $bodyPayload = [
+                'messaging_product' => 'whatsapp',
+                'type' => 'template',
+                'template' => [
+                    'name' => $item->template,
+                    'language' => [
+                        'policy' => 'deterministic',
+                        'code' => $item->language
+                    ],
+                    'components' => $bodyArguments
+                ],
+            ];
+
+            if (!empty($item->phone_whatsapp)) {
+                $bodyPayload['to'] = $item->phone_whatsapp;
+            } else if (!empty($item->fb_recipient_id)) {
+                $bodyPayload['recipient'] = $item->fb_recipient_id;
+            } else {
+                $bodyPayload['to'] = $item->phone;
+            }
+
             $requestParams = [
                 'baseurl' => $this->endpoint,
-                'method' => "v15.0/{$item->phone_sender_id}/messages",
+                'method' => "v25.0/{$item->phone_sender_id}/messages",
                 'bearer' => $this->access_key,
-                'body_json' => json_encode([
-                    'messaging_product' => 'whatsapp',
-                    'to' => ($item->phone_whatsapp != '' ? $item->phone_whatsapp : $item->phone),
-                    'type' => 'template',
-                    'template' => [
-                        'name' => $item->template,
-                        'language' => [
-                            'policy' => 'deterministic',
-                            'code' => $item->language
-                        ],
-                        'components' => $bodyArguments
-                    ],
-                ])
+                'body_json' => json_encode($bodyPayload)
             ];
 
             $response = null;

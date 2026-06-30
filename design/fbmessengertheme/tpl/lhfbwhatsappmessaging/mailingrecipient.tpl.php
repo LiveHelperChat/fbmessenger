@@ -24,10 +24,10 @@
 
                 <?php if ($item->can_edit) : ?>
                     <button class="m-0 p-0 btn btn-sm btn-link<?php if ($item->disabled == 1) : ?> text-muted<?php endif; ?>" href="#" onclick="return lhc.revealModal({'title' : 'Import', 'height':350, backdrop:true, 'url':'<?php echo erLhcoreClassDesign::baseurl('fbwhatsappmessaging/editmailingrecipient')?>/<?php echo $item->id?>'})">
-                        <span class="material-icons">edit</span><?php echo htmlspecialchars($item->phone)?><?php $item->phone_recipient != '' ? print ' (' . $item->phone_recipient . ') ' : print ' '?><?php echo htmlspecialchars($item->email)?>
+                        <span class="material-icons">edit</span><?php echo htmlspecialchars($item->phone)?><?php $item->phone_recipient != '' ? print ' (' . $item->phone_recipient . ') ' : print ' '?><?php echo htmlspecialchars($item->fb_recipient_id)?> <?php echo htmlspecialchars($item->email)?>
                     </button>
                 <?php else : ?>
-                    <span class="material-icons">edit_off</span><?php echo htmlspecialchars($item->phone)?><?php $item->phone_recipient != '' ? print ' (' . $item->phone_recipient . ') ' : print ' '?><?php echo htmlspecialchars($item->email)?>
+                    <span class="material-icons">edit_off</span><?php echo htmlspecialchars($item->phone)?><?php $item->phone_recipient != '' ? print ' (' . $item->phone_recipient . ') ' : print ' '?><?php echo htmlspecialchars($item->fb_recipient_id)?> <?php echo htmlspecialchars($item->email)?>
                 <?php endif; ?>
 
             </td>

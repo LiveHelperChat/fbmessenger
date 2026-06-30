@@ -274,7 +274,7 @@ class erLhcoreClassExtensionFbmessenger {
                             $fbWhatsAppMessage = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::findOne([
                                 'sort' => '`id` DESC',
                                 'filter' => [
-                                    'phone' => $messageItem['from'],
+                                    'fb_recipient_id' => $messageItem['from_user_id'],
                                     'phone_sender_id' => $changeItem['value']['metadata']["phone_number_id"]
                                 ]
                             ]);
@@ -477,7 +477,7 @@ class erLhcoreClassExtensionFbmessenger {
                                     $presentConversation = \LiveHelperChatExtension\fbmessenger\providers\erLhcoreClassModelMessageFBWhatsAppMessage::findOne([
                                         'filter' => [
                                             'phone_sender_id' => $fbWhatsAppMessage->phone_sender_id,
-                                            'phone' => $fbWhatsAppMessage->phone
+                                            'fb_recipient_id' => $fbWhatsAppMessage->fb_recipient_id
                                         ],
                                         'filternot' => [
                                             'chat_id' => 0
@@ -500,7 +500,7 @@ class erLhcoreClassExtensionFbmessenger {
                                             $chat->updateThis(['update' => ['last_msg_id']]);
                                         }
                                     } else { // Try to find any on-going chat
-                                        $chatIdExternal = $fbWhatsAppMessage->phone;
+                                        $chatIdExternal = $fbWhatsAppMessage->fb_recipient_id;
 
                                         $conditions = $params['webhook']->conditions_array;
 

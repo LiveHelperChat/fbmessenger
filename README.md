@@ -11,6 +11,29 @@
 
 Just ask anything on our [Facebook page](https://www.facebook.com/LiveHelperChat/) ask messenger :)
 
+# Upgrading to BSUID support
+
+Breaking changes.
+
+* Sending messages to old chats won't work. Only to new one.
+* Message sending recipient priority: 1) `phone_whatsapp` (internal WhatsApp phone number, sent as `to`), 2) `fb_recipient_id` (BSUID, sent as `recipient`), 3) `phone` (regular phone number, sent as `to`).
+
+Worth reading about those changes
+
+https://developers.facebook.com/documentation/business-messaging/whatsapp/business-scoped-user-ids/#send-message-response
+
+In the `webhooks/incomingwebhooks` Incoming Webhooks section, find `FacebookWhatsApp` and make these changes:
+
+* `Chat ID field location` — change FROM `changes.0.value.contacts.0.wa_id` TO `changes.0.value.contacts.0.user_id`
+* `Message delivery and reactions` — change all fields named `Chat ID field location` to `changes.0.value.statuses.0.recipient_user_id`
+
+In the `genericbot/listrestapi` Rest API Calls section, find `FacebookWhatsApp` and in the `Body` field, update these two sections:
+
+* `Paste your request here (e.g. JSON body). You can put visitor message as placeholder`
+* `If you are sending file you can have a different body content`
+
+In both, replace `"to"` with `"recipient"`
+
 # Requirements
 
  * Min 4.46 Live Helper Chat version. 1.8v

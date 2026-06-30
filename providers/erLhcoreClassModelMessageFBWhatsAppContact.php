@@ -24,6 +24,7 @@ class erLhcoreClassModelMessageFBWhatsAppContact
             'name' => $this->name,
             'phone' => $this->phone,
             'phone_recipient' => $this->phone_recipient,
+            'fb_recipient_id' => $this->fb_recipient_id,
 
             'created_at' => $this->created_at,
             'title' => $this->title,
@@ -175,6 +176,7 @@ class erLhcoreClassModelMessageFBWhatsAppContact
     public $title = '';
     public $lastname = '';
     public $company = '';
+    public $fb_recipient_id = '';
     public $date = 0;
     public $delivery_status = self::DELIVERY_STATUS_UNKNOWN;
     public $file_1 = '';

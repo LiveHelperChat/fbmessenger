@@ -66,6 +66,7 @@ class FBMessengerWhatsAppMailingValidator {
             'updated_at',
             'phone',
             'phone_whatsapp',
+            'fb_recipient_id',
             'phone_sender',
             'phone_sender_id',
             'status',
@@ -121,6 +122,7 @@ class FBMessengerWhatsAppMailingValidator {
                 $itemCSV[] = $item->updated_at > 0 ? date(\erLhcoreClassModule::$dateFormat, $item->updated_at) : 'n/a';
                 $itemCSV[] = (string)$item->phone;
                 $itemCSV[] = (string)$item->phone_whatsapp;
+                $itemCSV[] = (string)$item->fb_recipient_id;
                 $itemCSV[] = (string)$item->phone_sender;
                 $itemCSV[] = (string)$item->phone_sender_id;
                 $itemCSV[] = $status[$item->status];
@@ -170,6 +172,7 @@ class FBMessengerWhatsAppMailingValidator {
         $firstRow = [
             'phone',
             'phone_recipient',
+            'fb_recipient_id',
             'email',
             'name',
             'title',
@@ -223,6 +226,7 @@ class FBMessengerWhatsAppMailingValidator {
                 $itemCSV = [];
                 $itemCSV[] = (string)$item->recipient_phone;
                 $itemCSV[] = (string)$item->recipient_phone_recipient;
+                $itemCSV[] = (string)$item->fb_recipient_id;
                 $itemCSV[] = (string)$item->recipient;
 
                 $itemCSV[] = (string)$item->name_front;
@@ -475,6 +479,9 @@ class FBMessengerWhatsAppMailingValidator {
             'phone_recipient' => new \ezcInputFormDefinitionElement(
                 \ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
             ),
+            'fb_recipient_id' => new \ezcInputFormDefinitionElement(
+                \ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ),
             'attr_str_1' => new \ezcInputFormDefinitionElement(
                 \ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
             ),
@@ -534,9 +541,13 @@ class FBMessengerWhatsAppMailingValidator {
             $item->name = $form->name;
         }
 
+        if ($form->hasValidData( 'fb_recipient_id' )) {
+            $item->fb_recipient_id = $form->fb_recipient_id;
+        }
+
         if ($form->hasValidData( 'phone' )) {
             $item->phone = trim(str_replace('+','',$form->phone));
-        } else {
+        } elseif (empty($item->fb_recipient_id)) {
             $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter a phone!');
         }
 
@@ -641,6 +652,9 @@ class FBMessengerWhatsAppMailingValidator {
                 \ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
             ),
             'phone_recipient' => new \ezcInputFormDefinitionElement(
+                \ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
+            ),
+            'fb_recipient_id' => new \ezcInputFormDefinitionElement(
                 \ezcInputFormDefinitionElement::OPTIONAL, 'unsafe_raw'
             ),
             'attr_str_1' => new \ezcInputFormDefinitionElement(
@@ -758,9 +772,13 @@ class FBMessengerWhatsAppMailingValidator {
             $item->name = $form->name;
         }
 
+        if ($form->hasValidData( 'fb_recipient_id' )) {
+            $item->fb_recipient_id = $form->fb_recipient_id;
+        }
+
         if ($form->hasValidData( 'phone' ) && $form->phone != '') {
             $item->phone = trim(str_replace('+','',$form->phone));
-        } else {
+        } elseif (empty($item->fb_recipient_id)) {
             $Errors[] = \erTranslationClassLhTranslation::getInstance()->getTranslation('module/fbmessenger','Please enter a phone');
         }
 
